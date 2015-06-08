@@ -1,8 +1,8 @@
 {
   "name": "riotgear",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The open source component library for RiotJS",
-  "main": "dist/rg.js",
+  "main": "dist/rg.min.js",
   "dependencies": {
     "riotgear-alert": "^1.0.1",
     "riotgear-bubble": "^1.0.0",
@@ -18,7 +18,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "cat node_modules/**/dist/*.min.js > dist/rg.js"
+    "concat": "ls node_modules/**/dist/*.js | grep -v .min.js | xargs cat > dist/rg.js",
+    "uglify": "uglifyjs --output dist/rg.min.js -- dist/rg.js",
+    "build": "npm run concat && npm run uglify"
   },
   "repository": {
     "type": "git",
@@ -35,5 +37,8 @@
   "bugs": {
     "url": "https://github.com/RiotGear/rg/issues"
   },
-  "homepage": "https://riotgear.github.io/"
+  "homepage": "https://riotgear.github.io/",
+  "devDependencies": {
+    "uglify-js": "^2.4.23"
+  }
 }
