@@ -1,7 +1,7 @@
 # Contributing
 
-Create Pull Requests on any of the individual component repos, not on this one. Each PR must pass all tests and our 
-code review process.
+Create Pull Requests on any of the <a href="https://github.com/RiotGear">individual component repos</a>, not on this one.
+Each PR must pass all tests and our code review process.
 
 ## Suggestions
 
