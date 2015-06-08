@@ -1,0 +1,36 @@
+{
+  "name": "riotgear",
+  "version": "1.0.0",
+  "description": "The open source component library for RiotJS",
+  "main": "dist/rg.js",
+  "dependencies": {
+    "riotgear-alert": "^1.0.1",
+    "riotgear-bubble": "^1.0.0",
+    "riotgear-loading": "^1.0.0",
+    "riotgear-markdown": "^1.0.0",
+    "riotgear-modal": "^1.0.0",
+    "riotgear-sidemenu": "^1.0.0",
+    "riotgear-tabs": "^1.0.0",
+    "riotgear-toast": "^1.0.0",
+    "riotgear-toggle": "^1.0.0"
+  },
+  "scripts": {
+    "build": "cat node_modules/**/dist/*.min.js > dist/rg.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RiotGear/rg.git"
+  },
+  "keywords": [
+    "riotjs",
+    "riot",
+    "component",
+    "riotgear"
+  ],
+  "author": "Gregory Pratt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RiotGear/rg/issues"
+  },
+  "homepage": "https://riotgear.github.io/"
+}
