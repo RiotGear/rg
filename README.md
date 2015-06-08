@@ -1,10 +1,8 @@
-# RiotGear
-
 <img src="https://avatars0.githubusercontent.com/u/12480998?v=3&s=200" width="150px">
 
 The open source component library for <a href="https://muut.com/riotjs/">RiotJS</a>.
 
-## Find out more on the website
+## Find out more on the RiotGear website
 
 https://riotgear.github.io
 

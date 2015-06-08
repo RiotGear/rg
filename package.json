@@ -14,6 +14,9 @@
     "riotgear-toast": "^1.0.0",
     "riotgear-toggle": "^1.0.0"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "cat node_modules/**/dist/*.min.js > dist/rg.js"
   },
