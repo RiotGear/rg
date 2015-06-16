@@ -1,12 +1,13 @@
 {
   "name": "riotgear",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "The open source component library for RiotJS",
   "main": "dist/rg.min.js",
   "dependencies": {
     "riotgear-alert": "^1.0.1",
     "riotgear-bubble": "^1.0.0",
     "riotgear-ga": "^1.0.0",
+    "riotgear-include": "^1.0.0",
     "riotgear-loading": "^1.0.0",
     "riotgear-markdown": "^1.0.0",
     "riotgear-modal": "^1.0.0",
