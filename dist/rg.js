@@ -63,7 +63,7 @@ var RgMap = riot.observable();
 
 RgMap.initialize = function () {
 	RgMap.trigger('initializeRgMap');
-};riot.tag('rg-map', '<div class="rg-map"></div>', 'rg-map .rg-map , [riot-tag="rg-map"] .rg-map { margin: 0; padding: 0; width: 100%; height: 100%; }', function(opts) {
+};riot.tag('rg-map', '<div class="rg-map"></div>', 'rg-map .rg-map , [riot-tag="rg-map"] .rg-map { margin: 0; padding: 0; width: 100%; height: 100%; } rg-map .rg-map img , [riot-tag="rg-map"] .rg-map img { max-width: inherit; }', function(opts) {
 		var _this = this;
 
 		var defaultOptions = {
