@@ -59,6 +59,36 @@ riot.tag('rg-ga', '', function(opts) {
 
 
 });
+var RgMap = riot.observable();
+
+RgMap.initialize = function () {
+	RgMap.trigger('initializeRgMap');
+};riot.tag('rg-map', '<div class="rg-map"></div>', 'rg-map .rg-map , [riot-tag="rg-map"] .rg-map { margin: 0; padding: 0; width: 100%; height: 100%; }', function(opts) {
+		var _this = this;
+
+		var defaultOptions = {
+			center: { lat: 53.806, lng: -1.535 },
+			zoom: 5
+		};
+		var mapOptions = opts.map || defaultOptions;
+
+		RgMap.on('initializeRgMap', function () {
+			var map = new google.maps.Map(_this.root.querySelector('.rg-map'), mapOptions);
+		});
+
+		function loadScript() {
+			if (!document.getElementById('gmap_script')) {
+				var script = document.createElement('script');
+				script.setAttribute('id', 'gmap_script');
+				script.type = 'text/javascript';
+				script.src = 'https://maps.googleapis.com/maps/api/js?sensor=false&callback=RgMap.initialize';
+				document.body.appendChild(script);
+			}
+		}
+
+		loadScript();
+	
+});
 riot.tag('rg-markdown', '<div class="markdown"></div>', function(opts) {
 		var _this = this;
 		var reader = new commonmark.Parser();
