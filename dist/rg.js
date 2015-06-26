@@ -108,6 +108,74 @@ riot.tag('rg-modal', '<div class="overlay" if="{ opts.modal.visible }" onclick="
 	};
 	
 });
+riot.tag('rg-select', '<div class="select { open: opened }" riot-style="width: { width }"> <div class="field { open: opened}" onclick="{ toggle }"> { fieldText || opts.placeholder } <span class="down-arrow">&#x25BE;</span> </div> <div class="dropdown" show="{ opened }"> <div class="filter"> <input type="text" name="filter" class="filter-box" placeholder="{ opts[\'filter-placeholder\'] || \'Filter\' }" oninput="{ filterItems }"> </div> <div class="list"> <ul> <li each="{ opts.options }" show="{ available }" onclick="{ parent.select }" class="item { selected: selected, disabled: disabled }"> { text } </li> </ul> </div> </div> </div>', 'rg-select .select { position: relative; display: inline-block; cursor: pointer; } rg-select .select.open { -webkit-box-shadow: 0 2px 10px -4px #444; -moz-box-shadow: 0 2px 10px -4px #444; box-shadow: 0 2px 10px -4px #444; } rg-select .field { padding: 10px; background-color: white; border: 1px solid #D3D3D3; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-select .down-arrow { float: right; } rg-select .dropdown { position: relative; width: 100%; background-color: white; border: 1px solid #D3D3D3; border-top: 0; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; } rg-select .select.open .dropdown { -webkit-box-shadow: 0 2px 10px -4px #444; -moz-box-shadow: 0 2px 10px -4px #444; box-shadow: 0 2px 10px -4px #444; } rg-select .filter-box { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 100%; padding: 10px; font-size: 0.9rem; border: 0; outline: none; color: #555; } rg-select ul,rg-select li { list-style: none; padding: 0; margin: 0; } rg-select li { padding: 10px; border-top: 1px solid #E8E8E8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-select .selected { font-weight: bold; background-color: #f8f8f8; } rg-select li:hover { background-color: #f3f3f3; }', function(opts) {
+		var _this = this;
+		_this.opened = true;
+
+		function handleClickOutside(e) {
+			if (!_this.root.contains(e.target)) {
+				if (opts.onclose && _this.opened) {
+					opts.onclose();
+				}
+				_this.opened = false;
+				_this.update();
+			}
+		}
+
+		_this.on('mount', function () {
+			document.addEventListener('click', handleClickOutside);
+			var dd = _this.root.querySelector('.dropdown');
+			_this.width = dd.getBoundingClientRect().width + 20 + 'px';
+			dd.style.position = 'absolute';
+			_this.opened = opts.opened;
+			_this.update();
+		});
+
+		_this.on('unmount', function () {
+			document.removeEventListener('click', handleClickOutside);
+		});
+
+		_this.toggle = function () {
+			_this.opened = !_this.opened;
+			if (opts.onopen && _this.opened) {
+				opts.onopen();
+			} else if (opts.onclose && !_this.opened) {
+				opts.onclose();
+			}
+		};
+
+		_this.select = function (item) {
+			item = item.item;
+			opts.options.forEach(function (option) {
+				option.selected = false;
+			});
+			item.selected = true;
+			if (opts.onselect) {
+				opts.onselect(item);
+			}
+			_this.fieldText = item.text;
+			_this.opened = false;
+		};
+
+		opts.options.forEach(function (option, i) {
+			option.index = i;
+		});
+
+		_this.filterItems = function () {
+			opts.options.forEach(function (option) {
+				var filterField = option[opts['filter-on'] || 'text'];
+				option.available = (_this.filter.value.length == 0 ||
+				filterField.toString().toLowerCase().indexOf(_this.filter.value.toString().toLowerCase()) > -1);
+			});
+			if (opts.onfilter) {
+				opts.onfilter();
+			}
+			_this.update();
+			return true;
+		};
+		_this.filterItems();
+	
+});
 riot.tag('rg-sidemenu', '<div class="overlay { expanded: opts.sidemenu.expanded }" onclick="{ close }"></div> <div class="sidemenu { expanded: opts.sidemenu.expanded }"> <h4 class="header">{ opts.sidemenu.header }</h4> <ul class="items"> <li class="item" each="{ opts.sidemenu.items }" onclick="{ action }"> { text } </li> </ul> <div class="body"> <yield></yield> </div> </div>', 'rg-sidemenu .overlay { position: fixed; top: 0; left: -100%; right: 0; bottom: 0; width: 100%; height: 100%; background-color: transparent; cursor: pointer; -webkit-transition: background-color 0.8s ease; -moz-transition: background-color 0.8s ease; -ms-transition: background-color 0.8s ease; -o-transition: background-color 0.8s ease; transition: background-color 0.8s ease; z-index: 50; } rg-sidemenu .overlay.expanded { left: 0; background-color: rgba(0, 0, 0, 0.5); } rg-sidemenu .sidemenu { position: fixed; top: 0; left: 0; height: 100%; width: 260px; overflow-y: auto; overflow-x: hidden; background-color: black; color: white; -webkit-transform: translate3d(-100%, 0, 0); -moz-transform: translate3d(-100%, 0, 0); -ms-transform: translate3d(-100%, 0, 0); -o-transform: translate3d(-100%, 0, 0); transform: translate3d(-100%, 0, 0); -webkit-transition: -webkit-transform 0.5s ease; -moz-transition: -moz-transform 0.5s ease; -ms-transition: -ms-transform 0.5s ease; -o-transition: -o-transform 0.5s ease; transition: transform 0.5s ease; z-index: 51; } rg-sidemenu .sidemenu.expanded { -webkit-transform: translate3d(0, 0, 0); -moz-transform: translate3d(0, 0, 0); -ms-transform: translate3d(0, 0, 0); -o-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); } rg-sidemenu .header { padding: 1.2rem; margin: 0; text-align: center; color: white; } rg-sidemenu .items { padding: 0; margin: 0; list-style: none; } rg-sidemenu .item { padding: 1rem 0.5rem; box-sizing: border-box; border-top: 1px solid #1a1a1a; color: white; } rg-sidemenu .item:last-child { border-bottom: 1px solid #1a1a1a; } rg-sidemenu .item:hover { cursor: pointer; background-color: #111; }', function(opts) {
 		var _this = this;
 		_this.close = function () {
