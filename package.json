@@ -1,23 +1,23 @@
 {
   "name": "riotgear",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "The open source component library for RiotJS",
   "main": "dist/rg.min.js",
   "dependencies": {
-    "riotgear-alert": "^1.0.1",
-    "riotgear-autocomplete": "^1.0.3",
-    "riotgear-bubble": "^1.0.0",
-    "riotgear-ga": "^1.0.0",
-    "riotgear-include": "^1.0.0",
-    "riotgear-loading": "^1.0.0",
-    "riotgear-map": "^1.0.2",
-    "riotgear-markdown": "^1.0.0",
-    "riotgear-modal": "^1.0.0",
-    "riotgear-select": "^1.1.0",
-    "riotgear-sidemenu": "^1.0.0",
-    "riotgear-tabs": "^1.0.0",
-    "riotgear-toast": "^1.0.0",
-    "riotgear-toggle": "^1.0.0"
+    "riotgear-alert": "^1.0.3",
+    "riotgear-autocomplete": "^1.0.4",
+    "riotgear-bubble": "^1.0.1",
+    "riotgear-ga": "^1.0.1",
+    "riotgear-include": "^1.0.1",
+    "riotgear-loading": "^1.0.1",
+    "riotgear-map": "^1.0.3",
+    "riotgear-markdown": "^1.0.3",
+    "riotgear-modal": "^1.0.1",
+    "riotgear-select": "^1.1.1",
+    "riotgear-sidemenu": "^1.0.1",
+    "riotgear-tabs": "^1.0.1",
+    "riotgear-toast": "^1.0.1",
+    "riotgear-toggle": "^1.0.1"
   },
   "files": [
     "dist"
