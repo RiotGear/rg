@@ -1,16 +1,23 @@
 # Contributing
 
-Please remember this repo is for the collection of all RiotGear components.
+First of all, Pull Requests, suggestions or comments about RiotGear are all welcome and valued. To start contributing to the libraray please follow the below steps:
 
-Feel free to create pull requests on any of the <a href="https://github.com/RiotGear">individual component repos</a>.
-Each PR must pass all tests and our code review process.
+## Step 1
 
-## Suggestions
+If you haven't done so already please **<a href="https://github.com/RiotGear/rg/issues">raise an issue</a>**. Stating what you would like and how you think it should work.
 
-If you'd like to suggest new components or enhancements to existing ones please
-<a href="https://github.com/RiotGear/rg/issues">raise an issue</a>, making sure any existing issues don't already cover
-your problem or idea.
+## Step 2
 
-## Find out more on the website
+We will review your suggestion and in the case of new components **we'll create a new repo** with a starter project in it.
 
-https://riotgear.github.io
+## Step 3
+
+**Fork the repo!**
+
+## Step 4
+
+Please **work in the DEV branch**, make PRs from your upto date dev branch to ours so that we can review your changes.
+
+## Sit back
+
+At some point you're changes will get merged in and we'll publish a new version of RiotGear!
