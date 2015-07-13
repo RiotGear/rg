@@ -8,11 +8,11 @@ If you haven't done so already please **<a href="https://github.com/RiotGear/rg/
 
 ## Step 2
 
-We will review your suggestion and in the case of new components **we'll create a new repo** with a starter project in it.
+We will review your suggestion and in the case of new components, **we will create a new repo** with a starter project in it.
 
 ## Step 3
 
-**Fork the repo!**
+**Fork the repo!** - once we've created the new repo you'll have the ability to fork it and start work.
 
 ## Step 4
 
@@ -20,4 +20,4 @@ Please **work in the DEV branch**, make PRs from your upto date dev branch to ou
 
 ## Sit back
 
-At some point you're changes will get merged in and we'll publish a new version of RiotGear!
+At some point you're changes will get merged in and we'll publish a new version of RiotGear! Yay!
