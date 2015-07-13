@@ -8,7 +8,7 @@ If you haven't done so already please **<a href="https://github.com/RiotGear/rg/
 
 ## Step 2
 
-We will review your suggestion and in the case of new components, **we will create a new repo** with a starter project in it.
+We will review your suggestion and in the case of new components, **we will create a new repo** with a starter project.
 
 ## Step 3
 
