@@ -1,6 +1,6 @@
 {
   "name": "riotgear",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "description": "The open source component library for RiotJS",
   "main": "dist/rg.min.js",
   "dependencies": {
@@ -16,7 +16,7 @@
     "riotgear-select": "^1.1.2",
     "riotgear-sidemenu": "^1.1.2",
     "riotgear-tabs": "^1.0.2",
-    "riotgear-toast": "^1.0.2",
+    "riotgear-toast": "^1.0.3",
     "riotgear-toggle": "^1.0.2"
   },
   "files": [

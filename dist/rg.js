@@ -411,10 +411,11 @@ riot.tag('rg-toast', '<div class="toasts { opts.position }" if="{ opts.toasts.le
 		var _this = this;
 
 		_this.on('update', function () {
-			opts.toasts.forEach(function (toast, i) {
-				if (!toast.startTimer) {
+			opts.toasts.forEach(function (toast) {
+				toast.id = Math.random().toString(36).substr(2, 8);
+				if (!toast.timer) {
 					toast.startTimer = function () {
-						window.setTimeout(function () {
+						toast.timer = window.setTimeout(function () {
 							opts.toasts.splice(opts.toasts.indexOf(toast), 1);
 							_this.update();
 						}, 6000);
@@ -432,6 +433,7 @@ riot.tag('rg-toast', '<div class="toasts { opts.position }" if="{ opts.toasts.le
 			if (e.item.onclick) {
 				e.item.onclick(e);
 			}
+			window.clearTimeout(e.item.timer);
 			opts.toasts.splice(opts.toasts.indexOf(e.item), 1);
 		};
 
