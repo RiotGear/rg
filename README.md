@@ -48,4 +48,4 @@ Please **work in the DEV branch**, make PRs from your upto date dev branch to ou
 
 #### Sit back
 
-At some point you're changes will get merged in and we'll publish a new version of RiotGear! Yay!
+At some point your changes will get merged in and we'll publish a new version of RiotGear! Yay!
