@@ -147,6 +147,21 @@ riot.tag('rg-bubble', '<div class="context"> <div class="bubble { visible: visib
 
 
 });
+riot.tag('rg-context-menu-item', '<div class="item { inactive: opts.inactive }" onclick="{ selectItem }"> <yield></yield> </div>', function(opts) {
+		var _this = this;
+
+		_this.selectItem = function () {
+			if (!opts.inactive) {
+				if (opts.onselect) {
+					opts.onselect(opts);
+				}
+				_this.parent.opts.menu.opened = false;
+				_this.parent.update();
+			}
+		};
+	
+});
+
 riot.tag('rg-context-menu-raw', '<span></span>', function(opts) {
 		var _this = this;
 		_this.on('mount', function () {
@@ -154,9 +169,10 @@ riot.tag('rg-context-menu-raw', '<span></span>', function(opts) {
 		});
 	
 });
-riot.tag('rg-context-menu', '<div class="dropdown" if="{ opts.menu.opened }" riot-style="{ style }"> <div class="list"> <div each="{ opts.menu.items }" class="item { disabled: disabled }" onclick="{ selectItem }"> <rg-context-menu-raw if="{ content && !text }" content="{ content }"></rg-context-menu-raw> <span if="{ text }">{ text }</span> </div> </div> </div>', 'rg-context-menu .dropdown, [riot-tag="rg-context-menu"] .dropdown{ position: absolute; background-color: white; border: 1px solid #D3D3D3; border-top: 0; text-align: left; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-shadow: 0 2px 10px -4px #444; -moz-box-shadow: 0 2px 10px -4px #444; box-shadow: 0 2px 10px -4px #444; } rg-context-menu .item, [riot-tag="rg-context-menu"] .item{ cursor: pointer; padding: 10px; border-top: 1px solid #E8E8E8; background-color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-context-menu .item:hover, [riot-tag="rg-context-menu"] .item:hover{ background-color: #f3f3f3; } rg-context-menu .item.disabled, [riot-tag="rg-context-menu"] .item.disabled{ color: #8a8a8a; font-style: italic; } rg-context-menu .item.disabled:hover, [riot-tag="rg-context-menu"] .item.disabled:hover{ background-color: #fff; }', function(opts) {
+riot.tag('rg-context-menu', '<div class="dropdown" if="{ opts.menu.opened }" riot-style="{ style }"> <div class="list"> <div each="{ opts.menu.items }" class="item { inactive: inactive }" onclick="{ selectItem }"> <rg-context-menu-raw if="{ content && !text }" content="{ content }"></rg-context-menu-raw> <span if="{ text }">{ text }</span> </div> <yield></yield> </div> </div>', 'rg-context-menu .dropdown, [riot-tag="rg-context-menu"] .dropdown{ position: absolute; background-color: white; border: 1px solid #D3D3D3; border-top: 0; text-align: left; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-shadow: 0 2px 10px -4px #444; -moz-box-shadow: 0 2px 10px -4px #444; box-shadow: 0 2px 10px -4px #444; } rg-context-menu .item, [riot-tag="rg-context-menu"] .item{ cursor: pointer; padding: 10px; border-top: 1px solid #E8E8E8; background-color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-context-menu .item:hover, [riot-tag="rg-context-menu"] .item:hover{ background-color: #f3f3f3; } rg-context-menu .item.inactive, [riot-tag="rg-context-menu"] .item.inactive{ color: #8a8a8a; font-style: italic; } rg-context-menu .item.inactive:hover, [riot-tag="rg-context-menu"] .item.inactive:hover{ background-color: #fff; }', function(opts) {
 
 		var _this = this;
+		opts.menu = opts.menu || {};
 
 		function handleClickOutside(e) {
 			if (!_this.root.contains(e.target)) {
@@ -208,7 +224,7 @@ riot.tag('rg-context-menu', '<div class="dropdown" if="{ opts.menu.opened }" rio
 		};
 
 		_this.selectItem = function (e) {
-			if (!e.item.disabled) {
+			if (!e.item.inactive) {
 				if (e.item.onselect) {
 					e.item.onselect(e.item);
 				}
