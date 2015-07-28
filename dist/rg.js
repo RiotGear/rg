@@ -147,6 +147,77 @@ riot.tag('rg-bubble', '<div class="context"> <div class="bubble { visible: visib
 
 
 });
+riot.tag('rg-context-menu-raw', '<span></span>', function(opts) {
+		var _this = this;
+		_this.on('mount', function () {
+			this.root.innerHTML = opts.content;
+		});
+	
+});
+riot.tag('rg-context-menu', '<div class="dropdown" if="{ opts.menu.opened }" riot-style="{ style }"> <div class="list"> <div each="{ opts.menu.items }" class="item { disabled: disabled }" onclick="{ selectItem }"> <rg-context-menu-raw if="{ content && !text }" content="{ content }"></rg-context-menu-raw> <span if="{ text }">{ text }</span> </div> </div> </div>', 'rg-context-menu .dropdown, [riot-tag="rg-context-menu"] .dropdown{ position: absolute; background-color: white; border: 1px solid #D3D3D3; border-top: 0; text-align: left; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-shadow: 0 2px 10px -4px #444; -moz-box-shadow: 0 2px 10px -4px #444; box-shadow: 0 2px 10px -4px #444; } rg-context-menu .item, [riot-tag="rg-context-menu"] .item{ cursor: pointer; padding: 10px; border-top: 1px solid #E8E8E8; background-color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-context-menu .item:hover, [riot-tag="rg-context-menu"] .item:hover{ background-color: #f3f3f3; } rg-context-menu .item.disabled, [riot-tag="rg-context-menu"] .item.disabled{ color: #8a8a8a; font-style: italic; } rg-context-menu .item.disabled:hover, [riot-tag="rg-context-menu"] .item.disabled:hover{ background-color: #fff; }', function(opts) {
+
+		var _this = this;
+
+		function handleClickOutside(e) {
+			if (!_this.root.contains(e.target)) {
+				if (opts.menu.onclose && opts.menu.opened) {
+					opts.menu.onclose(e);
+				}
+				opts.menu.opened = false;
+				_this.update();
+			}
+		}
+
+		function openMenu(e) {
+			e.preventDefault();
+			_this.style = 'left: ' + e.clientX + 'px; top: ' + e.clientY + 'px;';
+			if (opts.menu.onopen) {
+				opts.menu.onopen(e);
+			}
+			opts.menu.opened = true;
+			_this.update();
+		}
+
+		_this.on('mount', function () {
+			document.addEventListener('click', handleClickOutside);
+			var targets = document.querySelectorAll('[rg-context-menu]');
+			for (var i = 0, target; target = targets[i]; i++) {
+				if (target.attributes['rg-context-menu'].value == opts.id) {
+					target.addEventListener('contextmenu', openMenu);
+				} else {
+					target.addEventListener('contextmenu', _this.closeMenu);
+				}
+			}
+		});
+
+		_this.on('unmount', function () {
+			document.removeEventListener('click', handleClickOutside);
+			var targets = document.querySelectorAll('[rg-context-menu]');
+			for (var i = 0, target; target = targets[i]; i++) {
+				if (target.attributes['rg-context-menu'].value == opts.id) {
+					target.removeEventListener('contextmenu', openMenu);
+				} else {
+					target.removeEventListener('contextmenu', _this.closeMenu);
+				}
+			}
+		});
+
+		_this.closeMenu = function () {
+			opts.menu.opened = false;
+			_this.update();
+		};
+
+		_this.selectItem = function (e) {
+			if (!e.item.disabled) {
+				if (e.item.onselect) {
+					e.item.onselect(e.item);
+				}
+				opts.menu.opened = false;
+			}
+		};
+
+	
+});
 riot.tag('rg-datepicker', '{ opts.months} <div class="container { open: opened }"> <input type="text" onclick="{ show }" value="{ date.format(opts.format || \'LL\') }" readonly> <div class="calendar" show="{ opened }"> <div class="grid grid-row" if="{ opts.years != \'false\' }"> <div class="selector" onclick="{ prevYear }">&lsaquo;</div> <span class="year">{ date.format(\'YYYY\') }</span> <div class="selector" onclick="{ nextYear }">&rsaquo;</div> </div> <div class="grid grid-row" if="{ opts.years == \'false\' }"> <span class="year fill">{ date.format(\'YYYY\') }</span> </div> <div class="grid grid-row" if="{ opts.months != \'false\' }"> <div class="selector" onclick="{ prevMonth }">&lsaquo;</div> <span class="month">{ date.format(\'MMMM\') }</span> <div class="selector" onclick="{ nextMonth }">&rsaquo;</div> </div> <div class="grid grid-row" if="{ opts.months == \'false\' }"> <span class="month fill">{ date.format(\'MMMM\') }</span> </div> <div class="grid grid-row"> <span class="day-name" each="{ day in dayNames }">{ day }</span> </div> <div class="grid grid-wrap"> <div each="{ day in days }" onclick="{ changeDate }" class="date { in: day.inMonth, selected: day.selected, today: day.today }"> { day.date.format(\'DD\') } </div> </div> <div class="grid grid-row"> <a class="shortcut" onclick="{ setToday }">Today</a> </div> </div> </div>', 'rg-datepicker .container, [riot-tag="rg-datepicker"] .container{ position: relative; display: inline-block; cursor: pointer; } rg-datepicker input, [riot-tag="rg-datepicker"] input{ font-size: 1em; padding: 10px; border: 1px solid #D3D3D3; cursor: pointer; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; outline: none; } rg-datepicker .calendar, [riot-tag="rg-datepicker"] .calendar{ position: absolute; text-align: center; background-color: white; border: 1px solid #D3D3D3; padding: 5px; width: 330px; margin-top: 10px; left: 50%; -webkit-transform: translateX(-50%); -moz-transform: translateX(-50%); -ms-transform: translateX(-50%); -o-transform: translateX(-50%); transform: translateX(-50%); -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-shadow: 0 2px 10px -4px #444; -moz-box-shadow: 0 2px 10px -4px #444; box-shadow: 0 2px 10px -4px #444; } rg-datepicker .grid, [riot-tag="rg-datepicker"] .grid{ display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-align-items: center; -ms-flex-align: center; align-items: center; } rg-datepicker .grid-wrap, [riot-tag="rg-datepicker"] .grid-wrap{ width: 100%; -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap; } rg-datepicker .grid-row, [riot-tag="rg-datepicker"] .grid-row{ height: 35px; } rg-datepicker .selector, [riot-tag="rg-datepicker"] .selector{ font-size: 2em; font-weight: 100; padding: 0; -webkit-flex: 0 0 15%; -ms-flex: 0 0 15%; flex: 0 0 15%; } rg-datepicker .year, [riot-tag="rg-datepicker"] .year,rg-datepicker .month, [riot-tag="rg-datepicker"] .month{ text-transform: uppercase; font-weight: normal; -webkit-flex: 0 0 70%; -ms-flex: 0 0 70%; flex: 0 0 70%; } rg-datepicker .fill, [riot-tag="rg-datepicker"] .fill{ -webkit-flex: 0 0 100%; -ms-flex: 0 0 100%; flex: 0 0 100%; } rg-datepicker .day-name, [riot-tag="rg-datepicker"] .day-name{ font-weight: bold; -webkit-flex: 0 0 14.28%; -ms-flex: 0 0 14.28%; flex: 0 0 14.28%; } rg-datepicker .date, [riot-tag="rg-datepicker"] .date{ -webkit-flex: 0 0 14.28%; -ms-flex: 0 0 14.28%; flex: 0 0 14.28%; padding: 10px; border-radius: 100%; box-sizing: border-box; font-size: 0.8em; font-weight: normal; border: 2px solid transparent; color: #cacaca; } rg-datepicker .date:hover, [riot-tag="rg-datepicker"] .date:hover{ background-color: #f3f3f3; } rg-datepicker .date.in, [riot-tag="rg-datepicker"] .date.in{ color: inherit; } rg-datepicker .today, [riot-tag="rg-datepicker"] .today{ border-color: #ededed; } rg-datepicker .selected, [riot-tag="rg-datepicker"] .selected,rg-datepicker .selected:hover, [riot-tag="rg-datepicker"] .selected:hover{ background-color: #ededed; border-color: #dedede; } rg-datepicker .shortcut, [riot-tag="rg-datepicker"] .shortcut{ -webkit-flex: 0 0 100%; -ms-flex: 0 0 100%; flex: 0 0 100%; color: #6495ed; }', function(opts) {
 		var _this = this;
 		_this.date = moment(opts.date || new Date());
