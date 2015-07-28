@@ -170,7 +170,7 @@ riot.tag('rg-context-menu', '<div class="dropdown" if="{ opts.menu.opened }" rio
 
 		function openMenu(e) {
 			e.preventDefault();
-			_this.style = 'left: ' + e.clientX + 'px; top: ' + e.clientY + 'px;';
+			_this.style = 'left: ' + e.pageX + 'px; top: ' + e.pageY + 'px;';
 			if (opts.menu.onopen) {
 				opts.menu.onopen(e);
 			}
