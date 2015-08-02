@@ -1,16 +1,16 @@
-#RiotGear
+# RiotGear
 
 <img src="https://avatars0.githubusercontent.com/u/12480998?v=3&s=200" width="150px">
 
 The open source component library for <a href="https://muut.com/riotjs/">RiotJS</a>.
 
-##Ready made components
+## Ready made components
 
 RiotGear was built to help. Help you improve your app development speed. If we've built it already why reinvent the wheel? The components should have all the functionality the majority of people need.
 
 In just a few lines of code you could have an off-canvas slide in side-menu, a set of tabs, a bunch of nice toggles and lots of others. Plus the list of components is increasing all the time.
 
-###CSS
+### CSS
 
 Each component's css has been scoped so customising them is an accurate but easy task.
 
