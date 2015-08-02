@@ -49,3 +49,7 @@ Please **work in the DEV branch**, make PRs from your upto date dev branch to ou
 #### Sit back
 
 At some point your changes will get merged in and we'll publish a new version of RiotGear! Yay!
+
+#### Code Conduct
+We're all friends! This project adheres to the [Open Code of Conduct][code-of-conduct]. By participating, you are expected to honor this code.
+[code-of-conduct]: http://todogroup.org/opencodeofconduct/#RiotComponents/gregory.pratt@me.com
