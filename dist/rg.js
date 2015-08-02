@@ -644,6 +644,140 @@ riot.tag('rg-tabs', '<div class="tabs"> <div class="headers"> <div each="{ tab i
 		}
 	
 });
+riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="tag" each="{ opts.tags }" onclick="{ parent.removeTag }">{ text }</span> </span> <div class="input-container { open: opened }"> <input type="{ opts.type || \'text\' }" name="textbox" placeholder="{ opts.placeholder }" onkeydown="{ handleKeys }" oninput="{ filterItems }" onfocus="{ filterItems }"> <div class="dropdown { open: opened }" show="{ opened }"> <div class="list"> <ul> <li each="{ filteredItems }" onclick="{ parent.select }" class="item { active: active }"> { text } </li> </ul> </div> </div> </div> </div>', 'rg-tags .container, [riot-tag="rg-tags"] .container{ width: 400px; border: 1px solid #D3D3D3; background: white; text-align: left; padding: 0; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; } rg-tags .input-container, [riot-tag="rg-tags"] .input-container{ position: absolute; display: inline-block; cursor: pointer; } rg-tags input, [riot-tag="rg-tags"] input{ width: 100%; font-size: 1em; padding: 10px; border: 0; background-color: transparent; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; outline: none; } rg-tags .dropdown, [riot-tag="rg-tags"] .dropdown{ position: absolute; width: 100%; background-color: white; border: 1px solid #D3D3D3; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; } rg-tags .dropdown.open, [riot-tag="rg-tags"] .dropdown.open{ -webkit-box-shadow: 0 2px 10px -4px #444; -moz-box-shadow: 0 2px 10px -4px #444; box-shadow: 0 2px 10px -4px #444; } rg-tags ul, [riot-tag="rg-tags"] ul,rg-tags li, [riot-tag="rg-tags"] li{ list-style: none; padding: 0; margin: 0; } rg-tags li, [riot-tag="rg-tags"] li{ padding: 10px; border-top: 1px solid #E8E8E8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-tags li:first-child, [riot-tag="rg-tags"] li:first-child{ border-top: 0; } rg-tags li:hover, [riot-tag="rg-tags"] li:hover{ background-color: #f3f3f3; } rg-tags li.active, [riot-tag="rg-tags"] li.active,rg-tags li:hover.active, [riot-tag="rg-tags"] li:hover.active{ background-color: #ededed; } rg-tags .tags, [riot-tag="rg-tags"] .tags{ display: inline-block; max-width: 70%; white-space: nowrap; overflow-y: hidden; overflow-x: auto; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; } rg-tags .tag, [riot-tag="rg-tags"] .tag{ display: inline-block; padding: 5px; margin: 4px 5px; background-color: #444; color: #fff; cursor: pointer; } rg-tags .tag:hover, [riot-tag="rg-tags"] .tag:hover,rg-tags .tag:active, [riot-tag="rg-tags"] .tag:active{ background-color: #666; }', function(opts) {
+		var _this = this;
+		_this.opened = true;
+		_this.textbox.value = opts.value || '';
+		opts.items = opts.items || [];
+		opts.tags = opts.tags || [];
+		opts.tags.forEach(function (tag, i) {
+			tag.index = i;
+		});
+
+		_this.filterItems = function () {
+			_this.filteredItems = opts.items.filter(function (item) {
+				item.active = false;
+				if (_this.textbox.value.length == 0 ||
+					item.text.toString().toLowerCase().indexOf(_this.textbox.value.toString().toLowerCase()) > -1) {
+					return true;
+				}
+			});
+			if (_this.filteredItems.length > 0) {
+				_this.opened = true;
+			}
+			if (opts.onfilter) {
+				opts.onfilter();
+			}
+			_this.update();
+		};
+
+		_this.handleKeys = function (e) {
+			var length = _this.filteredItems.length;
+			if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
+				_this.opened = true;
+				e.preventDefault();
+
+				var activeIndex = null;
+				for (var i = 0; i < length; i++) {
+					var item = _this.filteredItems[i];
+					if (item.active) {
+						activeIndex = i;
+						break;
+					}
+				}
+
+				if (activeIndex != null) {
+					_this.filteredItems[activeIndex].active = false;
+				}
+
+				if (e.keyCode == 38) {
+
+					if (activeIndex == null || activeIndex == 0) {
+						_this.filteredItems[length - 1].active = true;
+					} else {
+						_this.filteredItems[activeIndex - 1].active = true;
+					}
+				} else if (e.keyCode == 40) {
+
+					if (activeIndex == null || activeIndex == length - 1) {
+						_this.filteredItems[0].active = true;
+					} else {
+						_this.filteredItems[activeIndex + 1].active = true;
+					}
+				} else if (e.keyCode == 13 && activeIndex != null) {
+					_this.select({ item: _this.filteredItems[activeIndex] });
+				}
+			}
+			if (e.keyCode == 13) {
+				_this.addTag();
+			} else if (e.keyCode == 8 && _this.textbox.value == '' && opts.tags.length > 0) {
+				var tag = opts.tags.pop();
+				_this.textbox.value = tag.text;
+			}
+			return true;
+		};
+
+		_this.addTag = function (item) {
+			var tag = item || {
+					text: _this.textbox.value
+				};
+			if (tag.text.length > 0) {
+				tag.index = opts.tags.length;
+				opts.tags.push(tag);
+				_this.textbox.value = '';
+				_this.filteredItems = opts.items;
+				_this.opened = false;
+			}
+			_this.update();
+		};
+
+		_this.removeTag = function (e) {
+			opts.tags.splice(opts.tags.indexOf(e.item), 1);
+			_this.opened = false;
+		};
+
+		_this.select = function (item) {
+			item = item.item;
+			if (opts.onselect) {
+				opts.onselect(item);
+			}
+			_this.addTag(item);
+		};
+
+		_this.closeDropdown = function (e) {
+			if (!_this.root.contains(e.target)) {
+				if (opts.onclose && _this.opened) {
+					opts.onclose();
+				}
+				_this.opened = false;
+				_this.update();
+			}
+		};
+
+		_this.on('mount', function () {
+			document.addEventListener('click', _this.closeDropdown);
+			document.addEventListener('focus', _this.closeDropdown, true);
+			_this.opened = opts.opened;
+			_this.update();
+		});
+
+		_this.on('unmount', function () {
+			document.removeEventListener('click', _this.closeDropdown);
+			document.removeEventListener('focus', _this.closeDropdown, true);
+		});
+
+		_this.on('update', function () {
+			var containerWidth = _this.root.querySelector('.container').getBoundingClientRect().width;
+			var tagList = _this.root.querySelector('.tags');
+			var tagListWidth = tagList.getBoundingClientRect().width;
+			tagList.scrollLeft = Number.MAX_VALUE;
+
+			var inputContainer = _this.root.querySelector('.input-container');
+			inputContainer.style.width = (containerWidth - tagListWidth) + 'px';
+			_this.root.querySelector('.container').style.height = inputContainer.getBoundingClientRect().height + 'px'
+		});
+	
+});
 riot.tag('rg-toast', '<div class="toasts { opts.position }" if="{ opts.toasts.length > 0 }"> <div class="toast" each="{ opts.toasts }" onclick="{ parent.toastClicked }"> { text } </div> </div>', 'rg-toast .toasts, [riot-tag="rg-toast"] .toasts{ position: fixed; width: 250px; max-height: 100%; overflow-y: auto; background-color: transparent; z-index: 101; } rg-toast .toasts.topleft, [riot-tag="rg-toast"] .toasts.topleft{ top: 0; left: 0; } rg-toast .toasts.topright, [riot-tag="rg-toast"] .toasts.topright{ top: 0; right: 0; } rg-toast .toasts.bottomleft, [riot-tag="rg-toast"] .toasts.bottomleft{ bottom: 0; left: 0; } rg-toast .toasts.bottomright, [riot-tag="rg-toast"] .toasts.bottomright{ bottom: 0; right: 0; } rg-toast .toast, [riot-tag="rg-toast"] .toast{ padding: 20px; margin: 20px; background-color: rgba(0, 0, 0, 0.8); color: white; font-size: 13px; cursor: pointer; }', function(opts) {
 
 		var _this = this;
