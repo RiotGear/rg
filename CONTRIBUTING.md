@@ -16,12 +16,12 @@ We will review your suggestion and in the case of new components, **we will crea
 
 ## Step 4
 
-Please **work in the DEV branch**, make PRs from your upto date dev branch to ours so that we can review your changes.
+Please **work in the DEV branch** make PRs from your upto date dev branch to ours so that we can review your changes.
 
 ## Sit back
 
 At some point your changes will get merged in and we'll publish a new version of RiotGear! Yay!
 
 ### Code Conduct
-This project adheres to the [Open Code of Conduct][code-of-conduct]. By participating, you are expected to honor this code.
+We're all friends! This project adheres to the [Open Code of Conduct][code-of-conduct]. By participating, you are expected to honor this code.
 [code-of-conduct]: http://todogroup.org/opencodeofconduct/#RiotComponents/gregory.pratt@me.com
