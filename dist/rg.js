@@ -831,3 +831,28 @@ riot.tag('rg-toggle', '<div class="wrapper"> <label class="toggle"> <input type=
 
 	
 });
+riot.tag('rg-unsplash', '<img riot-src="https://unsplash.it/{ grayscale }{ width }/{ height }/?{ options }">', function(opts) {
+
+		var _this = this;
+
+		_this.width = opts.width || 450;
+		_this.height = opts.height || 250;
+		_this.options = '';
+		if (opts.greyscale || opts.grayscale) {
+			_this.grayscale = 'g/';
+		}
+		if (opts.random) {
+			_this.options += 'random&';
+		}
+		if (opts.blur) {
+			_this.options += 'blur&';
+		}
+		if (opts.image) {
+			_this.options += 'image=' + opts.image + '&';
+		}
+		if (opts.gravity) {
+			_this.options += 'gravity=' + opts.gravity;
+		}
+
+	
+});
