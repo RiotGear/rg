@@ -169,7 +169,7 @@ riot.tag('rg-context-menu-raw', '<span></span>', function(opts) {
 		});
 	
 });
-riot.tag('rg-context-menu', '<div class="dropdown" if="{ opts.menu.opened }" riot-style="{ style }"> <div class="list"> <div each="{ opts.menu.items }" class="item { inactive: inactive }" onclick="{ selectItem }"> <rg-context-menu-raw if="{ content && !text }" content="{ content }"></rg-context-menu-raw> <span if="{ text }">{ text }</span> </div> <yield></yield> </div> </div>', 'rg-context-menu .dropdown, [riot-tag="rg-context-menu"] .dropdown{ position: absolute; background-color: white; border: 1px solid #D3D3D3; border-top: 0; text-align: left; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-shadow: 0 2px 10px -4px #444; -moz-box-shadow: 0 2px 10px -4px #444; box-shadow: 0 2px 10px -4px #444; } rg-context-menu .item, [riot-tag="rg-context-menu"] .item{ cursor: pointer; padding: 10px; border-top: 1px solid #E8E8E8; background-color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-context-menu .item:hover, [riot-tag="rg-context-menu"] .item:hover{ background-color: #f3f3f3; } rg-context-menu .item.inactive, [riot-tag="rg-context-menu"] .item.inactive{ color: #8a8a8a; font-style: italic; } rg-context-menu .item.inactive:hover, [riot-tag="rg-context-menu"] .item.inactive:hover{ background-color: #fff; }', function(opts) {
+riot.tag('rg-context-menu', '<div class="dropdown" show="{ opts.menu.opened }"> <div class="list"> <div each="{ opts.menu.items }" class="item { inactive: inactive }" onclick="{ selectItem }"> <rg-context-menu-raw if="{ content && !text }" content="{ content }"></rg-context-menu-raw> <span if="{ text }">{ text }</span> </div> <yield></yield> </div> </div>', 'rg-context-menu .dropdown, [riot-tag="rg-context-menu"] .dropdown{ position: absolute; background-color: white; border: 1px solid #D3D3D3; border-top: 0; text-align: left; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-shadow: 0 2px 10px -4px #444; -moz-box-shadow: 0 2px 10px -4px #444; box-shadow: 0 2px 10px -4px #444; } rg-context-menu .item, [riot-tag="rg-context-menu"] .item{ cursor: pointer; padding: 10px; border-top: 1px solid #E8E8E8; background-color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-context-menu .item:hover, [riot-tag="rg-context-menu"] .item:hover{ background-color: #f3f3f3; } rg-context-menu .item.inactive, [riot-tag="rg-context-menu"] .item.inactive{ color: #8a8a8a; font-style: italic; } rg-context-menu .item.inactive:hover, [riot-tag="rg-context-menu"] .item.inactive:hover{ background-color: #fff; }', function(opts) {
 
 		var _this = this;
 		opts.menu = opts.menu || {};
@@ -186,11 +186,29 @@ riot.tag('rg-context-menu', '<div class="dropdown" if="{ opts.menu.opened }" rio
 
 		function openMenu(e) {
 			e.preventDefault();
-			_this.style = 'left: ' + e.pageX + 'px; top: ' + e.pageY + 'px;';
 			if (opts.menu.onopen) {
 				opts.menu.onopen(e);
 			}
 			opts.menu.opened = true;
+
+
+			_this.update();
+
+			var x = e.pageX;
+			var y = e.pageY;
+			var dd = _this.root.querySelector('.dropdown');
+			var ddRect = dd.getBoundingClientRect();
+
+			if (x > window.innerWidth - ddRect.width) { // Its too close to the edge!
+				x = window.innerWidth - ddRect.width;
+			}
+			dd.style.left = x + 'px';
+
+			if (y > window.innerHeight - ddRect.height) { // Its too close to the edge!
+				y = window.innerHeight - ddRect.height;
+			}
+			dd.style.top = y + 'px';
+
 			_this.update();
 		}
 
