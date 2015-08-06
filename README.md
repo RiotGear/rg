@@ -2,9 +2,9 @@
 
 <img src="https://avatars0.githubusercontent.com/u/12480998?v=3&s=200" width="150px">
 
-<img src="https://img.shields.io/npm/v/riotgear.svg?style=flat-square">
-<img src="https://img.shields.io/npm/dm/riotgear.svg?style=flat-square">
-<img src="https://img.shields.io/npm/l/riotgear.svg?style=flat-square">
+<a href="https://www.npmjs.com/package/riotgear"><img src="https://img.shields.io/npm/v/riotgear.svg?style=flat-square"></a>
+<a href="https://www.npmjs.com/package/riotgear"><img src="https://img.shields.io/npm/dm/riotgear.svg?style=flat-square"></a>
+<a href="https://github.com/RiotGear/rg/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/riotgear.svg?style=flat-square"></a>
 
 The open source component library for <a href="https://muut.com/riotjs/">Riot</a>.
 
