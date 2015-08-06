@@ -20,7 +20,7 @@ If you have an idea for a new component or would like to make a suggestion about
 
 ### Find out more on the RiotGear website
 
-<a href="https://riotgear.github.io">https://riotgear.github.io</a>
+<a href="https://riotgear.js.org">https://riotgear.js.org</a>
 
 ### Suggestions
 
