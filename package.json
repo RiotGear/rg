@@ -1,6 +1,6 @@
 {
   "name": "riotgear",
-  "version": "1.10.3",
+  "version": "1.10.4",
   "description": "The open source component library for RiotJS",
   "main": "dist/rg.min.js",
   "dependencies": {
