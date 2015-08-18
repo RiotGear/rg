@@ -797,6 +797,66 @@ riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="ta
 		});
 	
 });
+riot.tag('rg-timepicker', '<rg-select placeholder="Select a time" filter-placeholder="Filter times" options="{ times }" onopen="{ opts.onopen }" onclose="{ opts.onclose }" onselect="{ opts.onselect }"> </rg-select>', function(opts) {
+
+		opts.time = opts.time || 'now'
+		if (opts.time == 'now') {
+			var now = new Date()
+			opts.time = new Date()
+		}
+		if (opts.min) {
+			opts.min = opts.min.split(':')
+		}
+		if (opts.max) {
+			opts.max = opts.max.split(':')
+		}
+		var step = parseInt(opts.step) || 1
+		this.times = []
+
+		for (var i = 0; i < 1440; i++) {
+			if (i % step == 0) {
+				var d = new Date(0)
+				d.setHours(opts.time.getHours())
+				d.setMinutes(opts.time.getMinutes())
+				d = new Date(d.getTime() + i * 60000)
+
+				if (opts.min) {
+					if (d.getHours() < opts.min[0]) continue
+					if (d.getHours() == opts.min[0] && d.getMinutes() < opts.min[1]) continue
+				}
+
+				if (opts.max) {
+					if (d.getHours() > opts.max[0]) continue
+					if (d.getHours() == opts.max[0] && d.getMinutes() > opts.max[1]) continue
+				}
+				var t = {
+					hours: d.getHours(),
+					minutes: d.getMinutes()
+				}
+				var m = t.minutes
+				if (m < 10) m = '0' + m
+				if (opts.ampm) {
+
+					var ampm = 'am'
+					var h = t.hours
+					if (h >= 12) {
+						ampm = 'pm'
+						h = h - 12
+					}
+					if (h == 0) h = 12
+					t.text = h + ':' + m + ' ' + ampm
+					t.period = ampm
+				} else {
+
+					var h = t.hours
+					if (h < 10) h = '0' + h
+					t.text = h + ':' + m
+				}
+				this.times.push(t)
+			}
+		}
+	
+});
 riot.tag('rg-toast', '<div class="toasts { opts.position }" if="{ opts.toasts.length > 0 }"> <div class="toast" each="{ opts.toasts }" onclick="{ parent.toastClicked }"> { text } </div> </div>', 'rg-toast .toasts, [riot-tag="rg-toast"] .toasts{ position: fixed; width: 250px; max-height: 100%; overflow-y: auto; background-color: transparent; z-index: 101; } rg-toast .toasts.topleft, [riot-tag="rg-toast"] .toasts.topleft{ top: 0; left: 0; } rg-toast .toasts.topright, [riot-tag="rg-toast"] .toasts.topright{ top: 0; right: 0; } rg-toast .toasts.bottomleft, [riot-tag="rg-toast"] .toasts.bottomleft{ bottom: 0; left: 0; } rg-toast .toasts.bottomright, [riot-tag="rg-toast"] .toasts.bottomright{ bottom: 0; right: 0; } rg-toast .toast, [riot-tag="rg-toast"] .toast{ padding: 20px; margin: 20px; background-color: rgba(0, 0, 0, 0.8); color: white; font-size: 13px; cursor: pointer; }', function(opts) {
 
 		var _this = this;
