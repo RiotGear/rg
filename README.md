@@ -56,4 +56,4 @@ At some point your changes will get merged in and we'll publish a new version of
 
 #### Code Conduct
 We're all friends! This project adheres to the [Open Code of Conduct][code-of-conduct]. By participating, you are expected to honor this code.
-[code-of-conduct]: http://todogroup.org/opencodeofconduct/#RiotComponents/gregory.pratt@me.com
+[code-of-conduct]: http://todogroup.org/opencodeofconduct/#RiotGear/gregory.pratt@me.com
