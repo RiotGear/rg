@@ -165,7 +165,7 @@ this.on('mount', function () {
 		(function () {
 			var oReq = new XMLHttpRequest();
 			oReq.onload = function () {
-				editor.setValue(oReq.responseText);
+				editor.setValue(oReq.responseText, -1);
 				_this.update();
 			};
 			oReq.open('get', opts.src, true);
