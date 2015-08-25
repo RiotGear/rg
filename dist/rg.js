@@ -104,6 +104,30 @@ this.on('unmount', function () {
 	document.removeEventListener('focus', _this.closeDropdown, true);
 });
 });
+riot.tag('rg-behold', '<div class="controls"> <input type="range" class="ranger" name="diff" value="0" min="0" max="1" step="0.01" oninput="{ updateDiff }" onchange="{ updateDiff }"> </div> <div class="images"> <div class="image"> <img class="image-2" riot-src="{ opts.image2 }"> </div> <div class="image"> <img class="image-1" riot-src="{ opts.image1 }"> </div> </div>', 'rg-behold .controls, [riot-tag="rg-behold"] .controls{ padding: 10px; background-color: #ededed; border: 1px solid #d3d3d3; margin-bottom: 20px; text-align: center; } rg-behold .ranger, [riot-tag="rg-behold"] .ranger{ width: 90%; max-width: 300px; } rg-behold .images, [riot-tag="rg-behold"] .images{ position: relative; } rg-behold .image, [riot-tag="rg-behold"] .image{ position: absolute; width: 100%; text-align: center; } rg-behold .image img, [riot-tag="rg-behold"] .image img{ max-width: 90%; }', function(opts) {var _this = this;
+
+opts.mode = opts.mode || 'fade';
+
+var image1, image2;
+
+this.on('mount', function () {
+	image1 = _this.root.querySelector('.image-1');
+	image2 = _this.root.querySelector('.image-2');
+	if (opts.mode == 'fade') {
+		_this.root.querySelector('.controls').style.direction = 'rtl';
+		_this.diff.value = 1;
+	}
+	updateDiff();
+});
+
+updateDiff = function (e) {
+	if (opts.mode == 'fade') {
+		image1.style.opacity = _this.diff.value;
+	} else if (opts.mode == 'swipe') {
+		image1.style.clipPath = image1.style.webkitClipPath = 'inset(0 0 0 ' + image1.clientWidth * _this.diff.value + 'px)';
+	}
+};
+});
 riot.tag('rg-bubble', '<div class="context"> <div class="bubble { visible: visible }"> { text } </div> <div class="content" onmouseover="{ showBubble }" onmouseout="{ hideBubble }" onclick="{ toggleBubble }"> <yield></yield> </div> </div>', 'rg-bubble .context, [riot-tag="rg-bubble"] .context,rg-bubble .content, [riot-tag="rg-bubble"] .content{ display: inline-block; position: relative; } rg-bubble .bubble, [riot-tag="rg-bubble"] .bubble{ position: absolute; display: block; top: -27px; left: 50%; -webkit-transform: translate3d(-50%, 0, 0); transform: translate3d(-50%, 0, 0); padding: 5px 10px; background-color: rgba(0, 0, 0, 0.8); color: white; text-align: center; font-size: 12px; line-height: 1; white-space: nowrap; opacity: 0; transition: opacity 0.1s, top 0.1s; } rg-bubble .visible, [riot-tag="rg-bubble"] .visible{ top: -30px; opacity: 1; } rg-bubble .bubble:after, [riot-tag="rg-bubble"] .bubble:after{ content: \'\'; position: absolute; display: block; bottom: -10px; left: 50%; -webkit-transform: translate3d(-50%, 0, 0); transform: translate3d(-50%, 0, 0); width: 0; height: 0; border: 5px solid rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0.9); }', function(opts) {var _this2 = this;
 
 this.text = opts.text;
