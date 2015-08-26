@@ -1,12 +1,12 @@
 {
   "name": "riotgear",
-  "version": "1.14.2",
+  "version": "1.14.3",
   "description": "The open source component library for RiotJS",
   "main": "dist/rg.min.js",
   "dependencies": {
     "riotgear-alert": "^1.1.1",
     "riotgear-autocomplete": "^1.0.7",
-    "riotgear-behold": "^1.1.0",
+    "riotgear-behold": "^1.1.1",
     "riotgear-bubble": "^1.0.3",
     "riotgear-code": "^1.0.1",
     "riotgear-context-menu": "^1.1.3",

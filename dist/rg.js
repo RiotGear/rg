@@ -104,15 +104,16 @@ this.on('unmount', function () {
 	document.removeEventListener('focus', _this.closeDropdown, true);
 });
 });
-riot.tag('rg-behold', '<div class="controls"> <input type="range" class="ranger" name="diff" value="0" min="0" max="1" step="0.01" oninput="{ updateDiff }" onchange="{ updateDiff }"> </div> <div class="images"> <div class="image"> <img class="image-2" riot-src="{ opts.image2 }"> </div> <div class="image"> <img class="image-1" riot-src="{ opts.image1 }"> </div> </div>', 'rg-behold .controls, [riot-tag="rg-behold"] .controls{ padding: 10px; background-color: #ededed; border: 1px solid #d3d3d3; margin-bottom: 20px; text-align: center; } rg-behold .ranger, [riot-tag="rg-behold"] .ranger{ width: 90%; max-width: 300px; } rg-behold .images, [riot-tag="rg-behold"] .images{ position: relative; } rg-behold .image, [riot-tag="rg-behold"] .image{ position: absolute; width: 100%; text-align: center; } rg-behold .image img, [riot-tag="rg-behold"] .image img{ max-width: 90%; }', function(opts) {var _this = this;
+riot.tag('rg-behold', '<div class="controls"> <input type="range" class="ranger" name="diff" value="0" min="0" max="1" step="0.01" oninput="{ updateDiff }" onchange="{ updateDiff }"> </div> <div class="images"> <div class="image"> <img class="image-2" riot-src="{ opts.image2 }"> </div> <div class="image fallback"> <img class="image-1" riot-src="{ opts.image1 }"> </div> </div>', 'rg-behold .controls, [riot-tag="rg-behold"] .controls{ padding: 10px; background-color: #ededed; border: 1px solid #d3d3d3; margin-bottom: 20px; text-align: center; } rg-behold .ranger, [riot-tag="rg-behold"] .ranger{ width: 90%; max-width: 300px; } rg-behold .images, [riot-tag="rg-behold"] .images{ position: relative; } rg-behold .image, [riot-tag="rg-behold"] .image{ position: absolute; width: 100%; text-align: center; } rg-behold .image img, [riot-tag="rg-behold"] .image img{ max-width: 90%; }', function(opts) {var _this = this;
 
 opts.mode = opts.mode || 'fade';
 
-var image1, image2;
+var image1, image2, fallback;
 
 this.on('mount', function () {
 	image1 = _this.root.querySelector('.image-1');
 	image2 = _this.root.querySelector('.image-2');
+	fallback = typeof image1.style.webkitClipPath == 'undefined';
 	if (opts.mode == 'fade') {
 		_this.root.querySelector('.controls').style.direction = 'rtl';
 		_this.diff.value = 1;
@@ -124,7 +125,12 @@ updateDiff = function (e) {
 	if (opts.mode == 'fade') {
 		image1.style.opacity = _this.diff.value;
 	} else if (opts.mode == 'swipe') {
-		image1.style.clipPath = image1.style.webkitClipPath = 'inset(0 0 0 ' + image1.clientWidth * _this.diff.value + 'px)';
+		if (!fallback) {
+			image1.style.clipPath = image1.style.webkitClipPath = 'inset(0 0 0 ' + (image1.clientWidth * _this.diff.value - 1) + 'px)';
+		} else {
+			var fallbackImg = _this.root.querySelector('.fallback');
+			fallbackImg.style.clip = 'rect(auto, auto, auto, ' + fallbackImg.clientWidth * _this.diff.value + 'px)';
+		}
 	}
 };
 });
