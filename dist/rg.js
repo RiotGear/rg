@@ -388,7 +388,9 @@ riot.tag('rg-loading', '<div class="overlay"></div> <div class="loading"> <div> 
 });
 var RgMap = riot.observable()
 
-RgMap.initialize = RgMap.trigger('initializeRgMap')
+RgMap.initialize = function () {
+  RgMap.trigger('initializeRgMap')
+}
 riot.tag('rg-map', '<div class="rg-map"></div>', 'rg-map .rg-map, [riot-tag="rg-map"] .rg-map{ margin: 0; padding: 0; width: 100%; height: 100%; } rg-map .rg-map img, [riot-tag="rg-map"] .rg-map img{ max-width: inherit; }', function(opts) {var _this = this;
 
 var defaultOptions = {
