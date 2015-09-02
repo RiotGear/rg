@@ -1,6 +1,6 @@
 {
   "name": "riotgear",
-  "version": "1.14.5",
+  "version": "1.15.0",
   "description": "The open source component library for RiotJS",
   "main": "dist/rg.min.js",
   "dependencies": {
@@ -19,6 +19,7 @@
     "riotgear-modal": "^1.1.4",
     "riotgear-phone-sim": "^1.0.0",
     "riotgear-placeholdit": "^1.0.1",
+    "riotgear-router": "^1.0.0",
     "riotgear-select": "^1.1.3",
     "riotgear-sidemenu": "^1.1.4",
     "riotgear-tabs": "^1.1.1",
