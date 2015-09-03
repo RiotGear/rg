@@ -454,6 +454,8 @@ this.format = opts.format || 'png';
 });
 'use strict';
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 ;
 (function () {
   var _states = [];
@@ -479,7 +481,7 @@ this.format = opts.format || 'png';
         history.pushState(state.name, null, url);
       }
     }
-    var prevState = Object.assign({}, router.current);
+    var prevState = _extends({}, router.current);
     router.current = state;
     router.trigger('go', state, prevState);
   };
@@ -524,7 +526,7 @@ this.format = opts.format || 'png';
       names.forEach(function (name, i) {
         if (i < names.length) {
           var _parent = findStateByName(name);
-          _state = Object.assign({}, _state, _parent);
+          _state = _extends({}, _state, _parent);
         }
       });
 
@@ -562,7 +564,11 @@ this.format = opts.format || 'png';
   riot.observable(router);
   riot.mixin('rg.router', {
     init: function init() {
-      this.router.on('go', this.update);
+      var _this = this;
+
+      this.router.on('go', function () {
+        return _this.update();
+      });
     },
     router: router
   });
