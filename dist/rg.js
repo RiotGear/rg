@@ -268,6 +268,224 @@ this.selectItem = function (e) {
 	}
 };
 });
+/*
+jQuery Credit Card Validator 1.0
+
+Copyright 2012-2015 Pawel Decowski
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+IN THE SOFTWARE.
+ */
+
+'use strict';
+
+;(function () {
+  'use strict';
+
+  function validateCreditCard(input) {
+    var __indexOf = [].indexOf || function (item) {
+      for (var i = 0, l = this.length; i < l; i++) {
+        if (i in this && this[i] === item) return i;
+      }return -1;
+    };
+    var bind, card, card_type, card_types, get_card_type, is_valid_length, is_valid_luhn, normalize, validate, validate_number, _i, _len, _ref;
+    card_types = [{
+      name: 'amex',
+      icon: 'images/amex.png',
+      pattern: /^3[47]/,
+      valid_length: [15]
+    }, {
+      name: 'diners_club',
+      icon: 'images/diners_club.png',
+      pattern: /^30[0-5]/,
+      valid_length: [14]
+    }, {
+      name: 'diners_club',
+      icon: 'images/diners_club.png',
+      pattern: /^36/,
+      valid_length: [14]
+    }, {
+      name: 'jcb',
+      icon: 'images/jcb.png',
+      pattern: /^35(2[89]|[3-8][0-9])/,
+      valid_length: [16]
+    }, {
+      name: 'laser',
+      pattern: /^(6304|670[69]|6771)/,
+      valid_length: [16, 17, 18, 19]
+    }, {
+      name: 'visa_electron',
+      pattern: /^(4026|417500|4508|4844|491(3|7))/,
+      valid_length: [16]
+    }, {
+      name: 'visa',
+      icon: 'images/visa.png',
+      pattern: /^4/,
+      valid_length: [16]
+    }, {
+      name: 'mastercard',
+      icon: 'images/mastercard.png',
+      pattern: /^5[1-5]/,
+      valid_length: [16]
+    }, {
+      name: 'maestro',
+      pattern: /^(5018|5020|5038|6304|6759|676[1-3])/,
+      valid_length: [12, 13, 14, 15, 16, 17, 18, 19]
+    }, {
+      name: 'discover',
+      icon: 'images/discover.png',
+      pattern: /^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)/,
+      valid_length: [16]
+    }];
+
+    var options = {};
+
+    if (options.accept == null) {
+      options.accept = (function () {
+        var _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = card_types.length; _i < _len; _i++) {
+          card = card_types[_i];
+          _results.push(card.name);
+        }
+        return _results;
+      })();
+    }
+    _ref = options.accept;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      card_type = _ref[_i];
+      if (__indexOf.call((function () {
+        var _j, _len1, _results;
+        _results = [];
+        for (_j = 0, _len1 = card_types.length; _j < _len1; _j++) {
+          card = card_types[_j];
+          _results.push(card.name);
+        }
+        return _results;
+      })(), card_type) < 0) {
+        throw "Credit card type '" + card_type + "' is not supported";
+      }
+    }
+
+    get_card_type = function (number) {
+      var _j, _len1, _ref1;
+      _ref1 = (function () {
+        var _k, _len1, _ref1, _results;
+        _results = [];
+        for (_k = 0, _len1 = card_types.length; _k < _len1; _k++) {
+          card = card_types[_k];
+          if ((_ref1 = card.name, __indexOf.call(options.accept, _ref1) >= 0)) {
+            _results.push(card);
+          }
+        }
+        return _results;
+      })();
+      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+        card_type = _ref1[_j];
+        if (number.match(card_type.pattern)) {
+          return card_type;
+        }
+      }
+      return null;
+    };
+
+    is_valid_luhn = function (number) {
+      var digit, n, sum, _j, _len1, _ref1;
+      sum = 0;
+      _ref1 = number.split('').reverse();
+      for (n = _j = 0, _len1 = _ref1.length; _j < _len1; n = ++_j) {
+        digit = _ref1[n];
+        digit = +digit;
+        if (n % 2) {
+          digit *= 2;
+          if (digit < 10) {
+            sum += digit;
+          } else {
+            sum += digit - 9;
+          }
+        } else {
+          sum += digit;
+        }
+      }
+      return sum % 10 === 0;
+    };
+
+    is_valid_length = function (number, card_type) {
+      var _ref1;
+      return (_ref1 = number.length, __indexOf.call(card_type.valid_length, _ref1) >= 0);
+    };
+
+    validate_number = (function (_this) {
+      return function (number) {
+        var length_valid, luhn_valid;
+        card_type = get_card_type(number);
+        luhn_valid = false;
+        length_valid = false;
+        if (card_type != null) {
+          luhn_valid = is_valid_luhn(number);
+          length_valid = is_valid_length(number, card_type);
+        }
+        return {
+          card_type: card_type,
+          valid: luhn_valid && length_valid,
+          luhn_valid: luhn_valid,
+          length_valid: length_valid
+        };
+      };
+    })(this);
+
+    normalize = function (number) {
+      return number.replace(/[ -]/g, '');
+    };
+
+    validate = (function (_this) {
+      return function () {
+        return validate_number(normalize(input));
+      };
+    })(this);
+
+    return validate(input);
+  };
+
+  riot.mixin('rg.creditcard', {
+    creditcard: {
+      validate: validateCreditCard
+    }
+  });
+
+  if (!window.rg) window.rg = {};
+  window.rg.creditcard = {
+    validate: validateCreditCard
+  };
+})();
+riot.tag('rg-credit-card', '<label> Card no. <input type="text" name="cardNo" class="field card-no { icon } { valid: validationResult.valid == true }" oninput="{ validate }"> </label>', 'rg-credit-card .field, [riot-tag="rg-credit-card"] .field{ font-size: 1em; padding: 10px 60px 10px 10px; border: 1px solid #D3D3D3; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; outline: none; background-repeat: no-repeat; background-position: right center; background-size: 60px; } rg-credit-card .field.valid, [riot-tag="rg-credit-card"] .field.valid{ border-color: #3fc380; } rg-credit-card .field.invalid, [riot-tag="rg-credit-card"] .field.invalid{ border-color: #c33f3f; } rg-credit-card .amex, [riot-tag="rg-credit-card"] .amex{ background-image: url(img/amex.png); } rg-credit-card .diners_club, [riot-tag="rg-credit-card"] .diners_club{ background-image: url(img/diners_club.png); } rg-credit-card .discover, [riot-tag="rg-credit-card"] .discover{ background-image: url(img/discover.png); } rg-credit-card .jcb, [riot-tag="rg-credit-card"] .jcb{ background-image: url(img/jcb.png); } rg-credit-card .mastercard, [riot-tag="rg-credit-card"] .mastercard{ background-image: url(img/mastercard.png); } rg-credit-card .visa, [riot-tag="rg-credit-card"] .visa{ background-image: url(img/visa.png); }', function (opts) {
+  var _this = this;
+
+  this.on('mount', function () {
+    _this.mixin('rg.creditcard');
+    _this.cardNo.value = opts.cardno || '';
+    _this.validate();
+    _this.update();
+  });
+
+  this.validate = function () {
+    _this.validationResult = _this.creditcard.validate(_this.cardNo.value);
+    _this.icon = _this.validationResult.valid ? _this.validationResult.card_type.name : '';
+  };
+});
 riot.tag('rg-datepicker', '{ opts.months} <div class="container { open: opened }"> <input type="text" onclick="{ show }" value="{ date.format(opts.format || \'LL\') }" readonly> <div class="calendar" show="{ opened }"> <div class="grid grid-row" if="{ opts.years != \'false\' }"> <div class="selector" onclick="{ prevYear }">&lsaquo;</div> <span class="year">{ date.format(\'YYYY\') }</span> <div class="selector" onclick="{ nextYear }">&rsaquo;</div> </div> <div class="grid grid-row" if="{ opts.years == \'false\' }"> <span class="year fill">{ date.format(\'YYYY\') }</span> </div> <div class="grid grid-row" if="{ opts.months != \'false\' }"> <div class="selector" onclick="{ prevMonth }">&lsaquo;</div> <span class="month">{ date.format(\'MMMM\') }</span> <div class="selector" onclick="{ nextMonth }">&rsaquo;</div> </div> <div class="grid grid-row" if="{ opts.months == \'false\' }"> <span class="month fill">{ date.format(\'MMMM\') }</span> </div> <div class="grid grid-row"> <span class="day-name" each="{ day in dayNames }">{ day }</span> </div> <div class="grid grid-wrap"> <div each="{ day in days }" onclick="{ changeDate }" class="date { in: day.inMonth, selected: day.selected, today: day.today }"> { day.date.format(\'DD\') } </div> </div> <div class="grid grid-row"> <a class="shortcut" onclick="{ setToday }">Today</a> </div> </div> </div>', 'rg-datepicker .container, [riot-tag="rg-datepicker"] .container{ position: relative; display: inline-block; cursor: pointer; } rg-datepicker input, [riot-tag="rg-datepicker"] input{ font-size: 1em; padding: 10px; border: 1px solid #D3D3D3; cursor: pointer; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; outline: none; } rg-datepicker .calendar, [riot-tag="rg-datepicker"] .calendar{ position: absolute; text-align: center; background-color: white; border: 1px solid #D3D3D3; padding: 5px; width: 330px; margin-top: 10px; left: 50%; -webkit-transform: translateX(-50%); -moz-transform: translateX(-50%); -ms-transform: translateX(-50%); -o-transform: translateX(-50%); transform: translateX(-50%); -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-shadow: 0 2px 10px -4px #444; -moz-box-shadow: 0 2px 10px -4px #444; box-shadow: 0 2px 10px -4px #444; } rg-datepicker .grid, [riot-tag="rg-datepicker"] .grid{ display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-align-items: center; -ms-flex-align: center; align-items: center; } rg-datepicker .grid-wrap, [riot-tag="rg-datepicker"] .grid-wrap{ width: 100%; -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap; } rg-datepicker .grid-row, [riot-tag="rg-datepicker"] .grid-row{ height: 35px; } rg-datepicker .selector, [riot-tag="rg-datepicker"] .selector{ font-size: 2em; font-weight: 100; padding: 0; -webkit-flex: 0 0 15%; -ms-flex: 0 0 15%; flex: 0 0 15%; } rg-datepicker .year, [riot-tag="rg-datepicker"] .year,rg-datepicker .month, [riot-tag="rg-datepicker"] .month{ text-transform: uppercase; font-weight: normal; -webkit-flex: 0 0 70%; -ms-flex: 0 0 70%; flex: 0 0 70%; } rg-datepicker .fill, [riot-tag="rg-datepicker"] .fill{ -webkit-flex: 0 0 100%; -ms-flex: 0 0 100%; flex: 0 0 100%; } rg-datepicker .day-name, [riot-tag="rg-datepicker"] .day-name{ font-weight: bold; -webkit-flex: 0 0 14.28%; -ms-flex: 0 0 14.28%; flex: 0 0 14.28%; } rg-datepicker .date, [riot-tag="rg-datepicker"] .date{ -webkit-flex: 0 0 14.28%; -ms-flex: 0 0 14.28%; flex: 0 0 14.28%; padding: 10px; border-radius: 100%; box-sizing: border-box; font-size: 0.8em; font-weight: normal; border: 2px solid transparent; color: #cacaca; } rg-datepicker .date:hover, [riot-tag="rg-datepicker"] .date:hover{ background-color: #f3f3f3; } rg-datepicker .date.in, [riot-tag="rg-datepicker"] .date.in{ color: inherit; } rg-datepicker .today, [riot-tag="rg-datepicker"] .today{ border-color: #ededed; } rg-datepicker .selected, [riot-tag="rg-datepicker"] .selected,rg-datepicker .selected:hover, [riot-tag="rg-datepicker"] .selected:hover{ background-color: #ededed; border-color: #dedede; } rg-datepicker .shortcut, [riot-tag="rg-datepicker"] .shortcut{ -webkit-flex: 0 0 100%; -ms-flex: 0 0 100%; flex: 0 0 100%; color: #6495ed; }', function(opts) {var _this = this;
 
 this.date = moment(opts.date || new Date());

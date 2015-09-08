@@ -1,6 +1,6 @@
 {
   "name": "riotgear",
-  "version": "1.16.0",
+  "version": "1.17.0",
   "description": "The open source component library for RiotJS",
   "main": "dist/rg.min.js",
   "dependencies": {
@@ -10,6 +10,7 @@
     "riotgear-bubble": "^1.0.4",
     "riotgear-code": "^1.0.1",
     "riotgear-context-menu": "^1.1.3",
+    "riotgear-credit-card": "^1.0.3 ",
     "riotgear-datepicker": "^1.0.2",
     "riotgear-ga": "^1.0.3",
     "riotgear-include": "^1.0.3",
