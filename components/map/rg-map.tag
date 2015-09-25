@@ -3,15 +3,15 @@
 	<div class="rg-map"></div>
 
 	<script>
-
 		let defaultOptions = {
 			center: { lat: 53.806, lng: -1.535 },
 			zoom: 5
 		}
 		let mapOptions = opts.map || defaultOptions
 
+		/* istanbul ignore next */
 		rg.map.on('initialize', () => {
-			var map = new google.maps.Map(this.root.querySelector('.rg-map'), mapOptions)
+			rg.map.obj = new google.maps.Map(this.root.querySelector('.rg-map'), mapOptions)
 		});
 
 		(() => {
@@ -23,7 +23,6 @@
 				document.body.appendChild(script)
 			}
 		})()
-
 	</script>
 
 	<style scoped>

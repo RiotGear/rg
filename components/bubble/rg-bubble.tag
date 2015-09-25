@@ -10,7 +10,6 @@
 	</div>
 
 	<script>
-
 		this.text = opts.text
 		this.visible = false
 		this.showBubble = () => {
@@ -26,11 +25,9 @@
 		this.toggleBubble = () => {
 			this.visible = !this.visible
 		}
-
 	</script>
 
 	<style scoped>
-
 		.context, .content {
 			display: inline-block;
 			position: relative;
@@ -38,24 +35,22 @@
 
 		.bubble {
 			position: absolute;
-			display: block;
-			top: -27px;
+			top: -30px;
 			left: 50%;
 			-webkit-transform: translate3d(-50%, 0, 0);
 			transform: translate3d(-50%, 0, 0);
 			padding: 5px 10px;
-			background-color: rgba(0, 0, 0, 0.8);
+			background-color: #000;
 			color: white;
 			text-align: center;
 			font-size: 12px;
 			line-height: 1;
 			white-space: nowrap;
 			opacity: 0;
-			transition: opacity 0.1s, top 0.1s;
 		}
 
 		.visible {
-			top: -30px;
+			display: block;
 			opacity: 1;
 		}
 
@@ -69,9 +64,8 @@
 			transform: translate3d(-50%, 0, 0);
 			width: 0;
 			height: 0;
-			border: 5px solid rgba(0, 0, 0, 0);
-			border-top-color: rgba(0, 0, 0, 0.9);
+			border: 5px solid transparent;
+			border-top-color: #000;
 		}
-
 	</style>
 </rg-bubble>

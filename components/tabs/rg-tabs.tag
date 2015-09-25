@@ -4,7 +4,6 @@
 		<div class="headers">
 			<div each="{ tab in tabs }" class="header { active: tab.active, disabled: tab.disabled }" onclick="{ activate }">
 				<h4 class="heading" if="{ tab.opts.heading && !tab.heading }">{ tab.opts.heading }</h4>
-
 				<div class="heading" if="{ tab.heading }">
 					<rg-raw content="{ tab.heading }"></rg-raw>
 				</div>
@@ -29,6 +28,7 @@
 
 				let tabHeading = tab.tags['rg-tab-heading']
 				if (tabHeading) {
+					/* istanbul ignore next */
 					if (Object.prototype.toString.call(tabHeading) !== '[object Array]')
 						tab.heading = tabHeading.root.innerHTML
 				}
@@ -69,7 +69,7 @@
 			box-sizing: border-box;
 			text-align: center;
 			cursor: pointer;
-			box-shadow: 0 -1px 0 0 #404040 inset;
+			box-shadow: 0 -1px 0 0 #000 inset;
 		}
 
 		.heading {
@@ -78,7 +78,7 @@
 		}
 
 		.header.active {
-			background-color: #404040;
+			background-color: #000;
 		}
 
 		.header.active .heading {

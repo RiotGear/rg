@@ -1,7 +1,7 @@
 <rg-toast>
 
-	<div class="toasts { opts.position }" if="{ opts.toasts.length > 0 }">
-		<div class="toast" each="{ opts.toasts }" onclick="{ parent.toastClicked }">
+	<div class="toasts { opts.position } { active: active }">
+		<div each="{ opts.toasts }" class="toast { visible: visible }" onclick="{ parent.toastClicked }">
 			{ text }
 		</div>
 	</div>
@@ -10,38 +10,46 @@
 		if (!opts.position) opts.position = 'topright'
 
 		this.toastClicked = e => {
-			if (e.item.onclick)	e.item.onclick(e)
-			if (e.item.onclose)	e.item.onclose()
-			window.clearTimeout(e.item.timer)
-			opts.toasts.splice(opts.toasts.indexOf(e.item), 1)
+			let toast = e.item
+			if (rg.isFunction(toast.onclick)) toast.onclick()
+			if (rg.isFunction(toast.onclose)) toast.onclose()
+			window.clearTimeout(toast.timer)
+			toast.visible = false
 		}
 
 		this.on('update', () => {
 			opts.toasts.forEach(toast => {
+				if (rg.isUndefined(toast.visible)) toast.visible = true
 				toast.id = Math.random().toString(36).substr(2, 8)
 				if (!toast.timer && !toast.sticky) {
 					toast.startTimer = () => {
 						toast.timer = window.setTimeout(() => {
-							opts.toasts.splice(opts.toasts.indexOf(toast), 1)
-							if (toast.onclose) toast.onclose()
+							toast.visible = false
+							if (rg.isFunction(toast.onclose)) toast.onclose()
 							this.update()
-						}, toast.timeout || 6000)
+						}, rg.toNumber(toast.timeout))
 					}
 					toast.startTimer()
 				}
 			})
+
+			this.active = opts.toasts.filter(toast => toast.visible).length
 		})
 	</script>
 
 	<style scoped>
-
 		.toasts {
-			position: fixed;
+			display: none;
+			position: absolute;
 			width: 250px;
 			max-height: 100%;
 			overflow-y: auto;
 			background-color: transparent;
 			z-index: 101;
+		}
+
+		.toasts.active {
+			display: block;
 		}
 
 		.toasts.topleft {
@@ -65,14 +73,18 @@
 		}
 
 		.toast {
+			display: none;
 			padding: 20px;
 			margin: 20px;
-			background-color: rgba(0, 0, 0, 0.8);
+			background-color: #000;
 			color: white;
 			font-size: 13px;
 			cursor: pointer;
 		}
 
+		.toast.visible {
+			display: block;
+		}
 	</style>
 
 </rg-toast>

@@ -1,11 +1,15 @@
 module.exports = function(config) {
   config.set({
     basePath: '',
-    frameworks: ['mocha', 'chai', 'riot'],
+    frameworks: ['mocha', 'sinon-chai', 'riot'],
     files: [
       'node_modules/jquery/dist/jquery.min.js',
+      'node_modules/commonmark/dist/commonmark.min.js',
+      'node_modules/moment/min/moment.min.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js',
       'lib/**/*',
-      'components/**/*'
+      'components/**/*',
+      { pattern: 'demo/inc.html', watched: false, included: false, served: true, nocache: false }
     ],
     preprocessors: {
       'lib/**/*': ['babel'],

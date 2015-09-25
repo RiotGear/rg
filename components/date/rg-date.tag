@@ -1,13 +1,9 @@
-<rg-datepicker>
+<rg-date>
 
 	{ opts.months}
 
 	<div class="container { open: opened }">
-		<input
-			type="text"
-			onclick="{ show }"
-			value="{ date.format(opts.format || 'LL') }"
-			readonly>
+		<input type="text" class="field" onclick="{ show }" value="{ date.format(opts.format || 'LL') }" readonly>
 
 		<div class="calendar" show="{ opened }">
 			<div class="grid grid-row" if="{ opts.years != 'false' }">
@@ -32,9 +28,7 @@
 				<span class="day-name" each="{ day in dayNames }">{ day }</span>
 			</div>
 			<div class="grid grid-wrap">
-				<div each="{ day in days }"
-							onclick="{ changeDate }"
-							class="date {
+				<div each="{ day in days }" onclick="{ changeDate }" class="date {
 							in: day.inMonth,
 							selected: day.selected,
 							today: day.today
@@ -66,7 +60,7 @@
 			// Set cursor to start of the month and start of the week
 			cursor.startOf('month')
 			cursor.day(0)
-			// end of month and end of week
+				// end of month and end of week
 			end.endOf('month')
 			end.day(6)
 
@@ -144,20 +138,17 @@
 	</script>
 
 	<style scoped>
-
 		.container {
 			position: relative;
 			display: inline-block;
 			cursor: pointer;
 		}
 
-		input {
+		.field {
 			font-size: 1em;
 			padding: 10px;
 			border: 1px solid #D3D3D3;
 			cursor: pointer;
-			-webkit-box-sizing: border-box;
-			-moz-box-sizing: border-box;
 			box-sizing: border-box;
 			outline: none;
 		}
@@ -180,12 +171,8 @@
 			-moz-user-select: none;
 			-ms-user-select: none;
 			user-select: none;
-			-webkit-box-sizing: border-box;
-			-moz-box-sizing: border-box;
 			box-sizing: border-box;
-			-webkit-box-shadow: 0 2px 10px -4px #444;
-			-moz-box-shadow: 0 2px 10px -4px #444;
-			box-shadow: 0 2px 10px -4px #444;
+			z-index: 1;
 		}
 
 		.grid {
@@ -217,7 +204,8 @@
 			flex: 0 0 15%;
 		}
 
-		.year, .month {
+		.year,
+		.month {
 			text-transform: uppercase;
 			font-weight: normal;
 			-webkit-flex: 0 0 70%;
@@ -242,12 +230,11 @@
 			-webkit-flex: 0 0 14.28%;
 			-ms-flex: 0 0 14.28%;
 			flex: 0 0 14.28%;
-			padding: 10px;
-			border-radius: 100%;
+			padding: 12px 10px;
 			box-sizing: border-box;
 			font-size: 0.8em;
 			font-weight: normal;
-			border: 2px solid transparent;
+			border: 1px solid transparent;
 			color: #cacaca;
 		}
 
@@ -263,7 +250,8 @@
 			border-color: #ededed;
 		}
 
-		.selected, .selected:hover {
+		.selected,
+		.selected:hover {
 			background-color: #ededed;
 			border-color: #dedede;
 		}
@@ -276,4 +264,4 @@
 		}
 	</style>
 
-</rg-datepicker>
+</rg-date>

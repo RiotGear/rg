@@ -1,6 +1,6 @@
-<rg-timepicker>
+<rg-time>
 
-	<rg-select placeholder="Select a time"
+	<rg-select placeholder="{ opts.placeholder || 'Select a time' }"
 						 filter-placeholder="Filter times"
 						 options={ times }
 						 onopen={ opts.onopen }
@@ -60,4 +60,4 @@
 		}
 	</script>
 
-</rg-timepicker>
+</rg-time>

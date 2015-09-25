@@ -11,11 +11,13 @@
 			if (opts.softtabs == "true") editor.getSession().setUseSoftTabs(true)
 			if (opts.wordwrap == "true") editor.getSession().setUseWrapMode(true)
 			if (opts.readonly == "true") editor.setReadOnly(true)
+			editor.$blockScrolling = Infinity
 
 			editor.getSession().on('change', e => {
 				if (opts.onchange) opts.onchange(editor.getValue())
 			})
 
+			/* istanbul ignore next */
 			if (opts.src) {
 				let oReq = new XMLHttpRequest()
 				oReq.onload = () => {

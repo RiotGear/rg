@@ -1,12 +1,12 @@
 <rg-modal>
 
-	<div class="overlay { expanded: opts.modal.visible, ghost: opts.modal.ghost }" onclick="{ close }"></div>
-	<div class="modal { ghost: opts.modal.ghost }" if="{ opts.modal.visible }">
+	<div class="overlay { visible: visible, ghost: ghost, dismissable: dismissable }" onclick="{ close }"></div>
+	<div class="modal { visible: visible, ghost: ghost, dismissable: dismissable }">
 		<header class="header">
-			<button if="{ opts.modal.close != false }" type="button" class="close" aria-label="Close" onclick="{ close }">
+			<button if="{ dismissable }" type="button" class="close" aria-label="Close" onclick="{ close }">
 				<span aria-hidden="true">&times;</span>
 			</button>
-			<h3 class="heading">{ opts.modal.heading }</h3>
+			<h3 class="heading">{ opts.heading }</h3>
 		</header>
 
 		<div class="body">
@@ -14,7 +14,7 @@
 		</div>
 
 		<footer class="footer">
-			<button class="button" each="{ opts.modal.buttons }" type="button" onclick="{ action }" style="{ style }">
+			<button class="button" each="{ opts.buttons }" type="button" onclick="{ action }" style="{ style }">
 				{ text }
 			</button>
 			<div class="clear"></div>
@@ -22,57 +22,49 @@
 	</div>
 
 	<script>
-		this.close = e => {
-			opts.modal.visible = false
-			if (opts.modal.onclose) opts.modal.onclose(e)
+		this.on('update', function () {
+			this.visible = rg.toBoolean(opts.visible)
+			this.ghost = rg.toBoolean(opts.ghost)
+			this.dismissable = rg.toBoolean(opts.dismissable)
+		})
+
+		this.close = function () {
+			opts.visible = false
+			if (opts.onclose) opts.onclose()
 		}
 	</script>
 
 	<style scoped>
-
-		.overlay,
-		.overlay.ghost {
-			position: fixed;
+		.overlay {
+			display: none;
+			position: absolute;
 			top: 0;
-			left: -100%;
+			left: 0;
 			right: 0;
 			bottom: 0;
 			width: 100%;
 			height: 100%;
-			background-color: transparent;
-			cursor: pointer;
-			-webkit-transition: background-color 0.8s ease, left 0s 0.8s;
-			-moz-transition: background-color 0.8s ease, left 0s 0.8s;
-			-ms-transition: background-color 0.8s ease, left 0s 0.8s;
-			-o-transition: background-color 0.8s ease, left 0s 0.8s;
-			transition: background-color 0.8s ease, left 0s 0.8s;
+			background-color: rgba(0, 0, 0, 0.8);
 			z-index: 50;
 		}
 
-		.overlay.expanded,
-		.overlay.ghost.expanded {
-			left: 0;
-			background-color: rgba(0, 0, 0, 0.8);
-			-webkit-transition: background-color 0.8s ease, left 0s;
-			-moz-transition: background-color 0.8s ease, left 0s;
-			-ms-transition: background-color 0.8s ease, left 0s;
-			-o-transition: background-color 0.8s ease, left 0s;
-			transition: background-color 0.8s ease, left 0s;
+		.overlay.dismissable {
+			cursor: pointer;
 		}
 
-		.modal,
-		.modal.ghost {
-			position: fixed;
+		.modal {
+			display: none;
+			position: absolute;
 			width: 95%;
 			max-width: 500px;
 			font-size: 1.1em;
 			top: 50%;
 			left: 50%;
-			-webkit-transform: translate3d(-50%, -75%, 0);
-			-moz-transform: translate3d(-50%, -75%, 0);
-			-ms-transform: translate3d(-50%, -75%, 0);
-			-o-transform: translate3d(-50%, -75%, 0);
-			transform: translate3d(-50%, -75%, 0);
+			-webkit-transform: translate3d(-50%, -50%, 0);
+			-moz-transform: translate3d(-50%, -50%, 0);
+			-ms-transform: translate3d(-50%, -50%, 0);
+			-o-transform: translate3d(-50%, -50%, 0);
+			transform: translate3d(-50%, -50%, 0);
 			background-color: white;
 			color: #252519;
 			z-index: 101;
@@ -81,6 +73,10 @@
 		.modal.ghost {
 			background-color: transparent;
 			color: white;
+		}
+
+		.visible {
+			display: block;
 		}
 
 		.header {

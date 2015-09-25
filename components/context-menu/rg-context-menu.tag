@@ -1,8 +1,8 @@
 <rg-context-menu>
 
-	<div class="dropdown" show="{ opts.menu.opened }">
+	<div class="menu { visible: visible }">
 		<div class="list">
-			<div each="{ opts.menu.items }" class="item { inactive: inactive }" onclick="{ selectItem }">
+			<div each="{ opts.items }" class="item { inactive: inactive }" onclick="{ selectItem }">
 				<rg-raw if="{ content && !text }" content="{ content }"></rg-raw>
 				<span if="{ text }">{ text }</span>
 			</div>
@@ -11,30 +11,25 @@
 	</div>
 
 	<script>
-
-		opts.menu = opts.menu || {}
-
 		var handleClickOutside = e => {
 			if (!this.root.contains(e.target)) {
-				if (opts.menu.onclose && opts.menu.opened) opts.menu.onclose(e)
-				opts.menu.opened = false
+				if (rg.isFunction(opts.onclose) && this.visible) opts.onclose(e)
+				this.visible = false
 				this.update()
 			}
 		}
 
 		var openMenu = e => {
 			e.preventDefault()
-			if (opts.menu.onopen) opts.menu.onopen(e)
-			opts.menu.opened = true
-			// Need to update the page with the
-			// rendered element to work with it
+			if (rg.isFunction(opts.onopen)) opts.onopen(e)
+			this.visible = true
 			this.update()
 
 			var x = e.pageX
 			var y = e.pageY
-			var dd = this.root.querySelector('.dropdown')
+			var dd = this.root.querySelector('.menu')
 			var ddRect = dd.getBoundingClientRect()
-			// Handle horizontal boundary
+				// Handle horizontal boundary
 			if (x > (window.innerWidth + window.scrollX) - ddRect.width) // Its too close to the edge!
 				x = (window.innerWidth + window.scrollX) - ddRect.width
 
@@ -55,7 +50,7 @@
 				if (target.attributes['rg-context-menu'].value == opts.id)
 					target.addEventListener('contextmenu', openMenu)
 				else
-					target.addEventListener('contextmenu', _this.closeMenu)
+					target.addEventListener('contextmenu', this.closeMenu)
 			}
 		});
 
@@ -66,12 +61,12 @@
 				if (target.attributes['rg-context-menu'].value == opts.id)
 					target.removeEventListener('contextmenu', openMenu)
 				else
-					target.removeEventListener('contextmenu', _this.closeMenu)
+					target.removeEventListener('contextmenu', this.closeMenu)
 			}
 		})
 
 		this.closeMenu = () => {
-			opts.menu.opened = false
+			this.visible = false
 			this.update()
 		}
 
@@ -79,15 +74,14 @@
 			if (!e.item.inactive) {
 				if (e.item.onselect) e.item.onselect(e.item)
 
-				opts.menu.opened = false
+				this.visible = false
 			}
 		}
-
 	</script>
 
 	<style scoped>
-
-		.dropdown {
+		.menu {
+			display: none;
 			position: absolute;
 			background-color: white;
 			border: 1px solid #D3D3D3;
@@ -97,13 +91,12 @@
 			-moz-user-select: none;
 			-ms-user-select: none;
 			user-select: none;
-			-webkit-box-sizing: border-box;
-			-moz-box-sizing: border-box;
 			box-sizing: border-box;
-			-webkit-box-shadow: 0 2px 10px -4px #444;
-			-moz-box-shadow: 0 2px 10px -4px #444;
-			box-shadow: 0 2px 10px -4px #444;
-			z-index: 1;
+			z-index: 2;
+		}
+
+		.menu.visible {
+			display: block;
 		}
 
 		.item {
@@ -128,7 +121,6 @@
 		.item.inactive:hover {
 			background-color: #fff;
 		}
-
 	</style>
 
 </rg-context-menu>

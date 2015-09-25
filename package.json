@@ -1,6 +1,6 @@
 {
   "name": "riotgear",
-  "version": "1.17.2",
+  "version": "2.0.0",
   "description": "The open source component library for RiotJS",
   "main": "dist/rg.min.js",
   "files": [
@@ -15,7 +15,6 @@
     "dev": "npm run riot && npm run concat && npm run uglify",
     "build": "npm run dev && npm run test"
   },
-
   "repository": {
     "type": "git",
     "url": "https://github.com/RiotGear/rg.git"
@@ -41,21 +40,23 @@
     "babel": "^5.8.23",
     "babel-core": "^5.8.23",
     "babel-plugin-object-assign": "^1.2.1",
-    "chai": "^3.2.0",
+    "commonmark": "^0.22.0",
     "jquery": "^2.1.4",
     "jshint": "^2.7.0",
     "karma": "^0.13.9",
     "karma-babel-preprocessor": "^5.2.2",
-    "karma-chai": "^0.1.0",
     "karma-coverage": "^0.5.2",
     "karma-mocha": "^0.2.0",
     "karma-mocha-reporter": "^1.1.1",
     "karma-phantomjs-launcher": "^0.2.1",
     "karma-riot": "^1.0.0",
+    "karma-sinon-chai": "^1.0.0",
     "mocha": "^2.3.2",
+    "moment": "^2.10.6",
     "normalize.css": "^3.0.3",
     "phantomjs": "^1.9.18",
     "riot": "~2.2.4",
+    "sinon": "^1.16.1",
     "uglify-js": "^2.4.23"
   }
 }

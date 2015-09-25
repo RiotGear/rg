@@ -1,21 +1,22 @@
 <rg-select>
 
-	<div class="container { open: opened }" style="width: { width }">
+	<div class="container { visible: visible }" style="width: { width }">
 		<input type="text"
-					 class="field { open: opened}"
+					 class="field { visible: visible }"
 					 onkeydown="{ handleKeys }"
 					 onclick="{ toggle }"
-					 value="{ fieldText || opts.placeholder }"
-					 readonly/>
+					 value="{ fieldText }"
+					 placeholder="{ opts.placeholder }"
+					 readonly>
 
-		<div class="dropdown" show="{ opened }">
+		<div class="dropdown { visible: visible }">
 			<div class="filter">
 				<input type="text"
 							 name="filter"
 							 class="filter-box"
 							 placeholder="{ opts['filter-placeholder'] || 'Filter' }"
 							 onkeydown="{ handleKeys }"
-							 oninput="{ filterItems }"/>
+							 oninput="{ filterItems }">
 			</div>
 			<div class="list">
 				<ul>
@@ -30,18 +31,19 @@
 	</div>
 
 	<script>
-		this.opened = true;
+		this.visible = true;
 
+		/* istanbul ignore next */
 		var handleClickOutside = e => {
 			if (!this.root.contains(e.target)) {
-				if (opts.onclose && this.opened) opts.onclose()
-				this.opened = false
+				if (rg.isFunction(opts.onclose) && this.visible) opts.onclose()
+				this.visible = false
 				this.update()
 			}
 		}
 
 		this.handleKeys = e => {
-			if (e.keyCode == 13 && !this.opened) {
+			if ([13, 38, 40].indexOf(e.keyCode) > -1 && !this.visible) {
 				this.toggle()
 				return true
 			}
@@ -81,9 +83,9 @@
 		};
 
 		this.toggle = () => {
-			this.opened = !this.opened
-			if (opts.onopen && this.opened) opts.onopen()
-			else if (opts.onclose && !this.opened) opts.onclose()
+			this.visible = !this.visible
+			if (rg.isFunction(opts.onopen) && this.visible) opts.onopen()
+			else if (rg.isFunction(opts.onclose) && !this.visible) opts.onclose()
 		}
 
 		this.filterItems = () => {
@@ -96,7 +98,7 @@
 										 .indexOf(this.filter.value.toString().toLowerCase()) > -1)
 					return true
 			})
-			if (opts.onfilter) opts.onfilter()
+			if (rg.isFunction(opts.onfilter)) opts.onfilter()
 			this.update()
 		}
 
@@ -104,9 +106,9 @@
 			item = item.item
 			opts.options.forEach(item => item.selected = false)
 			item.selected = true
-			if (opts.onselect) opts.onselect(item)
+			if (rg.isFunction(opts.onselect)) opts.onselect(item)
 			this.fieldText = item.text
-			this.opened = false
+			this.visible = false
 		}
 
 		this.on('mount', () => {
@@ -125,37 +127,26 @@
 			this.width = `${dd.getBoundingClientRect().width + 20}px`
 			dd.style.position = 'absolute'
 
-			// Set open state
-			this.opened = opts.opened
+			// Set visible state
+			this.visible = opts.visible
 
 			this.update()
 		})
 
 		this.on('unmount', () => document.removeEventListener('click', handleClickOutside))
-
 	</script>
 
 	<style scoped>
-
 		.container {
 			position: relative;
 			display: inline-block;
 			cursor: pointer;
 		}
 
-		.container.open {
-			-webkit-box-shadow: 0 2px 10px -4px #444;
-			-moz-box-shadow: 0 2px 10px -4px #444;
-			box-shadow: 0 2px 10px -4px #444;
-		}
-
 		.field {
 			width: 100%;
 			padding: 10px;
-			background-color: white;
 			border: 1px solid #D3D3D3;
-			-webkit-box-sizing: border-box;
-			-moz-box-sizing: border-box;
 			box-sizing: border-box;
 			white-space: nowrap;
 			overflow: hidden;
@@ -165,37 +156,31 @@
 			outline: 0;
 		}
 
-		.down-arrow {
-			float: right;
-		}
-
 		.dropdown {
+			display: none;
 			position: relative;
 			width: 100%;
 			background-color: white;
 			border: 1px solid #D3D3D3;
 			border-top: 0;
-			-webkit-box-sizing: border-box;
-			-moz-box-sizing: border-box;
 			box-sizing: border-box;
+			overflow-y: auto;
+			overflow-x: hidden;
+			max-height: 280px;
 		}
 
-		.container.open .dropdown {
-			-webkit-box-shadow: 0 2px 10px -4px #444;
-			-moz-box-shadow: 0 2px 10px -4px #444;
-			box-shadow: 0 2px 10px -4px #444;
+		.dropdown.visible {
+			display: block;
 		}
 
 		.filter-box {
-			-webkit-box-sizing: border-box;
-			-moz-box-sizing: border-box;
-			box-sizing: border-box;
 			width: 100%;
 			padding: 10px;
 			font-size: 0.9rem;
 			border: 0;
 			outline: none;
 			color: #555;
+			box-sizing: border-box;
 		}
 
 		ul, li {
@@ -225,6 +210,5 @@
 		li:hover.active {
 			background-color: #ededed;
 		}
-
 	</style>
 </rg-select>

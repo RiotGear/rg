@@ -1,7 +1,7 @@
 <rg-alert>
 
-	<div each="{ opts.alerts }" class="alert { type }" onclick="{ onclick }">
-		<a class="close" aria-label="Close" onclick="{ parent.remove }" if="{ dismissable != false }">
+	<div each="{ opts.alerts }" class="alert { type } { visible: visible }" onclick="{ onclick }">
+		<a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }">
 			<span aria-hidden="true">&times;</span>
 		</a>
 
@@ -11,32 +11,36 @@
 	</div>
 
 	<script>
-		this.on('update', () => {
+		this.on('update', function() {
 			opts.alerts.forEach((alert) => {
-				alert.id = Math.random().toString(36).substr(2, 8)
+				if (rg.isUndefined(alert.visible)) {
+					alert.visible = true
+				}
 				if (!alert.timer && alert.timeout) {
 					alert.startTimer = () => {
 						alert.timer = window.setTimeout(() => {
-							opts.alerts.splice(opts.alerts.indexOf(alert), 1)
-							if (alert.onclose) alert.onclose()
+							remove(alert)
 							this.update()
-						}, alert.timeout)
+						}, rg.toNumber(alert.timeout))
 					}
 					alert.startTimer()
 				}
 			})
+			this.update()
 		})
 
-		this.remove = (e) => {
-			e.stopPropagation()
-			if (e.item.onclose) e.item.onclose()
-			window.clearTimeout(e.item.timer)
-			opts.alerts.splice(opts.alerts.indexOf(e.item), 1)
+		this.dismiss = (e) => {
+			remove(e.item)
+		}
+
+		function remove(alert) {
+			alert.visible = false
+			if (rg.isFunction(alert.onclose)) alert.onclose()
+			window.clearTimeout(alert.timer)
 		}
 	</script>
 
 	<style scoped>
-
 		:scope {
 			font-size: 0.9em;
 			position: relative;
@@ -47,8 +51,13 @@
 		}
 
 		.alert {
+			display: none;
 			position: relative;
 			margin-bottom: 15px;
+		}
+
+		.visible {
+			display: block;
 		}
 
 		.body {
@@ -88,7 +97,6 @@
 			color: #c06329;
 			background-color: #f7dfd0;
 		}
-
 	</style>
 
 </rg-alert>

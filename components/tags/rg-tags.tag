@@ -8,14 +8,14 @@
 			</span>
 		</span>
 
-		<div class="input-container { open: opened }">
-			<input type="{ opts.type || 'text' }" name="textbox"
+		<div class="field-container { visible: visible }">
+			<input type="{ opts.type || 'text' }" class="field" name="textbox"
 						 placeholder="{ opts.placeholder }"
 						 onkeydown="{ handleKeys }"
 						 oninput="{ filterItems }"
 						 onfocus="{ filterItems }">
 
-			<div class="dropdown { open: opened }" show="{ opened }">
+			<div class="dropdown { visible: visible }">
 				<div class="list">
 					<ul>
 						<li each="{ filteredItems }"
@@ -30,7 +30,7 @@
 	</div>
 
 	<script>
-		this.opened = true
+		this.visible = false
 		this.textbox.value = opts.value || ''
 		opts.items = opts.items || []
 		opts.tags = opts.tags || []
@@ -45,7 +45,7 @@
 									 .indexOf(this.textbox.value.toString().toLowerCase()) > -1)
 					return true
 			})
-			this.opened = this.filteredItems.length > 0
+			this.visible = this.filteredItems.length > 0
 			if (opts.onfilter) opts.onfilter()
 			this.update()
 		}
@@ -53,7 +53,7 @@
 		this.handleKeys = e => {
 			let length = this.filteredItems.length
 			if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
-				this.opened = true
+				this.visible = true
 				e.preventDefault()
 				// Get the currently selected item
 				let activeIndex = null
@@ -100,14 +100,14 @@
 				opts.tags.push(tag)
 				this.textbox.value = ''
 				this.filteredItems = opts.items
-				this.opened = false
+				this.visible = false
 			}
 			this.update()
 		}
 
 		this.removeTag = e => {
 			opts.tags.splice(opts.tags.indexOf(e.item), 1)
-			this.opened = false
+			this.visible = false
 		}
 
 		this.select = item => {
@@ -118,8 +118,8 @@
 
 		this.closeDropdown = e => {
 			if (!this.root.contains(e.target)) {
-				if (opts.onclose && this.opened) opts.onclose()
-				this.opened = false
+				if (opts.onclose && this.visible) opts.onclose()
+				this.visible = false
 				this.update()
 			}
 		}
@@ -127,7 +127,7 @@
 		this.on('mount', () => {
 			document.addEventListener('click', this.closeDropdown)
 			document.addEventListener('focus', this.closeDropdown, true)
-			this.opened = opts.opened
+			this.visible = opts.visible
 			this.update()
 		})
 
@@ -137,64 +137,63 @@
 		})
 
 		this.on('update', () => {
-			let containerWidth = this.root.querySelector('.container').getBoundingClientRect().width
-			let tagList = this.root.querySelector('.tags')
-			let tagListWidth = tagList.getBoundingClientRect().width
-			tagList.scrollLeft = Number.MAX_VALUE
+			const container = this.root.querySelector('.container')
+			if (container) {
+				let containerWidth = container.getBoundingClientRect().width
+				let tagList = this.root.querySelector('.tags')
+				let tagListWidth = tagList.getBoundingClientRect().width
+				tagList.scrollLeft = Number.MAX_VALUE
 
-			let inputContainer = this.root.querySelector('.input-container')
-			inputContainer.style.width = `${(containerWidth - tagListWidth)}px`
-			this.root.querySelector('.container').style.height = `${inputContainer.getBoundingClientRect().height}px`
+				let fieldContainer = this.root.querySelector('.field-container')
+				fieldContainer.style.width = `${(containerWidth - tagListWidth)}px`
+				this.root.querySelector('.container').style.height = `${fieldContainer.getBoundingClientRect().height}px`
+			}
 		})
 	</script>
 
 	<style scoped>
-
 		.container {
+			position: relative;
 			width: 100%;
 			border: 1px solid #D3D3D3;
-			background: white;
+			background-color: white;
 			text-align: left;
 			padding: 0;
-			-webkit-box-sizing: border-box;
-			-moz-box-sizing: border-box;
 			box-sizing: border-box;
 		}
 
-		.input-container {
+		.field-container {
 			position: absolute;
 			display: inline-block;
 			cursor: pointer;
 		}
 
-		input {
+		.field {
 			width: 100%;
-			font-size: 1em;
 			padding: 10px;
 			border: 0;
-			background-color: transparent;
-			-webkit-box-sizing: border-box;
-			-moz-box-sizing: border-box;
 			box-sizing: border-box;
-			outline: none;
+			background-color: transparent;
+			white-space: nowrap;
+			font-size: 1em;
+			line-height: normal;
+			outline: 0;
 		}
 
 		.dropdown {
+			display: none;
 			position: absolute;
 			width: 100%;
 			background-color: white;
 			border: 1px solid #D3D3D3;
-			-webkit-box-sizing: border-box;
-			-moz-box-sizing: border-box;
 			box-sizing: border-box;
 			overflow-y: auto;
 			overflow-x: hidden;
+			max-height: 280px;
 		}
 
-		.dropdown.open {
-			-webkit-box-shadow: 0 2px 10px -4px #444;
-			-moz-box-shadow: 0 2px 10px -4px #444;
-			box-shadow: 0 2px 10px -4px #444;
+		.dropdown.visible {
+			display: block;
 		}
 
 		ul, li {
@@ -209,10 +208,6 @@
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
-		}
-
-		li:first-child {
-			border-top: 0;
 		}
 
 		li:hover {
@@ -239,9 +234,9 @@
 		.tag {
 			position: relative;
 			display: inline-block;
-			padding: 5px 20px 5px 5px;
-			margin: 4px 5px;
-			background-color: #444;
+			padding: 8px 20px 8px 5px;
+			margin: 1px;
+			background-color: #000;
 			color: #fff;
 			cursor: pointer;
 		}
@@ -253,8 +248,8 @@
 		.close {
 			position: absolute;
 			right: 5px;
-			top: 5px;
-			color: rgba(255,255,255,0.7);
+			top: 7px;
+			color: rgba(255, 255, 255, 0.7);
 		}
 
 	</style>

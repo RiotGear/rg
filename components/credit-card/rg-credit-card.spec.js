@@ -26,6 +26,10 @@ describe('rg-credit-card', function() {
     })[0]
   })
 
+  after(function () {
+    tag.unmount()
+  })
+
   it('is mounted', function() {
     tag.isMounted.should.be.true
   })
@@ -38,12 +42,6 @@ describe('rg-credit-card', function() {
   it('populates textbox with provided value', function() {
     const textbox = $('rg-credit-card .card-no')
     textbox.val().should.equal(cardNoVisa)
-  })
-
-  it('is blank when no cardNo is specified', function () {
-    tag = riot.mount('rg-credit-card')
-    const textbox = $('rg-credit-card .card-no')
-    textbox.val().should.equal('')
   })
 
   it('sets the placeholder text correctly', function () {

@@ -11,6 +11,7 @@
 			this.root.innerHTML = writer.render(parsed)
 		}
 
+		/* istanbul ignore next */
 		if (opts.src) {
 			var oReq = new XMLHttpRequest()
 			oReq.onload = () => {

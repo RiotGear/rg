@@ -1,12 +1,12 @@
 <rg-sidemenu>
 
-	<div class="overlay { expanded: opts.sidemenu.expanded }" onclick="{ close }"></div>
+	<div class="overlay { visible: visible }" onclick="{ close }"></div>
 
-	<div class="sidemenu { expanded: opts.sidemenu.expanded }">
-		<h4 class="header">{ opts.sidemenu.header }</h4>
+	<div class="sidemenu { visible: visible }">
+		<h4 class="header">{ opts.header }</h4>
 
 		<ul class="items">
-			<li class="item { active: active }" each="{ opts.sidemenu.items }" onclick="{ selected }">
+			<li class="item { active: active }" each="{ opts.items }" onclick="{ selected }">
 				{ text }
 			</li>
 		</ul>
@@ -17,48 +17,41 @@
 	</div>
 
 	<script>
-		this.close = () => opts.sidemenu.expanded = false
+		this.on('update', function () {
+			this.visible = rg.toBoolean(opts.visible)
+		})
+
+		this.close = () => opts.visible = false
 
 		this.selected = item => {
 			item = item.item
-			opts.sidemenu.items.forEach(item => item.active = false)
+			opts.items.forEach(item => item.active = false)
 			item.active = true
 			if (item.action) item.action(item)
 		}
 	</script>
 
 	<style scoped>
-
 		.overlay {
-			position: fixed;
+			display: none;
+			position: absolute;
 			top: 0;
-			left: -100%;
+			left: 0;
 			right: 0;
 			bottom: 0;
 			width: 100%;
 			height: 100%;
-			background-color: transparent;
+			background-color: rgba(0, 0, 0, 0.8);
 			cursor: pointer;
-			-webkit-transition: background-color 0.8s ease, left 0s 0.8s;
-			-moz-transition: background-color 0.8s ease, left 0s 0.8s;
-			-ms-transition: background-color 0.8s ease, left 0s 0.8s;
-			-o-transition: background-color 0.8s ease, left 0s 0.8s;
-			transition: background-color 0.8s ease, left 0s 0.8s;
 			z-index: 50;
 		}
 
-		.overlay.expanded {
-			left: 0;
-			background-color: rgba(0, 0, 0, 0.8);
-			-webkit-transition: background-color 0.8s ease, left 0s;
-			-moz-transition: background-color 0.8s ease, left 0s;
-			-ms-transition: background-color 0.8s ease, left 0s;
-			-o-transition: background-color 0.8s ease, left 0s;
-			transition: background-color 0.8s ease, left 0s;
+		.overlay.visible {
+			display: block;
 		}
 
 		.sidemenu {
-			position: fixed;
+			position: absolute;
 			top: 0;
 			left: 0;
 			height: 100%;
@@ -73,15 +66,11 @@
 			-ms-transform: translate3d(-100%, 0, 0);
 			-o-transform: translate3d(-100%, 0, 0);
 			transform: translate3d(-100%, 0, 0);
-			-webkit-transition: -webkit-transform 0.5s ease;
-			-moz-transition: -moz-transform 0.5s ease;
-			-ms-transition: -ms-transform 0.5s ease;
-			-o-transition: -o-transform 0.5s ease;
 			transition: transform 0.5s ease;
 			z-index: 51;
 		}
 
-		.sidemenu.expanded {
+		.sidemenu.visible {
 			-webkit-transform: translate3d(0, 0, 0);
 			-moz-transform: translate3d(0, 0, 0);
 			-ms-transform: translate3d(0, 0, 0);

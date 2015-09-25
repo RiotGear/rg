@@ -25,23 +25,17 @@
 	<style scoped>
 		.field {
 			font-size: 1em;
-			padding: 10px 60px 10px 10px;
+			padding: 10px;
 			border: 1px solid #D3D3D3;
-			-webkit-box-sizing: border-box;
-			-moz-box-sizing: border-box;
 			box-sizing: border-box;
 			outline: none;
+		}
+
+		.card-no {
+			padding-right: 60px;
 			background-repeat: no-repeat;
 			background-position: right center;
 			background-size: 60px;
-		}
-
-		.field.valid {
-			border-color: #3fc380;
-		}
-
-		.field.invalid {
-			border-color: #c33f3f;
 		}
 
 		.amex {
