@@ -32,12 +32,12 @@
 	<script>
 		this.visible = false
 		this.textbox.value = opts.value || ''
-		opts.items = opts.items || []
+		opts.options = opts.options || []
 		opts.tags = opts.tags || []
 		opts.tags.forEach((tag, i) => tag.index = i)
 
 		this.filterItems = () => {
-			this.filteredItems = opts.items.filter(item => {
+			this.filteredItems = opts.options.filter(item => {
 				item.active = false
 				if (this.textbox.value.length == 0 ||
 					item.text.toString()
@@ -99,7 +99,7 @@
 				tag.index = opts.tags.length
 				opts.tags.push(tag)
 				this.textbox.value = ''
-				this.filteredItems = opts.items
+				this.filteredItems = opts.options
 				this.visible = false
 			}
 			this.update()

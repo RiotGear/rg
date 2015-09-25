@@ -11,6 +11,7 @@ describe('rg-select', function() {
       placeholder: "Please select a card",
       'filter-placeholder': "Filter cards",
       'filter-on': "text",
+      filter: true,
       onopen: spyOnOpen,
       onclose: spyOnClose,
       onfilter: spyOnFilter,
@@ -73,6 +74,10 @@ describe('rg-select', function() {
     $('rg-select .item:nth-child(2)').is('.selected').should.be.false
     $('rg-select .item:nth-child(3)').is('.selected').should.be.true
     spyOnSelect.should.have.been.calledTwice
+  })
+
+  it('has filter box', function() {
+    $('rg-select .filter-box').length.should.equal(1)
   })
 
   it('adding text in filter reduces list of items', function() {

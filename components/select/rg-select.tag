@@ -1,18 +1,28 @@
 <rg-select>
 
 	<div class="container { visible: visible }" style="width: { width }">
-		<input type="text"
+		<input if="{ !autocomplete }"
+					 type="text"
 					 class="field { visible: visible }"
-					 onkeydown="{ handleKeys }"
-					 onclick="{ toggle }"
 					 value="{ fieldText }"
 					 placeholder="{ opts.placeholder }"
+					 onkeydown="{ handleKeys }"
+					 onclick="{ toggle }"
 					 readonly>
 
+		<input if="{ autocomplete }"
+					 type="text"
+					 class="field { visible: visible }"
+					 value="{ fieldText }"
+					 placeholder="{ opts.placeholder }"
+					 onkeydown="{ handleKeys }"
+					 onclick="{ toggle }"
+					 oninput="{ filterItems }">
+
 		<div class="dropdown { visible: visible }">
-			<div class="filter">
+			<div class="filter" if="{ filter }">
 				<input type="text"
-							 name="filter"
+							 name="filterfield"
 							 class="filter-box"
 							 placeholder="{ opts['filter-placeholder'] || 'Filter' }"
 							 onkeydown="{ handleKeys }"
@@ -91,11 +101,13 @@
 		this.filterItems = () => {
 			this.filteredItems = opts.options.filter(item => {
 				item.active = false
-				var filterField = item[opts['filter-on'] || 'text']
-				if (this.filter.value.length == 0 ||
+				const filterField = item[opts['filter-on'] || 'text']
+				let filterInput = this.filterfield.value
+				if (this.autocomplete) filterInput = this.autocompletefield.value
+				if (filterInput.length == 0 ||
 					filterField.toString()
 					           .toLowerCase()
-										 .indexOf(this.filter.value.toString().toLowerCase()) > -1)
+										 .indexOf(filterInput.toString().toLowerCase()) > -1)
 					return true
 			})
 			if (rg.isFunction(opts.onfilter)) opts.onfilter()
@@ -104,7 +116,7 @@
 
 		this.select = item => {
 			item = item.item
-			opts.options.forEach(item => item.selected = false)
+			opts.options.forEach(i => i.selected = false)
 			item.selected = true
 			if (rg.isFunction(opts.onselect)) opts.onselect(item)
 			this.fieldText = item.text
@@ -127,8 +139,10 @@
 			this.width = `${dd.getBoundingClientRect().width + 20}px`
 			dd.style.position = 'absolute'
 
-			// Set visible state
-			this.visible = opts.visible
+			this.autocomplete = rg.toBoolean(opts.autocomplete)
+			this.visible = rg.toBoolean(opts.visible)
+			this.filter = rg.toBoolean(opts.filter)
+			this.fieldText = opts.value
 
 			this.update()
 		})
@@ -178,6 +192,7 @@
 			padding: 10px;
 			font-size: 0.9rem;
 			border: 0;
+			border-bottom: 1px solid #E8E8E8;
 			outline: none;
 			color: #555;
 			box-sizing: border-box;
@@ -195,6 +210,10 @@
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
+		}
+
+		li:first-child {
+			border-top: 0;
 		}
 
 		.selected {

@@ -780,7 +780,7 @@ riot.tag('rg-raw', '<span></span>', function (opts) {
 	});
 });
 
-riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="width: { width }"> <input type="text" class="field { visible: visible }" onkeydown="{ handleKeys }" onclick="{ toggle }" value="{ fieldText }" placeholder="{ opts.placeholder }" readonly> <div class="dropdown { visible: visible }"> <div class="filter"> <input type="text" name="filter" class="filter-box" placeholder="{ opts[\'filter-placeholder\'] || \'Filter\' }" onkeydown="{ handleKeys }" oninput="{ filterItems }"> </div> <div class="list"> <ul> <li each="{ filteredItems }" onclick="{ parent.select }" class="item { selected: selected, disabled: disabled, active: active }"> { text } </li> </ul> </div> </div> </div>', 'rg-select .container, [riot-tag="rg-select"] .container{ position: relative; display: inline-block; cursor: pointer; } rg-select .field, [riot-tag="rg-select"] .field{ width: 100%; padding: 10px; border: 1px solid #D3D3D3; box-sizing: border-box; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 1em; line-height: normal; outline: 0; } rg-select .dropdown, [riot-tag="rg-select"] .dropdown{ display: none; position: relative; width: 100%; background-color: white; border: 1px solid #D3D3D3; border-top: 0; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; max-height: 280px; } rg-select .dropdown.visible, [riot-tag="rg-select"] .dropdown.visible{ display: block; } rg-select .filter-box, [riot-tag="rg-select"] .filter-box{ width: 100%; padding: 10px; font-size: 0.9rem; border: 0; outline: none; color: #555; box-sizing: border-box; } rg-select ul, [riot-tag="rg-select"] ul,rg-select li, [riot-tag="rg-select"] li{ list-style: none; padding: 0; margin: 0; } rg-select li, [riot-tag="rg-select"] li{ padding: 10px; border-top: 1px solid #E8E8E8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-select .selected, [riot-tag="rg-select"] .selected{ font-weight: bold; background-color: #f8f8f8; } rg-select li:hover, [riot-tag="rg-select"] li:hover{ background-color: #f3f3f3; } rg-select li.active, [riot-tag="rg-select"] li.active,rg-select li:hover.active, [riot-tag="rg-select"] li:hover.active{ background-color: #ededed; }', function (opts) {
+riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="width: { width }"> <input if="{ !autocomplete }" type="text" class="field { visible: visible }" value="{ fieldText }" placeholder="{ opts.placeholder }" onkeydown="{ handleKeys }" onclick="{ toggle }" readonly> <input if="{ autocomplete }" type="text" class="field { visible: visible }" value="{ fieldText }" placeholder="{ opts.placeholder }" onkeydown="{ handleKeys }" onclick="{ toggle }" oninput="{ filterItems }"> <div class="dropdown { visible: visible }"> <div class="filter" if="{ filter }"> <input type="text" name="filterfield" class="filter-box" placeholder="{ opts[\'filter-placeholder\'] || \'Filter\' }" onkeydown="{ handleKeys }" oninput="{ filterItems }"> </div> <div class="list"> <ul> <li each="{ filteredItems }" onclick="{ parent.select }" class="item { selected: selected, disabled: disabled, active: active }"> { text } </li> </ul> </div> </div> </div>', 'rg-select .container, [riot-tag="rg-select"] .container{ position: relative; display: inline-block; cursor: pointer; } rg-select .field, [riot-tag="rg-select"] .field{ width: 100%; padding: 10px; border: 1px solid #D3D3D3; box-sizing: border-box; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 1em; line-height: normal; outline: 0; } rg-select .dropdown, [riot-tag="rg-select"] .dropdown{ display: none; position: relative; width: 100%; background-color: white; border: 1px solid #D3D3D3; border-top: 0; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; max-height: 280px; } rg-select .dropdown.visible, [riot-tag="rg-select"] .dropdown.visible{ display: block; } rg-select .filter-box, [riot-tag="rg-select"] .filter-box{ width: 100%; padding: 10px; font-size: 0.9rem; border: 0; border-bottom: 1px solid #E8E8E8; outline: none; color: #555; box-sizing: border-box; } rg-select ul, [riot-tag="rg-select"] ul,rg-select li, [riot-tag="rg-select"] li{ list-style: none; padding: 0; margin: 0; } rg-select li, [riot-tag="rg-select"] li{ padding: 10px; border-top: 1px solid #E8E8E8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-select li:first-child, [riot-tag="rg-select"] li:first-child{ border-top: 0; } rg-select .selected, [riot-tag="rg-select"] .selected{ font-weight: bold; background-color: #f8f8f8; } rg-select li:hover, [riot-tag="rg-select"] li:hover{ background-color: #f3f3f3; } rg-select li.active, [riot-tag="rg-select"] li.active,rg-select li:hover.active, [riot-tag="rg-select"] li:hover.active{ background-color: #ededed; }', function (opts) {
 	var _this = this;
 
 	this.visible = true;
@@ -837,7 +837,9 @@ riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="w
 		_this.filteredItems = opts.options.filter(function (item) {
 			item.active = false;
 			var filterField = item[opts['filter-on'] || 'text'];
-			if (_this.filter.value.length == 0 || filterField.toString().toLowerCase().indexOf(_this.filter.value.toString().toLowerCase()) > -1) return true;
+			var filterInput = _this.filterfield.value;
+			if (_this.autocomplete) filterInput = _this.autocompletefield.value;
+			if (filterInput.length == 0 || filterField.toString().toLowerCase().indexOf(filterInput.toString().toLowerCase()) > -1) return true;
 		});
 		if (rg.isFunction(opts.onfilter)) opts.onfilter();
 		_this.update();
@@ -845,8 +847,8 @@ riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="w
 
 	this.select = function (item) {
 		item = item.item;
-		opts.options.forEach(function (item) {
-			return item.selected = false;
+		opts.options.forEach(function (i) {
+			return i.selected = false;
 		});
 		item.selected = true;
 		if (rg.isFunction(opts.onselect)) opts.onselect(item);
@@ -870,8 +872,10 @@ riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="w
 		_this.width = dd.getBoundingClientRect().width + 20 + 'px';
 		dd.style.position = 'absolute';
 
-		// Set visible state
-		_this.visible = opts.visible;
+		_this.autocomplete = rg.toBoolean(opts.autocomplete);
+		_this.visible = rg.toBoolean(opts.visible);
+		_this.filter = rg.toBoolean(opts.filter);
+		_this.fieldText = opts.value;
 
 		_this.update();
 	});
@@ -953,14 +957,14 @@ riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="ta
 
 	this.visible = false;
 	this.textbox.value = opts.value || '';
-	opts.items = opts.items || [];
+	opts.options = opts.options || [];
 	opts.tags = opts.tags || [];
 	opts.tags.forEach(function (tag, i) {
 		return tag.index = i;
 	});
 
 	this.filterItems = function () {
-		_this.filteredItems = opts.items.filter(function (item) {
+		_this.filteredItems = opts.options.filter(function (item) {
 			item.active = false;
 			if (_this.textbox.value.length == 0 || item.text.toString().toLowerCase().indexOf(_this.textbox.value.toString().toLowerCase()) > -1) return true;
 		});
@@ -1012,7 +1016,7 @@ riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="ta
 			tag.index = opts.tags.length;
 			opts.tags.push(tag);
 			_this.textbox.value = '';
-			_this.filteredItems = opts.items;
+			_this.filteredItems = opts.options;
 			_this.visible = false;
 		}
 		_this.update();

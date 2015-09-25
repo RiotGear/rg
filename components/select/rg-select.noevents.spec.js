@@ -11,10 +11,7 @@ describe('rg-select', function() {
       placeholder: "Please select a card",
       'filter-placeholder': "Filter cards",
       'filter-on': "text",
-      onopen: spyOnOpen,
-      onclose: spyOnClose,
-      onfilter: spyOnFilter,
-      onselect: spyOnSelect,
+      filter: true,
       options: [{
         id: 0,
         text: 'Visa'
@@ -52,10 +49,10 @@ describe('rg-select', function() {
     $('rg-select .dropdown').is(':visible').should.be.false
     $('rg-select .field').click()
     $('rg-select .dropdown').is(':visible').should.be.true
-    spyOnOpen.should.have.been.calledOnce
+    spyOnOpen.should.not.have.been.called
     $('rg-select .field').click()
     $('rg-select .dropdown').is(':visible').should.be.false
-    spyOnClose.should.have.been.calledOnce
+    spyOnClose.should.not.have.been.called
   })
 
   it('pressing key down will highlight item', function() {
@@ -72,7 +69,7 @@ describe('rg-select', function() {
     $('rg-select .item:nth-child(3)').click()
     $('rg-select .item:nth-child(2)').is('.selected').should.be.false
     $('rg-select .item:nth-child(3)').is('.selected').should.be.true
-    spyOnSelect.should.have.been.calledTwice
+    spyOnSelect.should.not.have.been.called
   })
 
   it('adding text in filter reduces list of items', function() {
@@ -86,7 +83,7 @@ describe('rg-select', function() {
     e.keyCode = 13
     $('rg-select .field').trigger(e)
     $('rg-select .dropdown').is(':visible').should.be.true
-    spyOnOpen.should.have.been.calledOnce
+    spyOnOpen.should.not.have.been.called
   })
 
   it('opens the dropdown on arrow up', function () {
@@ -94,7 +91,7 @@ describe('rg-select', function() {
     e.keyCode = 40
     $('rg-select .field').trigger(e)
     $('rg-select .dropdown').is(':visible').should.be.true
-    spyOnOpen.should.have.been.calledOnce
+    spyOnOpen.should.not.have.been.called
   })
 
   it('opens the dropdown on arrow down', function () {
@@ -102,6 +99,6 @@ describe('rg-select', function() {
     e.keyCode = 38
     $('rg-select .field').trigger(e)
     $('rg-select .dropdown').is(':visible').should.be.true
-    spyOnOpen.should.have.been.calledOnce
+    spyOnOpen.should.not.have.been.called
   })
 })

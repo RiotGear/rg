@@ -8,7 +8,7 @@ describe('rg-tags', function() {
                         placeholder="Enter a country name">
                       </rg-tags>`)
     tag = riot.mount('rg-tags', {
-      items: [{
+      options: [{
         text: 'England'
       }, {
         text: 'Scotland'

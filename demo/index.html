@@ -44,7 +44,7 @@
   <h2>Autocomplete</h2>
   <div class="demo">
     <label>Auto complete</label>
-    <rg-autocomplete></rg-autocomplete>
+    <rg-select id="autocomplete"></rg-select>
   </div>
 
   <h2>Behold</h2>
@@ -125,7 +125,7 @@
 
   <h2>Select</h2>
   <div class="demo">
-    <rg-select></rg-select>
+    <rg-select id="dropdown"></rg-select>
   </div>
 
   <h2>SideMenu</h2>
@@ -225,19 +225,6 @@
       return false;
     }
 
-    riot.mount('rg-autocomplete', {
-      placeholder: 'Enter a country name',
-      items: [{
-        text: 'England'
-      }, {
-        text: 'Scotland'
-      }, {
-        text: 'Wales'
-      }, {
-        text: 'Ireland'
-      }]
-    });
-
     riot.mount('rg-context-menu', {
       items: [{
         content: '<strong>View source</strong>'
@@ -261,10 +248,11 @@
       }]
     });
 
-    riot.mount('rg-select', {
+    riot.mount('#dropdown', {
       placeholder: 'Please select a card',
       'filter-placeholder': 'Filter cards',
       'filter-on': 'text',
+      filter: true,
       options: [{
         id: 0,
         text: 'Visa'
@@ -280,6 +268,24 @@
       }]
     });
 
+    riot.mount('#autocomplete', {
+      autocomplete: true,
+      placeholder: 'Enter a country name',
+      options: [{
+        id: 0,
+        text: 'England'
+      }, {
+        id: 1,
+        text: 'Scotland'
+      }, {
+        id: 2,
+        text: 'Wales'
+      }, {
+        id: 3,
+        text: 'Ireland'
+      }]
+    });
+
     riot.mount('rg-sidemenu', {
       header: 'Side Menu',
       visible: true,
@@ -291,13 +297,18 @@
     });
 
     riot.mount('rg-tags', {
-      items: [{
+      placeholder: 'Enter a country name',
+      options: [{
+        id: 0,
         text: 'England'
       }, {
+        id: 1,
         text: 'Scotland'
       }, {
+        id: 2,
         text: 'Wales'
       }, {
+        id: 3,
         text: 'Ireland'
       }],
       tags: [{

@@ -1,7 +1,13 @@
 <rg-autocomplete>
 
 	<div class="container { visible: visible }" style="width: { width }">
-		<input type="{ opts.type || 'text' }" class="field" name="textbox" placeholder="{ opts.placeholder }" onkeydown="{ handleKeys }" oninput="{ filterItems }" onfocus="{ filterItems }">
+		<input type="{ opts.type || 'text' }"
+					 class="field"
+					 name="textbox"
+					 placeholder="{ opts.placeholder }"
+					 onkeydown="{ handleKeys }"
+					 oninput="{ filterItems }"
+					 onfocus="{ filterItems }">
 
 		<div class="dropdown { visible: visible }">
 			<ul class="list">
