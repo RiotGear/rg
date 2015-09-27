@@ -256,7 +256,7 @@ IN THE SOFTWARE.
 	rg.xhr = function (method, src, onload) {
 		var req = new XMLHttpRequest();
 		req.onload = function () {
-			onload(req.responseText);
+			if (rg.isFunction(onload)) onload(req.responseText);
 		};
 		req.open(method, src, true);
 		req.send();
@@ -468,7 +468,7 @@ riot.tag('rg-code', '<div class="editor"></div>', 'rg-code .editor, [riot-tag="r
 		editor.$blockScrolling = Infinity;
 
 		editor.getSession().on('change', function (e) {
-			if (rg.isFunction(opts.onchange) opts.onchange(editor.getValue());
+			if (rg.isFunction(opts.onchange)) opts.onchange(editor.getValue());
 		});
 
 		/* istanbul ignore next */
@@ -584,7 +584,7 @@ riot.tag('rg-date', '{ opts.months} <div class="container { open: opened }"> <in
 
 	var handleClickOutside = function handleClickOutside(e) {
 		if (!_this.root.contains(e.target) && _this.opened) {
-			if (rg.isFunction(opts.onclose) opts.onclose(_this.date);
+			if (rg.isFunction(opts.onclose)) opts.onclose(_this.date);
 			_this.opened = false;
 			_this.update();
 		}
@@ -668,7 +668,7 @@ riot.tag('rg-date', '{ opts.months} <div class="container { open: opened }"> <in
 
 	// Show/hide the datepicker
 	this.show = function () {
-		if (rg.isFunction(opts.onopen) opts.onopen();
+		if (rg.isFunction(opts.onopen)) opts.onopen();
 		buildCalendar();
 		_this.opened = true;
 	};
@@ -753,7 +753,7 @@ riot.tag('rg-modal', '<div class="overlay { visible: visible, ghost: ghost, dism
 
 	this.close = function () {
 		opts.visible = false;
-		if (rg.isFunction(opts.onclose) opts.onclose();
+		if (rg.isFunction(opts.onclose)) opts.onclose();
 	};
 });
 
@@ -941,7 +941,7 @@ riot.tag('rg-tabs', '<div class="tabs"> <div class="headers"> <div each="{ tab i
 		var tab = e.item.tab;
 		if (!tab.disabled) {
 			deselectTabs();
-			if (_this.onopen) _this.onopen(tab);
+			if (rg.isFunction(_this.onopen)) _this.onopen(tab);
 			tab.active = true;
 		}
 	};
@@ -964,7 +964,7 @@ riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="ta
 			if (_this.textbox.value.length == 0 || item.text.toString().toLowerCase().indexOf(_this.textbox.value.toString().toLowerCase()) > -1) return true;
 		});
 		_this.visible = _this.filteredItems.length > 0;
-		if (rg.isFunction(opts.onfilter) opts.onfilter();
+		if (rg.isFunction(opts.onfilter)) opts.onfilter();
 		_this.update();
 	};
 
@@ -1030,7 +1030,7 @@ riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="ta
 
 	this.closeDropdown = function (e) {
 		if (!_this.root.contains(e.target)) {
-			if (rg.isFunction(opts.onclose && _this.visible) opts.onclose();
+			if (rg.isFunction(opts.onclose) && _this.visible) opts.onclose();
 			_this.visible = false;
 			_this.update();
 		}
@@ -1157,7 +1157,7 @@ riot.tag('rg-toggle', '<div class="wrapper"> <label class="toggle"> <input type=
 
 	this.toggle = function (e) {
 		opts.checked = !opts.checked;
-		if (rg.isFunction(opts.ontoggle) opts.ontoggle(e);
+		if (rg.isFunction(opts.ontoggle)) opts.ontoggle(e);
 	};
 });
 

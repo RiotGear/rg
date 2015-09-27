@@ -47,7 +47,7 @@
 
 		var handleClickOutside = e => {
 			if (!this.root.contains(e.target) && this.opened) {
-				if (rg.isFunction(opts.onclose) opts.onclose(this.date)
+				if (rg.isFunction(opts.onclose)) opts.onclose(this.date)
 				this.opened = false
 				this.update()
 			}
@@ -131,7 +131,7 @@
 
 		// Show/hide the datepicker
 		this.show = () => {
-			if (rg.isFunction(opts.onopen) opts.onopen()
+			if (rg.isFunction(opts.onopen)) opts.onopen()
 			buildCalendar()
 			this.opened = true
 		}
