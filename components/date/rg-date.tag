@@ -47,7 +47,7 @@
 					{ day.date.format(this.dayFormat) }
 				</div>
 			</div>
-			<div if="{ this.showToday }" class="grid grid-row">
+			<div if="{ showToday }" class="grid grid-row">
 				<a class="shortcut" onclick="{ setToday }">Today</a>
 			</div>
 		</div>
@@ -58,14 +58,14 @@
 		this.years = rg.toBoolean(opts.years)
 
 		// Set today shortcut boolean
-		this.showToday = rg.toBoolean(opts.showToday)
+		this.showToday = rg.isDefined(opts.today) ? rg.toBoolean(opts.today) : true
 
 		// Get our display formats
 		this.format = opts.format || 'LL'
-		this.yearFormat = opts.yearFormat || 'YYYY'
-		this.monthFormat = opts.monthFormat || 'MMMM'
-		this.weekFormat = opts.weekFormat || 'ddd'
-		this.dayFormat = opts.dayFormat || 'DD'
+		this.yearFormat = opts['year-format'] || 'YYYY'
+		this.monthFormat = opts['month-format'] || 'MMMM'
+		this.weekFormat = opts['week-format'] || 'ddd'
+		this.dayFormat = opts['day-format'] || 'DD'
 
 		// Convert the given date to a moment object
 		this.date = moment(rg.isDate(opts.date) || new Date())
@@ -140,16 +140,16 @@
 		this.changeDate = (e) => {
 			const day = e.item.day
 			this.date = day.date
-
 			if (rg.isFunction(opts.onselect)) opts.onselect(this.date)
-
 			buildCalendar()
+			this.opened = false
 		}
 
 		// Handle today shortcut
 		this.setToday = () => {
 			this.date = opts.date = moment()
 			buildCalendar()
+			this.opened = false
 		}
 
 		// Handle the previous year change
