@@ -14,18 +14,15 @@
 			editor.$blockScrolling = Infinity
 
 			editor.getSession().on('change', e => {
-				if (opts.onchange) opts.onchange(editor.getValue())
+				if (rg.isFunction(opts.onchange)) opts.onchange(editor.getValue())
 			})
 
 			/* istanbul ignore next */
 			if (opts.src) {
-				let oReq = new XMLHttpRequest()
-				oReq.onload = () => {
-					editor.setValue(oReq.responseText, -1)
+				rg.xhr('get', opts.src, resp => {
+					editor.setValue(resp, -1)
 					this.update()
-				}
-				oReq.open('get', opts.src, true)
-				oReq.send()
+				})
 			} else {
 				editor.setValue(opts.code)
 			}

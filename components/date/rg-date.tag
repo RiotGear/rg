@@ -47,7 +47,7 @@
 
 		var handleClickOutside = e => {
 			if (!this.root.contains(e.target) && this.opened) {
-				if (opts.onclose) opts.onclose(this.date)
+				if (rg.isFunction(opts.onclose) opts.onclose(this.date)
 				this.opened = false
 				this.update()
 			}
@@ -94,14 +94,14 @@
 		// Handle the clicks on dates
 		this.changeDate = e => {
 			this.date = e.item.day.date
-			if (opts.onselect) opts.onselect(this.date)
+			if (rg.isFunction(opts.onselect)) opts.onselect(this.date)
 			buildCalendar()
 		}
 
 		// Handle today shortcur
 		this.setToday = () => {
 			this.date = opts.date = moment()
-			if (opts.onselect) opts.onselect(this.date)
+			if (rg.isFunction(opts.onselect)) opts.onselect(this.date)
 			buildCalendar()
 		}
 
@@ -131,7 +131,7 @@
 
 		// Show/hide the datepicker
 		this.show = () => {
-			if (opts.onopen) opts.onopen()
+			if (rg.isFunction(opts.onopen) opts.onopen()
 			buildCalendar()
 			this.opened = true
 		}

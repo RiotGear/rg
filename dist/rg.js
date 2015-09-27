@@ -215,45 +215,52 @@ IN THE SOFTWARE.
 })();
 (function () {
 	if (!window.rg) window.rg = {};
-	window.rg.isUndefined = function (val) {
+	rg.isUndefined = function (val) {
 		return typeof val === 'undefined';
 	};
-	window.rg.isDefined = function (val) {
+	rg.isDefined = function (val) {
 		return typeof val !== 'undefined';
 	};
-	window.rg.isBoolean = function (val) {
+	rg.isBoolean = function (val) {
 		return typeof val === 'boolean';
 	};
-	window.rg.isObject = function (val) {
+	rg.isObject = function (val) {
 		return val !== null && typeof val === 'object';
 	};
-	window.rg.isString = function (val) {
+	rg.isString = function (val) {
 		return typeof val === 'string';
 	};
-	window.rg.isNumber = function (val) {
+	rg.isNumber = function (val) {
 		return typeof val === "number" && !isNaN(val);
 	};
-	window.rg.isDate = function (val) {
+	rg.isDate = function (val) {
 		return toString.call(val) === '[object Date]';
 	};
-	window.rg.isArray = Array.isArray;
-	window.rg.isFunction = function (val) {
+	rg.isArray = Array.isArray;
+	rg.isFunction = function (val) {
 		return typeof val === 'function';
 	};
-	window.rg.isRegExp = function (val) {
+	rg.isRegExp = function (val) {
 		return toString.call(val) === '[object RegExp]';
 	};
-	window.rg.isPromise = function (val) {
+	rg.isPromise = function (val) {
 		return val && isFunction(val.then);
 	};
-	window.rg.toBoolean = function (val) {
+	rg.toBoolean = function (val) {
 		return val == 'true' || val == true;
 	};
-	window.rg.toNumber = function (val) {
+	rg.toNumber = function (val) {
 		val = Number(val);
-		return window.rg.isNumber(val) ? val : 0;
+		return rg.isNumber(val) ? val : 0;
 	};
-	window.rg.noop = function () {};
+	rg.xhr = function (method, src, onload) {
+		var req = new XMLHttpRequest();
+		req.onload = function () {
+			onload(req.responseText);
+		};
+		req.open(method, src, true);
+		req.send();
+	};
 })();
 riot.tag('rg-alert', '<div each="{ opts.alerts }" class="alert { type } { visible: visible }" onclick="{ onclick }"> <a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }"> <span aria-hidden="true">&times;</span> </a> <div class="body"> { msg } </div> </div>', 'rg-alert, [riot-tag="rg-alert"]{ font-size: 0.9em; position: relative; top: 0; right: 0; left: 0; width: 100%; } rg-alert .alert, [riot-tag="rg-alert"] .alert{ display: none; position: relative; margin-bottom: 15px; } rg-alert .visible, [riot-tag="rg-alert"] .visible{ display: block; } rg-alert .body, [riot-tag="rg-alert"] .body{ padding: 15px 35px 15px 15px; } rg-alert .close, [riot-tag="rg-alert"] .close{ position: absolute; top: 50%; right: 20px; line-height: 12px; margin-top: -6px; font-size: 18px; border: 0; background-color: transparent; color: rgba(0, 0, 0, 0.5); cursor: pointer; outline: none; } rg-alert .danger, [riot-tag="rg-alert"] .danger{ color: #8f1d2e; background-color: #ffced8; } rg-alert .information, [riot-tag="rg-alert"] .information{ color: #31708f; background-color: #d9edf7; } rg-alert .success, [riot-tag="rg-alert"] .success{ color: #2d8f40; background-color: #ccf7d4; } rg-alert .warning, [riot-tag="rg-alert"] .warning{ color: #c06329; background-color: #f7dfd0; }', function (opts) {
 	this.on('update', function () {
@@ -461,20 +468,15 @@ riot.tag('rg-code', '<div class="editor"></div>', 'rg-code .editor, [riot-tag="r
 		editor.$blockScrolling = Infinity;
 
 		editor.getSession().on('change', function (e) {
-			if (opts.onchange) opts.onchange(editor.getValue());
+			if (rg.isFunction(opts.onchange) opts.onchange(editor.getValue());
 		});
 
 		/* istanbul ignore next */
 		if (opts.src) {
-			(function () {
-				var oReq = new XMLHttpRequest();
-				oReq.onload = function () {
-					editor.setValue(oReq.responseText, -1);
-					_this.update();
-				};
-				oReq.open('get', opts.src, true);
-				oReq.send();
-			})();
+			rg.xhr('get', opts.src, function (resp) {
+				editor.setValue(resp, -1);
+				_this.update();
+			});
 		} else {
 			editor.setValue(opts.code);
 		}
@@ -486,7 +488,7 @@ riot.tag('rg-context-menu-item', '<div class="item { inactive: opts.inactive }" 
 
 	this.selectItem = function () {
 		if (!opts.inactive) {
-			if (opts.onselect) opts.onselect(opts);
+			if (rg.isFunction(opts.onselect)) opts.onselect(opts);
 
 			_this.parent.opts.menu.opened = false;
 			_this.parent.update();
@@ -582,7 +584,7 @@ riot.tag('rg-date', '{ opts.months} <div class="container { open: opened }"> <in
 
 	var handleClickOutside = function handleClickOutside(e) {
 		if (!_this.root.contains(e.target) && _this.opened) {
-			if (opts.onclose) opts.onclose(_this.date);
+			if (rg.isFunction(opts.onclose) opts.onclose(_this.date);
 			_this.opened = false;
 			_this.update();
 		}
@@ -629,14 +631,14 @@ riot.tag('rg-date', '{ opts.months} <div class="container { open: opened }"> <in
 	// Handle the clicks on dates
 	this.changeDate = function (e) {
 		_this.date = e.item.day.date;
-		if (opts.onselect) opts.onselect(_this.date);
+		if (rg.isFunction(opts.onselect)) opts.onselect(_this.date);
 		buildCalendar();
 	};
 
 	// Handle today shortcur
 	this.setToday = function () {
 		_this.date = opts.date = moment();
-		if (opts.onselect) opts.onselect(_this.date);
+		if (rg.isFunction(opts.onselect)) opts.onselect(_this.date);
 		buildCalendar();
 	};
 
@@ -666,7 +668,7 @@ riot.tag('rg-date', '{ opts.months} <div class="container { open: opened }"> <in
 
 	// Show/hide the datepicker
 	this.show = function () {
-		if (opts.onopen) opts.onopen();
+		if (rg.isFunction(opts.onopen) opts.onopen();
 		buildCalendar();
 		_this.opened = true;
 	};
@@ -687,14 +689,10 @@ riot.tag('rg-ga', '', function (opts) {
 riot.tag('rg-include', '{{ responseText }}', function (opts) {
 	var _this = this;
 
-	var oReq = new XMLHttpRequest();
-	oReq.onload = function () {
-		if (opts.unsafe) _this.root.innerHTML = oReq.responseText;else _this.responseText = oReq.responseText;
-
+	rg.xhr('get', opts.src, function (resp) {
+		if (opts.unsafe) _this.root.innerHTML = resp;else _this.responseText = resp;
 		_this.update();
-	};
-	oReq.open("get", opts.src, opts.async || true);
-	oReq.send();
+	});
 });
 
 riot.tag('rg-loading', '<div class="loading { visible: opts.visible }"> <div class="overlay"></div> <div class="content"> <yield></yield> </div> </div>', 'rg-loading .loading, [riot-tag="rg-loading"] .loading{ display: none; } rg-loading .visible, [riot-tag="rg-loading"] .visible{ display: block; } rg-loading .overlay, [riot-tag="rg-loading"] .overlay{ position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 200; } rg-loading .content, [riot-tag="rg-loading"] .content{ position: absolute; width: 95%; max-width: 420px; top: 50%; left: 50%; -webkit-transform: translate3d(-50%, -50%, 0); -moz-transform: translate3d(-50%, -50%, 0); -ms-transform: translate3d(-50%, -50%, 0); -o-transform: translate3d(-50%, -50%, 0); transform: translate3d(-50%, -50%, 0); background-color: transparent; color: #fff; text-align: center; z-index: 201; }', function (opts) {});
@@ -737,13 +735,10 @@ riot.tag('rg-markdown', '<div class="markdown"></div>', function (opts) {
 
 	/* istanbul ignore next */
 	if (opts.src) {
-		var oReq = new XMLHttpRequest();
-		oReq.onload = function () {
-			markItDown(oReq.responseText);
+		rg.xhr('get', opts.src, function (resp) {
+			markItDown(resp);
 			_this.update();
-		};
-		oReq.open('get', opts.src, opts.async || true);
-		oReq.send();
+		});
 	} else {
 		markItDown(opts.content);
 	}
@@ -758,7 +753,7 @@ riot.tag('rg-modal', '<div class="overlay { visible: visible, ghost: ghost, dism
 
 	this.close = function () {
 		opts.visible = false;
-		if (opts.onclose) opts.onclose();
+		if (rg.isFunction(opts.onclose) opts.onclose();
 	};
 });
 
@@ -969,7 +964,7 @@ riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="ta
 			if (_this.textbox.value.length == 0 || item.text.toString().toLowerCase().indexOf(_this.textbox.value.toString().toLowerCase()) > -1) return true;
 		});
 		_this.visible = _this.filteredItems.length > 0;
-		if (opts.onfilter) opts.onfilter();
+		if (rg.isFunction(opts.onfilter) opts.onfilter();
 		_this.update();
 	};
 
@@ -1029,13 +1024,13 @@ riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="ta
 
 	this.select = function (item) {
 		item = item.item;
-		if (opts.onselect) opts.onselect(item);
+		if (rg.isFunction(opts.onselect)) opts.onselect(item);
 		_this.addTag(item);
 	};
 
 	this.closeDropdown = function (e) {
 		if (!_this.root.contains(e.target)) {
-			if (opts.onclose && _this.visible) opts.onclose();
+			if (rg.isFunction(opts.onclose && _this.visible) opts.onclose();
 			_this.visible = false;
 			_this.update();
 		}
@@ -1162,7 +1157,7 @@ riot.tag('rg-toggle', '<div class="wrapper"> <label class="toggle"> <input type=
 
 	this.toggle = function (e) {
 		opts.checked = !opts.checked;
-		if (opts.ontoggle) opts.ontoggle(e);
+		if (rg.isFunction(opts.ontoggle) opts.ontoggle(e);
 	};
 });
 

@@ -44,7 +44,7 @@
 			let tab = e.item.tab
 			if (!tab.disabled) {
 				deselectTabs()
-				if (this.onopen) this.onopen(tab)
+				if (rg.isFunction(this.onopen)) this.onopen(tab)
 				tab.active = true
 			}
 		}

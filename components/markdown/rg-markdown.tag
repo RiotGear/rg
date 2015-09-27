@@ -13,13 +13,10 @@
 
 		/* istanbul ignore next */
 		if (opts.src) {
-			var oReq = new XMLHttpRequest()
-			oReq.onload = () => {
-				markItDown(oReq.responseText)
+			rg.xhr('get', opts.src, resp => {
+				markItDown(resp)
 				this.update()
-			}
-			oReq.open('get', opts.src, opts.async || true)
-			oReq.send()
+			})
 		} else {
 			markItDown(opts.content)
 		}

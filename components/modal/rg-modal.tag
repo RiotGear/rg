@@ -30,7 +30,7 @@
 
 		this.close = function () {
 			opts.visible = false
-			if (opts.onclose) opts.onclose()
+			if (rg.isFunction(opts.onclose) opts.onclose()
 		}
 	</script>
 

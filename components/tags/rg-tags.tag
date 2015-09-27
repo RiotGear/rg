@@ -46,7 +46,7 @@
 					return true
 			})
 			this.visible = this.filteredItems.length > 0
-			if (opts.onfilter) opts.onfilter()
+			if (rg.isFunction(opts.onfilter)) opts.onfilter()
 			this.update()
 		}
 
@@ -112,13 +112,13 @@
 
 		this.select = item => {
 			item = item.item
-			if (opts.onselect) opts.onselect(item)
+			if (rg.isFunction(opts.onselect)) opts.onselect(item)
 			this.addTag(item)
 		}
 
 		this.closeDropdown = e => {
 			if (!this.root.contains(e.target)) {
-				if (opts.onclose && this.visible) opts.onclose()
+				if (rg.isFunction(opts.onclose) && this.visible) opts.onclose()
 				this.visible = false
 				this.update()
 			}

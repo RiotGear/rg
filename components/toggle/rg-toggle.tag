@@ -17,7 +17,7 @@
 
 		this.toggle = e => {
 			opts.checked = !opts.checked
-			if (opts.ontoggle) opts.ontoggle(e)
+			if (rg.isFunction(opts.ontoggle)) opts.ontoggle(e)
 		}
 	</script>
 

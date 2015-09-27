@@ -7,7 +7,7 @@
 	<script>
 		this.selectItem = () => {
 			if (!opts.inactive) {
-				if (opts.onselect) opts.onselect(opts)
+				if (rg.isFunction(opts.onselect)) opts.onselect(opts)
 
 				this.parent.opts.menu.opened = false
 				this.parent.update()
