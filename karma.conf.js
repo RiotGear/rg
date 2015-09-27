@@ -21,6 +21,7 @@ module.exports = function(config) {
         type: 'es6'
       }
     },
+    logLevel: config.LOG_ERROR,
     reporters: ['mocha', 'coverage'],
     coverageReporter: {
       reporters: [{
