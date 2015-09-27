@@ -137,8 +137,8 @@
 		})
 
 		this.on('update', () => {
-			const container = this.root.querySelector('.container')
-			if (container) {
+			if (this.isMounted) {
+				const container = this.root.querySelector('.container')
 				let containerWidth = container.getBoundingClientRect().width
 				let tagList = this.root.querySelector('.tags')
 				let tagListWidth = tagList.getBoundingClientRect().width

@@ -54,11 +54,11 @@
 	</div>
 
 	<script>
-		this.months = !!opts.months || true
-		this.years = !!opts.years || true
+		this.months = rg.toBoolean(opts.months)
+		this.years = rg.toBoolean(opts.years)
 
 		// Set today shortcut boolean
-		this.showToday = opts.showToday ? !!opts.showToday : true;
+		this.showToday = rg.toBoolean(opts.showToday)
 
 		// Get our display formats
 		this.format = opts.format || 'LL'
@@ -68,14 +68,10 @@
 		this.dayFormat = opts.dayFormat || 'DD'
 
 		// Convert the given date to a moment object
-		this.date = moment(opts.date || false);
-
-		// Setup our bouding dates
-		this.beginningBound = opts.beginningBound ? moment(opts.beginningBound) : false;
-		this.endingBound = opts.endingBound ? moment(opts.endingBound) : false;
+		this.date = moment(rg.isDate(opts.date) || new Date())
 
 		// Setup the weekday list
-		const temp = moment();
+		const temp = moment()
 		this.dayNames = [
 			temp.day(0).format(this.weekFormat),
 			temp.day(1).format(this.weekFormat),
@@ -86,7 +82,7 @@
 			temp.day(6).format(this.weekFormat),
 		]
 
-		const handleClickOutside = (e) => {
+		const handleClickOutside = e => {
 			if (!this.root.contains(e.target) && this.opened) {
 				if (rg.isFunction(opts.onclose)) opts.onclose(this.date)
 				this.opened = false
@@ -94,7 +90,7 @@
 			}
 		}
 
-		const dayObj = (dayDate) => {
+		const dayObj = dayDate => {
 			const dateObj = dayDate || moment()
 
 			return {
@@ -116,17 +112,17 @@
 			for (let i = begin.weekday(); i >= 0; i -= 1) {
 				const bufferDate = moment(begin).subtract(i, 'days')
 				this.startBuffer.push(dayObj(bufferDate))
-			};
+			}
 
 			for (let i = end.date() - 1; i > 0; i -= 1) {
 				const current = moment(begin).add(i, 'days')
 				this.days.unshift(dayObj(current))
-			};
+			}
 
 			for (let i = end.weekday(); i < 6; i += 1) {
 				const bufferDate = moment(end).add(i, 'days')
 				this.endBuffer.push(dayObj(bufferDate))
-			};
+			}
 
 			this.opts.date = this.date.toDate()
 			this.update()
@@ -142,7 +138,7 @@
 
 		// Handle the clicks on dates
 		this.changeDate = (e) => {
-			const day = e.item.day;
+			const day = e.item.day
 			this.date = day.date
 
 			if (rg.isFunction(opts.onselect)) opts.onselect(this.date)
