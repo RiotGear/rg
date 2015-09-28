@@ -8,9 +8,9 @@ describe('rg-select', function() {
   beforeEach(function() {
     $('body').append('<rg-select></rg-select>')
     tag = riot.mount('rg-select', {
-      placeholder: "Please select a card",
-      'filter-placeholder': "Filter cards",
-      'filter-on': "text",
+      placeholder: 'Please select a card',
+      'filter-placeholder': 'Filter cards',
+      'filter-on': 'text',
       filter: true,
       onopen: spyOnOpen,
       onclose: spyOnClose,
@@ -21,8 +21,7 @@ describe('rg-select', function() {
         text: 'Visa'
       }, {
         id: 1,
-        text: 'MasterCard',
-        selected: true
+        text: 'MasterCard'
       }, {
         id: 2,
         text: 'American Express'
@@ -69,11 +68,9 @@ describe('rg-select', function() {
 
   it('selecting an item sets it to selected and calls onselect', function() {
     $('rg-select .field').click()
-    $('rg-select .item:nth-child(2)').is('.selected').should.be.true
     $('rg-select .item:nth-child(3)').click()
-    $('rg-select .item:nth-child(2)').is('.selected').should.be.false
     $('rg-select .item:nth-child(3)').is('.selected').should.be.true
-    spyOnSelect.should.have.been.calledTwice
+    spyOnSelect.should.have.been.calledOnce
   })
 
   it('has filter box', function() {

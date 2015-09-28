@@ -781,7 +781,7 @@ riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="w
 			item.active = false;
 			var filterField = item[opts['filter-on'] || 'text'];
 			var filterInput = _this.filterfield.value;
-			if (_this.autocomplete) filterInput = _this.autocompletefield.value;else filterInput = _this.selectfield.value;
+			if (_this.autocomplete) filterInput = _this.autocompletefield.value;
 			if (filterInput.length == 0 || filterField.toString().toLowerCase().indexOf(filterInput.toString().toLowerCase()) > -1) return true;
 		});
 		if (rg.isFunction(opts.onfilter)) opts.onfilter();
@@ -798,7 +798,7 @@ riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="w
 		_this.selectfield.value = item.text;
 		_this.autocompletefield.value = item.text;
 		_this.visible = false;
-		_this.filterItems();
+		if (_this.autocomplete) _this.filterItems();
 	};
 
 	this.on('mount', function () {

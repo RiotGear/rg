@@ -105,7 +105,6 @@
 				const filterField = item[opts['filter-on'] || 'text']
 				let filterInput = this.filterfield.value
 				if (this.autocomplete) filterInput = this.autocompletefield.value
-				else filterInput = this.selectfield.value
 				if (filterInput.length == 0 ||
 					filterField.toString()
 					           .toLowerCase()
@@ -124,7 +123,7 @@
 			this.selectfield.value = item.text
 			this.autocompletefield.value = item.text
 			this.visible = false
-			this.filterItems()
+			if (this.autocomplete) this.filterItems()
 		}
 
 		this.on('mount', () => {
