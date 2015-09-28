@@ -3,6 +3,7 @@
 	<div class="container { visible: visible }" style="width: { width }">
 		<input if="{ !autocomplete }"
 					 type="text"
+					 name="selectfield"
 					 class="field { visible: visible }"
 					 value="{ fieldText }"
 					 placeholder="{ opts.placeholder }"
@@ -12,6 +13,7 @@
 
 		<input if="{ autocomplete }"
 					 type="text"
+					 name="autocompletefield"
 					 class="field { visible: visible }"
 					 value="{ fieldText }"
 					 placeholder="{ opts.placeholder }"
@@ -19,7 +21,7 @@
 					 onclick="{ toggle }"
 					 oninput="{ filterItems }">
 
-		<div class="dropdown { visible: visible }">
+		<div class="dropdown { visible: visible } { empty: filteredItems.length == 0 }">
 			<div class="filter" if="{ filter }">
 				<input type="text"
 							 name="filterfield"
@@ -28,15 +30,13 @@
 							 onkeydown="{ handleKeys }"
 							 oninput="{ filterItems }">
 			</div>
-			<div class="list">
-				<ul>
-					<li each="{ filteredItems }"
-							onclick="{ parent.select }"
-							class="item { selected: selected, disabled: disabled, active: active }">
-						{ text }
-					</li>
-				</ul>
-			</div>
+			<ul class="list { empty: filteredItems.length == 0 }">
+				<li each="{ filteredItems }"
+						onclick="{ parent.select }"
+						class="item { selected: selected, disabled: disabled, active: active }">
+					{ text }
+				</li>
+			</ul>
 		</div>
 	</div>
 
@@ -57,6 +57,7 @@
 				this.toggle()
 				return true
 			}
+			if (this.autocomplete && !this.visible) this.visible = true
 			var length = this.filteredItems.length
 			if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
 				e.preventDefault()
@@ -104,6 +105,7 @@
 				const filterField = item[opts['filter-on'] || 'text']
 				let filterInput = this.filterfield.value
 				if (this.autocomplete) filterInput = this.autocompletefield.value
+				else filterInput = this.selectfield.value
 				if (filterInput.length == 0 ||
 					filterField.toString()
 					           .toLowerCase()
@@ -119,8 +121,10 @@
 			opts.options.forEach(i => i.selected = false)
 			item.selected = true
 			if (rg.isFunction(opts.onselect)) opts.onselect(item)
-			this.fieldText = item.text
+			this.selectfield.value = item.text
+			this.autocompletefield.value = item.text
 			this.visible = false
+			this.filterItems()
 		}
 
 		this.on('mount', () => {
@@ -175,8 +179,7 @@
 			position: relative;
 			width: 100%;
 			background-color: white;
-			border: 1px solid #D3D3D3;
-			border-top: 0;
+			border-bottom: 1px solid #D3D3D3;
 			box-sizing: border-box;
 			overflow-y: auto;
 			overflow-x: hidden;
@@ -187,32 +190,44 @@
 			display: block;
 		}
 
+		.dropdown.empty {
+			border-bottom: 0;
+		}
+
 		.filter-box {
 			width: 100%;
 			padding: 10px;
 			font-size: 0.9rem;
 			border: 0;
+			border-left: 1px solid #D3D3D3;
+			border-right: 1px solid #D3D3D3;
 			border-bottom: 1px solid #E8E8E8;
 			outline: none;
 			color: #555;
 			box-sizing: border-box;
 		}
 
-		ul, li {
+		.list, .item {
 			list-style: none;
 			padding: 0;
 			margin: 0;
 		}
 
-		li {
+		.list.empty {
+			display: none;
+		}
+
+		.item {
 			padding: 10px;
+			border-left: 1px solid #D3D3D3;
+			border-right: 1px solid #D3D3D3;
 			border-top: 1px solid #E8E8E8;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
 
-		li:first-child {
+		.item:first-child {
 			border-top: 0;
 		}
 
@@ -221,12 +236,12 @@
 			background-color: #f8f8f8;
 		}
 
-		li:hover {
+		.item:hover {
 			background-color: #f3f3f3;
 		}
 
-		li.active,
-		li:hover.active {
+		.item.active,
+		.item:hover.active {
 			background-color: #ededed;
 		}
 	</style>

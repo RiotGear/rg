@@ -722,7 +722,7 @@ riot.tag('rg-raw', '<span></span>', function (opts) {
 	});
 });
 
-riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="width: { width }"> <input if="{ !autocomplete }" type="text" class="field { visible: visible }" value="{ fieldText }" placeholder="{ opts.placeholder }" onkeydown="{ handleKeys }" onclick="{ toggle }" readonly> <input if="{ autocomplete }" type="text" class="field { visible: visible }" value="{ fieldText }" placeholder="{ opts.placeholder }" onkeydown="{ handleKeys }" onclick="{ toggle }" oninput="{ filterItems }"> <div class="dropdown { visible: visible }"> <div class="filter" if="{ filter }"> <input type="text" name="filterfield" class="filter-box" placeholder="{ opts[\'filter-placeholder\'] || \'Filter\' }" onkeydown="{ handleKeys }" oninput="{ filterItems }"> </div> <div class="list"> <ul> <li each="{ filteredItems }" onclick="{ parent.select }" class="item { selected: selected, disabled: disabled, active: active }"> { text } </li> </ul> </div> </div> </div>', 'rg-select .container, [riot-tag="rg-select"] .container{ position: relative; display: inline-block; cursor: pointer; } rg-select .field, [riot-tag="rg-select"] .field{ width: 100%; padding: 10px; border: 1px solid #D3D3D3; box-sizing: border-box; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 1em; line-height: normal; outline: 0; } rg-select .dropdown, [riot-tag="rg-select"] .dropdown{ display: none; position: relative; width: 100%; background-color: white; border: 1px solid #D3D3D3; border-top: 0; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; max-height: 280px; } rg-select .dropdown.visible, [riot-tag="rg-select"] .dropdown.visible{ display: block; } rg-select .filter-box, [riot-tag="rg-select"] .filter-box{ width: 100%; padding: 10px; font-size: 0.9rem; border: 0; border-bottom: 1px solid #E8E8E8; outline: none; color: #555; box-sizing: border-box; } rg-select ul, [riot-tag="rg-select"] ul,rg-select li, [riot-tag="rg-select"] li{ list-style: none; padding: 0; margin: 0; } rg-select li, [riot-tag="rg-select"] li{ padding: 10px; border-top: 1px solid #E8E8E8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-select li:first-child, [riot-tag="rg-select"] li:first-child{ border-top: 0; } rg-select .selected, [riot-tag="rg-select"] .selected{ font-weight: bold; background-color: #f8f8f8; } rg-select li:hover, [riot-tag="rg-select"] li:hover{ background-color: #f3f3f3; } rg-select li.active, [riot-tag="rg-select"] li.active,rg-select li:hover.active, [riot-tag="rg-select"] li:hover.active{ background-color: #ededed; }', function (opts) {
+riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="width: { width }"> <input if="{ !autocomplete }" type="text" name="selectfield" class="field { visible: visible }" value="{ fieldText }" placeholder="{ opts.placeholder }" onkeydown="{ handleKeys }" onclick="{ toggle }" readonly> <input if="{ autocomplete }" type="text" name="autocompletefield" class="field { visible: visible }" value="{ fieldText }" placeholder="{ opts.placeholder }" onkeydown="{ handleKeys }" onclick="{ toggle }" oninput="{ filterItems }"> <div class="dropdown { visible: visible } { empty: filteredItems.length == 0 }"> <div class="filter" if="{ filter }"> <input type="text" name="filterfield" class="filter-box" placeholder="{ opts[\'filter-placeholder\'] || \'Filter\' }" onkeydown="{ handleKeys }" oninput="{ filterItems }"> </div> <ul class="list { empty: filteredItems.length == 0 }"> <li each="{ filteredItems }" onclick="{ parent.select }" class="item { selected: selected, disabled: disabled, active: active }"> { text } </li> </ul> </div> </div>', 'rg-select .container, [riot-tag="rg-select"] .container{ position: relative; display: inline-block; cursor: pointer; } rg-select .field, [riot-tag="rg-select"] .field{ width: 100%; padding: 10px; border: 1px solid #D3D3D3; box-sizing: border-box; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 1em; line-height: normal; outline: 0; } rg-select .dropdown, [riot-tag="rg-select"] .dropdown{ display: none; position: relative; width: 100%; background-color: white; border-bottom: 1px solid #D3D3D3; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; max-height: 280px; } rg-select .dropdown.visible, [riot-tag="rg-select"] .dropdown.visible{ display: block; } rg-select .dropdown.empty, [riot-tag="rg-select"] .dropdown.empty{ border-bottom: 0; } rg-select .filter-box, [riot-tag="rg-select"] .filter-box{ width: 100%; padding: 10px; font-size: 0.9rem; border: 0; border-left: 1px solid #D3D3D3; border-right: 1px solid #D3D3D3; border-bottom: 1px solid #E8E8E8; outline: none; color: #555; box-sizing: border-box; } rg-select .list, [riot-tag="rg-select"] .list,rg-select .item, [riot-tag="rg-select"] .item{ list-style: none; padding: 0; margin: 0; } rg-select .list.empty, [riot-tag="rg-select"] .list.empty{ display: none; } rg-select .item, [riot-tag="rg-select"] .item{ padding: 10px; border-left: 1px solid #D3D3D3; border-right: 1px solid #D3D3D3; border-top: 1px solid #E8E8E8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-select .item:first-child, [riot-tag="rg-select"] .item:first-child{ border-top: 0; } rg-select .selected, [riot-tag="rg-select"] .selected{ font-weight: bold; background-color: #f8f8f8; } rg-select .item:hover, [riot-tag="rg-select"] .item:hover{ background-color: #f3f3f3; } rg-select .item.active, [riot-tag="rg-select"] .item.active,rg-select .item:hover.active, [riot-tag="rg-select"] .item:hover.active{ background-color: #ededed; }', function (opts) {
 	var _this = this;
 
 	this.visible = true;
@@ -741,6 +741,7 @@ riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="w
 			_this.toggle();
 			return true;
 		}
+		if (_this.autocomplete && !_this.visible) _this.visible = true;
 		var length = _this.filteredItems.length;
 		if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
 			e.preventDefault();
@@ -780,7 +781,7 @@ riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="w
 			item.active = false;
 			var filterField = item[opts['filter-on'] || 'text'];
 			var filterInput = _this.filterfield.value;
-			if (_this.autocomplete) filterInput = _this.autocompletefield.value;
+			if (_this.autocomplete) filterInput = _this.autocompletefield.value;else filterInput = _this.selectfield.value;
 			if (filterInput.length == 0 || filterField.toString().toLowerCase().indexOf(filterInput.toString().toLowerCase()) > -1) return true;
 		});
 		if (rg.isFunction(opts.onfilter)) opts.onfilter();
@@ -794,8 +795,10 @@ riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="w
 		});
 		item.selected = true;
 		if (rg.isFunction(opts.onselect)) opts.onselect(item);
-		_this.fieldText = item.text;
+		_this.selectfield.value = item.text;
+		_this.autocompletefield.value = item.text;
 		_this.visible = false;
+		_this.filterItems();
 	};
 
 	this.on('mount', function () {
