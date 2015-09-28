@@ -8,20 +8,20 @@ describe('rg-alert', function() {
     tag = riot.mount('rg-alert', {
       alerts: [{
         type: 'danger',
-        msg: 'Danger! Something bad happened.',
+        content: 'Danger! Something bad happened.',
         dismissable: true,
         onclose: oncloseSpy
       }, {
         type: 'warning',
-        msg: 'Warning! Something sort of bad happened.',
+        content: 'Warning! Something sort of bad happened.',
         dismissable: false
       }, {
         type: 'information',
-        msg: 'Look! Something you should know about.',
+        content: 'Look! Something you should know about.',
         timeout: seconds
       }, {
         type: 'success',
-        msg: 'Success! Well done.',
+        content: 'Success! Well done.',
         timeout: seconds,
         onclose: oncloseSpy
       }]

@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="stylesheet" href="../../node_modules/normalize.css/normalize.css">
+  <style type="riot"></style>
+  <link rel="stylesheet" href="../themes/nice.css">
   <title>RiotGear Demo</title>
   <style>
     body {
@@ -199,27 +201,27 @@
     var alertOpts = {
       alerts: [{
         type: 'danger',
-        msg: 'Danger! Something bad happened.',
+        content: 'Danger! Something bad happened.',
         dismissable: true,
         timeout: 4000
       }, {
         type: 'warning',
-        msg: 'Warning! Something sort of bad happened.',
+        content: 'Warning! Something sort of bad happened.',
         dismissable: false
       }, {
         type: 'information',
-        msg: 'Look! Something you should know about.'
+        content: 'Look! Something you should know about.'
       }, {
         type: 'success',
-        msg: 'Success! Well done.'
+        content: 'Success! Well done.'
       }]
     };
     riot.mount('rg-alert', alertOpts);
 
     function addAlert() {
       alertOpts.alerts.push({
-        type: 'success',
-        msg: 'Success! Well done.'
+        type: 'danger',
+        content: 'Eeek! <strong>Boom!</strong> Look at the <a href="#">logs</a>'
       });
       riot.update();
       return false;
@@ -229,10 +231,10 @@
       items: [{
         content: '<strong>View source</strong>'
       }, {
-        text: 'Save as...',
+        content: 'Save as...',
         inactive: true
       }, {
-        text: 'Reload'
+        content: 'Reload'
       }]
     });
 

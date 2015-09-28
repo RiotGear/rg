@@ -4,10 +4,7 @@
 		<a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }">
 			<span aria-hidden="true">&times;</span>
 		</a>
-
-		<div class="body">
-			{ msg }
-		</div>
+		<rg-raw content="{ content }"></rg-raw>
 	</div>
 
 	<script>
@@ -54,14 +51,11 @@
 			display: none;
 			position: relative;
 			margin-bottom: 15px;
+			padding: 15px 35px 15px 15px;
 		}
 
 		.visible {
 			display: block;
-		}
-
-		.body {
-			padding: 15px 35px 15px 15px;
 		}
 
 		.close {

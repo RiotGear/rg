@@ -3,8 +3,7 @@
 	<div class="menu { visible: visible }">
 		<div class="list">
 			<div each="{ opts.items }" class="item { inactive: inactive }" onclick="{ selectItem }">
-				<rg-raw if="{ content && !text }" content="{ content }"></rg-raw>
-				<span if="{ text }">{ text }</span>
+				<rg-raw content="{ content }"></rg-raw>
 			</div>
 			<yield/>
 		</div>

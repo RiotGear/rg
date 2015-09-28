@@ -262,7 +262,7 @@ IN THE SOFTWARE.
 		req.send();
 	};
 })();
-riot.tag('rg-alert', '<div each="{ opts.alerts }" class="alert { type } { visible: visible }" onclick="{ onclick }"> <a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }"> <span aria-hidden="true">&times;</span> </a> <div class="body"> { msg } </div> </div>', 'rg-alert, [riot-tag="rg-alert"]{ font-size: 0.9em; position: relative; top: 0; right: 0; left: 0; width: 100%; } rg-alert .alert, [riot-tag="rg-alert"] .alert{ display: none; position: relative; margin-bottom: 15px; } rg-alert .visible, [riot-tag="rg-alert"] .visible{ display: block; } rg-alert .body, [riot-tag="rg-alert"] .body{ padding: 15px 35px 15px 15px; } rg-alert .close, [riot-tag="rg-alert"] .close{ position: absolute; top: 50%; right: 20px; line-height: 12px; margin-top: -6px; font-size: 18px; border: 0; background-color: transparent; color: rgba(0, 0, 0, 0.5); cursor: pointer; outline: none; } rg-alert .danger, [riot-tag="rg-alert"] .danger{ color: #8f1d2e; background-color: #ffced8; } rg-alert .information, [riot-tag="rg-alert"] .information{ color: #31708f; background-color: #d9edf7; } rg-alert .success, [riot-tag="rg-alert"] .success{ color: #2d8f40; background-color: #ccf7d4; } rg-alert .warning, [riot-tag="rg-alert"] .warning{ color: #c06329; background-color: #f7dfd0; }', function (opts) {
+riot.tag('rg-alert', '<div each="{ opts.alerts }" class="alert { type } { visible: visible }" onclick="{ onclick }"> <a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }"> <span aria-hidden="true">&times;</span> </a> <rg-raw content="{ content }"></rg-raw> </div>', 'rg-alert, [riot-tag="rg-alert"]{ font-size: 0.9em; position: relative; top: 0; right: 0; left: 0; width: 100%; } rg-alert .alert, [riot-tag="rg-alert"] .alert{ display: none; position: relative; margin-bottom: 15px; padding: 15px 35px 15px 15px; } rg-alert .visible, [riot-tag="rg-alert"] .visible{ display: block; } rg-alert .close, [riot-tag="rg-alert"] .close{ position: absolute; top: 50%; right: 20px; line-height: 12px; margin-top: -6px; font-size: 18px; border: 0; background-color: transparent; color: rgba(0, 0, 0, 0.5); cursor: pointer; outline: none; } rg-alert .danger, [riot-tag="rg-alert"] .danger{ color: #8f1d2e; background-color: #ffced8; } rg-alert .information, [riot-tag="rg-alert"] .information{ color: #31708f; background-color: #d9edf7; } rg-alert .success, [riot-tag="rg-alert"] .success{ color: #2d8f40; background-color: #ccf7d4; } rg-alert .warning, [riot-tag="rg-alert"] .warning{ color: #c06329; background-color: #f7dfd0; }', function (opts) {
 	this.on('update', function () {
 		var _this = this;
 
@@ -415,7 +415,7 @@ riot.tag('rg-context-menu-item', '<div class="item { inactive: opts.inactive }" 
 	};
 });
 
-riot.tag('rg-context-menu', '<div class="menu { visible: visible }"> <div class="list"> <div each="{ opts.items }" class="item { inactive: inactive }" onclick="{ selectItem }"> <rg-raw if="{ content && !text }" content="{ content }"></rg-raw> <span if="{ text }">{ text }</span> </div> <yield></yield> </div> </div>', 'rg-context-menu .menu, [riot-tag="rg-context-menu"] .menu{ display: none; position: absolute; background-color: white; border: 1px solid #D3D3D3; border-top: 0; text-align: left; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; box-sizing: border-box; z-index: 2; } rg-context-menu .menu.visible, [riot-tag="rg-context-menu"] .menu.visible{ display: block; } rg-context-menu .item, [riot-tag="rg-context-menu"] .item{ cursor: pointer; padding: 10px; border-top: 1px solid #E8E8E8; background-color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-context-menu .item:hover, [riot-tag="rg-context-menu"] .item:hover{ background-color: #f3f3f3; } rg-context-menu .item.inactive, [riot-tag="rg-context-menu"] .item.inactive{ color: #8a8a8a; font-style: italic; } rg-context-menu .item.inactive:hover, [riot-tag="rg-context-menu"] .item.inactive:hover{ background-color: #fff; }', function (opts) {
+riot.tag('rg-context-menu', '<div class="menu { visible: visible }"> <div class="list"> <div each="{ opts.items }" class="item { inactive: inactive }" onclick="{ selectItem }"> <rg-raw content="{ content }"></rg-raw> </div> <yield></yield> </div> </div>', 'rg-context-menu .menu, [riot-tag="rg-context-menu"] .menu{ display: none; position: absolute; background-color: white; border: 1px solid #D3D3D3; border-top: 0; text-align: left; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; box-sizing: border-box; z-index: 2; } rg-context-menu .menu.visible, [riot-tag="rg-context-menu"] .menu.visible{ display: block; } rg-context-menu .item, [riot-tag="rg-context-menu"] .item{ cursor: pointer; padding: 10px; border-top: 1px solid #E8E8E8; background-color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-context-menu .item:hover, [riot-tag="rg-context-menu"] .item:hover{ background-color: #f3f3f3; } rg-context-menu .item.inactive, [riot-tag="rg-context-menu"] .item.inactive{ color: #8a8a8a; font-style: italic; } rg-context-menu .item.inactive:hover, [riot-tag="rg-context-menu"] .item.inactive:hover{ background-color: #fff; }', function (opts) {
 	var _this = this;
 
 	var handleClickOutside = function handleClickOutside(e) {
@@ -897,11 +897,11 @@ riot.tag('rg-tabs', '<div class="tabs"> <div class="headers"> <div each="{ tab i
 	};
 });
 
-riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="tag" each="{ opts.tags }" onclick="{ parent.removeTag }"> { text } <span class="close">&times;</span> </span> </span> <div class="field-container { visible: visible }"> <input type="{ opts.type || \'text\' }" class="field" name="textbox" placeholder="{ opts.placeholder }" onkeydown="{ handleKeys }" oninput="{ filterItems }" onfocus="{ filterItems }"> <div class="dropdown { visible: visible }"> <div class="list"> <ul> <li each="{ filteredItems }" onclick="{ parent.select }" class="item { active: active }"> { text } </li> </ul> </div> </div> </div> </div>', 'rg-tags .container, [riot-tag="rg-tags"] .container{ position: relative; width: 100%; border: 1px solid #D3D3D3; background-color: white; text-align: left; padding: 0; box-sizing: border-box; } rg-tags .field-container, [riot-tag="rg-tags"] .field-container{ position: absolute; display: inline-block; cursor: pointer; } rg-tags .field, [riot-tag="rg-tags"] .field{ width: 100%; padding: 10px; border: 0; box-sizing: border-box; background-color: transparent; white-space: nowrap; font-size: 1em; line-height: normal; outline: 0; } rg-tags .dropdown, [riot-tag="rg-tags"] .dropdown{ display: none; position: absolute; width: 100%; background-color: white; border: 1px solid #D3D3D3; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; max-height: 280px; } rg-tags .dropdown.visible, [riot-tag="rg-tags"] .dropdown.visible{ display: block; } rg-tags ul, [riot-tag="rg-tags"] ul,rg-tags li, [riot-tag="rg-tags"] li{ list-style: none; padding: 0; margin: 0; } rg-tags li, [riot-tag="rg-tags"] li{ padding: 10px; border-top: 1px solid #E8E8E8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-tags li:hover, [riot-tag="rg-tags"] li:hover{ background-color: #f3f3f3; } rg-tags li.active, [riot-tag="rg-tags"] li.active,rg-tags li:hover.active, [riot-tag="rg-tags"] li:hover.active{ background-color: #ededed; } rg-tags .tags, [riot-tag="rg-tags"] .tags{ display: inline-block; max-width: 70%; white-space: nowrap; overflow-y: hidden; overflow-x: auto; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; } rg-tags .tag, [riot-tag="rg-tags"] .tag{ position: relative; display: inline-block; padding: 8px 20px 8px 5px; margin: 1px; background-color: #000; color: #fff; cursor: pointer; } rg-tags .tag:hover, [riot-tag="rg-tags"] .tag:hover,rg-tags .tag:active, [riot-tag="rg-tags"] .tag:active{ background-color: #666; } rg-tags .close, [riot-tag="rg-tags"] .close{ position: absolute; right: 5px; top: 7px; color: rgba(255, 255, 255, 0.7); }', function (opts) {
+riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="tag" each="{ opts.tags }" onclick="{ parent.removeTag }"> { text } <span class="close">&times;</span> </span> </span> <div class="field-container { visible: visible }"> <input type="{ opts.type || \'text\' }" class="field" name="filterField" placeholder="{ opts.placeholder }" onkeydown="{ handleKeys }" oninput="{ filterItems }" onfocus="{ filterItems }"> <div class="dropdown { visible: visible }"> <ul class="list"> <li each="{ filteredItems }" onclick="{ parent.select }" class="item { active: active }"> { text } </li> </ul> </div> </div> </div>', 'rg-tags .container, [riot-tag="rg-tags"] .container{ position: relative; width: 100%; border: 1px solid #D3D3D3; background-color: white; text-align: left; padding: 0; box-sizing: border-box; } rg-tags .field-container, [riot-tag="rg-tags"] .field-container{ position: absolute; display: inline-block; cursor: pointer; } rg-tags .field, [riot-tag="rg-tags"] .field{ width: 100%; padding: 10px; border: 0; box-sizing: border-box; background-color: transparent; white-space: nowrap; font-size: 1em; line-height: normal; outline: 0; } rg-tags .dropdown, [riot-tag="rg-tags"] .dropdown{ display: none; position: absolute; width: 100%; background-color: white; border-bottom: 1px solid #D3D3D3; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; max-height: 280px; margin: -1px 0 0 -1px; } rg-tags .dropdown.visible, [riot-tag="rg-tags"] .dropdown.visible{ display: block; } rg-tags .list, [riot-tag="rg-tags"] .list,rg-tags .item, [riot-tag="rg-tags"] .item{ list-style: none; padding: 0; margin: 0; } rg-tags .list.empty, [riot-tag="rg-tags"] .list.empty{ display: none; } rg-tags .item, [riot-tag="rg-tags"] .item{ padding: 10px; border-left: 1px solid #D3D3D3; border-right: 1px solid #D3D3D3; border-top: 1px solid #E8E8E8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-tags .item:first-child, [riot-tag="rg-tags"] .item:first-child{ border-top: 0; } rg-tags .item:hover, [riot-tag="rg-tags"] .item:hover{ background-color: #f3f3f3; } rg-tags .item.active, [riot-tag="rg-tags"] .item.active,rg-tags .item:hover.active, [riot-tag="rg-tags"] .item:hover.active{ background-color: #ededed; } rg-tags .tags, [riot-tag="rg-tags"] .tags{ display: inline-block; max-width: 70%; white-space: nowrap; overflow-y: hidden; overflow-x: auto; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; } rg-tags .tag, [riot-tag="rg-tags"] .tag{ position: relative; display: inline-block; padding: 8px 20px 8px 5px; margin: 1px; background-color: #000; color: #fff; cursor: pointer; } rg-tags .tag:hover, [riot-tag="rg-tags"] .tag:hover,rg-tags .tag:active, [riot-tag="rg-tags"] .tag:active{ background-color: #666; } rg-tags .close, [riot-tag="rg-tags"] .close{ position: absolute; right: 5px; top: 7px; color: rgba(255, 255, 255, 0.7); }', function (opts) {
 	var _this = this;
 
 	this.visible = false;
-	this.textbox.value = opts.value || '';
+	this.filterField.value = opts.value || '';
 	opts.options = opts.options || [];
 	opts.tags = opts.tags || [];
 	opts.tags.forEach(function (tag, i) {
@@ -911,7 +911,7 @@ riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="ta
 	this.filterItems = function () {
 		_this.filteredItems = opts.options.filter(function (item) {
 			item.active = false;
-			if (_this.textbox.value.length == 0 || item.text.toString().toLowerCase().indexOf(_this.textbox.value.toString().toLowerCase()) > -1) return true;
+			if (_this.filterField.value.length == 0 || item.text.toString().toLowerCase().indexOf(_this.filterField.value.toString().toLowerCase()) > -1) return true;
 		});
 		_this.visible = _this.filteredItems.length > 0;
 		if (rg.isFunction(opts.onfilter)) opts.onfilter();
@@ -948,19 +948,19 @@ riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="ta
 		}
 		if (e.keyCode == 13) {
 			_this.addTag();
-		} else if (e.keyCode == 8 && _this.textbox.value == '' && opts.tags.length > 0) {
+		} else if (e.keyCode == 8 && _this.filterField.value == '' && opts.tags.length > 0) {
 			var tag = opts.tags.pop();
-			_this.textbox.value = tag.text;
+			_this.filterField.value = tag.text;
 		}
 		return true;
 	};
 
 	this.addTag = function (item) {
-		var tag = item || { text: _this.textbox.value };
+		var tag = item || { text: _this.filterField.value };
 		if (tag.text.length > 0) {
 			tag.index = opts.tags.length;
 			opts.tags.push(tag);
-			_this.textbox.value = '';
+			_this.filterField.value = '';
 			_this.filteredItems = opts.options;
 			_this.visible = false;
 		}

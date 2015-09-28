@@ -9,29 +9,29 @@
 		</span>
 
 		<div class="field-container { visible: visible }">
-			<input type="{ opts.type || 'text' }" class="field" name="textbox"
+			<input type="{ opts.type || 'text' }"
+						 class="field"
+						 name="filterField"
 						 placeholder="{ opts.placeholder }"
 						 onkeydown="{ handleKeys }"
 						 oninput="{ filterItems }"
 						 onfocus="{ filterItems }">
 
 			<div class="dropdown { visible: visible }">
-				<div class="list">
-					<ul>
-						<li each="{ filteredItems }"
-								onclick="{ parent.select }"
-								class="item { active: active }">
-							{ text }
-						</li>
-					</ul>
-				</div>
+				<ul class="list">
+					<li each="{ filteredItems }"
+							onclick="{ parent.select }"
+							class="item { active: active }">
+						{ text }
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
 
 	<script>
 		this.visible = false
-		this.textbox.value = opts.value || ''
+		this.filterField.value = opts.value || ''
 		opts.options = opts.options || []
 		opts.tags = opts.tags || []
 		opts.tags.forEach((tag, i) => tag.index = i)
@@ -39,10 +39,10 @@
 		this.filterItems = () => {
 			this.filteredItems = opts.options.filter(item => {
 				item.active = false
-				if (this.textbox.value.length == 0 ||
+				if (this.filterField.value.length == 0 ||
 					item.text.toString()
 					         .toLowerCase()
-									 .indexOf(this.textbox.value.toString().toLowerCase()) > -1)
+									 .indexOf(this.filterField.value.toString().toLowerCase()) > -1)
 					return true
 			})
 			this.visible = this.filteredItems.length > 0
@@ -86,19 +86,19 @@
 			}
 			if (e.keyCode == 13) {
 				this.addTag()
-			} else if (e.keyCode == 8 && this.textbox.value == '' && opts.tags.length > 0) {
+			} else if (e.keyCode == 8 && this.filterField.value == '' && opts.tags.length > 0) {
 				let tag = opts.tags.pop()
-				this.textbox.value = tag.text
+				this.filterField.value = tag.text
 			}
 			return true
 		}
 
 		this.addTag = item => {
-			let tag = item || { text: this.textbox.value }
+			let tag = item || { text: this.filterField.value }
 			if (tag.text.length > 0) {
 				tag.index = opts.tags.length
 				opts.tags.push(tag)
-				this.textbox.value = ''
+				this.filterField.value = ''
 				this.filteredItems = opts.options
 				this.visible = false
 			}
@@ -185,37 +185,48 @@
 			position: absolute;
 			width: 100%;
 			background-color: white;
-			border: 1px solid #D3D3D3;
+			border-bottom: 1px solid #D3D3D3;
 			box-sizing: border-box;
 			overflow-y: auto;
 			overflow-x: hidden;
 			max-height: 280px;
+			margin: -1px 0 0 -1px;
 		}
 
 		.dropdown.visible {
 			display: block;
 		}
 
-		ul, li {
+		.list, .item {
 			list-style: none;
 			padding: 0;
 			margin: 0;
 		}
 
-		li {
+		.list.empty {
+			display: none;
+		}
+
+		.item {
 			padding: 10px;
+			border-left: 1px solid #D3D3D3;
+			border-right: 1px solid #D3D3D3;
 			border-top: 1px solid #E8E8E8;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
 
-		li:hover {
+		.item:first-child {
+			border-top: 0;
+		}
+
+		.item:hover {
 			background-color: #f3f3f3;
 		}
 
-		li.active,
-		li:hover.active {
+		.item.active,
+		.item:hover.active {
 			background-color: #ededed;
 		}
 

@@ -32,7 +32,7 @@ describe('rg-tags', function() {
   })
 
   it('has the correct value in the text box', function() {
-    $('input[name=textbox]').val().should.equal('Canada')
+    $('input[name=filterField]').val().should.equal('Canada')
   })
 
   it('has correct number of tags', function() {
@@ -41,20 +41,20 @@ describe('rg-tags', function() {
   })
 
   it('pressing enter will add the value to the list of tags', function() {
-    $('input[name=textbox]').focus()
+    $('input[name=filterField]').focus()
     let e = $.Event('keydown')
     e.keyCode = 13
-    $('input[name=textbox]').trigger(e)
+    $('input[name=filterField]').trigger(e)
     $('.tag').length.should.equal(2)
     $('.tag:nth-child(2)').text().should.contain('Canada')
   })
 
   it('pressing enter with no text will be ignored', function() {
-    $('input[name=textbox]').focus()
-    $('input[name=textbox]').val('')
+    $('input[name=filterField]').focus()
+    $('input[name=filterField]').val('')
     let e = $.Event('keydown')
     e.keyCode = 13
-    $('input[name=textbox]').trigger(e)
+    $('input[name=filterField]').trigger(e)
     $('.tag').length.should.equal(1)
   })
 
@@ -64,16 +64,16 @@ describe('rg-tags', function() {
   })
 
   it('pressing backspace will remove the tag and add the value to the input if value is empty', function() {
-    $('input[name=textbox]').val('').trigger('input')
+    $('input[name=filterField]').val('').trigger('input')
     let e = $.Event('keydown')
     e.keyCode = 8
-    $('input[name=textbox]').trigger(e)
+    $('input[name=filterField]').trigger(e)
     $('.tag').length.should.equal(0)
-    $('input[name=textbox]').val().should.equal('America')
+    $('input[name=filterField]').val().should.equal('America')
   })
 
   it('filters the autocomplete list', function() {
-    $('input[name=textbox]').val('land').trigger('input')
+    $('input[name=filterField]').val('land').trigger('input')
     $('.item').length.should.equal(3)
   })
 })
