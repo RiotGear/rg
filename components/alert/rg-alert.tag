@@ -69,7 +69,7 @@
 			color: rgba(0, 0, 0, 0.5);
 			cursor: pointer;
 			outline: none;
-			transform: translateY(-50%);
+			transform: translate3d(0, -50%, 0);
 		}
 
 		.danger {

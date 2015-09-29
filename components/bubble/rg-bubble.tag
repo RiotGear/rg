@@ -37,7 +37,6 @@
 			position: absolute;
 			top: -50px;
 			left: 50%;
-			-webkit-transform: translate3d(-50%, 0, 0);
 			transform: translate3d(-50%, 0, 0);
 			padding: 10px 15px;
 			background-color: #000;
@@ -60,7 +59,6 @@
 			display: block;
 			bottom: -20px;
 			left: 50%;
-			-webkit-transform: translate3d(-50%, 0, 0);
 			transform: translate3d(-50%, 0, 0);
 			width: 0;
 			height: 0;

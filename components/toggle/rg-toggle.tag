@@ -70,7 +70,6 @@
 		}
 
 		input[type=checkbox]:checked + .track .handle {
-			-webkit-transform: translate3d(100%, 0, 0);
 			transform: translate3d(100%, 0, 0);
 		}
 	</style>

@@ -60,10 +60,6 @@
 			font-size: 1.1em;
 			top: 50%;
 			left: 50%;
-			-webkit-transform: translate3d(-50%, -50%, 0);
-			-moz-transform: translate3d(-50%, -50%, 0);
-			-ms-transform: translate3d(-50%, -50%, 0);
-			-o-transform: translate3d(-50%, -50%, 0);
 			transform: translate3d(-50%, -50%, 0);
 			background-color: white;
 			color: #252519;

@@ -61,20 +61,12 @@
 			-webkit-overflow-scrolling: touch;
 			background-color: black;
 			color: white;
-			-webkit-transform: translate3d(-100%, 0, 0);
-			-moz-transform: translate3d(-100%, 0, 0);
-			-ms-transform: translate3d(-100%, 0, 0);
-			-o-transform: translate3d(-100%, 0, 0);
 			transform: translate3d(-100%, 0, 0);
 			transition: transform 0.5s ease;
 			z-index: 51;
 		}
 
 		.sidemenu.visible {
-			-webkit-transform: translate3d(0, 0, 0);
-			-moz-transform: translate3d(0, 0, 0);
-			-ms-transform: translate3d(0, 0, 0);
-			-o-transform: translate3d(0, 0, 0);
 			transform: translate3d(0, 0, 0);
 		}
 

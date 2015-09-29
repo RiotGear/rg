@@ -209,11 +209,7 @@
 			width: 330px;
 			margin-top: 10px;
 			left: 50%;
-			-webkit-transform: translateX(-50%);
-			-moz-transform: translateX(-50%);
-			-ms-transform: translateX(-50%);
-			-o-transform: translateX(-50%);
-			transform: translateX(-50%);
+			transform: translate3d(-50%, 0, 0);
 			-webkit-user-select: none;
 			-moz-user-select: none;
 			-ms-user-select: none;
