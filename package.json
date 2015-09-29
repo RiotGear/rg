@@ -1,6 +1,6 @@
 {
   "name": "riotgear",
-  "version": "2.0.0",
+  "version": "2.0.0-beta",
   "description": "The open source component library for RiotJS",
   "main": "dist/rg.min.js",
   "files": [
@@ -9,11 +9,12 @@
   "scripts": {
     "jshint": "jshint . --exclude-path=.gitignore",
     "riot": "riot components dist/rg.js --type es6",
-    "concat": "cat lib/**/*.js dist/rg.js | babel --plugins object-assign --out-file dist/rg.js ",
+    "concat": "cat lib/rg.js lib/**/*.js dist/rg.js | babel --plugins object-assign --out-file dist/rg.js ",
     "uglify": "uglifyjs --output dist/rg.min.js  --mangle -- dist/rg.js",
     "test": "karma start",
     "dev": "npm run riot && npm run concat && npm run uglify",
-    "build": "npm run dev && npm run test"
+    "build": "npm run dev && npm run test",
+    "env": "$npm_package_version"
   },
   "repository": {
     "type": "git",

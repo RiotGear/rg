@@ -1,3 +1,55 @@
+'use strict';
+
+;
+(function () {
+	if (!window.rg) window.rg = {};
+	rg.isUndefined = function (val) {
+		return typeof val === 'undefined';
+	};
+	rg.isDefined = function (val) {
+		return typeof val !== 'undefined';
+	};
+	rg.isBoolean = function (val) {
+		return typeof val === 'boolean';
+	};
+	rg.isObject = function (val) {
+		return val !== null && typeof val === 'object';
+	};
+	rg.isString = function (val) {
+		return typeof val === 'string';
+	};
+	rg.isNumber = function (val) {
+		return typeof val === "number" && !isNaN(val);
+	};
+	rg.isDate = function (val) {
+		return toString.call(val) === '[object Date]';
+	};
+	rg.isArray = Array.isArray;
+	rg.isFunction = function (val) {
+		return typeof val === 'function';
+	};
+	rg.isRegExp = function (val) {
+		return toString.call(val) === '[object RegExp]';
+	};
+	rg.isPromise = function (val) {
+		return val && isFunction(val.then);
+	};
+	rg.toBoolean = function (val) {
+		return val == 'true' || val == true;
+	};
+	rg.toNumber = function (val) {
+		val = Number(val);
+		return rg.isNumber(val) ? val : 0;
+	};
+	rg.xhr = function (method, src, onload) {
+		var req = new XMLHttpRequest();
+		req.onload = function () {
+			if (rg.isFunction(onload)) onload(req.responseText);
+		};
+		req.open(method, src, true);
+		req.send();
+	};
+})();
 /*
 jQuery Credit Card Validator 1.0
 
@@ -20,9 +72,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 IN THE SOFTWARE.
  */
 
-'use strict';
-
-;(function () {
+(function () {
 	'use strict';
 
 	function validateCreditCard(input) {
@@ -196,8 +246,7 @@ IN THE SOFTWARE.
 		}
 	});
 
-	if (!window.rg) window.rg = {};
-	window.rg.creditcard = {
+	rg.creditcard = {
 		validate: validateCreditCard
 	};
 })();
@@ -210,57 +259,7 @@ IN THE SOFTWARE.
 	};
 
 	riot.observable(map);
-	if (!window.rg) window.rg = {};
-	window.rg.map = map;
-})();
-(function () {
-	if (!window.rg) window.rg = {};
-	rg.isUndefined = function (val) {
-		return typeof val === 'undefined';
-	};
-	rg.isDefined = function (val) {
-		return typeof val !== 'undefined';
-	};
-	rg.isBoolean = function (val) {
-		return typeof val === 'boolean';
-	};
-	rg.isObject = function (val) {
-		return val !== null && typeof val === 'object';
-	};
-	rg.isString = function (val) {
-		return typeof val === 'string';
-	};
-	rg.isNumber = function (val) {
-		return typeof val === "number" && !isNaN(val);
-	};
-	rg.isDate = function (val) {
-		return toString.call(val) === '[object Date]';
-	};
-	rg.isArray = Array.isArray;
-	rg.isFunction = function (val) {
-		return typeof val === 'function';
-	};
-	rg.isRegExp = function (val) {
-		return toString.call(val) === '[object RegExp]';
-	};
-	rg.isPromise = function (val) {
-		return val && isFunction(val.then);
-	};
-	rg.toBoolean = function (val) {
-		return val == 'true' || val == true;
-	};
-	rg.toNumber = function (val) {
-		val = Number(val);
-		return rg.isNumber(val) ? val : 0;
-	};
-	rg.xhr = function (method, src, onload) {
-		var req = new XMLHttpRequest();
-		req.onload = function () {
-			if (rg.isFunction(onload)) onload(req.responseText);
-		};
-		req.open(method, src, true);
-		req.send();
-	};
+	rg.map = map;
 })();
 riot.tag('rg-alert', '<div each="{ opts.alerts }" class="alert { type } { visible: visible }" onclick="{ onclick }"> <a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }"> <span aria-hidden="true">&times;</span> </a> <rg-raw content="{ content }"></rg-raw> </div>', 'rg-alert, [riot-tag="rg-alert"]{ font-size: 0.9em; position: relative; top: 0; right: 0; left: 0; width: 100%; } rg-alert .alert, [riot-tag="rg-alert"] .alert{ display: none; position: relative; margin-bottom: 15px; padding: 15px 35px 15px 15px; } rg-alert .visible, [riot-tag="rg-alert"] .visible{ display: block; } rg-alert .close, [riot-tag="rg-alert"] .close{ position: absolute; top: 50%; right: 20px; line-height: 12px; font-size: 1.1em; border: 0; background-color: transparent; color: rgba(0, 0, 0, 0.5); cursor: pointer; outline: none; transform: translate3d(0, -50%, 0); } rg-alert .danger, [riot-tag="rg-alert"] .danger{ color: #8f1d2e; background-color: #ffced8; } rg-alert .information, [riot-tag="rg-alert"] .information{ color: #31708f; background-color: #d9edf7; } rg-alert .success, [riot-tag="rg-alert"] .success{ color: #2d8f40; background-color: #ccf7d4; } rg-alert .warning, [riot-tag="rg-alert"] .warning{ color: #c06329; background-color: #f7dfd0; }', function (opts) {
 	this.on('update', function () {
