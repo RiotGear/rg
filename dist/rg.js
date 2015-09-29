@@ -246,6 +246,7 @@ IN THE SOFTWARE.
 		}
 	});
 
+	if (!window.rg) window.rg = {};
 	rg.creditcard = {
 		validate: validateCreditCard
 	};
@@ -259,6 +260,8 @@ IN THE SOFTWARE.
 	};
 
 	riot.observable(map);
+
+	if (!window.rg) window.rg = {};
 	rg.map = map;
 })();
 riot.tag('rg-alert', '<div each="{ opts.alerts }" class="alert { type } { visible: visible }" onclick="{ onclick }"> <a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }"> <span aria-hidden="true">&times;</span> </a> <rg-raw content="{ content }"></rg-raw> </div>', 'rg-alert, [riot-tag="rg-alert"]{ font-size: 0.9em; position: relative; top: 0; right: 0; left: 0; width: 100%; } rg-alert .alert, [riot-tag="rg-alert"] .alert{ display: none; position: relative; margin-bottom: 15px; padding: 15px 35px 15px 15px; } rg-alert .visible, [riot-tag="rg-alert"] .visible{ display: block; } rg-alert .close, [riot-tag="rg-alert"] .close{ position: absolute; top: 50%; right: 20px; line-height: 12px; font-size: 1.1em; border: 0; background-color: transparent; color: rgba(0, 0, 0, 0.5); cursor: pointer; outline: none; transform: translate3d(0, -50%, 0); } rg-alert .danger, [riot-tag="rg-alert"] .danger{ color: #8f1d2e; background-color: #ffced8; } rg-alert .information, [riot-tag="rg-alert"] .information{ color: #31708f; background-color: #d9edf7; } rg-alert .success, [riot-tag="rg-alert"] .success{ color: #2d8f40; background-color: #ccf7d4; } rg-alert .warning, [riot-tag="rg-alert"] .warning{ color: #c06329; background-color: #f7dfd0; }', function (opts) {
