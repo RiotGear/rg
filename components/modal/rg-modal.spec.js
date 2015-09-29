@@ -9,9 +9,9 @@ describe('rg-modal', function() {
     dismissable: false,
     buttons: [{
       action: spyOnClick,
-      text: 'Save'
+      content: 'Save'
     }, {
-      text: 'Cancel',
+      content: 'Cancel',
       style: 'color: cornflowerblue;'
     }],
     onclose: spyOnClose
@@ -49,8 +49,8 @@ describe('rg-modal', function() {
 
   it('has a footer with two buttons', function() {
     $('rg-modal .footer button').length.should.equal(2)
-    $('rg-modal .footer button:nth-child(1)').text().should.contain(modal.buttons[0].text)
-    $('rg-modal .footer button:nth-child(2)').text().should.contain(modal.buttons[1].text)
+    $('rg-modal .footer button:nth-child(1)').text().should.contain(modal.buttons[0].content)
+    $('rg-modal .footer button:nth-child(2)').text().should.contain(modal.buttons[1].content)
   })
 
   it('buttons can be styled', function() {

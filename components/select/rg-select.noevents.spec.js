@@ -8,9 +8,9 @@ describe('rg-select', function() {
   beforeEach(function() {
     $('body').append('<rg-select></rg-select>')
     tag = riot.mount('rg-select', {
-      placeholder: "Please select a card",
-      'filter-placeholder': "Filter cards",
-      'filter-on': "text",
+      placeholder: 'Please select a card',
+      'filter-placeholder': 'Filter cards',
+      'filter-on': 'text',
       filter: true,
       options: [{
         id: 0,

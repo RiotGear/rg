@@ -7,7 +7,7 @@
 
 		<ul class="items">
 			<li class="item { active: active }" each="{ opts.items }" onclick="{ selected }">
-				{ text }
+				<rg-raw content="{ content }"></rg-raw>
 			</li>
 		</ul>
 

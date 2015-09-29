@@ -8,14 +8,14 @@ describe('rg-toast', function() {
     tag = riot.mount('rg-toast', {
       position: 'bottomleft',
       toasts: [{
-        text: 'Auto disappear',
+        content: 'Auto disappear',
         timeout: 500
       }, {
-        text: 'Auto disappear call onclose',
+        content: 'Auto disappear call onclose',
         timeout: 1000,
         onclose: onCloseSpy
       }, {
-        text: 'Sticky toast',
+        content: 'Sticky toast',
         sticky: true,
         onclick: onClickSpy,
         onclose: onCloseSpy

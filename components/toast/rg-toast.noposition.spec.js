@@ -5,7 +5,7 @@ describe('rg-toast', function() {
     $('body').append('<rg-toast></rg-toast>')
     tag = riot.mount('rg-toast', {
       toasts: [{
-        text: 'Auto disappear',
+        content: 'Auto disappear',
         timeout: 500
       }]
     })[0]

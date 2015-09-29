@@ -102,7 +102,9 @@
 		this.filterItems = () => {
 			this.filteredItems = opts.options.filter(item => {
 				item.active = false
-				const filterField = item[opts['filter-on'] || 'text']
+				const filterOn = opts['filter-on'] || 'text'
+				const filterField = item[filterOn]
+				if (rg.isUndefined(filterField)) throw Error(`filter-on field is undefined: option.${filterOn}`)
 				let filterInput = this.filterfield.value
 				if (this.autocomplete) filterInput = this.autocompletefield.value
 				if (filterInput.length == 0 ||
@@ -196,7 +198,7 @@
 		.filter-box {
 			width: 100%;
 			padding: 10px;
-			font-size: 0.9rem;
+			font-size: 0.9em;
 			border: 0;
 			border-left: 1px solid #D3D3D3;
 			border-right: 1px solid #D3D3D3;

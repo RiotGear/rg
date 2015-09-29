@@ -63,13 +63,13 @@
 			top: 50%;
 			right: 20px;
 			line-height: 12px;
-			margin-top: -6px;
-			font-size: 18px;
+			font-size: 1.1em;
 			border: 0;
 			background-color: transparent;
 			color: rgba(0, 0, 0, 0.5);
 			cursor: pointer;
 			outline: none;
+			transform: translateY(-50%);
 		}
 
 		.danger {

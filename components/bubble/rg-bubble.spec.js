@@ -2,7 +2,7 @@ describe('rg-bubble', function() {
   let bubble
 
   beforeEach(function() {
-    $('body').append('<rg-bubble text="Hello World!"></rg-bubble>')
+    $('body').append('<rg-bubble content="Hello World!"></rg-bubble>')
     bubble = riot.mount('rg-bubble')[0]
   })
 
@@ -20,7 +20,7 @@ describe('rg-bubble', function() {
       const visible = $('rg-bubble .bubble').is('.visible')
       const text = $('rg-bubble .bubble').text()
       visible.should.be.true
-      text.should.contain($('rg-bubble').attr('text'))
+      text.should.contain($('rg-bubble').attr('content'))
     })
 
     it('on mouse over', function() {
@@ -28,7 +28,7 @@ describe('rg-bubble', function() {
       const visible = $('rg-bubble .bubble').is('.visible')
       const text = $('rg-bubble .bubble').text()
       visible.should.be.true
-      text.should.contain($('rg-bubble').attr('text'))
+      text.should.contain($('rg-bubble').attr('content'))
     })
   })
 

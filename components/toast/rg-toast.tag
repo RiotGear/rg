@@ -2,7 +2,7 @@
 
 	<div class="toasts { opts.position } { active: active }">
 		<div each="{ opts.toasts }" class="toast { visible: visible }" onclick="{ parent.toastClicked }">
-			{ text }
+			<rg-raw content="{ content }"></rg-raw>
 		</div>
 	</div>
 
@@ -78,7 +78,7 @@
 			margin: 20px;
 			background-color: #000;
 			color: white;
-			font-size: 13px;
+			font-size: 0.9em;
 			cursor: pointer;
 		}
 

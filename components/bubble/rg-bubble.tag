@@ -2,7 +2,7 @@
 
 	<div class="context">
 		<div class="bubble { visible: visible }">
-			{ text }
+			<rg-raw content="{ opts.content }"></rg-raw>
 		</div>
 		<div class="content" onmouseover="{ showBubble }" onmouseout="{ hideBubble }" onclick="{ toggleBubble }">
 			<yield/>
@@ -35,15 +35,15 @@
 
 		.bubble {
 			position: absolute;
-			top: -30px;
+			top: -50px;
 			left: 50%;
 			-webkit-transform: translate3d(-50%, 0, 0);
 			transform: translate3d(-50%, 0, 0);
-			padding: 5px 10px;
+			padding: 10px 15px;
 			background-color: #000;
 			color: white;
 			text-align: center;
-			font-size: 12px;
+			font-size: 0.9em;
 			line-height: 1;
 			white-space: nowrap;
 			opacity: 0;
@@ -58,13 +58,13 @@
 			content: '';
 			position: absolute;
 			display: block;
-			bottom: -10px;
+			bottom: -20px;
 			left: 50%;
 			-webkit-transform: translate3d(-50%, 0, 0);
 			transform: translate3d(-50%, 0, 0);
 			width: 0;
 			height: 0;
-			border: 5px solid transparent;
+			border: 10px solid transparent;
 			border-top-color: #000;
 		}
 	</style>

@@ -8,10 +8,10 @@ describe('rg-sidemenu', function() {
       header: 'Side Menu',
       visible: true,
       items: [{
-        text: 'Item 1',
+        content: 'Item 1',
         action: spy
       }, {
-        text: 'Item 2'
+        content: 'Item 2'
       }]
     })[0]
   })

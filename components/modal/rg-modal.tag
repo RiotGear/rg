@@ -15,7 +15,7 @@
 
 		<footer class="footer">
 			<button class="button" each="{ opts.buttons }" type="button" onclick="{ action }" style="{ style }">
-				{ text }
+				<rg-raw content="{ content }"></rg-raw>
 			</button>
 			<div class="clear"></div>
 		</footer>
@@ -97,15 +97,12 @@
 		.close {
 			position: absolute;
 			top: 5px;
-			right: 5px;
+			right: 10px;
 			padding: 0;
-			height: 25px;
-			width: 25px;
-			line-height: 25px;
-			font-size: 25px;
+			font-size: 1.2em;
 			border: 0;
 			background-color: transparent;
-			color: #ef424d;
+			color: #000;
 			cursor: pointer;
 			outline: none;
 		}

@@ -56,7 +56,7 @@
 
   <h2>Bubble</h2>
   <div class="demo">
-    <rg-bubble text="I go pop!">Hover over me</rg-bubble>
+    <rg-bubble content="I go <em>pop!</em>">Hover over me</rg-bubble>
   </div>
 
   <h2>Code</h2>
@@ -243,17 +243,16 @@
       visible: true,
       dismissable: true,
       buttons: [{
-        text: 'Save',
+        content: 'Save',
         style: 'color: white; background-color: cornflowerblue'
       }, {
-        text: 'Cancel'
+        content: 'Cancel'
       }]
     });
 
     riot.mount('#dropdown', {
       placeholder: 'Please select a card',
       'filter-placeholder': 'Filter cards',
-      'filter-on': 'text',
       filter: true,
       options: [{
         id: 0,
@@ -292,9 +291,9 @@
       header: 'Side Menu',
       visible: true,
       items: [{
-        text: 'Item 1'
+        content: 'Item 1'
       }, {
-        text: 'Item 2'
+        content: 'Item 2'
       }]
     });
 
@@ -320,7 +319,7 @@
 
     riot.mount('rg-toast', {
       toasts: [{
-        text: 'You have received an update to something interesting',
+        content: 'You have received an update to something interesting',
         sticky: true
       }]
     });
