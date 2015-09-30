@@ -1,11 +1,17 @@
 <rg-loading>
 
-	<div class="loading { visible: opts.visible }">
+	<div class="loading { visible: visible }">
 		<div class="overlay"></div>
 		<div class="content">
 			<yield/>
 		</div>
 	</div>
+
+	<script>
+		this.on('update', () => {
+			this.visible = rg.toBoolean(opts.visible)
+		})
+	</script>
 
 	<style scoped>
 		.loading {

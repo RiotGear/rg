@@ -63,23 +63,19 @@ describe('rg-modal', function() {
     spyOnClick.should.have.been.calledOnce
   })
 
-  it('click the close button hides the modal and calls the onclose callback', function() {
+  it('click the close button calls the onclose callback', function() {
     spyOnClose.reset()
     modal.dismissable = true
     tag.update()
     $('rg-modal .close').click()
-    $('rg-modal .modal').length.should.equal(1)
-    $('rg-modal .modal.visible').length.should.equal(0)
-    tag.opts.visible.should.be.false
+    $('rg-modal .modal.visible').length.should.equal(1)
     spyOnClose.should.have.been.calledOnce
   })
 
   it('clicking the overlay calls the onclose callback', function() {
     spyOnClose.reset()
     $('rg-modal .overlay').click()
-    $('rg-modal .modal').length.should.equal(1)
-    $('rg-modal .modal.visible').length.should.equal(0)
-    tag.opts.visible.should.be.false
+    $('rg-modal .modal.visible').length.should.equal(1)
     spyOnClose.should.have.been.calledOnce
   })
 
@@ -88,9 +84,7 @@ describe('rg-modal', function() {
     delete modal.onclose
     tag.update()
     $('rg-modal .overlay').click()
-    $('rg-modal .modal').length.should.equal(1)
-    $('rg-modal .modal.visible').length.should.equal(0)
-    tag.opts.visible.should.be.false
+    $('rg-modal .modal.visible').length.should.equal(1)
     spyOnClose.should.not.have.been.called
   })
 })

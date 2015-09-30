@@ -21,7 +21,9 @@
 			this.visible = rg.toBoolean(opts.visible)
 		})
 
-		this.close = () => opts.visible = false
+		this.close = function () {
+			if (rg.isFunction(opts.onclose)) opts.onclose()
+		}
 
 		this.selected = item => {
 			item = item.item

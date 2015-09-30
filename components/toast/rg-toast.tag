@@ -27,7 +27,7 @@
 							toast.visible = false
 							if (rg.isFunction(toast.onclose)) toast.onclose()
 							this.update()
-						}, rg.toNumber(toast.timeout))
+						}, rg.toNumber(toast.timeout) || 6000)
 					}
 					toast.startTimer()
 				}

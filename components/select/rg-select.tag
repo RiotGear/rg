@@ -54,6 +54,7 @@
 
 		this.handleKeys = e => {
 			if ([13, 38, 40].indexOf(e.keyCode) > -1 && !this.visible) {
+				e.preventDefault()
 				this.toggle()
 				return true
 			}
@@ -148,7 +149,6 @@
 			this.visible = rg.toBoolean(opts.visible)
 			this.filter = rg.toBoolean(opts.filter)
 			this.fieldText = opts.value
-
 			this.update()
 		})
 

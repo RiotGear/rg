@@ -498,14 +498,13 @@ riot.tag('rg-credit-card', '<input type="text" name="cardNo" class="field card-n
 	};
 });
 
-riot.tag('rg-date', '<div class="container { open: opened }"> <input type="text" class="field" onclick="{ show }" value="{ date.format(this.format) }" readonly> <div class="calendar" show="{ opened }"> <div class="grid grid-row" if="{ opts.years != \'false\' }"> <div class="selector" onclick="{ prevYear }">&lsaquo;</div> <span class="year">{ date.format(this.yearFormat) }</span> <div class="selector" onclick="{ nextYear }">&rsaquo;</div> </div> <div class="grid grid-row" if="{ opts.years == \'false\' }"> <span class="year fill">{ date.format(this.yearFormat) }</span> </div> <div class="grid grid-row" if="{ opts.months != \'false\' }"> <div class="selector" onclick="{ prevMonth }">&lsaquo;</div> <span class="month">{ date.format(this.monthFormat) }</span> <div class="selector" onclick="{ nextMonth }">&rsaquo;</div> </div> <div class="grid grid-row" if="{ opts.months == \'false\' }"> <span class="month fill">{ date.format(this.monthFormat) }</span> </div> <div class="grid grid-row"> <span class="day-name" each="{ day in dayNames }">{ day }</span> </div> <div class="grid grid-wrap"> <div each="{ day in startBuffer }" onclick="{ changeDate }" class="date { in: day.inMonth, selected: day.selected, today: day.today }"> { day.date.format(this.dayFormat) } </div> <div each="{ day in days }" onclick="{ changeDate }" class="date { in: day.inMonth, selected: day.selected, today: day.today }"> { day.date.format(this.dayFormat) } </div> <div each="{ day in endBuffer }" onclick="{ changeDate }" class="date { in: day.inMonth, selected: day.selected, today: day.today }"> { day.date.format(this.dayFormat) } </div> </div> <div if="{ showToday }" class="grid grid-row"> <a class="shortcut" onclick="{ setToday }">Today</a> </div> </div> </div>', 'rg-date .container, [riot-tag="rg-date"] .container{ position: relative; display: inline-block; cursor: pointer; } rg-date .field, [riot-tag="rg-date"] .field{ font-size: 1em; padding: 10px; border: 1px solid #D3D3D3; cursor: pointer; box-sizing: border-box; outline: none; } rg-date .calendar, [riot-tag="rg-date"] .calendar{ position: absolute; text-align: center; background-color: white; border: 1px solid #D3D3D3; padding: 5px; width: 330px; margin-top: 10px; left: 50%; transform: translate3d(-50%, 0, 0); -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; box-sizing: border-box; z-index: 1; } rg-date .grid, [riot-tag="rg-date"] .grid{ display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-align-items: center; -ms-flex-align: center; align-items: center; } rg-date .grid-wrap, [riot-tag="rg-date"] .grid-wrap{ width: 100%; -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap; } rg-date .grid-row, [riot-tag="rg-date"] .grid-row{ height: 35px; } rg-date .selector, [riot-tag="rg-date"] .selector{ font-size: 2em; font-weight: 100; padding: 0; -webkit-flex: 0 0 15%; -ms-flex: 0 0 15%; flex: 0 0 15%; } rg-date .year, [riot-tag="rg-date"] .year,rg-date .month, [riot-tag="rg-date"] .month{ text-transform: uppercase; font-weight: normal; -webkit-flex: 0 0 70%; -ms-flex: 0 0 70%; flex: 0 0 70%; } rg-date .fill, [riot-tag="rg-date"] .fill{ -webkit-flex: 0 0 100%; -ms-flex: 0 0 100%; flex: 0 0 100%; } rg-date .day-name, [riot-tag="rg-date"] .day-name{ font-weight: bold; -webkit-flex: 0 0 14.28%; -ms-flex: 0 0 14.28%; flex: 0 0 14.28%; } rg-date .date, [riot-tag="rg-date"] .date{ -webkit-flex: 0 0 14.28%; -ms-flex: 0 0 14.28%; flex: 0 0 14.28%; padding: 12px 10px; box-sizing: border-box; font-size: 0.8em; font-weight: normal; border: 1px solid transparent; color: #cacaca; } rg-date .date:hover, [riot-tag="rg-date"] .date:hover{ background-color: #f3f3f3; } rg-date .date.in, [riot-tag="rg-date"] .date.in{ color: inherit; } rg-date .today, [riot-tag="rg-date"] .today{ border-color: #ededed; } rg-date .selected, [riot-tag="rg-date"] .selected,rg-date .selected:hover, [riot-tag="rg-date"] .selected:hover{ background-color: #ededed; border-color: #dedede; } rg-date .shortcut, [riot-tag="rg-date"] .shortcut{ -webkit-flex: 0 0 100%; -ms-flex: 0 0 100%; flex: 0 0 100%; color: #6495ed; }', function (opts) {
+riot.tag('rg-date', '<div class="container { open: opened }"> <input type="text" class="field" onclick="{ show }" value="{ date.format(this.format) }" readonly> <div class="calendar" show="{ opened }"> <div class="grid grid-row" if="{ years }"> <div class="selector" onclick="{ prevYear }">&lsaquo;</div> <span class="year">{ date.format(this.yearFormat) }</span> <div class="selector" onclick="{ nextYear }">&rsaquo;</div> </div> <div class="grid grid-row" if="{ !years }"> <span class="year fill">{ date.format(this.yearFormat) }</span> </div> <div class="grid grid-row" if="{ months }"> <div class="selector" onclick="{ prevMonth }">&lsaquo;</div> <span class="month">{ date.format(this.monthFormat) }</span> <div class="selector" onclick="{ nextMonth }">&rsaquo;</div> </div> <div class="grid grid-row" if="{ !months }"> <span class="month fill">{ date.format(this.monthFormat) }</span> </div> <div class="grid grid-row"> <span class="day-name" each="{ day in dayNames }">{ day }</span> </div> <div class="grid grid-wrap"> <div each="{ day in startBuffer }" onclick="{ changeDate }" class="date { in: day.inMonth, selected: day.selected, today: day.today }"> { day.date.format(this.dayFormat) } </div> <div each="{ day in days }" onclick="{ changeDate }" class="date { in: day.inMonth, selected: day.selected, today: day.today }"> { day.date.format(this.dayFormat) } </div> <div each="{ day in endBuffer }" onclick="{ changeDate }" class="date { in: day.inMonth, selected: day.selected, today: day.today }"> { day.date.format(this.dayFormat) } </div> </div> <div if="{ today }" class="grid grid-row"> <a class="shortcut" onclick="{ setToday }">Today</a> </div> </div> </div>', 'rg-date .container, [riot-tag="rg-date"] .container{ position: relative; display: inline-block; cursor: pointer; } rg-date .field, [riot-tag="rg-date"] .field{ font-size: 1em; padding: 10px; border: 1px solid #D3D3D3; cursor: pointer; box-sizing: border-box; outline: none; } rg-date .calendar, [riot-tag="rg-date"] .calendar{ position: absolute; text-align: center; background-color: white; border: 1px solid #D3D3D3; padding: 5px; width: 330px; margin-top: 10px; left: 50%; transform: translate3d(-50%, 0, 0); -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; box-sizing: border-box; z-index: 1; } rg-date .grid, [riot-tag="rg-date"] .grid{ display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-align-items: center; -ms-flex-align: center; align-items: center; } rg-date .grid-wrap, [riot-tag="rg-date"] .grid-wrap{ width: 100%; -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap; } rg-date .grid-row, [riot-tag="rg-date"] .grid-row{ height: 35px; } rg-date .selector, [riot-tag="rg-date"] .selector{ font-size: 2em; font-weight: 100; padding: 0; -webkit-flex: 0 0 15%; -ms-flex: 0 0 15%; flex: 0 0 15%; } rg-date .year, [riot-tag="rg-date"] .year,rg-date .month, [riot-tag="rg-date"] .month{ text-transform: uppercase; font-weight: normal; -webkit-flex: 0 0 70%; -ms-flex: 0 0 70%; flex: 0 0 70%; } rg-date .fill, [riot-tag="rg-date"] .fill{ -webkit-flex: 0 0 100%; -ms-flex: 0 0 100%; flex: 0 0 100%; } rg-date .day-name, [riot-tag="rg-date"] .day-name{ font-weight: bold; -webkit-flex: 0 0 14.28%; -ms-flex: 0 0 14.28%; flex: 0 0 14.28%; } rg-date .date, [riot-tag="rg-date"] .date{ -webkit-flex: 0 0 14.28%; -ms-flex: 0 0 14.28%; flex: 0 0 14.28%; padding: 12px 10px; box-sizing: border-box; font-size: 0.8em; font-weight: normal; border: 1px solid transparent; color: #cacaca; } rg-date .date:hover, [riot-tag="rg-date"] .date:hover{ background-color: #f3f3f3; } rg-date .date.in, [riot-tag="rg-date"] .date.in{ color: inherit; } rg-date .today, [riot-tag="rg-date"] .today{ border-color: #ededed; } rg-date .selected, [riot-tag="rg-date"] .selected,rg-date .selected:hover, [riot-tag="rg-date"] .selected:hover{ background-color: #ededed; border-color: #dedede; } rg-date .shortcut, [riot-tag="rg-date"] .shortcut{ -webkit-flex: 0 0 100%; -ms-flex: 0 0 100%; flex: 0 0 100%; color: #6495ed; }', function (opts) {
 	var _this = this;
 
-	this.months = rg.toBoolean(opts.months);
-	this.years = rg.toBoolean(opts.years);
-
-	// Set today shortcut boolean
-	this.showToday = rg.isDefined(opts.today) ? rg.toBoolean(opts.today) : true;
+	// Display elements
+	this.months = rg.isDefined(opts.months) ? rg.toBoolean(opts.months) : true;
+	this.years = rg.isDefined(opts.years) ? rg.toBoolean(opts.years) : true;
+	this.today = rg.isDefined(opts.today) ? rg.toBoolean(opts.today) : true;
 
 	// Get our display formats
 	this.format = opts.format || 'LL';
@@ -644,7 +643,13 @@ riot.tag('rg-include', '{{ responseText }}', function (opts) {
 	});
 });
 
-riot.tag('rg-loading', '<div class="loading { visible: opts.visible }"> <div class="overlay"></div> <div class="content"> <yield></yield> </div> </div>', 'rg-loading .loading, [riot-tag="rg-loading"] .loading{ display: none; } rg-loading .visible, [riot-tag="rg-loading"] .visible{ display: block; } rg-loading .overlay, [riot-tag="rg-loading"] .overlay{ position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 200; } rg-loading .content, [riot-tag="rg-loading"] .content{ position: absolute; width: 95%; max-width: 420px; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0); background-color: transparent; color: #fff; text-align: center; z-index: 201; }', function (opts) {});
+riot.tag('rg-loading', '<div class="loading { visible: visible }"> <div class="overlay"></div> <div class="content"> <yield></yield> </div> </div>', 'rg-loading .loading, [riot-tag="rg-loading"] .loading{ display: none; } rg-loading .visible, [riot-tag="rg-loading"] .visible{ display: block; } rg-loading .overlay, [riot-tag="rg-loading"] .overlay{ position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 200; } rg-loading .content, [riot-tag="rg-loading"] .content{ position: absolute; width: 95%; max-width: 420px; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0); background-color: transparent; color: #fff; text-align: center; z-index: 201; }', function (opts) {
+	var _this = this;
+
+	this.on('update', function () {
+		_this.visible = rg.toBoolean(opts.visible);
+	});
+});
 
 riot.tag('rg-map', '<div class="rg-map"></div>', 'rg-map .rg-map, [riot-tag="rg-map"] .rg-map{ margin: 0; padding: 0; width: 100%; height: 100%; } rg-map .rg-map img, [riot-tag="rg-map"] .rg-map img{ max-width: inherit; }', function (opts) {
 	var _this = this;
@@ -693,15 +698,16 @@ riot.tag('rg-markdown', '<div class="markdown"></div>', function (opts) {
 	}
 });
 
-riot.tag('rg-modal', '<div class="overlay { visible: visible, ghost: ghost, dismissable: dismissable }" onclick="{ close }"></div> <div class="modal { visible: visible, ghost: ghost, dismissable: dismissable }"> <header class="header"> <button if="{ dismissable }" type="button" class="close" aria-label="Close" onclick="{ close }"> <span aria-hidden="true">&times;</span> </button> <h3 class="heading">{ opts.heading }</h3> </header> <div class="body"> <yield></yield> </div> <footer class="footer"> <button class="button" each="{ opts.buttons }" type="button" onclick="{ action }" riot-style="{ style }"> <rg-raw content="{ content }"></rg-raw> </button> <div class="clear"></div> </footer> </div>', 'rg-modal .overlay, [riot-tag="rg-modal"] .overlay{ display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 50; } rg-modal .overlay.dismissable, [riot-tag="rg-modal"] .overlay.dismissable{ cursor: pointer; } rg-modal .modal, [riot-tag="rg-modal"] .modal{ display: none; position: absolute; width: 95%; max-width: 500px; font-size: 1.1em; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0); background-color: white; color: #252519; z-index: 101; } rg-modal .modal.ghost, [riot-tag="rg-modal"] .modal.ghost{ background-color: transparent; color: white; } rg-modal .visible, [riot-tag="rg-modal"] .visible{ display: block; } rg-modal .header, [riot-tag="rg-modal"] .header{ position: relative; text-align: center; } rg-modal .heading, [riot-tag="rg-modal"] .heading{ padding: 20px 20px 0 20px; margin: 0; font-size: 1.2em; } rg-modal .modal.ghost .heading, [riot-tag="rg-modal"] .modal.ghost .heading{ color: white; } rg-modal .close, [riot-tag="rg-modal"] .close{ position: absolute; top: 5px; right: 10px; padding: 0; font-size: 1.2em; border: 0; background-color: transparent; color: #000; cursor: pointer; outline: none; } rg-modal .modal.ghost .close, [riot-tag="rg-modal"] .modal.ghost .close{ color: white; } rg-modal .body, [riot-tag="rg-modal"] .body{ padding: 20px; } rg-modal .footer, [riot-tag="rg-modal"] .footer{ padding: 0 20px 20px 20px; } rg-modal .button, [riot-tag="rg-modal"] .button{ float: right; padding: 10px; margin: 0 5px 0 0; border: none; font-size: 0.9em; text-transform: uppercase; cursor: pointer; outline: none; background-color: white; } rg-modal .modal.ghost .button, [riot-tag="rg-modal"] .modal.ghost .button{ color: white; background-color: transparent; } rg-modal .clear, [riot-tag="rg-modal"] .clear{ clear: both; }', function (opts) {
+riot.tag('rg-modal', '<div class="overlay { visible: visible, ghost: ghost, dismissable: dismissable }" onclick="{ close }"></div> <div class="modal { visible: visible, ghost: ghost, dismissable: dismissable }"> <header class="header"> <button if="{ dismissable }" type="button" class="close" aria-label="Close" onclick="{ close }"> <span aria-hidden="true">&times;</span> </button> <h3 class="heading"><rg-raw content="{ opts.heading }"></rg-raw></h3> </header> <div class="body"> <yield></yield> </div> <footer class="footer"> <button class="button" each="{ opts.buttons }" type="button" onclick="{ action }" riot-style="{ style }"> <rg-raw content="{ content }"></rg-raw> </button> <div class="clear"></div> </footer> </div>', 'rg-modal .overlay, [riot-tag="rg-modal"] .overlay{ display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 50; } rg-modal .overlay.dismissable, [riot-tag="rg-modal"] .overlay.dismissable{ cursor: pointer; } rg-modal .modal, [riot-tag="rg-modal"] .modal{ display: none; position: absolute; width: 95%; max-width: 500px; font-size: 1.1em; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0); background-color: white; color: #252519; z-index: 101; } rg-modal .modal.ghost, [riot-tag="rg-modal"] .modal.ghost{ background-color: transparent; color: white; } rg-modal .visible, [riot-tag="rg-modal"] .visible{ display: block; } rg-modal .header, [riot-tag="rg-modal"] .header{ position: relative; text-align: center; } rg-modal .heading, [riot-tag="rg-modal"] .heading{ padding: 20px 20px 0 20px; margin: 0; font-size: 1.2em; } rg-modal .modal.ghost .heading, [riot-tag="rg-modal"] .modal.ghost .heading{ color: white; } rg-modal .close, [riot-tag="rg-modal"] .close{ position: absolute; top: 5px; right: 10px; padding: 0; font-size: 1.2em; border: 0; background-color: transparent; color: #000; cursor: pointer; outline: none; } rg-modal .modal.ghost .close, [riot-tag="rg-modal"] .modal.ghost .close{ color: white; } rg-modal .body, [riot-tag="rg-modal"] .body{ padding: 20px; } rg-modal .footer, [riot-tag="rg-modal"] .footer{ padding: 0 20px 20px 20px; } rg-modal .button, [riot-tag="rg-modal"] .button{ float: right; padding: 10px; margin: 0 5px 0 0; border: none; font-size: 0.9em; text-transform: uppercase; cursor: pointer; outline: none; background-color: white; } rg-modal .modal.ghost .button, [riot-tag="rg-modal"] .modal.ghost .button{ color: white; background-color: transparent; } rg-modal .clear, [riot-tag="rg-modal"] .clear{ clear: both; }', function (opts) {
+	var _this = this;
+
 	this.on('update', function () {
-		this.visible = rg.toBoolean(opts.visible);
-		this.ghost = rg.toBoolean(opts.ghost);
-		this.dismissable = rg.toBoolean(opts.dismissable);
+		_this.visible = rg.toBoolean(opts.visible);
+		_this.ghost = rg.toBoolean(opts.ghost);
+		_this.dismissable = rg.isDefined(opts.dismissable) ? rg.toBoolean(opts.dismissable) : true;
 	});
 
 	this.close = function () {
-		opts.visible = false;
 		if (rg.isFunction(opts.onclose)) opts.onclose();
 	};
 });
@@ -720,7 +726,7 @@ riot.tag('rg-placeholdit', '<img riot-src="https://placeholdit.imgix.net/~text?b
 
 riot.tag('rg-raw', '<span></span>', function (opts) {
 	this.on('mount', function () {
-		this.root.innerHTML = opts.content;
+		this.root.innerHTML = opts.content || '';
 	});
 });
 
@@ -740,6 +746,7 @@ riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="w
 
 	this.handleKeys = function (e) {
 		if ([13, 38, 40].indexOf(e.keyCode) > -1 && !_this.visible) {
+			e.preventDefault();
 			_this.toggle();
 			return true;
 		}
@@ -825,7 +832,6 @@ riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="w
 		_this.visible = rg.toBoolean(opts.visible);
 		_this.filter = rg.toBoolean(opts.filter);
 		_this.fieldText = opts.value;
-
 		_this.update();
 	});
 
@@ -840,7 +846,7 @@ riot.tag('rg-sidemenu', '<div class="overlay { visible: visible }" onclick="{ cl
 	});
 
 	this.close = function () {
-		return opts.visible = false;
+		if (rg.isFunction(opts.onclose)) opts.onclose();
 	};
 
 	this.selected = function (item) {
@@ -901,7 +907,7 @@ riot.tag('rg-tabs', '<div class="tabs"> <div class="headers"> <div each="{ tab i
 	};
 });
 
-riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="tag" each="{ opts.tags }" onclick="{ parent.removeTag }"> { text } <span class="close">&times;</span> </span> </span> <div class="field-container { visible: visible }"> <input type="{ opts.type || \'text\' }" class="field" name="filterField" placeholder="{ opts.placeholder }" onkeydown="{ handleKeys }" oninput="{ filterItems }" onfocus="{ filterItems }"> <div class="dropdown { visible: visible }"> <ul class="list"> <li each="{ filteredItems }" onclick="{ parent.select }" class="item { active: active }"> { text } </li> </ul> </div> </div> </div>', 'rg-tags .container, [riot-tag="rg-tags"] .container{ position: relative; width: 100%; border: 1px solid #D3D3D3; background-color: white; text-align: left; padding: 0; box-sizing: border-box; } rg-tags .field-container, [riot-tag="rg-tags"] .field-container{ position: absolute; display: inline-block; cursor: pointer; } rg-tags .field, [riot-tag="rg-tags"] .field{ width: 100%; padding: 10px; border: 0; box-sizing: border-box; background-color: transparent; white-space: nowrap; font-size: 1em; line-height: normal; outline: 0; } rg-tags .dropdown, [riot-tag="rg-tags"] .dropdown{ display: none; position: absolute; width: 100%; background-color: white; border-bottom: 1px solid #D3D3D3; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; max-height: 280px; margin: -1px 0 0 -1px; } rg-tags .dropdown.visible, [riot-tag="rg-tags"] .dropdown.visible{ display: block; } rg-tags .list, [riot-tag="rg-tags"] .list,rg-tags .item, [riot-tag="rg-tags"] .item{ list-style: none; padding: 0; margin: 0; } rg-tags .list.empty, [riot-tag="rg-tags"] .list.empty{ display: none; } rg-tags .item, [riot-tag="rg-tags"] .item{ padding: 10px; border-left: 1px solid #D3D3D3; border-right: 1px solid #D3D3D3; border-top: 1px solid #E8E8E8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-tags .item:first-child, [riot-tag="rg-tags"] .item:first-child{ border-top: 0; } rg-tags .item:hover, [riot-tag="rg-tags"] .item:hover{ background-color: #f3f3f3; } rg-tags .item.active, [riot-tag="rg-tags"] .item.active,rg-tags .item:hover.active, [riot-tag="rg-tags"] .item:hover.active{ background-color: #ededed; } rg-tags .tags, [riot-tag="rg-tags"] .tags{ display: inline-block; max-width: 70%; white-space: nowrap; overflow-y: hidden; overflow-x: auto; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; } rg-tags .tag, [riot-tag="rg-tags"] .tag{ position: relative; display: inline-block; padding: 8px 20px 8px 5px; margin: 1px; background-color: #000; color: #fff; cursor: pointer; } rg-tags .tag:hover, [riot-tag="rg-tags"] .tag:hover,rg-tags .tag:active, [riot-tag="rg-tags"] .tag:active{ background-color: #666; } rg-tags .close, [riot-tag="rg-tags"] .close{ position: absolute; right: 5px; top: 7px; color: rgba(255, 255, 255, 0.7); }', function (opts) {
+riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="tag" each="{ opts.tags }" onclick="{ parent.removeTag }"> { text } <span class="close">&times;</span> </span> </span> <div class="field-container { visible: visible }"> <input type="{ opts.type || \'text\' }" class="field" name="filterField" placeholder="{ opts.placeholder }" onkeydown="{ handleKeys }" oninput="{ filterItems }" onfocus="{ filterItems }"> <div class="dropdown { visible: visible }"> <ul class="list"> <li each="{ filteredItems }" onclick="{ parent.select }" class="item { active: active }"> { text } </li> </ul> </div> </div> </div>', 'rg-tags .container, [riot-tag="rg-tags"] .container{ position: relative; width: 100%; border: 1px solid #D3D3D3; background-color: white; text-align: left; padding: 0; box-sizing: border-box; } rg-tags .field-container, [riot-tag="rg-tags"] .field-container{ position: absolute; display: inline-block; cursor: pointer; } rg-tags .field, [riot-tag="rg-tags"] .field{ width: 100%; padding: 10px; border: 0; box-sizing: border-box; background-color: transparent; white-space: nowrap; font-size: 1em; line-height: normal; outline: 0; } rg-tags .dropdown, [riot-tag="rg-tags"] .dropdown{ display: none; position: absolute; width: 100%; background-color: white; border-bottom: 1px solid #D3D3D3; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; max-height: 280px; margin: -1px 0 0 -1px; } rg-tags .dropdown.visible, [riot-tag="rg-tags"] .dropdown.visible{ display: block; } rg-tags .list, [riot-tag="rg-tags"] .list,rg-tags .item, [riot-tag="rg-tags"] .item{ list-style: none; padding: 0; margin: 0; } rg-tags .list.empty, [riot-tag="rg-tags"] .list.empty{ display: none; } rg-tags .item, [riot-tag="rg-tags"] .item{ padding: 10px; border-left: 1px solid #D3D3D3; border-right: 1px solid #D3D3D3; border-top: 1px solid #E8E8E8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-tags .item:first-child, [riot-tag="rg-tags"] .item:first-child{ border-top: 0; } rg-tags .item:hover, [riot-tag="rg-tags"] .item:hover{ background-color: #f3f3f3; } rg-tags .item.active, [riot-tag="rg-tags"] .item.active,rg-tags .item:hover.active, [riot-tag="rg-tags"] .item:hover.active{ background-color: #ededed; } rg-tags .tags, [riot-tag="rg-tags"] .tags{ display: inline-block; max-width: 70%; white-space: nowrap; overflow-y: hidden; overflow-x: auto; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; } rg-tags .tag, [riot-tag="rg-tags"] .tag{ position: relative; display: inline-block; padding: 8px 20px 8px 5px; margin: 1px; background-color: #000; color: #fff; font-size: 1em; line-height: normal; cursor: pointer; } rg-tags .tag:hover, [riot-tag="rg-tags"] .tag:hover,rg-tags .tag:active, [riot-tag="rg-tags"] .tag:active{ background-color: #666; } rg-tags .close, [riot-tag="rg-tags"] .close{ position: absolute; right: 5px; top: 7px; color: rgba(255, 255, 255, 0.7); }', function (opts) {
 	var _this = this;
 
 	this.visible = false;
@@ -1017,7 +1023,8 @@ riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="ta
 	});
 });
 
-riot.tag('rg-time', '<rg-select placeholder="{ opts.placeholder || \'Select a time\' }" filter-placeholder="Filter times" options="{ times }" onopen="{ opts.onopen }" onclose="{ opts.onclose }" onselect="{ opts.onselect }"> </rg-select>', function (opts) {
+riot.tag('rg-time', '<rg-select placeholder="{ opts.placeholder || \'Select a time\' }" filter="{ filter }" filter-placeholder="Filter times" options="{ times }" onopen="{ opts.onopen }" onclose="{ opts.onclose }" onselect="{ opts.onselect }"> </rg-select>', function (opts) {
+	this.filter = rg.toBoolean(opts.filter);
 	opts.time = opts.time || 'now';
 	if (opts.time == 'now') opts.time = new Date();
 	if (opts.min) opts.min = opts.min.split(':');
@@ -1092,7 +1099,7 @@ riot.tag('rg-toast', '<div class="toasts { opts.position } { active: active }"> 
 						toast.visible = false;
 						if (rg.isFunction(toast.onclose)) toast.onclose();
 						_this.update();
-					}, rg.toNumber(toast.timeout));
+					}, rg.toNumber(toast.timeout) || 6000);
 				};
 				toast.startTimer();
 			}
@@ -1104,14 +1111,16 @@ riot.tag('rg-toast', '<div class="toasts { opts.position } { active: active }"> 
 	});
 });
 
-riot.tag('rg-toggle', '<div class="wrapper"> <label class="toggle"> <input type="checkbox" __checked="{ opts.checked }" onclick="{ toggle }"> <div class="track"> <div class="handle"></div> </div> </label> </div>', 'rg-toggle .wrapper, [riot-tag="rg-toggle"] .wrapper{ width: 60px; height: 20px; margin: 0; display: inline-block; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; } rg-toggle .toggle, [riot-tag="rg-toggle"] .toggle{ position: absolute; cursor: pointer; } rg-toggle input[type=checkbox], [riot-tag="rg-toggle"] input[type=checkbox]{ display: none; } rg-toggle .track, [riot-tag="rg-toggle"] .track{ position: absolute; top: 0; bottom: 0; left: 0; right: 0; width: 60px; height: 20px; padding: 2px; background-color: #b6c0c7; transition: background-color 0.1s linear; box-sizing: border-box; } rg-toggle input[type=checkbox]:checked + .track, [riot-tag="rg-toggle"] input[type=checkbox]:checked + .track{ background-color: #000; } rg-toggle .handle, [riot-tag="rg-toggle"] .handle{ position: relative; left: 0; width: 50%; height: 100%; background-color: white; transition: transform 0.1s linear; } rg-toggle input[type=checkbox]:checked + .track .handle, [riot-tag="rg-toggle"] input[type=checkbox]:checked + .track .handle{ transform: translate3d(100%, 0, 0); }', function (opts) {
-	this.on('mount', function () {
-		opts.checked = rg.toBoolean(opts.checked);
+riot.tag('rg-toggle', '<div class="wrapper"> <label class="toggle"> <input type="checkbox" __checked="{ checked }" onclick="{ toggle }"> <div class="track"> <div class="handle"></div> </div> </label> </div>', 'rg-toggle .wrapper, [riot-tag="rg-toggle"] .wrapper{ width: 60px; height: 20px; margin: 0; display: inline-block; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; } rg-toggle .toggle, [riot-tag="rg-toggle"] .toggle{ position: absolute; cursor: pointer; } rg-toggle input[type=checkbox], [riot-tag="rg-toggle"] input[type=checkbox]{ display: none; } rg-toggle .track, [riot-tag="rg-toggle"] .track{ position: absolute; top: 0; bottom: 0; left: 0; right: 0; width: 60px; height: 20px; padding: 2px; background-color: #b6c0c7; transition: background-color 0.1s linear; box-sizing: border-box; } rg-toggle input[type=checkbox]:checked + .track, [riot-tag="rg-toggle"] input[type=checkbox]:checked + .track{ background-color: #000; } rg-toggle .handle, [riot-tag="rg-toggle"] .handle{ position: relative; left: 0; width: 50%; height: 100%; background-color: white; transition: transform 0.1s linear; } rg-toggle input[type=checkbox]:checked + .track .handle, [riot-tag="rg-toggle"] input[type=checkbox]:checked + .track .handle{ transform: translate3d(100%, 0, 0); }', function (opts) {
+	var _this = this;
+
+	this.on('update', function () {
+		this.checked = rg.toBoolean(opts.checked);
 	});
 
-	this.toggle = function (e) {
-		opts.checked = !opts.checked;
-		if (rg.isFunction(opts.ontoggle)) opts.ontoggle(e);
+	this.toggle = function () {
+		_this.checked = !_this.checked;
+		if (rg.isFunction(opts.ontoggle)) opts.ontoggle(_this.checked);
 	};
 });
 

@@ -6,7 +6,7 @@
 			<button if="{ dismissable }" type="button" class="close" aria-label="Close" onclick="{ close }">
 				<span aria-hidden="true">&times;</span>
 			</button>
-			<h3 class="heading">{ opts.heading }</h3>
+			<h3 class="heading"><rg-raw content="{ opts.heading }"></rg-raw></h3>
 		</header>
 
 		<div class="body">
@@ -22,14 +22,13 @@
 	</div>
 
 	<script>
-		this.on('update', function () {
+		this.on('update', () => {
 			this.visible = rg.toBoolean(opts.visible)
 			this.ghost = rg.toBoolean(opts.ghost)
-			this.dismissable = rg.toBoolean(opts.dismissable)
+			this.dismissable = rg.isDefined(opts.dismissable) ? rg.toBoolean(opts.dismissable) : true
 		})
 
-		this.close = function () {
-			opts.visible = false
+		this.close = () => {
 			if (rg.isFunction(opts.onclose)) opts.onclose()
 		}
 	</script>

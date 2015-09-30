@@ -4,16 +4,18 @@ describe('rg-sidemenu', function() {
 
   beforeEach(function() {
     $('body').append('<rg-sidemenu></rg-sidemenu>')
-    tag = riot.mount('rg-sidemenu', {
+    var sidemenu = {
       header: 'Side Menu',
       visible: true,
+      onclose: function() { sidemenu.visible = false },
       items: [{
         content: 'Item 1',
         action: spy
       }, {
         content: 'Item 2'
       }]
-    })[0]
+    };
+    tag = riot.mount('rg-sidemenu', sidemenu)[0]
   })
 
   afterEach(function() {
@@ -56,7 +58,7 @@ describe('rg-sidemenu', function() {
     spy.should.have.been.calledOnce
   })
 
-  it('clicking overlay closes sidemenu', function() {
+  it('clicking overlay calls onclose', function() {
     $('rg-sidemenu .overlay').click()
     $('rg-sidemenu .overlay').is('.visible').should.be.false
     $('rg-sidemenu .sidemenu').is('.visible').should.be.false

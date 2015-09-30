@@ -238,17 +238,21 @@
       }]
     });
 
-    riot.mount('rg-modal', {
+    var modal = {
       heading: 'Modal heading',
       visible: true,
       dismissable: true,
+      onclose: function () {
+        modal.visible = false
+      },
       buttons: [{
         content: 'Save',
         style: 'color: white; background-color: cornflowerblue'
       }, {
         content: 'Cancel'
       }]
-    });
+    };
+    riot.mount('rg-modal', modal);
 
     riot.mount('#dropdown', {
       placeholder: 'Please select a card',
@@ -287,15 +291,17 @@
       }]
     });
 
-    riot.mount('rg-sidemenu', {
+    var sidemenu = {
       header: 'Side Menu',
       visible: true,
+      onclose: function() { sidemenu.visible = false },
       items: [{
         content: 'Item 1'
       }, {
         content: 'Item 2'
       }]
-    });
+    };
+    riot.mount('rg-sidemenu', sidemenu);
 
     riot.mount('rg-tags', {
       placeholder: 'Enter a country name',

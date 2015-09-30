@@ -2,7 +2,7 @@
 
 	<div class="wrapper">
 		<label class="toggle">
-			<input type="checkbox" checked="{ opts.checked }" onclick="{ toggle }">
+			<input type="checkbox" checked="{ checked }" onclick="{ toggle }">
 
 			<div class="track">
 				<div class="handle"></div>
@@ -11,13 +11,13 @@
 	</div>
 
 	<script>
-		this.on('mount', function() {
-			opts.checked = rg.toBoolean(opts.checked)
+		this.on('update', function() {
+			this.checked = rg.toBoolean(opts.checked)
 		})
 
-		this.toggle = e => {
-			opts.checked = !opts.checked
-			if (rg.isFunction(opts.ontoggle)) opts.ontoggle(e)
+		this.toggle = () => {
+			this.checked = !this.checked
+			if (rg.isFunction(opts.ontoggle)) opts.ontoggle(this.checked)
 		}
 	</script>
 

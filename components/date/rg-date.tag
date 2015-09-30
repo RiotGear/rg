@@ -3,21 +3,21 @@
 		<input type="text" class="field" onclick="{ show }" value="{ date.format(this.format) }" readonly />
 
 		<div class="calendar" show="{ opened }">
-			<div class="grid grid-row" if="{ opts.years != 'false' }">
+			<div class="grid grid-row" if="{ years }">
 				<div class="selector" onclick="{ prevYear }">&lsaquo;</div>
 				<span class="year">{ date.format(this.yearFormat) }</span>
 				<div class="selector" onclick="{ nextYear }">&rsaquo;</div>
 			</div>
-			<div class="grid grid-row" if="{ opts.years == 'false' }">
+			<div class="grid grid-row" if="{ !years }">
 				<span class="year fill">{ date.format(this.yearFormat) }</span>
 			</div>
 
-			<div class="grid grid-row" if="{ opts.months != 'false' }">
+			<div class="grid grid-row" if="{ months }">
 				<div class="selector" onclick="{ prevMonth }">&lsaquo;</div>
 				<span class="month">{ date.format(this.monthFormat) }</span>
 				<div class="selector" onclick="{ nextMonth }">&rsaquo;</div>
 			</div>
-			<div class="grid grid-row" if="{ opts.months == 'false' }">
+			<div class="grid grid-row" if="{ !months }">
 				<span class="month fill">{ date.format(this.monthFormat) }</span>
 			</div>
 
@@ -47,18 +47,17 @@
 					{ day.date.format(this.dayFormat) }
 				</div>
 			</div>
-			<div if="{ showToday }" class="grid grid-row">
+			<div if="{ today }" class="grid grid-row">
 				<a class="shortcut" onclick="{ setToday }">Today</a>
 			</div>
 		</div>
 	</div>
 
 	<script>
-		this.months = rg.toBoolean(opts.months)
-		this.years = rg.toBoolean(opts.years)
-
-		// Set today shortcut boolean
-		this.showToday = rg.isDefined(opts.today) ? rg.toBoolean(opts.today) : true
+		// Display elements
+		this.months = rg.isDefined(opts.months) ? rg.toBoolean(opts.months) : true
+		this.years = rg.isDefined(opts.years) ? rg.toBoolean(opts.years) : true
+		this.today = rg.isDefined(opts.today) ? rg.toBoolean(opts.today) : true
 
 		// Get our display formats
 		this.format = opts.format || 'LL'

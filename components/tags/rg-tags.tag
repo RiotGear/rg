@@ -249,6 +249,8 @@
 			margin: 1px;
 			background-color: #000;
 			color: #fff;
+			font-size: 1em;
+			line-height: normal;
 			cursor: pointer;
 		}
 

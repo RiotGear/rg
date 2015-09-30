@@ -1,14 +1,16 @@
 <rg-time>
 
 	<rg-select placeholder="{ opts.placeholder || 'Select a time' }"
+						 filter="{ filter }"
 						 filter-placeholder="Filter times"
-						 options={ times }
-						 onopen={ opts.onopen }
-						 onclose={ opts.onclose }
-						 onselect={ opts.onselect }>
+						 options="{ times }"
+						 onopen="{ opts.onopen }"
+						 onclose="{ opts.onclose }"
+						 onselect="{ opts.onselect }">
 	</rg-select>
 
 	<script>
+		this.filter = rg.toBoolean(opts.filter)
 		opts.time = opts.time || 'now'
 		if (opts.time == 'now') opts.time = new Date()
 		if (opts.min) opts.min = opts.min.split(':')
