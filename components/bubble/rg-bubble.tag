@@ -2,7 +2,7 @@
 
 	<div class="context">
 		<div class="bubble { visible: visible }">
-			<rg-raw content="{ content }"></rg-raw>
+			<rg-raw content="{ opts.content }"></rg-raw>
 		</div>
 		<div class="content" onmouseover="{ showBubble }" onmouseout="{ hideBubble }" onclick="{ toggleBubble }">
 			<yield/>
@@ -10,10 +10,6 @@
 	</div>
 
 	<script>
-		this.on('update', () => {
-			this.content = opts.content
-		})
-
 		this.visible = false
 		this.showBubble = () => {
 			clearTimeout(this.timer)

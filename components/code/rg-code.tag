@@ -3,8 +3,10 @@
 	<div class="editor"></div>
 
 	<script>
+		let editor
+
 		this.on('mount', () => {
-			var editor = ace.edit(this.root.querySelector('.editor'))
+			editor = ace.edit(this.root.querySelector('.editor'))
 			if (opts.theme) editor.setTheme(`ace/theme/${opts.theme}`)
 			if (opts.mode) editor.getSession().setMode(`ace/mode/${opts.mode}`)
 			editor.getSession().setTabSize(opts.tabsize || 2)
@@ -16,7 +18,10 @@
 			editor.getSession().on('change', e => {
 				if (rg.isFunction(opts.onchange)) opts.onchange(editor.getValue())
 			})
+			this.setContent()
+		})
 
+		this.setContent = () => {
 			/* istanbul ignore next */
 			if (opts.src) {
 				rg.xhr('get', opts.src, resp => {
@@ -26,7 +31,12 @@
 			} else {
 				editor.setValue(opts.code)
 			}
+		}
+
+		this.on('update', () => {
+			if (this.isMounted) this.setContent()
 		})
+
 	</script>
 
 	<style scoped>
@@ -37,6 +47,7 @@
 			bottom: 0;
 			left: 0;
 		}
+
 	</style>
 
 </rg-code>

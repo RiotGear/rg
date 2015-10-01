@@ -19,11 +19,11 @@
 
   <h2>Code</h2>
   <div class="demo">
-    <rg-code theme="monokai" mode="html" tabsize="2" softtabs="false" wordwrap="false" readonly="false" code="<h2>Hello world!</h2>">
-    </rg-code>
+    <rg-code theme="monokai" mode="html" tabsize="2" softtabs="false" wordwrap="false" readonly="false" code="{ code || '<h2>Hello world!</h2>' }"></rg-code>
   </div>
+  <button onclick="{ changeCode }">Change code</button>
 
-  <h2>Context Menu</h2>
+  <!-- <h2>Context Menu</h2>
   <div class="demo" rg-context-menu="myMenu">
     Right click here.
   </div>
@@ -151,7 +151,7 @@
   <h2>Unsplash</h2>
   <div class="demo">
     <rg-unsplash random="true"></rg-unsplash>
-  </div>
+  </div> -->
 
   <script>
     this.alerts = [{
@@ -183,6 +183,10 @@
 
     this.updateBubbleContent = () => {
       this.bubbleContent = '<em>pong!</em>'
+    }
+
+    this.changeCode = () => {
+      this.code = '<h2>Hello RiotGear!</h2>'
     }
 
   </script>
