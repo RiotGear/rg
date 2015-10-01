@@ -10,7 +10,6 @@
 	</div>
 
 	<script>
-		this.text = opts.text
 		this.visible = false
 		this.showBubble = () => {
 			clearTimeout(this.timer)

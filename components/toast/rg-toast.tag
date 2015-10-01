@@ -18,6 +18,7 @@
 		}
 
 		this.on('update', () => {
+			if (!rg.isArray(opts.toasts)) return
 			opts.toasts.forEach(toast => {
 				if (rg.isUndefined(toast.visible)) toast.visible = true
 				toast.id = Math.random().toString(36).substr(2, 8)

@@ -101,6 +101,7 @@
 		}
 
 		this.filterItems = () => {
+			if (!rg.isArray(opts.options)) return
 			this.filteredItems = opts.options.filter(item => {
 				item.active = false
 				const filterOn = opts['filter-on'] || 'text'
@@ -120,6 +121,7 @@
 
 		this.select = item => {
 			item = item.item
+			if (!rg.isArray(opts.options)) return
 			opts.options.forEach(i => i.selected = false)
 			item.selected = true
 			if (rg.isFunction(opts.onselect)) opts.onselect(item)
@@ -134,6 +136,7 @@
 			this.filterItems()
 
 			// Give each dropdown item an index and select one if applicable
+			if (!rg.isArray(opts.options)) return
 			opts.options.forEach((item, i) => {
 				item.index = i
 				if (item.selected) this.select({ item })

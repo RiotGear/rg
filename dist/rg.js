@@ -264,13 +264,14 @@ IN THE SOFTWARE.
 	if (!window.rg) window.rg = {};
 	rg.map = map;
 })();
-riot.tag('rg-alert', '<div each="{ opts.alerts }" class="alert { type } { visible: visible }" onclick="{ onclick }"> <a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }"> <span aria-hidden="true">&times;</span> </a> <rg-raw content="{ content }"></rg-raw> </div>', 'rg-alert, [riot-tag="rg-alert"]{ font-size: 0.9em; position: relative; top: 0; right: 0; left: 0; width: 100%; } rg-alert .alert, [riot-tag="rg-alert"] .alert{ display: none; position: relative; margin-bottom: 15px; padding: 15px 35px 15px 15px; } rg-alert .visible, [riot-tag="rg-alert"] .visible{ display: block; } rg-alert .close, [riot-tag="rg-alert"] .close{ position: absolute; top: 50%; right: 20px; line-height: 12px; font-size: 1.1em; border: 0; background-color: transparent; color: rgba(0, 0, 0, 0.5); cursor: pointer; outline: none; transform: translate3d(0, -50%, 0); } rg-alert .danger, [riot-tag="rg-alert"] .danger{ color: #8f1d2e; background-color: #ffced8; } rg-alert .information, [riot-tag="rg-alert"] .information{ color: #31708f; background-color: #d9edf7; } rg-alert .success, [riot-tag="rg-alert"] .success{ color: #2d8f40; background-color: #ccf7d4; } rg-alert .warning, [riot-tag="rg-alert"] .warning{ color: #c06329; background-color: #f7dfd0; }', function (opts) {
+riot.tag('rg-alert', '<div each="{ opts.alerts }" class="alert { type } { isvisible: isvisible }" onclick="{ select }"> <a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }"> <span aria-hidden="true">&times;</span> </a> <rg-raw content="{ content }"></rg-raw> </div>', 'rg-alert, [riot-tag="rg-alert"]{ font-size: 0.9em; position: relative; top: 0; right: 0; left: 0; width: 100%; } rg-alert .alert, [riot-tag="rg-alert"] .alert{ display: none; position: relative; margin-bottom: 15px; padding: 15px 35px 15px 15px; } rg-alert .isvisible, [riot-tag="rg-alert"] .isvisible{ display: block; } rg-alert .close, [riot-tag="rg-alert"] .close{ position: absolute; top: 50%; right: 20px; line-height: 12px; font-size: 1.1em; border: 0; background-color: transparent; color: rgba(0, 0, 0, 0.5); cursor: pointer; outline: none; transform: translate3d(0, -50%, 0); } rg-alert .danger, [riot-tag="rg-alert"] .danger{ color: #8f1d2e; background-color: #ffced8; } rg-alert .information, [riot-tag="rg-alert"] .information{ color: #31708f; background-color: #d9edf7; } rg-alert .success, [riot-tag="rg-alert"] .success{ color: #2d8f40; background-color: #ccf7d4; } rg-alert .warning, [riot-tag="rg-alert"] .warning{ color: #c06329; background-color: #f7dfd0; }', function (opts) {
 	this.on('update', function () {
 		var _this = this;
 
+		if (!rg.isArray(opts.alerts)) return;
 		opts.alerts.forEach(function (alert) {
-			if (rg.isUndefined(alert.visible)) {
-				alert.visible = true;
+			if (rg.isUndefined(alert.isvisible)) {
+				alert.isvisible = true;
 			}
 			if (!alert.timer && alert.timeout) {
 				alert.startTimer = function () {
@@ -289,17 +290,22 @@ riot.tag('rg-alert', '<div each="{ opts.alerts }" class="alert { type } { visibl
 		remove(e.item);
 	};
 
+	this.select = function (e) {
+		var alert = e.item;
+		if (rg.isFunction(alert.onclick)) alert.onclick(alert);
+	};
+
 	function remove(alert) {
-		alert.visible = false;
-		if (rg.isFunction(alert.onclose)) alert.onclose();
+		alert.isvisible = false;
+		if (rg.isFunction(alert.onclose)) alert.onclose(alert);
 		window.clearTimeout(alert.timer);
 	}
 });
 
-riot.tag('rg-behold', '<div class="container"> <div class="controls"> <input type="range" class="ranger" name="diff" value="0" min="0" max="1" step="0.01" oninput="{ updateDiff }" onchange="{ updateDiff }"> </div> <div class="images"> <div class="image"> <img class="image-2" riot-src="{ opts.image2 }"> </div> <div class="image fallback"> <img class="image-1" riot-src="{ opts.image1 }"> </div> </div> </div>', 'rg-behold .controls, [riot-tag="rg-behold"] .controls{ text-align: center; } rg-behold .ranger, [riot-tag="rg-behold"] .ranger{ width: 90%; max-width: 300px; } rg-behold .images, [riot-tag="rg-behold"] .images{ position: relative; } rg-behold .image, [riot-tag="rg-behold"] .image{ position: absolute; width: 100%; text-align: center; } rg-behold .image img, [riot-tag="rg-behold"] .image img{ max-width: 90%; }', function (opts) {
+riot.tag('rg-behold', '<div class="container"> <div class="controls"> <div class="modes"> <a onclick="{ swipeMode }" class="mode { active: mode == \'swipe\' }">Swipe</a> <a onclick="{ fadeMode }" class="mode { active: mode == \'fade\' }">Fade</a> </div> <input type="range" class="ranger" name="diff" value="0" min="0" max="1" step="0.01" oninput="{ updateDiff }" onchange="{ updateDiff }"> </div> <div class="images"> <div class="image"> <img class="image-2" riot-src="{ opts.image2 }"> </div> <div class="image fallback"> <img class="image-1" riot-src="{ opts.image1 }"> </div> </div> </div>', 'rg-behold .controls, [riot-tag="rg-behold"] .controls{ text-align: center; } rg-behold .mode, [riot-tag="rg-behold"] .mode{ text-decoration: none; cursor: pointer; padding: 0 10px; } rg-behold a.active, [riot-tag="rg-behold"] a.active{ font-weight: bold; } rg-behold .ranger, [riot-tag="rg-behold"] .ranger{ width: 90%; max-width: 300px; } rg-behold .images, [riot-tag="rg-behold"] .images{ position: relative; } rg-behold .image, [riot-tag="rg-behold"] .image{ position: absolute; width: 100%; text-align: center; } rg-behold .image img, [riot-tag="rg-behold"] .image img{ max-width: 90%; }', function (opts) {
 	var _this2 = this;
 
-	opts.mode = opts.mode || 'fade';
+	this.mode = 'swipe';
 
 	var image1, image2, fallback;
 
@@ -307,10 +313,7 @@ riot.tag('rg-behold', '<div class="container"> <div class="controls"> <input typ
 		image1 = _this2.root.querySelector('.image-1');
 		image2 = _this2.root.querySelector('.image-2');
 		fallback = typeof image1.style.webkitClipPath == 'undefined';
-		if (opts.mode == 'fade') {
-			_this2.root.querySelector('.controls').style.direction = 'rtl';
-			_this2.diff.value = 1;
-		}
+		_this2.reset();
 
 		var img1Loaded = undefined,
 		    img2Loaded = undefined,
@@ -332,19 +335,45 @@ riot.tag('rg-behold', '<div class="container"> <div class="controls"> <input typ
 		img2.src = opts.image2;
 
 		var _this = _this2;
+
 		function calculateMaxHeight() {
 			if (img1Loaded && img2Loaded) {
+				var controls = _this.root.querySelector('.controls');
 				var container = _this.root.querySelector('.container');
-				container.style.height = container.getBoundingClientRect().height + Math.max(img1H, img2H) + 'px';
+				container.style.height = controls.getBoundingClientRect().height + Math.max(img1H, img2H) + 'px';
 				_this.updateDiff();
 			}
 		}
 	});
 
-	this.updateDiff = function (e) {
-		if (opts.mode == 'fade') {
+	this.reset = function () {
+		if (_this2.mode == 'swipe') {
+			_this2.root.querySelector('.ranger').style.direction = 'ltr';
+			_this2.diff.value = 0;
+		}
+		if (_this2.mode == 'fade') {
+			_this2.root.querySelector('.ranger').style.direction = 'rtl';
+			_this2.diff.value = 1;
+		}
+	};
+
+	this.swipeMode = function () {
+		_this2.reset();
+		_this2.updateDiff();
+		_this2.mode = 'swipe';
+		_this2.reset();
+	};
+	this.fadeMode = function () {
+		_this2.reset();
+		_this2.updateDiff();
+		_this2.mode = 'fade';
+		_this2.reset();
+	};
+
+	this.updateDiff = function () {
+		if (_this2.mode == 'fade') {
 			image1.style.opacity = _this2.diff.value;
-		} else if (opts.mode == 'swipe') {
+		} else if (_this2.mode == 'swipe') {
 			if (!fallback) {
 				image1.style.clipPath = image1.style.webkitClipPath = 'inset(0 0 0 ' + (image1.clientWidth * _this2.diff.value - 1) + 'px)';
 			} else {
@@ -352,13 +381,13 @@ riot.tag('rg-behold', '<div class="container"> <div class="controls"> <input typ
 				fallbackImg.style.clip = 'rect(auto, auto, auto, ' + fallbackImg.clientWidth * _this2.diff.value + 'px)';
 			}
 		}
+		_this2.update();
 	};
 });
 
 riot.tag('rg-bubble', '<div class="context"> <div class="bubble { visible: visible }"> <rg-raw content="{ opts.content }"></rg-raw> </div> <div class="content" onmouseover="{ showBubble }" onmouseout="{ hideBubble }" onclick="{ toggleBubble }"> <yield></yield> </div> </div>', 'rg-bubble .context, [riot-tag="rg-bubble"] .context,rg-bubble .content, [riot-tag="rg-bubble"] .content{ display: inline-block; position: relative; } rg-bubble .bubble, [riot-tag="rg-bubble"] .bubble{ position: absolute; top: -50px; left: 50%; transform: translate3d(-50%, 0, 0); padding: 10px 15px; background-color: #000; color: white; text-align: center; font-size: 0.9em; line-height: 1; white-space: nowrap; opacity: 0; } rg-bubble .visible, [riot-tag="rg-bubble"] .visible{ display: block; opacity: 1; } rg-bubble .bubble:after, [riot-tag="rg-bubble"] .bubble:after{ content: \'\'; position: absolute; display: block; bottom: -20px; left: 50%; transform: translate3d(-50%, 0, 0); width: 0; height: 0; border: 10px solid transparent; border-top-color: #000; }', function (opts) {
 	var _this = this;
 
-	this.text = opts.text;
 	this.visible = false;
 	this.showBubble = function () {
 		clearTimeout(_this.timer);
@@ -786,6 +815,7 @@ riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="w
 	};
 
 	this.filterItems = function () {
+		if (!rg.isArray(opts.options)) return;
 		_this.filteredItems = opts.options.filter(function (item) {
 			item.active = false;
 			var filterOn = opts['filter-on'] || 'text';
@@ -801,6 +831,7 @@ riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="w
 
 	this.select = function (item) {
 		item = item.item;
+		if (!rg.isArray(opts.options)) return;
 		opts.options.forEach(function (i) {
 			return i.selected = false;
 		});
@@ -817,6 +848,7 @@ riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="w
 		_this.filterItems();
 
 		// Give each dropdown item an index and select one if applicable
+		if (!rg.isArray(opts.options)) return;
 		opts.options.forEach(function (item, i) {
 			item.index = i;
 			if (item.selected) _this.select({ item: item });
@@ -1090,6 +1122,7 @@ riot.tag('rg-toast', '<div class="toasts { opts.position } { active: active }"> 
 	};
 
 	this.on('update', function () {
+		if (!rg.isArray(opts.toasts)) return;
 		opts.toasts.forEach(function (toast) {
 			if (rg.isUndefined(toast.visible)) toast.visible = true;
 			toast.id = Math.random().toString(36).substr(2, 8);
