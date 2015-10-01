@@ -2,7 +2,7 @@
 	<span></span>
 
 	<script>
-		this.on('mount', function() {
+		this.on('mount update', function() {
 			this.root.innerHTML = opts.content || ''
 		})
 	</script>

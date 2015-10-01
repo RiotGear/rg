@@ -13,7 +13,8 @@
 
   <h2>Bubble</h2>
   <div class="demo">
-    <rg-bubble content="I go <em>pop!</em>">Hover over me</rg-bubble>
+    <rg-bubble content="{ bubbleContent || '<strong>ping</strong>' }">Hover over me</rg-bubble>
+    <button onclick="{ updateBubbleContent }">Update bubble content</button>
   </div>
 
   <h2>Code</h2>
@@ -178,6 +179,10 @@
           alert.isvisible = false
         }
       });
+    }
+
+    this.updateBubbleContent = () => {
+      this.bubbleContent = '<em>pong!</em>'
     }
 
   </script>

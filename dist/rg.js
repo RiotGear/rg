@@ -385,8 +385,12 @@ riot.tag('rg-behold', '<div class="container"> <div class="controls"> <div class
 	};
 });
 
-riot.tag('rg-bubble', '<div class="context"> <div class="bubble { visible: visible }"> <rg-raw content="{ opts.content }"></rg-raw> </div> <div class="content" onmouseover="{ showBubble }" onmouseout="{ hideBubble }" onclick="{ toggleBubble }"> <yield></yield> </div> </div>', 'rg-bubble .context, [riot-tag="rg-bubble"] .context,rg-bubble .content, [riot-tag="rg-bubble"] .content{ display: inline-block; position: relative; } rg-bubble .bubble, [riot-tag="rg-bubble"] .bubble{ position: absolute; top: -50px; left: 50%; transform: translate3d(-50%, 0, 0); padding: 10px 15px; background-color: #000; color: white; text-align: center; font-size: 0.9em; line-height: 1; white-space: nowrap; opacity: 0; } rg-bubble .visible, [riot-tag="rg-bubble"] .visible{ display: block; opacity: 1; } rg-bubble .bubble:after, [riot-tag="rg-bubble"] .bubble:after{ content: \'\'; position: absolute; display: block; bottom: -20px; left: 50%; transform: translate3d(-50%, 0, 0); width: 0; height: 0; border: 10px solid transparent; border-top-color: #000; }', function (opts) {
+riot.tag('rg-bubble', '<div class="context"> <div class="bubble { visible: visible }"> <rg-raw content="{ content }"></rg-raw> </div> <div class="content" onmouseover="{ showBubble }" onmouseout="{ hideBubble }" onclick="{ toggleBubble }"> <yield></yield> </div> </div>', 'rg-bubble .context, [riot-tag="rg-bubble"] .context,rg-bubble .content, [riot-tag="rg-bubble"] .content{ display: inline-block; position: relative; } rg-bubble .bubble, [riot-tag="rg-bubble"] .bubble{ position: absolute; top: -50px; left: 50%; transform: translate3d(-50%, 0, 0); padding: 10px 15px; background-color: #000; color: white; text-align: center; font-size: 0.9em; line-height: 1; white-space: nowrap; opacity: 0; } rg-bubble .visible, [riot-tag="rg-bubble"] .visible{ display: block; opacity: 1; } rg-bubble .bubble:after, [riot-tag="rg-bubble"] .bubble:after{ content: \'\'; position: absolute; display: block; bottom: -20px; left: 50%; transform: translate3d(-50%, 0, 0); width: 0; height: 0; border: 10px solid transparent; border-top-color: #000; }', function (opts) {
 	var _this = this;
+
+	this.on('update', function () {
+		_this.content = opts.content;
+	});
 
 	this.visible = false;
 	this.showBubble = function () {
@@ -754,7 +758,7 @@ riot.tag('rg-placeholdit', '<img riot-src="https://placeholdit.imgix.net/~text?b
 });
 
 riot.tag('rg-raw', '<span></span>', function (opts) {
-	this.on('mount', function () {
+	this.on('mount update', function () {
 		this.root.innerHTML = opts.content || '';
 	});
 });
