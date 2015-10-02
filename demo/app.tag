@@ -1,5 +1,5 @@
 <app>
-  <rg-context-menu id="myMenu"></rg-context-menu>
+  <rg-context-menu id="myMenu" items="{ contentMenuItems }"></rg-context-menu>
   <h2>Alert</h2>
   <div class="demo">
     <rg-alert alerts="{ alerts }"></rg-alert>
@@ -23,12 +23,13 @@
   </div>
   <button onclick="{ changeCode }">Change code</button>
 
-  <!-- <h2>Context Menu</h2>
+  <h2>Context Menu</h2>
   <div class="demo" rg-context-menu="myMenu">
     Right click here.
+    <button onclick="{ addMenuItem }">Add menu item</button>
   </div>
 
-  <h2>Credit Card</h2>
+  <!-- <h2>Credit Card</h2>
   <div class="demo">
     <rg-credit-card cardno="4000 0000 0000 0002"></rg-credit-card>
   </div>
@@ -187,6 +188,19 @@
 
     this.changeCode = () => {
       this.code = '<h2>Hello RiotGear!</h2>'
+    }
+
+    const menuItem = {
+      content: '<em>Add another item</em>',
+      onclick: () => {
+        this.addMenuItem()
+      }
+    }
+
+    this.contentMenuItems = [menuItem]
+
+    this.addMenuItem = () => {
+      this.contentMenuItems.push(menuItem)
     }
 
   </script>

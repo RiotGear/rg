@@ -442,26 +442,13 @@ riot.tag('rg-code', '<div class="editor"></div>', 'rg-code .editor, [riot-tag="r
 	});
 });
 
-riot.tag('rg-context-menu-item', '<div class="item { inactive: opts.inactive }" onclick="{ selectItem }"> <yield></yield> </div>', function (opts) {
-	var _this = this;
-
-	this.selectItem = function () {
-		if (!opts.inactive) {
-			if (rg.isFunction(opts.onselect)) opts.onselect(opts);
-
-			_this.parent.opts.menu.opened = false;
-			_this.parent.update();
-		}
-	};
-});
-
-riot.tag('rg-context-menu', '<div class="menu { visible: visible }"> <div class="list"> <div each="{ opts.items }" class="item { inactive: inactive }" onclick="{ selectItem }"> <rg-raw content="{ content }"></rg-raw> </div> <yield></yield> </div> </div>', 'rg-context-menu .menu, [riot-tag="rg-context-menu"] .menu{ display: none; position: absolute; background-color: white; border: 1px solid #D3D3D3; border-top: 0; text-align: left; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; box-sizing: border-box; z-index: 2; } rg-context-menu .menu.visible, [riot-tag="rg-context-menu"] .menu.visible{ display: block; } rg-context-menu .item, [riot-tag="rg-context-menu"] .item{ cursor: pointer; padding: 10px; border-top: 1px solid #E8E8E8; background-color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-context-menu .item:hover, [riot-tag="rg-context-menu"] .item:hover{ background-color: #f3f3f3; } rg-context-menu .item.inactive, [riot-tag="rg-context-menu"] .item.inactive{ color: #8a8a8a; font-style: italic; } rg-context-menu .item.inactive:hover, [riot-tag="rg-context-menu"] .item.inactive:hover{ background-color: #fff; }', function (opts) {
+riot.tag('rg-context-menu', '<div class="menu { isvisible: isvisible }"> <div class="list"> <div each="{ opts.items }" class="item { inactive: inactive }" onclick="{ selectItem }"> <rg-raw content="{ content }"></rg-raw> </div> <yield></yield> </div> </div>', 'rg-context-menu .menu, [riot-tag="rg-context-menu"] .menu{ display: none; position: absolute; background-color: white; border: 1px solid #D3D3D3; text-align: left; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; box-sizing: border-box; z-index: 2; } rg-context-menu .menu.isvisible, [riot-tag="rg-context-menu"] .menu.isvisible{ display: block; } rg-context-menu .item, [riot-tag="rg-context-menu"] .item{ cursor: pointer; padding: 10px; border-top: 1px solid #E8E8E8; background-color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-context-menu .item:first-child, [riot-tag="rg-context-menu"] .item:first-child{ border-top: 0; } rg-context-menu .item:hover, [riot-tag="rg-context-menu"] .item:hover{ background-color: #f3f3f3; } rg-context-menu .item.inactive, [riot-tag="rg-context-menu"] .item.inactive{ color: #8a8a8a; font-style: italic; } rg-context-menu .item.inactive:hover, [riot-tag="rg-context-menu"] .item.inactive:hover{ background-color: #fff; }', function (opts) {
 	var _this = this;
 
 	var handleClickOutside = function handleClickOutside(e) {
 		if (!_this.root.contains(e.target)) {
-			if (rg.isFunction(opts.onclose) && _this.visible) opts.onclose(e);
-			_this.visible = false;
+			if (rg.isFunction(opts.onclose) && _this.isvisible) opts.onclose(e);
+			_this.isvisible = false;
 			_this.update();
 		}
 	};
@@ -469,7 +456,7 @@ riot.tag('rg-context-menu', '<div class="menu { visible: visible }"> <div class=
 	var openMenu = function openMenu(e) {
 		e.preventDefault();
 		if (rg.isFunction(opts.onopen)) opts.onopen(e);
-		_this.visible = true;
+		_this.isvisible = true;
 		_this.update();
 
 		var x = e.pageX;
@@ -507,15 +494,14 @@ riot.tag('rg-context-menu', '<div class="menu { visible: visible }"> <div class=
 	});
 
 	this.closeMenu = function () {
-		_this.visible = false;
+		_this.isvisible = false;
 		_this.update();
 	};
 
 	this.selectItem = function (e) {
 		if (!e.item.inactive) {
-			if (e.item.onselect) e.item.onselect(e.item);
-
-			_this.visible = false;
+			if (e.item.onclick) e.item.onclick(e.item);
+			_this.isvisible = false;
 		}
 	};
 });
