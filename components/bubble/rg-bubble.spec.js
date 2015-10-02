@@ -17,7 +17,7 @@ describe('rg-bubble', function() {
   describe('displays tooltip with correct text', function() {
     it('on click', function() {
       $('rg-bubble .content').trigger('click')
-      const visible = $('rg-bubble .bubble').is('.visible')
+      const visible = $('rg-bubble .bubble').is(':visible')
       const text = $('rg-bubble .bubble').text()
       visible.should.be.true
       text.should.contain($('rg-bubble').attr('content'))
@@ -25,7 +25,7 @@ describe('rg-bubble', function() {
 
     it('on mouse over', function() {
       $('rg-bubble .content').trigger('mouseover')
-      const visible = $('rg-bubble .bubble').is('.visible')
+      const visible = $('rg-bubble .bubble').is(':visible')
       const text = $('rg-bubble .bubble').text()
       visible.should.be.true
       text.should.contain($('rg-bubble').attr('content'))
@@ -39,22 +39,16 @@ describe('rg-bubble', function() {
 
     it('on click', function() {
       $('rg-bubble .content').trigger('click')
-      const visible = $('rg-bubble .bubble').is('.visible')
-      visible.should.be.false
+      $('rg-bubble .bubble.isvisible').length.should.equal(0)
     })
 
     describe('after 1 second', function() {
-      beforeEach(function(done) {
+      it('on mouse out', function(done) {
         $('rg-bubble .content').trigger('mouseout')
-        const visible = $('rg-bubble .bubble').is('.visible')
-        visible.should.be.true
         setTimeout(function() {
+          $('rg-bubble .bubble.isvisible').length.should.equal(0)
           done()
         }, 1000)
-      })
-      it('on mouse out', function() {
-        var visible = $('rg-bubble .bubble').is('.visible')
-        visible.should.be.false
       })
     })
   })
