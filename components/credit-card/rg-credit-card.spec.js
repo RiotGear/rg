@@ -49,7 +49,7 @@ describe('rg-credit-card', function() {
     textbox.attr('placeholder').should.equal(placeholder)
   })
 
-  it('sets validation result on mount', function() {
+  it('sets validation result', function() {
     tag.validationResult.card_type.name.should.equal('visa')
   })
 

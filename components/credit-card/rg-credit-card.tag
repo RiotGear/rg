@@ -2,18 +2,25 @@
 
 	<input type="text"
 		     name="cardNo"
+				 value="{ opts.cardno }"
 				 class="field card-no
 				 { icon }
 				 { valid: validationResult.valid == true }"
-				 oninput={ validate }
+				 oninput="{ validate }"
 				 placeholder="{ opts.placeholder || 'Card no.' }">
 
 	<script>
 		this.on('mount', () => {
 			this.mixin('rg.creditcard')
-			this.cardNo.value = opts.cardno || ''
 			this.validate()
 			this.update()
+		})
+
+		this.on('updated', () => {
+			if (this.isMounted) {
+				this.validate()
+				this.update()
+			}
 		})
 
 		this.validate = () => {

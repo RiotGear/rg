@@ -506,14 +506,20 @@ riot.tag('rg-context-menu', '<div class="menu { isvisible: isvisible }"> <div cl
 	};
 });
 
-riot.tag('rg-credit-card', '<input type="text" name="cardNo" class="field card-no { icon } { valid: validationResult.valid == true }" oninput="{ validate }" placeholder="{ opts.placeholder || \'Card no.\' }">', 'rg-credit-card .field, [riot-tag="rg-credit-card"] .field{ font-size: 1em; padding: 10px; border: 1px solid #D3D3D3; box-sizing: border-box; outline: none; } rg-credit-card .card-no, [riot-tag="rg-credit-card"] .card-no{ padding-right: 60px; background-repeat: no-repeat; background-position: right center; background-size: 60px; } rg-credit-card .amex, [riot-tag="rg-credit-card"] .amex{ background-image: url(img/amex.png); } rg-credit-card .diners_club, [riot-tag="rg-credit-card"] .diners_club{ background-image: url(img/diners_club.png); } rg-credit-card .discover, [riot-tag="rg-credit-card"] .discover{ background-image: url(img/discover.png); } rg-credit-card .jcb, [riot-tag="rg-credit-card"] .jcb{ background-image: url(img/jcb.png); } rg-credit-card .mastercard, [riot-tag="rg-credit-card"] .mastercard{ background-image: url(img/mastercard.png); } rg-credit-card .visa, [riot-tag="rg-credit-card"] .visa{ background-image: url(img/visa.png); }', function (opts) {
+riot.tag('rg-credit-card', '<input type="text" name="cardNo" value="{ opts.cardno }" class="field card-no { icon } { valid: validationResult.valid == true }" oninput="{ validate }" placeholder="{ opts.placeholder || \'Card no.\' }">', 'rg-credit-card .field, [riot-tag="rg-credit-card"] .field{ font-size: 1em; padding: 10px; border: 1px solid #D3D3D3; box-sizing: border-box; outline: none; } rg-credit-card .card-no, [riot-tag="rg-credit-card"] .card-no{ padding-right: 60px; background-repeat: no-repeat; background-position: right center; background-size: 60px; } rg-credit-card .amex, [riot-tag="rg-credit-card"] .amex{ background-image: url(img/amex.png); } rg-credit-card .diners_club, [riot-tag="rg-credit-card"] .diners_club{ background-image: url(img/diners_club.png); } rg-credit-card .discover, [riot-tag="rg-credit-card"] .discover{ background-image: url(img/discover.png); } rg-credit-card .jcb, [riot-tag="rg-credit-card"] .jcb{ background-image: url(img/jcb.png); } rg-credit-card .mastercard, [riot-tag="rg-credit-card"] .mastercard{ background-image: url(img/mastercard.png); } rg-credit-card .visa, [riot-tag="rg-credit-card"] .visa{ background-image: url(img/visa.png); }', function (opts) {
 	var _this = this;
 
 	this.on('mount', function () {
 		_this.mixin('rg.creditcard');
-		_this.cardNo.value = opts.cardno || '';
 		_this.validate();
 		_this.update();
+	});
+
+	this.on('updated', function () {
+		if (_this.isMounted) {
+			_this.validate();
+			_this.update();
+		}
 	});
 
 	this.validate = function () {

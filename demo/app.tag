@@ -26,12 +26,12 @@
   <h2>Context Menu</h2>
   <div class="demo" rg-context-menu="myMenu">
     Right click here.
-    <button onclick="{ addMenuItem }">Add menu item</button>
   </div>
 
-  <!-- <h2>Credit Card</h2>
+  <h2>Credit Card</h2>
   <div class="demo">
-    <rg-credit-card cardno="4000 0000 0000 0002"></rg-credit-card>
+    <rg-credit-card cardno="{ creditCard }"></rg-credit-card>
+    <button onclick="{ changeCreditCard }">Change Credit Card</button>
   </div>
 
   <h2>Date</h2>
@@ -39,6 +39,7 @@
     <rg-date></rg-date>
   </div>
 
+<!--
   <h2>GA</h2>
   <div class="demo">
     Google Analytics tag is on this page. Look at Network tab in Developer Tools
@@ -201,6 +202,10 @@
 
     this.addMenuItem = () => {
       this.contentMenuItems.push(menuItem)
+    }
+
+    this.changeCreditCard = () => {
+      this.creditCard = 5105105105105100
     }
 
   </script>
