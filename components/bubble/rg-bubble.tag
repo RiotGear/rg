@@ -1,7 +1,7 @@
 <rg-bubble>
 
 	<div class="context">
-		<div class="bubble { visible: visible }">
+		<div class="bubble { isvisible: isvisible }">
 			<rg-raw content="{ opts.content }"></rg-raw>
 		</div>
 		<div class="content" onmouseover="{ showBubble }" onmouseout="{ hideBubble }" onclick="{ toggleBubble }">
@@ -10,19 +10,19 @@
 	</div>
 
 	<script>
-		this.visible = false
+		this.isvisible = false
 		this.showBubble = () => {
 			clearTimeout(this.timer)
-			this.visible = true
+			this.isvisible = true
 		}
 		this.hideBubble = () => {
 			this.timer = setTimeout(() => {
-				this.visible = false
+				this.isvisible = false
 				this.update()
 			}, 1000)
 		}
 		this.toggleBubble = () => {
-			this.visible = !this.visible
+			this.isvisible = !this.isvisible
 		}
 	</script>
 
@@ -47,7 +47,7 @@
 			opacity: 0;
 		}
 
-		.visible {
+		.isvisible {
 			display: block;
 			opacity: 1;
 		}
