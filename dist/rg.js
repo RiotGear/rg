@@ -283,7 +283,6 @@ riot.tag('rg-alert', '<div each="{ opts.alerts }" class="alert { type } { isvisi
 				alert.startTimer();
 			}
 		});
-		this.update();
 	});
 
 	this.dismiss = function (e) {
@@ -437,7 +436,7 @@ riot.tag('rg-code', '<div class="editor"></div>', 'rg-code .editor, [riot-tag="r
 		}
 	};
 
-	this.on('update', function () {
+	this.parent.on('updated', function () {
 		if (_this.isMounted) _this.setContent();
 	});
 });
@@ -544,7 +543,7 @@ riot.tag('rg-date', '<div class="container { open: opened }"> <input type="text"
 	this.dayFormat = opts['day-format'] || 'DD';
 
 	// Convert the given date to a moment object
-	this.date = moment(rg.isDate(opts.date) || new Date());
+	this.date = moment(opts.date);
 
 	// Setup the weekday list
 	var temp = moment();
@@ -592,7 +591,7 @@ riot.tag('rg-date', '<div class="container { open: opened }"> <input type="text"
 			_this.endBuffer.push(dayObj(bufferDate));
 		}
 
-		_this.opts.date = _this.date.toDate();
+		opts.date = _this.date.toDate();
 		_this.update();
 	};
 
@@ -607,7 +606,7 @@ riot.tag('rg-date', '<div class="container { open: opened }"> <input type="text"
 	// Handle the clicks on dates
 	this.changeDate = function (e) {
 		var day = e.item.day;
-		_this.date = day.date;
+		_this.date = opts.date = day.date;
 		if (rg.isFunction(opts.onselect)) opts.onselect(_this.date);
 		buildCalendar();
 		_this.opened = false;

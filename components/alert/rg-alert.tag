@@ -24,7 +24,6 @@
 					alert.startTimer()
 				}
 			})
-			this.update()
 		})
 
 		this.dismiss = e => {

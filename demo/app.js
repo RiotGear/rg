@@ -1,4 +1,4 @@
-riot.tag('app', '<rg-context-menu id="myMenu" items="{ contentMenuItems }"></rg-context-menu> <h2>Alert</h2> <div class="demo"> <rg-alert alerts="{ alerts }"></rg-alert> <button onclick="{ addAlert }">Add alert</button> </div> <h2>Behold</h2> <div class="demo"> <rg-behold image1="img/first.jpg" image2="img/second.jpg"></rg-behold> </div> <h2>Bubble</h2> <div class="demo"> <rg-bubble content="{ bubbleContent || \'<strong>ping</strong>\' }">Hover over me</rg-bubble> <button onclick="{ updateBubbleContent }">Update bubble content</button> </div> <h2>Code</h2> <div class="demo"> <rg-code theme="monokai" mode="html" tabsize="2" softtabs="false" wordwrap="false" readonly="false" code="{ code || \'<h2>Hello world!</h2>\' }"></rg-code> </div> <button onclick="{ changeCode }">Change code</button> <h2>Context Menu</h2> <div class="demo" rg-context-menu="myMenu"> Right click here. </div> <h2>Credit Card</h2> <div class="demo"> <rg-credit-card cardno="{ creditCard }"></rg-credit-card> <button onclick="{ changeCreditCard }">Change Credit Card</button> </div> ', function(opts) {var _this = this;
+riot.tag('app', '<rg-context-menu id="myMenu" items="{ contentMenuItems }"></rg-context-menu> <h2>Alert</h2> <div class="demo"> <rg-alert alerts="{ alerts }"></rg-alert> <button onclick="{ addAlert }">Add alert</button> </div> <h2>Behold</h2> <div class="demo"> <rg-behold image1="img/first.jpg" image2="img/second.jpg"></rg-behold> </div> <h2>Bubble</h2> <div class="demo"> <rg-bubble content="{ bubbleContent || \'<strong>ping</strong>\' }">Hover over me</rg-bubble> { bubbleContent } <button onclick="{ updateBubbleContent }">Update bubble content</button> </div> <h2>Code</h2> <div class="demo"> <rg-code theme="monokai" mode="html" tabsize="2" softtabs="false" wordwrap="false" readonly="false" code="{ code }"></rg-code> </div> { code } <button onclick="{ changeCode }">Change code</button> <h2>Context Menu</h2> <div class="demo" rg-context-menu="myMenu"> Right click here. </div> <h2>Credit Card</h2> <div class="demo"> <rg-credit-card cardno="{ creditCard }"></rg-credit-card> { creditCard } <button onclick="{ changeCreditCard }">Change Credit Card</button> </div> <h2>Date</h2> <div class="demo"> <rg-date date="{ date }"></rg-date> { date } <button onclick="{ changeDate }">Change date</button> </div> ', function(opts) {var _this = this;
 
 this.alerts = [{
   type: 'danger',
@@ -50,5 +50,11 @@ this.addMenuItem = function () {
 
 this.changeCreditCard = function () {
   _this.creditCard = 5105105105105100;
+};
+
+this.date = '1982-01-14';
+
+this.changeDate = function () {
+  _this.date = '2015-12-25';
 };
 });

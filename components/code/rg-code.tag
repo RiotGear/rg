@@ -33,7 +33,7 @@
 			}
 		}
 
-		this.on('update', () => {
+		this.parent.on('updated', () => {
 			if (this.isMounted) this.setContent()
 		})
 

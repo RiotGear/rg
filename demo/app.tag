@@ -14,12 +14,13 @@
   <h2>Bubble</h2>
   <div class="demo">
     <rg-bubble content="{ bubbleContent || '<strong>ping</strong>' }">Hover over me</rg-bubble>
+    { bubbleContent }
     <button onclick="{ updateBubbleContent }">Update bubble content</button>
   </div>
 
   <h2>Code</h2>
   <div class="demo">
-    <rg-code theme="monokai" mode="html" tabsize="2" softtabs="false" wordwrap="false" readonly="false" code="{ code || '<h2>Hello world!</h2>' }"></rg-code>
+    <rg-code theme="monokai" mode="html" tabsize="2" softtabs="false" wordwrap="false" readonly="false" code="{ code }"></rg-code>
   </div>
   <button onclick="{ changeCode }">Change code</button>
 
@@ -31,12 +32,15 @@
   <h2>Credit Card</h2>
   <div class="demo">
     <rg-credit-card cardno="{ creditCard }"></rg-credit-card>
+    { creditCard }
     <button onclick="{ changeCreditCard }">Change Credit Card</button>
   </div>
 
   <h2>Date</h2>
   <div class="demo">
-    <rg-date></rg-date>
+    <rg-date date="{ date }"></rg-date>
+    { date }
+    <button onclick="{ changeDate }">Change date</button>
   </div>
 
 <!--
@@ -206,6 +210,12 @@
 
     this.changeCreditCard = () => {
       this.creditCard = 5105105105105100
+    }
+
+    this.date = '1982-01-14'
+
+    this.changeDate = () => {
+      this.date = '2015-12-25'
     }
 
   </script>
