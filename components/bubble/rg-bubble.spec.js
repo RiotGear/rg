@@ -1,34 +1,35 @@
 describe('rg-bubble', function() {
-  let bubble
+  let tag, bubble
 
   beforeEach(function() {
-    $('body').append('<rg-bubble content="Hello World!"></rg-bubble>')
-    bubble = riot.mount('rg-bubble')[0]
+    $('body').append('<rg-bubble></rg-bubble>')
+    bubble = new RgBubble({
+      content: '<strong>Ping</strong>'
+    })
+    tag = riot.mount('rg-bubble', {
+      bubble
+    })[0]
   })
 
   afterEach(function () {
-    bubble.unmount()
+    tag.unmount()
   })
 
   it('is mounted', function() {
-    bubble.isMounted.should.be.true
+    tag.isMounted.should.be.true
   })
 
   describe('displays tooltip with correct text', function() {
     it('on click', function() {
       $('rg-bubble .content').trigger('click')
-      const visible = $('rg-bubble .bubble').is(':visible')
-      const text = $('rg-bubble .bubble').text()
-      visible.should.be.true
-      text.should.contain($('rg-bubble').attr('content'))
+      $('rg-bubble .bubble').is(':visible').should.be.true
+      $('rg-bubble .bubble').html().should.contain(bubble.content)
     })
 
     it('on mouse over', function() {
       $('rg-bubble .content').trigger('mouseover')
-      const visible = $('rg-bubble .bubble').is(':visible')
-      const text = $('rg-bubble .bubble').text()
-      visible.should.be.true
-      text.should.contain($('rg-bubble').attr('content'))
+      $('rg-bubble .bubble').is(':visible').should.be.true
+      $('rg-bubble .bubble').html().should.contain(bubble.content)
     })
   })
 
