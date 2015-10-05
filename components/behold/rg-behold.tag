@@ -3,31 +3,28 @@
 	<div class="container">
 		<div class="controls">
 			<div class="modes">
-				<a onclick="{ swipeMode }" class="mode { active: mode == 'swipe' }">Swipe</a>
-				<a onclick="{ fadeMode }" class="mode { active: mode == 'fade' }">Fade</a>
+				<a onclick="{ swipeMode }" class="mode { active: RgBehold.mode == 'swipe' }">Swipe</a>
+				<a onclick="{ fadeMode }" class="mode { active: RgBehold.mode == 'fade' }">Fade</a>
 			</div>
 			<input type="range" class="ranger" name="diff" value="0" min="0" max="1" step="0.01" oninput="{ updateDiff }" onchange="{ updateDiff }">
 		</div>
 		<div class="images">
 			<div class="image">
-				<img class="image-2" src="{ opts.image2 }">
+				<img class="image-2" src="{ RgBehold.image2 }">
 			</div>
 			<div class="image fallback">
-				<img class="image-1" src="{ opts.image1 }">
+				<img class="image-1" src="{ RgBehold.image1 }">
 			</div>
 		</div>
 	</div>
 
 	<script>
-		this.mode = 'swipe'
+		let image1, image2, fallback
 
-		var image1, image2, fallback
-
-		this.on('mount', () => {
+		const viewer = () => {
 			image1 = this.root.querySelector('.image-1')
 			image2 = this.root.querySelector('.image-2')
 			fallback = typeof image1.style.webkitClipPath == 'undefined'
-			this.reset()
 
 			let img1Loaded, img2Loaded, img1H, img2H
 			let img1 = new Image()
@@ -42,8 +39,8 @@
 				img2H = this.height
 				calculateMaxHeight()
 			}
-			img1.src = opts.image1
-			img2.src = opts.image2
+			img1.src = this.RgBehold.image1
+			img2.src = this.RgBehold.image2
 
 			let _this = this
 
@@ -55,36 +52,31 @@
 					_this.updateDiff()
 				}
 			}
+		}
+
+		this.on('mount', () => {
+			this.RgBehold = opts.behold
+			this.RgBehold.on('mode', () => {
+				this.diff.value = 0
+				this.updateDiff()
+			})
+			this.RgBehold.on('image', () => {
+				viewer()
+			})
+			viewer()
 		})
 
-		this.reset = () => {
-			if (this.mode == 'swipe') {
-				this.root.querySelector('.ranger').style.direction = 'ltr'
-				this.diff.value = 0
-			}
-			if (this.mode == 'fade') {
-				this.root.querySelector('.ranger').style.direction = 'rtl'
-				this.diff.value = 1
-			}
-		}
-
 		this.swipeMode = () => {
-			this.reset()
-			this.updateDiff()
-			this.mode = 'swipe'
-			this.reset()
+			this.RgBehold.mode = 'swipe'
 		}
 		this.fadeMode = () => {
-			this.reset()
-			this.updateDiff()
-			this.mode = 'fade'
-			this.reset()
+			this.RgBehold.mode = 'fade'
 		}
 
 		this.updateDiff = () => {
-			if (this.mode == 'fade') {
-				image1.style.opacity = this.diff.value
-			} else if (this.mode == 'swipe') {
+			if (this.RgBehold.mode == 'fade') {
+				image1.style.opacity = 1 - this.diff.value
+			} else if (this.RgBehold.mode == 'swipe') {
 				if (!fallback) {
 					image1.style.clipPath =
 						image1.style.webkitClipPath =
@@ -133,6 +125,7 @@
 		.image img {
 			max-width: 90%;
 		}
+
 	</style>
 
 </rg-behold>

@@ -54,32 +54,34 @@
 	</div>
 
 	<script>
-		// Display elements
-		this.months = rg.isDefined(opts.months) ? rg.toBoolean(opts.months) : true
-		this.years = rg.isDefined(opts.years) ? rg.toBoolean(opts.years) : true
-		this.today = rg.isDefined(opts.today) ? rg.toBoolean(opts.today) : true
+		const setOpts = () => {
+			// Display elements
+			this.months = rg.isDefined(opts.months) ? rg.toBoolean(opts.months) : true
+			this.years = rg.isDefined(opts.years) ? rg.toBoolean(opts.years) : true
+			this.today = rg.isDefined(opts.today) ? rg.toBoolean(opts.today) : true
 
-		// Get our display formats
-		this.format = opts.format || 'LL'
-		this.yearFormat = opts['year-format'] || 'YYYY'
-		this.monthFormat = opts['month-format'] || 'MMMM'
-		this.weekFormat = opts['week-format'] || 'ddd'
-		this.dayFormat = opts['day-format'] || 'DD'
+			// Get our display formats
+			this.format = opts.format || 'LL'
+			this.yearFormat = opts['year-format'] || 'YYYY'
+			this.monthFormat = opts['month-format'] || 'MMMM'
+			this.weekFormat = opts['week-format'] || 'ddd'
+			this.dayFormat = opts['day-format'] || 'DD'
 
-		// Convert the given date to a moment object
-		this.date = moment(rg.isDate(opts.date) || new Date())
+			// Convert the given date to a moment object
+			this.date = moment(opts.date)
 
-		// Setup the weekday list
-		const temp = moment()
-		this.dayNames = [
-			temp.day(0).format(this.weekFormat),
-			temp.day(1).format(this.weekFormat),
-			temp.day(2).format(this.weekFormat),
-			temp.day(3).format(this.weekFormat),
-			temp.day(4).format(this.weekFormat),
-			temp.day(5).format(this.weekFormat),
-			temp.day(6).format(this.weekFormat),
-		]
+			// Setup the weekday list
+			const temp = moment()
+			this.dayNames = [
+				temp.day(0).format(this.weekFormat),
+				temp.day(1).format(this.weekFormat),
+				temp.day(2).format(this.weekFormat),
+				temp.day(3).format(this.weekFormat),
+				temp.day(4).format(this.weekFormat),
+				temp.day(5).format(this.weekFormat),
+				temp.day(6).format(this.weekFormat),
+			]
+		}
 
 		const handleClickOutside = e => {
 			if (!this.root.contains(e.target) && this.opened) {
@@ -123,16 +125,20 @@
 				this.endBuffer.push(dayObj(bufferDate))
 			}
 
-			this.opts.date = this.date.toDate()
 			this.update()
 		}
 
 		this.on('mount', () => {
+			setOpts()
 			document.addEventListener('click', handleClickOutside)
 		})
 
 		this.on('unmount', () => {
 			document.removeEventListener('click', handleClickOutside)
+		})
+
+		this.parent.on('updated', () => {
+			if (this.isMounted) setOpts()
 		})
 
 		// Handle the clicks on dates
@@ -146,7 +152,7 @@
 
 		// Handle today shortcut
 		this.setToday = () => {
-			this.date = opts.date = moment()
+			this.date = moment()
 			buildCalendar()
 			this.opened = false
 		}
@@ -181,6 +187,7 @@
 			buildCalendar()
 			this.opened = true
 		}
+
 	</script>
 
 	<style scoped>
@@ -304,6 +311,7 @@
 			flex: 0 0 100%;
 			color: #6495ed;
 		}
+
 	</style>
 
 </rg-date>

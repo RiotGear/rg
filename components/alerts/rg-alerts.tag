@@ -1,6 +1,6 @@
-<rg-alert>
+<rg-alerts>
 
-	<div each="{ opts.alerts }" class="alert { type } { isvisible: isvisible }" onclick="{ select }">
+	<div each="{ RgAlerts.alerts }" class="alert { type } { isvisible: isvisible }" onclick="{ select }">
 		<a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }">
 			<span aria-hidden="true">&times;</span>
 		</a>
@@ -8,26 +8,17 @@
 	</div>
 
 	<script>
-		this.on('update', function() {
-			if (!rg.isArray(opts.alerts)) return
-			opts.alerts.forEach((alert) => {
-				if (rg.isUndefined(alert.isvisible)) {
-					alert.isvisible = true
-				}
-				if (!alert.timer && alert.timeout) {
-					alert.startTimer = () => {
-						alert.timer = window.setTimeout(() => {
-							remove(alert)
-							this.update()
-						}, rg.toNumber(alert.timeout))
-					}
-					alert.startTimer()
-				}
+		this.on('mount', function() {
+			this.RgAlerts = opts.alerts
+			this.RgAlerts.on('add dismiss', () => {
+				this.update()
 			})
+			this.update()
 		})
 
 		this.dismiss = e => {
-			remove(e.item)
+			const alert = e.item
+			this.RgAlerts.dismiss(alert)
 		}
 
 		this.select = e => {
@@ -35,11 +26,6 @@
 			if (rg.isFunction(alert.onclick)) alert.onclick(alert)
 		}
 
-		function remove(alert) {
-			alert.isvisible = false
-			if (rg.isFunction(alert.onclose)) alert.onclose(alert)
-			window.clearTimeout(alert.timer)
-		}
 	</script>
 
 	<style scoped>
@@ -96,6 +82,7 @@
 			color: #c06329;
 			background-color: #f7dfd0;
 		}
+
 	</style>
 
-</rg-alert>
+</rg-alerts>

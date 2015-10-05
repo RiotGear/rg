@@ -5,36 +5,34 @@
 	<script>
 		let editor
 
-		this.on('mount', () => {
-			editor = ace.edit(this.root.querySelector('.editor'))
-			if (opts.theme) editor.setTheme(`ace/theme/${opts.theme}`)
-			if (opts.mode) editor.getSession().setMode(`ace/mode/${opts.mode}`)
-			editor.getSession().setTabSize(opts.tabsize || 2)
-			if (opts.softtabs == "true") editor.getSession().setUseSoftTabs(true)
-			if (opts.wordwrap == "true") editor.getSession().setUseWrapMode(true)
-			if (opts.readonly == "true") editor.setReadOnly(true)
-			editor.$blockScrolling = Infinity
-
-			editor.getSession().on('change', e => {
-				if (rg.isFunction(opts.onchange)) opts.onchange(editor.getValue())
-			})
-			this.setContent()
-		})
-
-		this.setContent = () => {
-			/* istanbul ignore next */
-			if (opts.src) {
-				rg.xhr('get', opts.src, resp => {
-					editor.setValue(resp, -1)
-					this.update()
-				})
-			} else {
-				editor.setValue(opts.code)
-			}
+		const setupEditor = () => {
+			editor.setTheme(`ace/theme/${this.RgCode.theme}`)
+			editor.getSession().setMode(`ace/mode/${this.RgCode.mode}`)
+			editor.getSession().setTabSize(this.RgCode.tabsize)
+			editor.getSession().setUseSoftTabs(this.RgCode.softtabs)
+			editor.getSession().setUseWrapMode(this.RgCode.wordwrap)
+			editor.setReadOnly(this.RgCode.readonly)
+			this.update()
 		}
 
-		this.parent.on('updated', () => {
-			if (this.isMounted) this.setContent()
+		this.on('mount', () => {
+			editor = ace.edit(this.root.querySelector('.editor'))
+			editor.$blockScrolling = Infinity
+
+			this.RgCode = opts.editor
+			this.RgCode.on('editor', () => {
+				setupEditor()
+			})
+			this.RgCode.on('code src', () => {
+				editor.setValue(this.RgCode.code)
+			})
+			editor.setValue(this.RgCode.code)
+			editor.getSession().on('change', e => {
+				if (this.RgCode.onchange) {
+					this.RgCode.onchange(editor.getValue())
+				}
+			})
+			setupEditor()
 		})
 
 	</script>
@@ -49,5 +47,4 @@
 		}
 
 	</style>
-
 </rg-code>

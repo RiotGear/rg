@@ -2,28 +2,31 @@
   <rg-context-menu id="myMenu" items="{ contentMenuItems }"></rg-context-menu>
   <h2>Alert</h2>
   <div class="demo">
-    <rg-alert alerts="{ alerts }"></rg-alert>
+    <rg-alerts alerts="{ alerts }"></rg-alerts>
     <button onclick="{ addAlert }">Add alert</button>
   </div>
 
   <h2>Behold</h2>
   <div class="demo">
-    <rg-behold image1="img/first.jpg" image2="img/second.jpg"></rg-behold>
+    <rg-behold behold="{ behold }"></rg-behold>
+    <button onclick="{ changeBeholdMode }">Change mode</button>
+    <button onclick="{ changeBeholdImages }">Change image</button>
   </div>
 
   <h2>Bubble</h2>
   <div class="demo">
-    <rg-bubble content="{ bubbleContent || '<strong>ping</strong>' }">Hover over me</rg-bubble>
-    { bubbleContent }
-    <button onclick="{ updateBubbleContent }">Update bubble content</button>
+    <rg-bubble bubble="{ bubble }">Hover over me</rg-bubble>
+    <button onclick="{ updateBubbleContent }">Change bubble</button>
   </div>
+
 
   <h2>Code</h2>
   <div class="demo">
-    <rg-code theme="monokai" mode="html" tabsize="2" softtabs="false" wordwrap="false" readonly="false" code="{ code }"></rg-code>
+    <rg-code editor="{ editorSettings }"></rg-code>
   </div>
   <button onclick="{ changeCode }">Change code</button>
 
+  <!--
   <h2>Context Menu</h2>
   <div class="demo" rg-context-menu="myMenu">
     Right click here.
@@ -32,7 +35,6 @@
   <h2>Credit Card</h2>
   <div class="demo">
     <rg-credit-card cardno="{ creditCard }"></rg-credit-card>
-    { creditCard }
     <button onclick="{ changeCreditCard }">Change Credit Card</button>
   </div>
 
@@ -43,7 +45,6 @@
     <button onclick="{ changeDate }">Change date</button>
   </div>
 
-<!--
   <h2>GA</h2>
   <div class="demo">
     Google Analytics tag is on this page. Look at Network tab in Developer Tools
@@ -159,8 +160,13 @@
     <rg-unsplash random="true"></rg-unsplash>
   </div> -->
 
+  <h3>>> END</h3>
+
   <script>
-    this.alerts = [{
+    /*
+     * ALERTS
+     */
+    this.alerts = new RgAlerts([{
       type: 'danger',
       content: 'Danger! Something bad happened.',
       dismissable: true,
@@ -175,26 +181,60 @@
     }, {
       type: 'success',
       content: 'Success! Well done.'
-    }]
+    }])
 
     this.addAlert = () => {
-      this.alerts.push({
+      this.alerts.add({
         type: 'danger',
         content: 'Eeek! <strong>Boom!</strong> Look at the <a href="#">logs</a>',
         onclick: function(alert) {
           alert.isvisible = false
         }
-      });
+      })
     }
+
+    /*
+     * BEHOLD
+     */
+    this.behold = new RgBehold({
+      image1: 'img/first.jpg',
+      image2: 'img/second.jpg'
+    })
+
+    this.changeBeholdMode = () => {
+      this.behold.mode = 'fade'
+    }
+
+    this.changeBeholdImages = () => {
+      this.behold.image1 = 'img/third.jpg'
+    }
+
+    /*
+     * BUBBLE
+     */
+    this.bubble = new RgBubble({
+      content: '<strong>Ping</strong>'
+    })
 
     this.updateBubbleContent = () => {
-      this.bubbleContent = '<em>pong!</em>'
+      this.bubble.content = '<em>Pong!</em>'
     }
+
+    /*
+     * CODE
+     */
+    this.editorSettings = new RgCode({
+      code: '<h2>Hello world!</h2>'
+    })
 
     this.changeCode = () => {
-      this.code = '<h2>Hello RiotGear!</h2>'
+      this.editorSettings.code = 'this.msg = "Hello RiotGear!";'
+      this.editorSettings.mode = 'javascript'
     }
 
+    /*
+     * CONTEXT MENU
+     */
     const menuItem = {
       content: '<em>Add another item</em>',
       onclick: () => {

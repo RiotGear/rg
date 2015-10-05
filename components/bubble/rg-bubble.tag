@@ -2,7 +2,7 @@
 
 	<div class="context">
 		<div class="bubble { isvisible: isvisible }">
-			<rg-raw content="{ opts.content }"></rg-raw>
+			<rg-raw content="{ RgBubble.content }"></rg-raw>
 		</div>
 		<div class="content" onmouseover="{ showBubble }" onmouseout="{ hideBubble }" onclick="{ toggleBubble }">
 			<yield/>
@@ -10,24 +10,36 @@
 	</div>
 
 	<script>
-		this.isvisible = false
+		this.on('mount', () => {
+			this.isvisible = false
+			this.RgBubble = opts.bubble
+			this.RgBubble.on('content', () => {
+				this.update()
+			})
+			this.update()
+		})
+
 		this.showBubble = () => {
 			clearTimeout(this.timer)
 			this.isvisible = true
 		}
+
 		this.hideBubble = () => {
 			this.timer = setTimeout(() => {
 				this.isvisible = false
 				this.update()
 			}, 1000)
 		}
+
 		this.toggleBubble = () => {
 			this.isvisible = !this.isvisible
 		}
+
 	</script>
 
 	<style scoped>
-		.context, .content {
+		.context,
+		.content {
 			display: inline-block;
 			position: relative;
 		}
@@ -64,5 +76,6 @@
 			border: 10px solid transparent;
 			border-top-color: #000;
 		}
+
 	</style>
 </rg-bubble>

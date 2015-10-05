@@ -1,5 +1,9 @@
 'use strict';
 
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
 ;
 (function () {
 	if (!window.rg) window.rg = {};
@@ -50,29 +54,243 @@
 		req.send();
 	};
 })();
-/*
-jQuery Credit Card Validator 1.0
 
-Copyright 2012-2015 Pawel Decowski
+var RgAlerts = (function () {
+	function RgAlerts(opts) {
+		var _this3 = this;
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software
-is furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-IN THE SOFTWARE.
- */
+		_classCallCheck(this, RgAlerts);
 
-(function () {
+		riot.observable(this);
+		this.alerts = [];
+		if (!rg.isArray(opts)) return;
+		opts.forEach(function (alert) {
+			_this3.add(alert);
+		});
+	}
+
+	_createClass(RgAlerts, [{
+		key: 'add',
+		value: function add(alert) {
+			var _this4 = this;
+
+			alert.id = Math.random().toString(36).substr(2, 8);
+			if (rg.isUndefined(alert.isvisible)) alert.isvisible = true;
+			if (alert.timeout) {
+				alert.startTimer = function () {
+					alert.timer = setTimeout(function () {
+						_this4.dismiss(alert);
+					}, rg.toNumber(alert.timeout));
+				};
+				alert.startTimer();
+			}
+			this.alerts.push(alert);
+			this.trigger('add', alert);
+		}
+	}, {
+		key: 'dismiss',
+		value: function dismiss(alert) {
+			alert.isvisible = false;
+			if (rg.isFunction(alert.onclose)) alert.onclose(alert);
+			clearTimeout(alert.timer);
+			this.trigger('dismiss', alert);
+		}
+	}]);
+
+	return RgAlerts;
+})();
+
+var RgBehold = (function () {
+	function RgBehold(opts) {
+		_classCallCheck(this, RgBehold);
+
+		riot.observable(this);
+		this._image1 = opts.image1;
+		this._image2 = opts.image2;
+		this._mode = opts.mode;
+	}
+
+	_createClass(RgBehold, [{
+		key: 'image1',
+		get: function get() {
+			return this._image1;
+		},
+		set: function set(img) {
+			this._image1 = img;
+			this.trigger('image');
+		}
+	}, {
+		key: 'image2',
+		get: function get() {
+			return this._image2;
+		},
+		set: function set(img) {
+			this._image2 = img;
+			this.trigger('image');
+		}
+	}, {
+		key: 'mode',
+		get: function get() {
+			return this._mode || 'swipe';
+		},
+		set: function set(mode) {
+			this.trigger('mode');
+			this._mode = mode;
+		}
+	}]);
+
+	return RgBehold;
+})();
+
+var RgBubble = (function () {
+	function RgBubble(opts) {
+		_classCallCheck(this, RgBubble);
+
+		riot.observable(this);
+		this._content = opts.content;
+	}
+
+	_createClass(RgBubble, [{
+		key: 'content',
+		get: function get() {
+			return this._content || '';
+		},
+		set: function set(content) {
+			this._content = content;
+			this.trigger('content');
+		}
+	}]);
+
+	return RgBubble;
+})();
+
+var RgCode = (function () {
+	function RgCode(opts) {
+		_classCallCheck(this, RgCode);
+
+		riot.observable(this);
+		this._src = opts.src;
+		this._code = opts.code;
+		this._theme = opts.theme;
+		this._mode = opts.mode;
+		this._tabsize = opts.tabsize;
+		this._softtabs = opts.softtabs;
+		this._wordwrap = opts.wordwrap;
+		this._readonly = opts.readonly;
+	}
+
+	/*
+ jQuery Credit Card Validator 1.0
+ 
+ Copyright 2012-2015 Pawel Decowski
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software
+ is furnished to do so, subject to the following conditions:
+ The above copyright notice and this permission notice shall be included
+ in all copies or substantial portions of the Software.
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ IN THE SOFTWARE.
+  */
+
+	_createClass(RgCode, [{
+		key: 'src',
+		get: function get() {
+			if (this._src) {
+				rg.xhr('get', this._src, function (resp) {});
+			}
+		},
+		set: function set(url) {
+			this._src = url;
+			this.trigger('src');
+		}
+	}, {
+		key: 'code',
+		get: function get() {
+			return this._code;
+		},
+		set: function set(code) {
+			this._code = code;
+			this.trigger('code');
+		}
+	}, {
+		key: 'onchange',
+		get: function get() {
+			if (rg.isFunction(onchange)) return this._onchange;
+			return null;
+		},
+		set: function set(onchange) {
+			if (rg.isFunction(onchange)) this._onchange = onchange;
+			this.trigger('editor');
+		}
+	}, {
+		key: 'theme',
+		get: function get() {
+			return this._theme || 'monokai';
+		},
+		set: function set(theme) {
+			this._theme = theme;
+			this.trigger('editor');
+		}
+	}, {
+		key: 'mode',
+		get: function get() {
+			return this._mode || 'html';
+		},
+		set: function set(mode) {
+			this._mode = mode;
+			this.trigger('editor');
+		}
+	}, {
+		key: 'tabsize',
+		get: function get() {
+			return rg.toNumber(this._tabsize) || 2;
+		},
+		set: function set(tabsize) {
+			this._tabsize = tabsize;
+			this.trigger('editor');
+		}
+	}, {
+		key: 'softtabs',
+		get: function get() {
+			return rg.toBoolean(this._softtabs);
+		},
+		set: function set(softtabs) {
+			this._softtabs = softtabs;
+			this.trigger('editor');
+		}
+	}, {
+		key: 'wordwrap',
+		get: function get() {
+			return rg.toBoolean(this._wordwrap);
+		},
+		set: function set(wordwrap) {
+			this._wordwrap = wordwrap;
+			this.trigger('editor');
+		}
+	}, {
+		key: 'readonly',
+		get: function get() {
+			return rg.toBoolean(this._readonly);
+		},
+		set: function set(readonly) {
+			this._readonly = readonly;
+			this.trigger('editor');
+		}
+	}]);
+
+	return RgCode;
+})();
+
+;(function () {
 	'use strict';
 
 	function validateCreditCard(input) {
@@ -264,55 +482,41 @@ IN THE SOFTWARE.
 	if (!window.rg) window.rg = {};
 	rg.map = map;
 })();
-riot.tag('rg-alert', '<div each="{ opts.alerts }" class="alert { type } { isvisible: isvisible }" onclick="{ select }"> <a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }"> <span aria-hidden="true">&times;</span> </a> <rg-raw content="{ content }"></rg-raw> </div>', 'rg-alert, [riot-tag="rg-alert"]{ font-size: 0.9em; position: relative; top: 0; right: 0; left: 0; width: 100%; } rg-alert .alert, [riot-tag="rg-alert"] .alert{ display: none; position: relative; margin-bottom: 15px; padding: 15px 35px 15px 15px; } rg-alert .isvisible, [riot-tag="rg-alert"] .isvisible{ display: block; } rg-alert .close, [riot-tag="rg-alert"] .close{ position: absolute; top: 50%; right: 20px; line-height: 12px; font-size: 1.1em; border: 0; background-color: transparent; color: rgba(0, 0, 0, 0.5); cursor: pointer; outline: none; transform: translate3d(0, -50%, 0); } rg-alert .danger, [riot-tag="rg-alert"] .danger{ color: #8f1d2e; background-color: #ffced8; } rg-alert .information, [riot-tag="rg-alert"] .information{ color: #31708f; background-color: #d9edf7; } rg-alert .success, [riot-tag="rg-alert"] .success{ color: #2d8f40; background-color: #ccf7d4; } rg-alert .warning, [riot-tag="rg-alert"] .warning{ color: #c06329; background-color: #f7dfd0; }', function (opts) {
-	this.on('update', function () {
+riot.tag('rg-alerts', '<div each="{ RgAlerts.alerts }" class="alert { type } { isvisible: isvisible }" onclick="{ select }"> <a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }"> <span aria-hidden="true">&times;</span> </a> <rg-raw content="{ content }"></rg-raw> </div>', 'rg-alerts, [riot-tag="rg-alerts"]{ font-size: 0.9em; position: relative; top: 0; right: 0; left: 0; width: 100%; } rg-alerts .alert, [riot-tag="rg-alerts"] .alert{ display: none; position: relative; margin-bottom: 15px; padding: 15px 35px 15px 15px; } rg-alerts .isvisible, [riot-tag="rg-alerts"] .isvisible{ display: block; } rg-alerts .close, [riot-tag="rg-alerts"] .close{ position: absolute; top: 50%; right: 20px; line-height: 12px; font-size: 1.1em; border: 0; background-color: transparent; color: rgba(0, 0, 0, 0.5); cursor: pointer; outline: none; transform: translate3d(0, -50%, 0); } rg-alerts .danger, [riot-tag="rg-alerts"] .danger{ color: #8f1d2e; background-color: #ffced8; } rg-alerts .information, [riot-tag="rg-alerts"] .information{ color: #31708f; background-color: #d9edf7; } rg-alerts .success, [riot-tag="rg-alerts"] .success{ color: #2d8f40; background-color: #ccf7d4; } rg-alerts .warning, [riot-tag="rg-alerts"] .warning{ color: #c06329; background-color: #f7dfd0; }', function (opts) {
+	var _this2 = this;
+
+	this.on('mount', function () {
 		var _this = this;
 
-		if (!rg.isArray(opts.alerts)) return;
-		opts.alerts.forEach(function (alert) {
-			if (rg.isUndefined(alert.isvisible)) {
-				alert.isvisible = true;
-			}
-			if (!alert.timer && alert.timeout) {
-				alert.startTimer = function () {
-					alert.timer = window.setTimeout(function () {
-						remove(alert);
-						_this.update();
-					}, rg.toNumber(alert.timeout));
-				};
-				alert.startTimer();
-			}
+		this.RgAlerts = opts.alerts;
+		this.RgAlerts.on('add dismiss', function () {
+			_this.update();
 		});
+		this.update();
 	});
 
 	this.dismiss = function (e) {
-		remove(e.item);
+		var alert = e.item;
+		_this2.RgAlerts.dismiss(alert);
 	};
 
 	this.select = function (e) {
 		var alert = e.item;
 		if (rg.isFunction(alert.onclick)) alert.onclick(alert);
 	};
-
-	function remove(alert) {
-		alert.isvisible = false;
-		if (rg.isFunction(alert.onclose)) alert.onclose(alert);
-		window.clearTimeout(alert.timer);
-	}
 });
 
-riot.tag('rg-behold', '<div class="container"> <div class="controls"> <div class="modes"> <a onclick="{ swipeMode }" class="mode { active: mode == \'swipe\' }">Swipe</a> <a onclick="{ fadeMode }" class="mode { active: mode == \'fade\' }">Fade</a> </div> <input type="range" class="ranger" name="diff" value="0" min="0" max="1" step="0.01" oninput="{ updateDiff }" onchange="{ updateDiff }"> </div> <div class="images"> <div class="image"> <img class="image-2" riot-src="{ opts.image2 }"> </div> <div class="image fallback"> <img class="image-1" riot-src="{ opts.image1 }"> </div> </div> </div>', 'rg-behold .controls, [riot-tag="rg-behold"] .controls{ text-align: center; } rg-behold .mode, [riot-tag="rg-behold"] .mode{ text-decoration: none; cursor: pointer; padding: 0 10px; } rg-behold a.active, [riot-tag="rg-behold"] a.active{ font-weight: bold; } rg-behold .ranger, [riot-tag="rg-behold"] .ranger{ width: 90%; max-width: 300px; } rg-behold .images, [riot-tag="rg-behold"] .images{ position: relative; } rg-behold .image, [riot-tag="rg-behold"] .image{ position: absolute; width: 100%; text-align: center; } rg-behold .image img, [riot-tag="rg-behold"] .image img{ max-width: 90%; }', function (opts) {
+riot.tag('rg-behold', '<div class="container"> <div class="controls"> <div class="modes"> <a onclick="{ swipeMode }" class="mode { active: RgBehold.mode == \'swipe\' }">Swipe</a> <a onclick="{ fadeMode }" class="mode { active: RgBehold.mode == \'fade\' }">Fade</a> </div> <input type="range" class="ranger" name="diff" value="0" min="0" max="1" step="0.01" oninput="{ updateDiff }" onchange="{ updateDiff }"> </div> <div class="images"> <div class="image"> <img class="image-2" riot-src="{ RgBehold.image2 }"> </div> <div class="image fallback"> <img class="image-1" riot-src="{ RgBehold.image1 }"> </div> </div> </div>', 'rg-behold .controls, [riot-tag="rg-behold"] .controls{ text-align: center; } rg-behold .mode, [riot-tag="rg-behold"] .mode{ text-decoration: none; cursor: pointer; padding: 0 10px; } rg-behold a.active, [riot-tag="rg-behold"] a.active{ font-weight: bold; } rg-behold .ranger, [riot-tag="rg-behold"] .ranger{ width: 90%; max-width: 300px; } rg-behold .images, [riot-tag="rg-behold"] .images{ position: relative; } rg-behold .image, [riot-tag="rg-behold"] .image{ position: absolute; width: 100%; text-align: center; } rg-behold .image img, [riot-tag="rg-behold"] .image img{ max-width: 90%; }', function (opts) {
 	var _this2 = this;
 
-	this.mode = 'swipe';
+	var image1 = undefined,
+	    image2 = undefined,
+	    fallback = undefined;
 
-	var image1, image2, fallback;
-
-	this.on('mount', function () {
+	var viewer = function viewer() {
 		image1 = _this2.root.querySelector('.image-1');
 		image2 = _this2.root.querySelector('.image-2');
 		fallback = typeof image1.style.webkitClipPath == 'undefined';
-		_this2.reset();
 
 		var img1Loaded = undefined,
 		    img2Loaded = undefined,
@@ -330,8 +534,8 @@ riot.tag('rg-behold', '<div class="container"> <div class="controls"> <div class
 			img2H = this.height;
 			calculateMaxHeight();
 		};
-		img1.src = opts.image1;
-		img2.src = opts.image2;
+		img1.src = _this2.RgBehold.image1;
+		img2.src = _this2.RgBehold.image2;
 
 		var _this = _this2;
 
@@ -343,36 +547,31 @@ riot.tag('rg-behold', '<div class="container"> <div class="controls"> <div class
 				_this.updateDiff();
 			}
 		}
+	};
+
+	this.on('mount', function () {
+		_this2.RgBehold = opts.behold;
+		_this2.RgBehold.on('mode', function () {
+			_this2.diff.value = 0;
+			_this2.updateDiff();
+		});
+		_this2.RgBehold.on('image', function () {
+			viewer();
+		});
+		viewer();
 	});
 
-	this.reset = function () {
-		if (_this2.mode == 'swipe') {
-			_this2.root.querySelector('.ranger').style.direction = 'ltr';
-			_this2.diff.value = 0;
-		}
-		if (_this2.mode == 'fade') {
-			_this2.root.querySelector('.ranger').style.direction = 'rtl';
-			_this2.diff.value = 1;
-		}
-	};
-
 	this.swipeMode = function () {
-		_this2.reset();
-		_this2.updateDiff();
-		_this2.mode = 'swipe';
-		_this2.reset();
+		_this2.RgBehold.mode = 'swipe';
 	};
 	this.fadeMode = function () {
-		_this2.reset();
-		_this2.updateDiff();
-		_this2.mode = 'fade';
-		_this2.reset();
+		_this2.RgBehold.mode = 'fade';
 	};
 
 	this.updateDiff = function () {
-		if (_this2.mode == 'fade') {
-			image1.style.opacity = _this2.diff.value;
-		} else if (_this2.mode == 'swipe') {
+		if (_this2.RgBehold.mode == 'fade') {
+			image1.style.opacity = 1 - _this2.diff.value;
+		} else if (_this2.RgBehold.mode == 'swipe') {
 			if (!fallback) {
 				image1.style.clipPath = image1.style.webkitClipPath = 'inset(0 0 0 ' + (image1.clientWidth * _this2.diff.value - 1) + 'px)';
 			} else {
@@ -384,20 +583,30 @@ riot.tag('rg-behold', '<div class="container"> <div class="controls"> <div class
 	};
 });
 
-riot.tag('rg-bubble', '<div class="context"> <div class="bubble { isvisible: isvisible }"> <rg-raw content="{ opts.content }"></rg-raw> </div> <div class="content" onmouseover="{ showBubble }" onmouseout="{ hideBubble }" onclick="{ toggleBubble }"> <yield></yield> </div> </div>', 'rg-bubble .context, [riot-tag="rg-bubble"] .context,rg-bubble .content, [riot-tag="rg-bubble"] .content{ display: inline-block; position: relative; } rg-bubble .bubble, [riot-tag="rg-bubble"] .bubble{ position: absolute; top: -50px; left: 50%; transform: translate3d(-50%, 0, 0); padding: 10px 15px; background-color: #000; color: white; text-align: center; font-size: 0.9em; line-height: 1; white-space: nowrap; opacity: 0; } rg-bubble .isvisible, [riot-tag="rg-bubble"] .isvisible{ display: block; opacity: 1; } rg-bubble .bubble:after, [riot-tag="rg-bubble"] .bubble:after{ content: \'\'; position: absolute; display: block; bottom: -20px; left: 50%; transform: translate3d(-50%, 0, 0); width: 0; height: 0; border: 10px solid transparent; border-top-color: #000; }', function (opts) {
+riot.tag('rg-bubble', '<div class="context"> <div class="bubble { isvisible: isvisible }"> <rg-raw content="{ RgBubble.content }"></rg-raw> </div> <div class="content" onmouseover="{ showBubble }" onmouseout="{ hideBubble }" onclick="{ toggleBubble }"> <yield></yield> </div> </div>', 'rg-bubble .context, [riot-tag="rg-bubble"] .context,rg-bubble .content, [riot-tag="rg-bubble"] .content{ display: inline-block; position: relative; } rg-bubble .bubble, [riot-tag="rg-bubble"] .bubble{ position: absolute; top: -50px; left: 50%; transform: translate3d(-50%, 0, 0); padding: 10px 15px; background-color: #000; color: white; text-align: center; font-size: 0.9em; line-height: 1; white-space: nowrap; opacity: 0; } rg-bubble .isvisible, [riot-tag="rg-bubble"] .isvisible{ display: block; opacity: 1; } rg-bubble .bubble:after, [riot-tag="rg-bubble"] .bubble:after{ content: \'\'; position: absolute; display: block; bottom: -20px; left: 50%; transform: translate3d(-50%, 0, 0); width: 0; height: 0; border: 10px solid transparent; border-top-color: #000; }', function (opts) {
 	var _this = this;
 
-	this.isvisible = false;
+	this.on('mount', function () {
+		_this.isvisible = false;
+		_this.RgBubble = opts.bubble;
+		_this.RgBubble.on('content', function () {
+			_this.update();
+		});
+		_this.update();
+	});
+
 	this.showBubble = function () {
 		clearTimeout(_this.timer);
 		_this.isvisible = true;
 	};
+
 	this.hideBubble = function () {
 		_this.timer = setTimeout(function () {
 			_this.isvisible = false;
 			_this.update();
 		}, 1000);
 	};
+
 	this.toggleBubble = function () {
 		_this.isvisible = !_this.isvisible;
 	};
@@ -408,36 +617,34 @@ riot.tag('rg-code', '<div class="editor"></div>', 'rg-code .editor, [riot-tag="r
 
 	var editor = undefined;
 
-	this.on('mount', function () {
-		editor = ace.edit(_this.root.querySelector('.editor'));
-		if (opts.theme) editor.setTheme('ace/theme/' + opts.theme);
-		if (opts.mode) editor.getSession().setMode('ace/mode/' + opts.mode);
-		editor.getSession().setTabSize(opts.tabsize || 2);
-		if (opts.softtabs == "true") editor.getSession().setUseSoftTabs(true);
-		if (opts.wordwrap == "true") editor.getSession().setUseWrapMode(true);
-		if (opts.readonly == "true") editor.setReadOnly(true);
-		editor.$blockScrolling = Infinity;
-
-		editor.getSession().on('change', function (e) {
-			if (rg.isFunction(opts.onchange)) opts.onchange(editor.getValue());
-		});
-		_this.setContent();
-	});
-
-	this.setContent = function () {
-		/* istanbul ignore next */
-		if (opts.src) {
-			rg.xhr('get', opts.src, function (resp) {
-				editor.setValue(resp, -1);
-				_this.update();
-			});
-		} else {
-			editor.setValue(opts.code);
-		}
+	var setupEditor = function setupEditor() {
+		editor.setTheme('ace/theme/' + _this.RgCode.theme);
+		editor.getSession().setMode('ace/mode/' + _this.RgCode.mode);
+		editor.getSession().setTabSize(_this.RgCode.tabsize);
+		editor.getSession().setUseSoftTabs(_this.RgCode.softtabs);
+		editor.getSession().setUseWrapMode(_this.RgCode.wordwrap);
+		editor.setReadOnly(_this.RgCode.readonly);
+		_this.update();
 	};
 
-	this.parent.on('updated', function () {
-		if (_this.isMounted) _this.setContent();
+	this.on('mount', function () {
+		editor = ace.edit(_this.root.querySelector('.editor'));
+		editor.$blockScrolling = Infinity;
+
+		_this.RgCode = opts.editor;
+		_this.RgCode.on('editor', function () {
+			setupEditor();
+		});
+		_this.RgCode.on('code src', function () {
+			editor.setValue(_this.RgCode.code);
+		});
+		editor.setValue(_this.RgCode.code);
+		editor.getSession().on('change', function (e) {
+			if (_this.RgCode.onchange) {
+				_this.RgCode.onchange(editor.getValue());
+			}
+		});
+		setupEditor();
 	});
 });
 
@@ -530,24 +737,26 @@ riot.tag('rg-credit-card', '<input type="text" name="cardNo" value="{ opts.cardn
 riot.tag('rg-date', '<div class="container { open: opened }"> <input type="text" class="field" onclick="{ show }" value="{ date.format(this.format) }" readonly> <div class="calendar" show="{ opened }"> <div class="grid grid-row" if="{ years }"> <div class="selector" onclick="{ prevYear }">&lsaquo;</div> <span class="year">{ date.format(this.yearFormat) }</span> <div class="selector" onclick="{ nextYear }">&rsaquo;</div> </div> <div class="grid grid-row" if="{ !years }"> <span class="year fill">{ date.format(this.yearFormat) }</span> </div> <div class="grid grid-row" if="{ months }"> <div class="selector" onclick="{ prevMonth }">&lsaquo;</div> <span class="month">{ date.format(this.monthFormat) }</span> <div class="selector" onclick="{ nextMonth }">&rsaquo;</div> </div> <div class="grid grid-row" if="{ !months }"> <span class="month fill">{ date.format(this.monthFormat) }</span> </div> <div class="grid grid-row"> <span class="day-name" each="{ day in dayNames }">{ day }</span> </div> <div class="grid grid-wrap"> <div each="{ day in startBuffer }" onclick="{ changeDate }" class="date { in: day.inMonth, selected: day.selected, today: day.today }"> { day.date.format(this.dayFormat) } </div> <div each="{ day in days }" onclick="{ changeDate }" class="date { in: day.inMonth, selected: day.selected, today: day.today }"> { day.date.format(this.dayFormat) } </div> <div each="{ day in endBuffer }" onclick="{ changeDate }" class="date { in: day.inMonth, selected: day.selected, today: day.today }"> { day.date.format(this.dayFormat) } </div> </div> <div if="{ today }" class="grid grid-row"> <a class="shortcut" onclick="{ setToday }">Today</a> </div> </div> </div>', 'rg-date .container, [riot-tag="rg-date"] .container{ position: relative; display: inline-block; cursor: pointer; } rg-date .field, [riot-tag="rg-date"] .field{ font-size: 1em; padding: 10px; border: 1px solid #D3D3D3; cursor: pointer; box-sizing: border-box; outline: none; } rg-date .calendar, [riot-tag="rg-date"] .calendar{ position: absolute; text-align: center; background-color: white; border: 1px solid #D3D3D3; padding: 5px; width: 330px; margin-top: 10px; left: 50%; transform: translate3d(-50%, 0, 0); -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; box-sizing: border-box; z-index: 1; } rg-date .grid, [riot-tag="rg-date"] .grid{ display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-align-items: center; -ms-flex-align: center; align-items: center; } rg-date .grid-wrap, [riot-tag="rg-date"] .grid-wrap{ width: 100%; -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap; } rg-date .grid-row, [riot-tag="rg-date"] .grid-row{ height: 35px; } rg-date .selector, [riot-tag="rg-date"] .selector{ font-size: 2em; font-weight: 100; padding: 0; -webkit-flex: 0 0 15%; -ms-flex: 0 0 15%; flex: 0 0 15%; } rg-date .year, [riot-tag="rg-date"] .year,rg-date .month, [riot-tag="rg-date"] .month{ text-transform: uppercase; font-weight: normal; -webkit-flex: 0 0 70%; -ms-flex: 0 0 70%; flex: 0 0 70%; } rg-date .fill, [riot-tag="rg-date"] .fill{ -webkit-flex: 0 0 100%; -ms-flex: 0 0 100%; flex: 0 0 100%; } rg-date .day-name, [riot-tag="rg-date"] .day-name{ font-weight: bold; -webkit-flex: 0 0 14.28%; -ms-flex: 0 0 14.28%; flex: 0 0 14.28%; } rg-date .date, [riot-tag="rg-date"] .date{ -webkit-flex: 0 0 14.28%; -ms-flex: 0 0 14.28%; flex: 0 0 14.28%; padding: 12px 10px; box-sizing: border-box; font-size: 0.8em; font-weight: normal; border: 1px solid transparent; color: #cacaca; } rg-date .date:hover, [riot-tag="rg-date"] .date:hover{ background-color: #f3f3f3; } rg-date .date.in, [riot-tag="rg-date"] .date.in{ color: inherit; } rg-date .today, [riot-tag="rg-date"] .today{ border-color: #ededed; } rg-date .selected, [riot-tag="rg-date"] .selected,rg-date .selected:hover, [riot-tag="rg-date"] .selected:hover{ background-color: #ededed; border-color: #dedede; } rg-date .shortcut, [riot-tag="rg-date"] .shortcut{ -webkit-flex: 0 0 100%; -ms-flex: 0 0 100%; flex: 0 0 100%; color: #6495ed; }', function (opts) {
 	var _this = this;
 
-	// Display elements
-	this.months = rg.isDefined(opts.months) ? rg.toBoolean(opts.months) : true;
-	this.years = rg.isDefined(opts.years) ? rg.toBoolean(opts.years) : true;
-	this.today = rg.isDefined(opts.today) ? rg.toBoolean(opts.today) : true;
+	var setOpts = function setOpts() {
+		// Display elements
+		_this.months = rg.isDefined(opts.months) ? rg.toBoolean(opts.months) : true;
+		_this.years = rg.isDefined(opts.years) ? rg.toBoolean(opts.years) : true;
+		_this.today = rg.isDefined(opts.today) ? rg.toBoolean(opts.today) : true;
 
-	// Get our display formats
-	this.format = opts.format || 'LL';
-	this.yearFormat = opts['year-format'] || 'YYYY';
-	this.monthFormat = opts['month-format'] || 'MMMM';
-	this.weekFormat = opts['week-format'] || 'ddd';
-	this.dayFormat = opts['day-format'] || 'DD';
+		// Get our display formats
+		_this.format = opts.format || 'LL';
+		_this.yearFormat = opts['year-format'] || 'YYYY';
+		_this.monthFormat = opts['month-format'] || 'MMMM';
+		_this.weekFormat = opts['week-format'] || 'ddd';
+		_this.dayFormat = opts['day-format'] || 'DD';
 
-	// Convert the given date to a moment object
-	this.date = moment(opts.date);
+		// Convert the given date to a moment object
+		_this.date = moment(opts.date);
 
-	// Setup the weekday list
-	var temp = moment();
-	this.dayNames = [temp.day(0).format(this.weekFormat), temp.day(1).format(this.weekFormat), temp.day(2).format(this.weekFormat), temp.day(3).format(this.weekFormat), temp.day(4).format(this.weekFormat), temp.day(5).format(this.weekFormat), temp.day(6).format(this.weekFormat)];
+		// Setup the weekday list
+		var temp = moment();
+		_this.dayNames = [temp.day(0).format(_this.weekFormat), temp.day(1).format(_this.weekFormat), temp.day(2).format(_this.weekFormat), temp.day(3).format(_this.weekFormat), temp.day(4).format(_this.weekFormat), temp.day(5).format(_this.weekFormat), temp.day(6).format(_this.weekFormat)];
+	};
 
 	var handleClickOutside = function handleClickOutside(e) {
 		if (!_this.root.contains(e.target) && _this.opened) {
@@ -591,11 +800,11 @@ riot.tag('rg-date', '<div class="container { open: opened }"> <input type="text"
 			_this.endBuffer.push(dayObj(bufferDate));
 		}
 
-		opts.date = _this.date.toDate();
 		_this.update();
 	};
 
 	this.on('mount', function () {
+		setOpts();
 		document.addEventListener('click', handleClickOutside);
 	});
 
@@ -603,10 +812,14 @@ riot.tag('rg-date', '<div class="container { open: opened }"> <input type="text"
 		document.removeEventListener('click', handleClickOutside);
 	});
 
+	this.parent.on('updated', function () {
+		if (_this.isMounted) setOpts();
+	});
+
 	// Handle the clicks on dates
 	this.changeDate = function (e) {
 		var day = e.item.day;
-		_this.date = opts.date = day.date;
+		_this.date = day.date;
 		if (rg.isFunction(opts.onselect)) opts.onselect(_this.date);
 		buildCalendar();
 		_this.opened = false;
@@ -614,7 +827,7 @@ riot.tag('rg-date', '<div class="container { open: opened }"> <input type="text"
 
 	// Handle today shortcut
 	this.setToday = function () {
-		_this.date = opts.date = moment();
+		_this.date = moment();
 		buildCalendar();
 		_this.opened = false;
 	};
