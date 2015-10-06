@@ -229,7 +229,7 @@ var RgCode = (function () {
 		},
 		set: function set(onchange) {
 			if (rg.isFunction(onchange)) this._onchange = onchange;
-			this.trigger('editor');
+			this.trigger('settings');
 		}
 	}, {
 		key: 'theme',
@@ -238,7 +238,7 @@ var RgCode = (function () {
 		},
 		set: function set(theme) {
 			this._theme = theme;
-			this.trigger('editor');
+			this.trigger('settings');
 		}
 	}, {
 		key: 'mode',
@@ -247,7 +247,7 @@ var RgCode = (function () {
 		},
 		set: function set(mode) {
 			this._mode = mode;
-			this.trigger('editor');
+			this.trigger('settings');
 		}
 	}, {
 		key: 'tabsize',
@@ -256,7 +256,7 @@ var RgCode = (function () {
 		},
 		set: function set(tabsize) {
 			this._tabsize = tabsize;
-			this.trigger('editor');
+			this.trigger('settings');
 		}
 	}, {
 		key: 'softtabs',
@@ -265,7 +265,7 @@ var RgCode = (function () {
 		},
 		set: function set(softtabs) {
 			this._softtabs = softtabs;
-			this.trigger('editor');
+			this.trigger('settings');
 		}
 	}, {
 		key: 'wordwrap',
@@ -274,7 +274,7 @@ var RgCode = (function () {
 		},
 		set: function set(wordwrap) {
 			this._wordwrap = wordwrap;
-			this.trigger('editor');
+			this.trigger('settings');
 		}
 	}, {
 		key: 'readonly',
@@ -283,7 +283,7 @@ var RgCode = (function () {
 		},
 		set: function set(readonly) {
 			this._readonly = readonly;
-			this.trigger('editor');
+			this.trigger('settings');
 		}
 	}]);
 
@@ -632,14 +632,15 @@ riot.tag('rg-code', '<div class="editor"></div>', 'rg-code .editor, [riot-tag="r
 		editor.$blockScrolling = Infinity;
 
 		_this.RgCode = opts.editor;
-		_this.RgCode.on('editor', function () {
+		_this.RgCode.on('settings', function () {
 			setupEditor();
 		});
 		_this.RgCode.on('code src', function () {
-			editor.setValue(_this.RgCode.code);
+			if (_this.RgCode.code != editor.getValue()) editor.setValue(_this.RgCode.code);
 		});
 		editor.setValue(_this.RgCode.code);
 		editor.getSession().on('change', function (e) {
+			_this.RgCode.code = editor.getValue();
 			if (_this.RgCode.onchange) {
 				_this.RgCode.onchange(editor.getValue());
 			}

@@ -20,14 +20,16 @@
 			editor.$blockScrolling = Infinity
 
 			this.RgCode = opts.editor
-			this.RgCode.on('editor', () => {
+			this.RgCode.on('settings', () => {
 				setupEditor()
 			})
 			this.RgCode.on('code src', () => {
-				editor.setValue(this.RgCode.code)
+				if (this.RgCode.code != editor.getValue())
+					editor.setValue(this.RgCode.code)
 			})
 			editor.setValue(this.RgCode.code)
 			editor.getSession().on('change', e => {
+				this.RgCode.code = editor.getValue()
 				if (this.RgCode.onchange) {
 					this.RgCode.onchange(editor.getValue())
 				}
