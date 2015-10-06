@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "jshint": "jshint . --exclude-path=.gitignore",
-    "riot": "riot components dist/rg.js --type es6",
+    "riot": "riot tags dist/rg.js --type es6",
     "postriot": "riot demo --type es6",
     "concat": "cat lib/rg.js lib/**/*.js dist/rg.js | babel --plugins object-assign --out-file dist/rg.js ",
     "uglify": "uglifyjs --output dist/rg.min.js  --mangle -- dist/rg.js",

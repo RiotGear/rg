@@ -8,13 +8,13 @@ module.exports = function(config) {
       'node_modules/moment/min/moment.min.js',
       'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js',
       'lib/**/*',
-      'components/**/*',
+      'tags/**/*',
       { pattern: 'demo/inc.html', watched: false, included: false, served: true, nocache: false }
     ],
     preprocessors: {
       'lib/**/*': ['babel'],
-      'components/**/*.spec.js': ['babel'],
-      'components/**/*.tag': ['riot', 'coverage']
+      'tags/**/*.spec.js': ['babel'],
+      'tags/**/*.tag': ['riot', 'coverage']
     },
     riotPreprocessor: {
       options: {
