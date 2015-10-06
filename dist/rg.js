@@ -45,6 +45,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		val = Number(val);
 		return rg.isNumber(val) ? val : 0;
 	};
+	var uid = 0;
+	rg.uid = function () {
+		return uid++;
+	};
 	rg.xhr = function (method, src, onload) {
 		var req = new XMLHttpRequest();
 		req.onload = function () {
@@ -54,243 +58,29 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		req.send();
 	};
 })();
+/*
+jQuery Credit Card Validator 1.0
 
-var RgAlerts = (function () {
-	function RgAlerts(opts) {
-		var _this3 = this;
+Copyright 2012-2015 Pawel Decowski
 
-		_classCallCheck(this, RgAlerts);
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+IN THE SOFTWARE.
+ */
 
-		riot.observable(this);
-		this.alerts = [];
-		if (!rg.isArray(opts)) return;
-		opts.forEach(function (alert) {
-			_this3.add(alert);
-		});
-	}
-
-	_createClass(RgAlerts, [{
-		key: 'add',
-		value: function add(alert) {
-			var _this4 = this;
-
-			alert.id = Math.random().toString(36).substr(2, 8);
-			if (rg.isUndefined(alert.isvisible)) alert.isvisible = true;
-			if (alert.timeout) {
-				alert.startTimer = function () {
-					alert.timer = setTimeout(function () {
-						_this4.dismiss(alert);
-					}, rg.toNumber(alert.timeout));
-				};
-				alert.startTimer();
-			}
-			this.alerts.push(alert);
-			this.trigger('add', alert);
-		}
-	}, {
-		key: 'dismiss',
-		value: function dismiss(alert) {
-			alert.isvisible = false;
-			if (rg.isFunction(alert.onclose)) alert.onclose(alert);
-			clearTimeout(alert.timer);
-			this.trigger('dismiss', alert);
-		}
-	}]);
-
-	return RgAlerts;
-})();
-
-var RgBehold = (function () {
-	function RgBehold(opts) {
-		_classCallCheck(this, RgBehold);
-
-		riot.observable(this);
-		this._image1 = opts.image1;
-		this._image2 = opts.image2;
-		this._mode = opts.mode;
-	}
-
-	_createClass(RgBehold, [{
-		key: 'image1',
-		get: function get() {
-			return this._image1;
-		},
-		set: function set(img) {
-			this._image1 = img;
-			this.trigger('image');
-		}
-	}, {
-		key: 'image2',
-		get: function get() {
-			return this._image2;
-		},
-		set: function set(img) {
-			this._image2 = img;
-			this.trigger('image');
-		}
-	}, {
-		key: 'mode',
-		get: function get() {
-			return this._mode || 'swipe';
-		},
-		set: function set(mode) {
-			this.trigger('mode');
-			this._mode = mode;
-		}
-	}]);
-
-	return RgBehold;
-})();
-
-var RgBubble = (function () {
-	function RgBubble(opts) {
-		_classCallCheck(this, RgBubble);
-
-		riot.observable(this);
-		this._content = opts.content;
-	}
-
-	_createClass(RgBubble, [{
-		key: 'content',
-		get: function get() {
-			return this._content || '';
-		},
-		set: function set(content) {
-			this._content = content;
-			this.trigger('content');
-		}
-	}]);
-
-	return RgBubble;
-})();
-
-var RgCode = (function () {
-	function RgCode(opts) {
-		_classCallCheck(this, RgCode);
-
-		riot.observable(this);
-		this._src = opts.src;
-		this._code = opts.code;
-		this._theme = opts.theme;
-		this._mode = opts.mode;
-		this._tabsize = opts.tabsize;
-		this._softtabs = opts.softtabs;
-		this._wordwrap = opts.wordwrap;
-		this._readonly = opts.readonly;
-	}
-
-	/*
- jQuery Credit Card Validator 1.0
- 
- Copyright 2012-2015 Pawel Decowski
- 
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software
- is furnished to do so, subject to the following conditions:
- The above copyright notice and this permission notice shall be included
- in all copies or substantial portions of the Software.
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
- OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- IN THE SOFTWARE.
-  */
-
-	_createClass(RgCode, [{
-		key: 'src',
-		get: function get() {
-			if (this._src) {
-				rg.xhr('get', this._src, function (resp) {});
-			}
-		},
-		set: function set(url) {
-			this._src = url;
-			this.trigger('src');
-		}
-	}, {
-		key: 'code',
-		get: function get() {
-			return this._code;
-		},
-		set: function set(code) {
-			this._code = code;
-			this.trigger('code');
-		}
-	}, {
-		key: 'onchange',
-		get: function get() {
-			if (rg.isFunction(onchange)) return this._onchange;
-			return null;
-		},
-		set: function set(onchange) {
-			if (rg.isFunction(onchange)) this._onchange = onchange;
-			this.trigger('settings');
-		}
-	}, {
-		key: 'theme',
-		get: function get() {
-			return this._theme || 'monokai';
-		},
-		set: function set(theme) {
-			this._theme = theme;
-			this.trigger('settings');
-		}
-	}, {
-		key: 'mode',
-		get: function get() {
-			return this._mode || 'html';
-		},
-		set: function set(mode) {
-			this._mode = mode;
-			this.trigger('settings');
-		}
-	}, {
-		key: 'tabsize',
-		get: function get() {
-			return rg.toNumber(this._tabsize) || 2;
-		},
-		set: function set(tabsize) {
-			this._tabsize = tabsize;
-			this.trigger('settings');
-		}
-	}, {
-		key: 'softtabs',
-		get: function get() {
-			return rg.toBoolean(this._softtabs);
-		},
-		set: function set(softtabs) {
-			this._softtabs = softtabs;
-			this.trigger('settings');
-		}
-	}, {
-		key: 'wordwrap',
-		get: function get() {
-			return rg.toBoolean(this._wordwrap);
-		},
-		set: function set(wordwrap) {
-			this._wordwrap = wordwrap;
-			this.trigger('settings');
-		}
-	}, {
-		key: 'readonly',
-		get: function get() {
-			return rg.toBoolean(this._readonly);
-		},
-		set: function set(readonly) {
-			this._readonly = readonly;
-			this.trigger('settings');
-		}
-	}]);
-
-	return RgCode;
-})();
-
-;(function () {
+(function () {
 	'use strict';
 
 	function validateCreditCard(input) {
@@ -482,13 +272,377 @@ var RgCode = (function () {
 	if (!window.rg) window.rg = {};
 	rg.map = map;
 })();
+
+var RgAlerts = (function () {
+	function RgAlerts(opts) {
+		var _this3 = this;
+
+		_classCallCheck(this, RgAlerts);
+
+		riot.observable(this);
+		if (rg.isUndefined(opts)) opts = {};
+		this.alerts = [];
+		if (!rg.isArray(opts)) return;
+		opts.forEach(function (alert) {
+			_this3.add(alert);
+		});
+	}
+
+	_createClass(RgAlerts, [{
+		key: 'add',
+		value: function add(alert) {
+			var _this4 = this;
+
+			alert.id = rg.uid();
+			if (rg.isUndefined(alert.isvisible)) alert.isvisible = true;
+			if (alert.timeout) {
+				alert.startTimer = function () {
+					alert.timer = setTimeout(function () {
+						_this4.dismiss(alert);
+					}, rg.toNumber(alert.timeout));
+				};
+				alert.startTimer();
+			}
+			this.alerts.push(alert);
+			this.trigger('add', alert);
+		}
+	}, {
+		key: 'dismiss',
+		value: function dismiss(alert) {
+			alert.isvisible = false;
+			if (rg.isFunction(alert.onclose)) alert.onclose(alert);
+			clearTimeout(alert.timer);
+			this.trigger('dismiss', alert);
+		}
+	}, {
+		key: 'select',
+		value: function select(alert) {
+			if (rg.isFunction(alert.onclick)) alert.onclick(alert);
+			this.trigger('onclick', alert);
+		}
+	}]);
+
+	return RgAlerts;
+})();
+
+var RgBehold = (function () {
+	function RgBehold(opts) {
+		_classCallCheck(this, RgBehold);
+
+		riot.observable(this);
+		if (rg.isUndefined(opts)) opts = {};
+		this._image1 = opts.image1;
+		this._image2 = opts.image2;
+		this._mode = opts.mode;
+	}
+
+	_createClass(RgBehold, [{
+		key: 'image1',
+		get: function get() {
+			return this._image1;
+		},
+		set: function set(img) {
+			this._image1 = img;
+			this.trigger('image');
+		}
+	}, {
+		key: 'image2',
+		get: function get() {
+			return this._image2;
+		},
+		set: function set(img) {
+			this._image2 = img;
+			this.trigger('image');
+		}
+	}, {
+		key: 'mode',
+		get: function get() {
+			return this._mode || 'swipe';
+		},
+		set: function set(mode) {
+			this.trigger('mode');
+			this._mode = mode;
+		}
+	}]);
+
+	return RgBehold;
+})();
+
+var RgBubble = (function () {
+	function RgBubble(opts) {
+		_classCallCheck(this, RgBubble);
+
+		riot.observable(this);
+		if (rg.isUndefined(opts)) opts = {};
+		this.isvisible = opts.isvisible;
+		this._content = opts.content;
+	}
+
+	_createClass(RgBubble, [{
+		key: 'isvisible',
+		get: function get() {
+			return rg.toBoolean(this._isvisible);
+		},
+		set: function set(isvisible) {
+			this._isvisible = rg.toBoolean(isvisible);
+			this.trigger('visibility');
+		}
+	}, {
+		key: 'content',
+		get: function get() {
+			return this._content || '';
+		},
+		set: function set(content) {
+			this._content = content;
+			this.trigger('content');
+		}
+	}]);
+
+	return RgBubble;
+})();
+
+var RgCode = (function () {
+	function RgCode(opts) {
+		_classCallCheck(this, RgCode);
+
+		riot.observable(this);
+		if (rg.isUndefined(opts)) opts = {};
+		this._src = opts.src;
+		this._code = opts.code;
+		this._theme = opts.theme;
+		this._mode = opts.mode;
+		this._tabsize = opts.tabsize;
+		this._softtabs = opts.softtabs;
+		this._wordwrap = opts.wordwrap;
+		this._readonly = opts.readonly;
+	}
+
+	_createClass(RgCode, [{
+		key: 'src',
+		get: function get() {
+			if (this._src) {
+				rg.xhr('get', this._src, function (resp) {});
+			}
+		},
+		set: function set(url) {
+			this._src = url;
+			this.trigger('src');
+		}
+	}, {
+		key: 'code',
+		get: function get() {
+			return this._code || '';
+		},
+		set: function set(code) {
+			this._code = code;
+			this.trigger('code');
+		}
+	}, {
+		key: 'onchange',
+		get: function get() {
+			if (rg.isFunction(this._onchange)) return this._onchange;
+			return null;
+		},
+		set: function set(onchange) {
+			if (rg.isFunction(onchange)) this._onchange = onchange;
+			this.trigger('settings');
+		}
+	}, {
+		key: 'theme',
+		get: function get() {
+			return this._theme || 'monokai';
+		},
+		set: function set(theme) {
+			this._theme = theme;
+			this.trigger('settings');
+		}
+	}, {
+		key: 'mode',
+		get: function get() {
+			return this._mode || 'html';
+		},
+		set: function set(mode) {
+			this._mode = mode;
+			this.trigger('settings');
+		}
+	}, {
+		key: 'tabsize',
+		get: function get() {
+			return rg.toNumber(this._tabsize) || 2;
+		},
+		set: function set(tabsize) {
+			this._tabsize = tabsize;
+			this.trigger('settings');
+		}
+	}, {
+		key: 'softtabs',
+		get: function get() {
+			return rg.toBoolean(this._softtabs);
+		},
+		set: function set(softtabs) {
+			this._softtabs = softtabs;
+			this.trigger('settings');
+		}
+	}, {
+		key: 'wordwrap',
+		get: function get() {
+			return rg.toBoolean(this._wordwrap);
+		},
+		set: function set(wordwrap) {
+			this._wordwrap = wordwrap;
+			this.trigger('settings');
+		}
+	}, {
+		key: 'readonly',
+		get: function get() {
+			return rg.toBoolean(this._readonly);
+		},
+		set: function set(readonly) {
+			this._readonly = readonly;
+			this.trigger('settings');
+		}
+	}]);
+
+	return RgCode;
+})();
+
+var RgContextMenu = (function () {
+	function RgContextMenu(opts) {
+		var _this5 = this;
+
+		_classCallCheck(this, RgContextMenu);
+
+		riot.observable(this);
+		if (rg.isUndefined(opts)) opts = {};
+		this.name = opts.name;
+		this._isvisible = opts.isvisible;
+		this._onclose = opts.onclose;
+		this._onopen = opts.onopen;
+		this._items = [];
+		if (!rg.isArray(opts.items)) return;
+		opts.items.forEach(function (item) {
+			_this5.add(item);
+		});
+	}
+
+	_createClass(RgContextMenu, [{
+		key: 'add',
+		value: function add(item) {
+			item.id = rg.uid();
+			if (rg.isUndefined(item.isvisible)) item.isvisible = true;
+			if (rg.isUndefined(item.inactive)) item.inactive = false;
+			if (!rg.isFunction(item.onclick)) item.onclick = null;
+			this._items.push(item);
+			this.trigger('add', item);
+		}
+	}, {
+		key: 'select',
+		value: function select(item) {
+			if (!item.inactive) {
+				if (rg.isFunction(item.onclick)) item.onclick(item);
+				this.isvisible = false;
+				this.trigger('onclick', item);
+			}
+		}
+	}, {
+		key: 'items',
+		get: function get() {
+			if (rg.isArray(this._items)) return this._items;
+			return [];
+		},
+		set: function set(items) {
+			this._items = items;
+			this.trigger('items');
+		}
+	}, {
+		key: 'onopen',
+		get: function get() {
+			if (rg.isFunction(this._onopen)) return this._onopen;
+			return null;
+		},
+		set: function set(onopen) {
+			if (rg.isFunction(onopen)) this._onopen = onopen;
+			this.trigger('settings');
+		}
+	}, {
+		key: 'onclose',
+		get: function get() {
+			if (rg.isFunction(this._onclose)) return this._onclose;
+			return null;
+		},
+		set: function set(onclose) {
+			if (rg.isFunction(onclose)) this._onclose = onclose;
+			this.trigger('settings');
+		}
+	}, {
+		key: 'isvisible',
+		get: function get() {
+			return rg.toBoolean(this._isvisible);
+		},
+		set: function set(isvisible) {
+			this._isvisible = rg.toBoolean(isvisible);
+			this.trigger('visibility');
+		}
+	}]);
+
+	return RgContextMenu;
+})();
+
+var RgCreditCard = (function () {
+	function RgCreditCard(opts) {
+		_classCallCheck(this, RgCreditCard);
+
+		riot.observable(this);
+		if (rg.isUndefined(opts)) opts = {};
+		this._placeholder = opts.placeholder;
+		this._cardnumber = opts.cardnumber;
+	}
+
+	_createClass(RgCreditCard, [{
+		key: 'validate',
+		value: function validate() {
+			var res = rg.creditcard.validate(this.cardnumber);
+			this.valid = res.valid;
+			this.icon = this.valid ? res.card_type.name : '';
+			this.trigger('validate');
+		}
+	}, {
+		key: 'cardnumber',
+		get: function get() {
+			return (this._cardnumber || '').toString();
+		},
+		set: function set(num) {
+			this._cardnumber = num;
+			this.trigger('cardnumber');
+		}
+	}, {
+		key: 'valid',
+		get: function get() {
+			return rg.toBoolean(this._valid);
+		},
+		set: function set(valid) {
+			this._valid = rg.toBoolean(valid);
+		}
+	}, {
+		key: 'placeholder',
+		get: function get() {
+			return this._placeholder || 'Card no.';
+		},
+		set: function set(text) {
+			this._placeholder = text;
+		}
+	}]);
+
+	return RgCreditCard;
+})();
+
 riot.tag('rg-alerts', '<div each="{ RgAlerts.alerts }" class="alert { type } { isvisible: isvisible }" onclick="{ select }"> <a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }"> <span aria-hidden="true">&times;</span> </a> <rg-raw content="{ content }"></rg-raw> </div>', 'rg-alerts, [riot-tag="rg-alerts"]{ font-size: 0.9em; position: relative; top: 0; right: 0; left: 0; width: 100%; } rg-alerts .alert, [riot-tag="rg-alerts"] .alert{ display: none; position: relative; margin-bottom: 15px; padding: 15px 35px 15px 15px; } rg-alerts .isvisible, [riot-tag="rg-alerts"] .isvisible{ display: block; } rg-alerts .close, [riot-tag="rg-alerts"] .close{ position: absolute; top: 50%; right: 20px; line-height: 12px; font-size: 1.1em; border: 0; background-color: transparent; color: rgba(0, 0, 0, 0.5); cursor: pointer; outline: none; transform: translate3d(0, -50%, 0); } rg-alerts .danger, [riot-tag="rg-alerts"] .danger{ color: #8f1d2e; background-color: #ffced8; } rg-alerts .information, [riot-tag="rg-alerts"] .information{ color: #31708f; background-color: #d9edf7; } rg-alerts .success, [riot-tag="rg-alerts"] .success{ color: #2d8f40; background-color: #ccf7d4; } rg-alerts .warning, [riot-tag="rg-alerts"] .warning{ color: #c06329; background-color: #f7dfd0; }', function (opts) {
 	var _this2 = this;
 
 	this.on('mount', function () {
 		var _this = this;
 
-		this.RgAlerts = opts.alerts;
+		this.RgAlerts = opts.alerts || new RgAlerts();
 		this.RgAlerts.on('add dismiss', function () {
 			_this.update();
 		});
@@ -502,7 +656,7 @@ riot.tag('rg-alerts', '<div each="{ RgAlerts.alerts }" class="alert { type } { i
 
 	this.select = function (e) {
 		var alert = e.item;
-		if (rg.isFunction(alert.onclick)) alert.onclick(alert);
+		_this2.RgAlerts.select(alert);
 	};
 });
 
@@ -550,7 +704,7 @@ riot.tag('rg-behold', '<div class="container"> <div class="controls"> <div class
 	};
 
 	this.on('mount', function () {
-		_this2.RgBehold = opts.behold;
+		_this2.RgBehold = opts.behold || new RgBehold();
 		_this2.RgBehold.on('mode', function () {
 			_this2.diff.value = 0;
 			_this2.updateDiff();
@@ -583,13 +737,12 @@ riot.tag('rg-behold', '<div class="container"> <div class="controls"> <div class
 	};
 });
 
-riot.tag('rg-bubble', '<div class="context"> <div class="bubble { isvisible: isvisible }"> <rg-raw content="{ RgBubble.content }"></rg-raw> </div> <div class="content" onmouseover="{ showBubble }" onmouseout="{ hideBubble }" onclick="{ toggleBubble }"> <yield></yield> </div> </div>', 'rg-bubble .context, [riot-tag="rg-bubble"] .context,rg-bubble .content, [riot-tag="rg-bubble"] .content{ display: inline-block; position: relative; } rg-bubble .bubble, [riot-tag="rg-bubble"] .bubble{ position: absolute; top: -50px; left: 50%; transform: translate3d(-50%, 0, 0); padding: 10px 15px; background-color: #000; color: white; text-align: center; font-size: 0.9em; line-height: 1; white-space: nowrap; opacity: 0; } rg-bubble .isvisible, [riot-tag="rg-bubble"] .isvisible{ display: block; opacity: 1; } rg-bubble .bubble:after, [riot-tag="rg-bubble"] .bubble:after{ content: \'\'; position: absolute; display: block; bottom: -20px; left: 50%; transform: translate3d(-50%, 0, 0); width: 0; height: 0; border: 10px solid transparent; border-top-color: #000; }', function (opts) {
+riot.tag('rg-bubble', '<div class="context"> <div class="bubble { isvisible: RgBubble.isvisible }"> <rg-raw content="{ RgBubble.content }"></rg-raw> </div> <div class="content" onmouseover="{ showBubble }" onmouseout="{ hideBubble }" onclick="{ toggleBubble }"> <yield></yield> </div> </div>', 'rg-bubble .context, [riot-tag="rg-bubble"] .context,rg-bubble .content, [riot-tag="rg-bubble"] .content{ display: inline-block; position: relative; } rg-bubble .bubble, [riot-tag="rg-bubble"] .bubble{ position: absolute; top: -50px; left: 50%; transform: translate3d(-50%, 0, 0); padding: 10px 15px; background-color: #000; color: white; text-align: center; font-size: 0.9em; line-height: 1; white-space: nowrap; opacity: 0; } rg-bubble .isvisible, [riot-tag="rg-bubble"] .isvisible{ display: block; opacity: 1; } rg-bubble .bubble:after, [riot-tag="rg-bubble"] .bubble:after{ content: \'\'; position: absolute; display: block; bottom: -20px; left: 50%; transform: translate3d(-50%, 0, 0); width: 0; height: 0; border: 10px solid transparent; border-top-color: #000; }', function (opts) {
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.isvisible = false;
-		_this.RgBubble = opts.bubble;
-		_this.RgBubble.on('content', function () {
+		_this.RgBubble = opts.bubble || new RgBubble();
+		_this.RgBubble.on('content visibility', function () {
 			_this.update();
 		});
 		_this.update();
@@ -597,18 +750,17 @@ riot.tag('rg-bubble', '<div class="context"> <div class="bubble { isvisible: isv
 
 	this.showBubble = function () {
 		clearTimeout(_this.timer);
-		_this.isvisible = true;
+		_this.RgBubble.isvisible = true;
 	};
 
 	this.hideBubble = function () {
 		_this.timer = setTimeout(function () {
-			_this.isvisible = false;
-			_this.update();
+			_this.RgBubble.isvisible = false;
 		}, 1000);
 	};
 
 	this.toggleBubble = function () {
-		_this.isvisible = !_this.isvisible;
+		_this.RgBubble.isvisible = !_this.RgBubble.isvisible;
 	};
 });
 
@@ -631,7 +783,7 @@ riot.tag('rg-code', '<div class="editor"></div>', 'rg-code .editor, [riot-tag="r
 		editor = ace.edit(_this.root.querySelector('.editor'));
 		editor.$blockScrolling = Infinity;
 
-		_this.RgCode = opts.editor;
+		_this.RgCode = opts.editor || new RgCode();
 		_this.RgCode.on('settings', function () {
 			setupEditor();
 		});
@@ -649,22 +801,20 @@ riot.tag('rg-code', '<div class="editor"></div>', 'rg-code .editor, [riot-tag="r
 	});
 });
 
-riot.tag('rg-context-menu', '<div class="menu { isvisible: isvisible }"> <div class="list"> <div each="{ opts.items }" class="item { inactive: inactive }" onclick="{ selectItem }"> <rg-raw content="{ content }"></rg-raw> </div> <yield></yield> </div> </div>', 'rg-context-menu .menu, [riot-tag="rg-context-menu"] .menu{ display: none; position: absolute; background-color: white; border: 1px solid #D3D3D3; text-align: left; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; box-sizing: border-box; z-index: 2; } rg-context-menu .menu.isvisible, [riot-tag="rg-context-menu"] .menu.isvisible{ display: block; } rg-context-menu .item, [riot-tag="rg-context-menu"] .item{ cursor: pointer; padding: 10px; border-top: 1px solid #E8E8E8; background-color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-context-menu .item:first-child, [riot-tag="rg-context-menu"] .item:first-child{ border-top: 0; } rg-context-menu .item:hover, [riot-tag="rg-context-menu"] .item:hover{ background-color: #f3f3f3; } rg-context-menu .item.inactive, [riot-tag="rg-context-menu"] .item.inactive{ color: #8a8a8a; font-style: italic; } rg-context-menu .item.inactive:hover, [riot-tag="rg-context-menu"] .item.inactive:hover{ background-color: #fff; }', function (opts) {
+riot.tag('rg-context-menu', '<div class="menu { isvisible: RgContextMenu.isvisible }"> <div class="list"> <div each="{ RgContextMenu.items }" class="item { inactive: inactive }" onclick="{ selectItem }"> <rg-raw content="{ content }"></rg-raw> </div> <yield></yield> </div> </div>', 'rg-context-menu .menu, [riot-tag="rg-context-menu"] .menu{ display: none; position: absolute; background-color: white; border: 1px solid #D3D3D3; text-align: left; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; box-sizing: border-box; z-index: 2; } rg-context-menu .menu.isvisible, [riot-tag="rg-context-menu"] .menu.isvisible{ display: block; } rg-context-menu .item, [riot-tag="rg-context-menu"] .item{ cursor: pointer; padding: 10px; border-top: 1px solid #E8E8E8; background-color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-context-menu .item:first-child, [riot-tag="rg-context-menu"] .item:first-child{ border-top: 0; } rg-context-menu .item:hover, [riot-tag="rg-context-menu"] .item:hover{ background-color: #f3f3f3; } rg-context-menu .item.inactive, [riot-tag="rg-context-menu"] .item.inactive{ color: #8a8a8a; font-style: italic; } rg-context-menu .item.inactive:hover, [riot-tag="rg-context-menu"] .item.inactive:hover{ background-color: #fff; }', function (opts) {
 	var _this = this;
 
 	var handleClickOutside = function handleClickOutside(e) {
 		if (!_this.root.contains(e.target)) {
-			if (rg.isFunction(opts.onclose) && _this.isvisible) opts.onclose(e);
-			_this.isvisible = false;
-			_this.update();
+			if (_this.RgContextMenu.onclose && _this.RgContextMenu.isvisible) _this.RgContextMenu.onclose(e);
+			_this.RgContextMenu.isvisible = false;
 		}
 	};
 
 	var openMenu = function openMenu(e) {
 		e.preventDefault();
-		if (rg.isFunction(opts.onopen)) opts.onopen(e);
-		_this.isvisible = true;
-		_this.update();
+		if (_this.RgContextMenu.onopen) _this.RgContextMenu.onopen(e);
+		_this.RgContextMenu.isvisible = true;
 
 		var x = e.pageX;
 		var y = e.pageY;
@@ -685,10 +835,14 @@ riot.tag('rg-context-menu', '<div class="menu { isvisible: isvisible }"> <div cl
 	};
 
 	this.on('mount', function () {
+		_this.RgContextMenu = opts.menu || new RgContextMenu();
+		_this.RgContextMenu.on('items add visibility', function () {
+			_this.update();
+		});
 		document.addEventListener('click', handleClickOutside);
 		var targets = document.querySelectorAll('[rg-context-menu]');
 		for (var i = 0, target; target = targets[i]; i++) {
-			if (target.attributes['rg-context-menu'].value == opts.id) target.addEventListener('contextmenu', openMenu);else target.addEventListener('contextmenu', _this.closeMenu);
+			if (target.attributes['rg-context-menu'].value == _this.RgContextMenu.name) target.addEventListener('contextmenu', openMenu);else target.addEventListener('contextmenu', _this.closeMenu);
 		}
 	});
 
@@ -696,42 +850,42 @@ riot.tag('rg-context-menu', '<div class="menu { isvisible: isvisible }"> <div cl
 		document.removeEventListener('click', handleClickOutside);
 		var targets = document.querySelectorAll('[rg-context-menu]');
 		for (var i = 0, target; target = targets[i]; i++) {
-			if (target.attributes['rg-context-menu'].value == opts.id) target.removeEventListener('contextmenu', openMenu);else target.removeEventListener('contextmenu', _this.closeMenu);
+			if (target.attributes['rg-context-menu'].value == _this.RgContextMenu.name) target.removeEventListener('contextmenu', openMenu);else target.removeEventListener('contextmenu', _this.closeMenu);
 		}
 	});
 
 	this.closeMenu = function () {
-		_this.isvisible = false;
-		_this.update();
+		_this.RgContextMenu.isvisible = false;
 	};
 
-	this.selectItem = function (e) {
-		if (!e.item.inactive) {
-			if (e.item.onclick) e.item.onclick(e.item);
-			_this.isvisible = false;
-		}
+	this.selectItem = function (item) {
+		item = item.item;
+		_this.RgContextMenu.select(item);
 	};
 });
 
-riot.tag('rg-credit-card', '<input type="text" name="cardNo" value="{ opts.cardno }" class="field card-no { icon } { valid: validationResult.valid == true }" oninput="{ validate }" placeholder="{ opts.placeholder || \'Card no.\' }">', 'rg-credit-card .field, [riot-tag="rg-credit-card"] .field{ font-size: 1em; padding: 10px; border: 1px solid #D3D3D3; box-sizing: border-box; outline: none; } rg-credit-card .card-no, [riot-tag="rg-credit-card"] .card-no{ padding-right: 60px; background-repeat: no-repeat; background-position: right center; background-size: 60px; } rg-credit-card .amex, [riot-tag="rg-credit-card"] .amex{ background-image: url(img/amex.png); } rg-credit-card .diners_club, [riot-tag="rg-credit-card"] .diners_club{ background-image: url(img/diners_club.png); } rg-credit-card .discover, [riot-tag="rg-credit-card"] .discover{ background-image: url(img/discover.png); } rg-credit-card .jcb, [riot-tag="rg-credit-card"] .jcb{ background-image: url(img/jcb.png); } rg-credit-card .mastercard, [riot-tag="rg-credit-card"] .mastercard{ background-image: url(img/mastercard.png); } rg-credit-card .visa, [riot-tag="rg-credit-card"] .visa{ background-image: url(img/visa.png); }', function (opts) {
+riot.tag('rg-credit-card-number', '<input type="text" name="cardnumber" class="field card-no { RgCreditCard.icon } { valid: RgCreditCard.valid }" oninput="{ validate }" placeholder="{ RgCreditCard.placeholder }">', 'rg-credit-card-number .field, [riot-tag="rg-credit-card-number"] .field{ font-size: 1em; padding: 10px; border: 1px solid #D3D3D3; box-sizing: border-box; outline: none; } rg-credit-card-number .card-no, [riot-tag="rg-credit-card-number"] .card-no{ padding-right: 60px; background-repeat: no-repeat; background-position: right center; background-size: 60px; } rg-credit-card-number .amex, [riot-tag="rg-credit-card-number"] .amex{ background-image: url(img/amex.png); } rg-credit-card-number .diners_club, [riot-tag="rg-credit-card-number"] .diners_club{ background-image: url(img/diners_club.png); } rg-credit-card-number .discover, [riot-tag="rg-credit-card-number"] .discover{ background-image: url(img/discover.png); } rg-credit-card-number .jcb, [riot-tag="rg-credit-card-number"] .jcb{ background-image: url(img/jcb.png); } rg-credit-card-number .mastercard, [riot-tag="rg-credit-card-number"] .mastercard{ background-image: url(img/mastercard.png); } rg-credit-card-number .visa, [riot-tag="rg-credit-card-number"] .visa{ background-image: url(img/visa.png); }', function (opts) {
 	var _this = this;
 
-	this.on('mount', function () {
-		_this.mixin('rg.creditcard');
-		_this.validate();
-		_this.update();
-	});
+	var setUI = function setUI() {
+		if (_this.cardnumber.value != _this.RgCreditCard.cardnumber) _this.cardnumber.value = _this.RgCreditCard.cardnumber;
+		_this.RgCreditCard.validate();
+	};
 
-	this.on('updated', function () {
-		if (_this.isMounted) {
-			_this.validate();
+	this.on('mount', function () {
+		_this.RgCreditCard = opts.card || new RgCreditCard();
+		_this.RgCreditCard.on('cardnumber', function () {
+			setUI();
+		});
+		_this.RgCreditCard.on('validate', function () {
 			_this.update();
-		}
+		});
+		setUI();
 	});
 
 	this.validate = function () {
-		_this.validationResult = _this.creditcard.validate(_this.cardNo.value);
-		_this.icon = _this.validationResult.valid ? _this.validationResult.card_type.name : '';
+		_this.RgCreditCard.cardnumber = _this.cardnumber.value;
+		_this.RgCreditCard.validate();
 	};
 });
 

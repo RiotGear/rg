@@ -1,5 +1,5 @@
 <app>
-  <rg-context-menu id="myMenu" items="{ contentMenuItems }"></rg-context-menu>
+  <rg-context-menu menu="{ contextMenu }"></rg-context-menu>
   <h2>Alert</h2>
   <div class="demo">
     <rg-alerts alerts="{ alerts }"></rg-alerts>
@@ -19,14 +19,12 @@
     <button onclick="{ updateBubbleContent }">Change bubble</button>
   </div>
 
-
   <h2>Code</h2>
   <div class="demo">
     <rg-code editor="{ editorSettings }"></rg-code>
   </div>
   <button onclick="{ changeCode }">Change code</button>
 
-  <!--
   <h2>Context Menu</h2>
   <div class="demo" rg-context-menu="myMenu">
     Right click here.
@@ -34,10 +32,11 @@
 
   <h2>Credit Card</h2>
   <div class="demo">
-    <rg-credit-card cardno="{ creditCard }"></rg-credit-card>
-    <button onclick="{ changeCreditCard }">Change Credit Card</button>
+    <rg-credit-card-number card="{ creditcard }"></rg-credit-card-number>
+    <button onclick="{ changeCardNumber }">Change Card Number</button>
   </div>
 
+  <!--
   <h2>Date</h2>
   <div class="demo">
     <rg-date date="{ date }"></rg-date>
@@ -235,28 +234,44 @@
     /*
      * CONTEXT MENU
      */
-    const menuItem = {
-      content: '<em>Add another item</em>',
-      onclick: () => {
-        this.addMenuItem()
-      }
-    }
-
-    this.contentMenuItems = [menuItem]
+    this.contextMenu = new RgContextMenu({
+      name: 'myMenu',
+      items: [{
+        content: '<em>Add another item</em>',
+        onclick: () => {
+          this.addMenuItem()
+        }
+      }],
+      onopen: () => console.log('menu open'),
+      onclose: () => console.log('menu closed')
+    })
 
     this.addMenuItem = () => {
-      this.contentMenuItems.push(menuItem)
+      this.contextMenu.add({
+        content: '<em>Add another item</em>',
+        onclick: () => {
+          this.addMenuItem()
+        }
+      })
     }
 
-    this.changeCreditCard = () => {
-      this.creditCard = 5105105105105100
-    }
+    /*
+     * CREDIT CARD NUMBER
+     */
+    this.creditcard = new RgCreditCard({
+      placeholder: 'Long number on front',
+      cardnumber: '4000 0000 0000 0002'
+    })
 
-    this.date = '1982-01-14'
-
-    this.changeDate = () => {
-      this.date = '2015-12-25'
+    this.changeCardNumber = () => {
+      this.creditcard.cardnumber = 5105105105105100
     }
+    //
+    // this.date = '1982-01-14'
+    //
+    // this.changeDate = () => {
+    //   this.date = '2015-12-25'
+    // }
 
   </script>
 </app>

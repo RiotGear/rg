@@ -2,6 +2,7 @@ class RgAlerts {
 
   constructor(opts) {
     riot.observable(this)
+    if (rg.isUndefined(opts)) opts = {}
     this.alerts = []
     if (!rg.isArray(opts)) return
     opts.forEach((alert) => {
@@ -10,7 +11,7 @@ class RgAlerts {
   }
 
   add(alert) {
-    alert.id = Math.random().toString(36).substr(2, 8)
+    alert.id = rg.uid()
     if (rg.isUndefined(alert.isvisible)) alert.isvisible = true
     if (alert.timeout) {
       alert.startTimer = () => {
@@ -29,5 +30,10 @@ class RgAlerts {
     if (rg.isFunction(alert.onclose)) alert.onclose(alert)
     clearTimeout(alert.timer)
     this.trigger('dismiss', alert)
+  }
+
+  select(alert) {
+    if (rg.isFunction(alert.onclick)) alert.onclick(alert)
+    this.trigger('onclick', alert)
   }
 }

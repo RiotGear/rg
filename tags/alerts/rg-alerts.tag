@@ -9,7 +9,7 @@
 
 	<script>
 		this.on('mount', function() {
-			this.RgAlerts = opts.alerts
+			this.RgAlerts = opts.alerts || new RgAlerts()
 			this.RgAlerts.on('add dismiss', () => {
 				this.update()
 			})
@@ -23,7 +23,7 @@
 
 		this.select = e => {
 			const alert = e.item
-			if (rg.isFunction(alert.onclick)) alert.onclick(alert)
+			this.RgAlerts.select(alert)
 		}
 
 	</script>

@@ -2,6 +2,7 @@ class RgCode {
 
   constructor(opts) {
     riot.observable(this)
+    if (rg.isUndefined(opts)) opts = {}
     this._src = opts.src
     this._code = opts.code
     this._theme = opts.theme
@@ -25,7 +26,7 @@ class RgCode {
   }
 
   get code() {
-    return this._code
+    return this._code || ''
   }
   set code(code) {
     this._code = code
@@ -33,7 +34,7 @@ class RgCode {
   }
 
   get onchange() {
-    if (rg.isFunction(onchange)) return this._onchange
+    if (rg.isFunction(this._onchange)) return this._onchange
     return null
   }
   set onchange(onchange) {

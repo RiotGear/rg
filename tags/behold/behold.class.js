@@ -2,6 +2,7 @@ class RgBehold {
 
   constructor(opts) {
     riot.observable(this)
+    if (rg.isUndefined(opts)) opts = {}
     this._image1 = opts.image1
     this._image2 = opts.image2
     this._mode = opts.mode

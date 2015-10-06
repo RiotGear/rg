@@ -1,4 +1,4 @@
-riot.tag('app', '<rg-context-menu id="myMenu" items="{ contentMenuItems }"></rg-context-menu> <h2>Alert</h2> <div class="demo"> <rg-alerts alerts="{ alerts }"></rg-alerts> <button onclick="{ addAlert }">Add alert</button> </div> <h2>Behold</h2> <div class="demo"> <rg-behold behold="{ behold }"></rg-behold> <button onclick="{ changeBeholdMode }">Change mode</button> <button onclick="{ changeBeholdImages }">Change image</button> </div> <h2>Bubble</h2> <div class="demo"> <rg-bubble bubble="{ bubble }">Hover over me</rg-bubble> <button onclick="{ updateBubbleContent }">Change bubble</button> </div> <h2>Code</h2> <div class="demo"> <rg-code editor="{ editorSettings }"></rg-code> </div> <button onclick="{ changeCode }">Change code</button>  <h3>>> END</h3>', function(opts) {var _this = this;
+riot.tag('app', '<rg-context-menu menu="{ contextMenu }"></rg-context-menu> <h2>Alert</h2> <div class="demo"> <rg-alerts alerts="{ alerts }"></rg-alerts> <button onclick="{ addAlert }">Add alert</button> </div> <h2>Behold</h2> <div class="demo"> <rg-behold behold="{ behold }"></rg-behold> <button onclick="{ changeBeholdMode }">Change mode</button> <button onclick="{ changeBeholdImages }">Change image</button> </div> <h2>Bubble</h2> <div class="demo"> <rg-bubble bubble="{ bubble }">Hover over me</rg-bubble> <button onclick="{ updateBubbleContent }">Change bubble</button> </div> <h2>Code</h2> <div class="demo"> <rg-code editor="{ editorSettings }"></rg-code> </div> <button onclick="{ changeCode }">Change code</button> <h2>Context Menu</h2> <div class="demo" rg-context-menu="myMenu"> Right click here. </div> <h2>Credit Card</h2> <div class="demo"> <rg-credit-card-number card="{ creditcard }"></rg-credit-card-number> <button onclick="{ changeCardNumber }">Change Card Number</button> </div>  <h3>>> END</h3>', function(opts) {var _this = this;
 
 /*
  * ALERTS
@@ -72,26 +72,46 @@ this.changeCode = function () {
 /*
  * CONTEXT MENU
  */
-var menuItem = {
-  content: '<em>Add another item</em>',
-  onclick: function onclick() {
-    _this.addMenuItem();
+this.contextMenu = new RgContextMenu({
+  name: 'myMenu',
+  items: [{
+    content: '<em>Add another item</em>',
+    onclick: function onclick() {
+      _this.addMenuItem();
+    }
+  }],
+  onopen: function onopen() {
+    return console.log('menu open');
+  },
+  onclose: function onclose() {
+    return console.log('menu closed');
   }
-};
-
-this.contentMenuItems = [menuItem];
+});
 
 this.addMenuItem = function () {
-  _this.contentMenuItems.push(menuItem);
+  _this.contextMenu.add({
+    content: '<em>Add another item</em>',
+    onclick: function onclick() {
+      _this.addMenuItem();
+    }
+  });
 };
 
-this.changeCreditCard = function () {
-  _this.creditCard = 5105105105105100;
-};
+/*
+ * CREDIT CARD NUMBER
+ */
+this.creditcard = new RgCreditCard({
+  placeholder: 'Long number on front',
+  cardnumber: '4000 0000 0000 0002'
+});
 
-this.date = '1982-01-14';
-
-this.changeDate = function () {
-  _this.date = '2015-12-25';
+this.changeCardNumber = function () {
+  _this.creditcard.cardnumber = 5105105105105100;
 };
+//
+// this.date = '1982-01-14'
+//
+// this.changeDate = () => {
+//   this.date = '2015-12-25'
+// }
 });

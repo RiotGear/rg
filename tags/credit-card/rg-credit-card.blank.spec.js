@@ -1,10 +1,10 @@
-describe('rg-credit-card', function() {
+describe('rg-credit-card-number', function() {
   let tag
 
   beforeEach(function() {
 
-    $('body').append('<rg-credit-card></rg-credit-card>')
-    tag = riot.mount('rg-credit-card')[0]
+    $('body').append('<rg-credit-card-number></rg-credit-card-number>')
+    tag = riot.mount('rg-credit-card-number')[0]
   })
 
   after(function() {
@@ -16,7 +16,7 @@ describe('rg-credit-card', function() {
   })
 
   it('is blank when no cardNo is specified', function() {
-    const textbox = $('rg-credit-card .card-no')
+    const textbox = $('rg-credit-card-number .card-no')
     textbox.val().should.equal('')
   })
 })

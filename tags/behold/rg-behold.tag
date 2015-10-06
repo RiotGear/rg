@@ -55,7 +55,7 @@
 		}
 
 		this.on('mount', () => {
-			this.RgBehold = opts.behold
+			this.RgBehold = opts.behold || new RgBehold()
 			this.RgBehold.on('mode', () => {
 				this.diff.value = 0
 				this.updateDiff()

@@ -1,32 +1,32 @@
-<rg-credit-card>
+<rg-credit-card-number>
 
-	<input type="text"
-		     name="cardNo"
-				 value="{ opts.cardno }"
-				 class="field card-no
-				 { icon }
-				 { valid: validationResult.valid == true }"
-				 oninput="{ validate }"
-				 placeholder="{ opts.placeholder || 'Card no.' }">
+	<input type="text" name="cardnumber" class="field card-no
+				 { RgCreditCard.icon }
+				 { valid: RgCreditCard.valid }" oninput="{ validate }" placeholder="{ RgCreditCard.placeholder }">
 
 	<script>
-		this.on('mount', () => {
-			this.mixin('rg.creditcard')
-			this.validate()
-			this.update()
-		})
+		const setUI = () => {
+			if (this.cardnumber.value != this.RgCreditCard.cardnumber)
+				this.cardnumber.value = this.RgCreditCard.cardnumber
+			this.RgCreditCard.validate()
+		}
 
-		this.on('updated', () => {
-			if (this.isMounted) {
-				this.validate()
+		this.on('mount', () => {
+			this.RgCreditCard = opts.card || new RgCreditCard()
+			this.RgCreditCard.on('cardnumber', () => {
+				setUI()
+			})
+			this.RgCreditCard.on('validate', () => {
 				this.update()
-			}
+			})
+			setUI()
 		})
 
 		this.validate = () => {
-			this.validationResult = this.creditcard.validate(this.cardNo.value)
-			this.icon = this.validationResult.valid ? this.validationResult.card_type.name : ''
+			this.RgCreditCard.cardnumber = this.cardnumber.value
+			this.RgCreditCard.validate()
 		}
+
 	</script>
 
 	<style scoped>
@@ -68,6 +68,7 @@
 		.visa {
 			background-image: url(img/visa.png);
 		}
+
 	</style>
 
-</rg-credit-card>
+</rg-credit-card-number>
