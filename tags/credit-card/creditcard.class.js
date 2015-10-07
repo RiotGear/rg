@@ -19,7 +19,7 @@ class RgCreditCard {
   }
   set cardnumber(num) {
     this._cardnumber = num
-    this.trigger('cardnumber')
+    this.trigger('change')
   }
 
   get valid() {

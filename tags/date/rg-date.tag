@@ -1,94 +1,61 @@
 <rg-date>
-	<div class="container { open: opened }">
-		<input type="text" class="field" onclick="{ show }" value="{ date.format(this.format) }" readonly />
+	<div class="container { open: RgDate.isvisible }">
+		<input type="text" class="field" onclick="{ open }" value="{ RgDate.dateFormatted }" readonly />
 
-		<div class="calendar" show="{ opened }">
-			<div class="grid grid-row" if="{ years }">
+		<div class="calendar" show="{ RgDate.isvisible }">
+			<div class="grid grid-row" if="{ RgDate.showYears }">
 				<div class="selector" onclick="{ prevYear }">&lsaquo;</div>
-				<span class="year">{ date.format(this.yearFormat) }</span>
+				<span class="year">{ RgDate.year }</span>
 				<div class="selector" onclick="{ nextYear }">&rsaquo;</div>
 			</div>
-			<div class="grid grid-row" if="{ !years }">
-				<span class="year fill">{ date.format(this.yearFormat) }</span>
+			<div class="grid grid-row" if="{ !RgDate.showYears }">
+				<span class="year fill">{ RgDate.year }</span>
 			</div>
 
-			<div class="grid grid-row" if="{ months }">
+			<div class="grid grid-row" if="{ RgDate.showMonths }">
 				<div class="selector" onclick="{ prevMonth }">&lsaquo;</div>
-				<span class="month">{ date.format(this.monthFormat) }</span>
+				<span class="month">{ RgDate.month }</span>
 				<div class="selector" onclick="{ nextMonth }">&rsaquo;</div>
 			</div>
-			<div class="grid grid-row" if="{ !months }">
-				<span class="month fill">{ date.format(this.monthFormat) }</span>
+			<div class="grid grid-row" if="{ !RgDate.showMonths }">
+				<span class="month fill">{ RgDate.month }</span>
 			</div>
 
 			<div class="grid grid-row">
-				<span class="day-name" each="{ day in dayNames }">{ day }</span>
+				<span class="day-name" each="{ day in RgDate.dayNames }">{ day }</span>
 			</div>
 			<div class="grid grid-wrap">
-				<div each="{ day in startBuffer }" onclick="{ changeDate }" class="date {
+				<div each="{ day in startBuffer }" onclick="{ select }" class="date {
 							in: day.inMonth,
 							selected: day.selected,
 							today: day.today
 						}">
-					{ day.date.format(this.dayFormat) }
+					{ day.date.format(this.RgDate.dayFormat) }
 				</div>
-				<div each="{ day in days }" onclick="{ changeDate }" class="date {
+				<div each="{ day in days }" onclick="{ select }" class="date {
 							in: day.inMonth,
 							selected: day.selected,
 							today: day.today
 						}">
-					{ day.date.format(this.dayFormat) }
+					{ day.date.format(this.RgDate.dayFormat) }
 				</div>
-				<div each="{ day in endBuffer }" onclick="{ changeDate }" class="date {
+				<div each="{ day in endBuffer }" onclick="{ select }" class="date {
 							in: day.inMonth,
 							selected: day.selected,
 							today: day.today
 						}">
-					{ day.date.format(this.dayFormat) }
+					{ day.date.format(this.RgDate.dayFormat) }
 				</div>
 			</div>
-			<div if="{ today }" class="grid grid-row">
+			<div if="{ RgDate.showToday }" class="grid grid-row">
 				<a class="shortcut" onclick="{ setToday }">Today</a>
 			</div>
 		</div>
 	</div>
 
 	<script>
-		const setOpts = () => {
-			// Display elements
-			this.months = rg.isDefined(opts.months) ? rg.toBoolean(opts.months) : true
-			this.years = rg.isDefined(opts.years) ? rg.toBoolean(opts.years) : true
-			this.today = rg.isDefined(opts.today) ? rg.toBoolean(opts.today) : true
-
-			// Get our display formats
-			this.format = opts.format || 'LL'
-			this.yearFormat = opts['year-format'] || 'YYYY'
-			this.monthFormat = opts['month-format'] || 'MMMM'
-			this.weekFormat = opts['week-format'] || 'ddd'
-			this.dayFormat = opts['day-format'] || 'DD'
-
-			// Convert the given date to a moment object
-			this.date = moment(opts.date)
-
-			// Setup the weekday list
-			const temp = moment()
-			this.dayNames = [
-				temp.day(0).format(this.weekFormat),
-				temp.day(1).format(this.weekFormat),
-				temp.day(2).format(this.weekFormat),
-				temp.day(3).format(this.weekFormat),
-				temp.day(4).format(this.weekFormat),
-				temp.day(5).format(this.weekFormat),
-				temp.day(6).format(this.weekFormat),
-			]
-		}
-
 		const handleClickOutside = e => {
-			if (!this.root.contains(e.target) && this.opened) {
-				if (rg.isFunction(opts.onclose)) opts.onclose(this.date)
-				this.opened = false
-				this.update()
-			}
+			if (!this.root.contains(e.target)) this.RgDate.close()
 		}
 
 		const dayObj = dayDate => {
@@ -96,15 +63,15 @@
 
 			return {
 				date: dateObj,
-				selected: this.date.isSame(dayDate, 'day'),
+				selected: this.RgDate.date.isSame(dayDate, 'day'),
 				today: moment().isSame(dayDate, 'day'),
-				inMonth: this.date.isSame(dayDate, 'month'),
+				inMonth: this.RgDate.date.isSame(dayDate, 'month'),
 			}
 		}
 
 		const buildCalendar = () => {
-			const begin = moment(this.date).startOf('month')
-			const end = moment(this.date).endOf('month')
+			const begin = moment(this.RgDate.date).startOf('month')
+			const end = moment(this.RgDate.date).endOf('month')
 
 			this.days = []
 			this.startBuffer = []
@@ -129,63 +96,44 @@
 		}
 
 		this.on('mount', () => {
-			setOpts()
+			this.RgDate = opts.date || new RgDate()
+			this.RgDate.on('visibility change today build', () => {
+				buildCalendar()
+			})
 			document.addEventListener('click', handleClickOutside)
+			this.update()
 		})
 
 		this.on('unmount', () => {
 			document.removeEventListener('click', handleClickOutside)
 		})
 
-		this.parent.on('updated', () => {
-			if (this.isMounted) setOpts()
-		})
-
-		// Handle the clicks on dates
-		this.changeDate = (e) => {
-			const day = e.item.day
-			this.date = day.date
-			if (rg.isFunction(opts.onselect)) opts.onselect(this.date)
-			buildCalendar()
-			this.opened = false
+		this.open = () => {
+			this.RgDate.open()
 		}
 
-		// Handle today shortcut
-		this.setToday = () => {
-			this.date = moment()
-			buildCalendar()
-			this.opened = false
-		}
-
-		// Handle the previous year change
 		this.prevYear = () => {
-			this.date.subtract(1, 'year').startOf('month')
-			buildCalendar()
+			this.RgDate.prevYear()
 		}
 
-		// Handle the next month change
 		this.nextYear = () => {
-			this.date.add(1, 'year').startOf('month')
-			buildCalendar()
+			this.RgDate.nextYear()
 		}
 
-		// Handle the previous month change
 		this.prevMonth = () => {
-			this.date.subtract(1, 'month').startOf('month')
-			buildCalendar()
+			this.RgDate.prevMonth()
 		}
 
-		// Handle the next month change
 		this.nextMonth = () => {
-			this.date.add(1, 'month').startOf('month')
-			buildCalendar()
+			this.RgDate.nextMonth()
 		}
 
-		// Show/hide the datepicker
-		this.show = () => {
-			if (rg.isFunction(opts.onopen)) opts.onopen()
-			buildCalendar()
-			this.opened = true
+		this.setToday = () => {
+			this.RgDate.setToday()
+		}
+
+		this.select = e => {
+			this.RgDate.select(e.item.day.date)
 		}
 
 	</script>

@@ -6,57 +6,57 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 ;
 (function () {
-	if (!window.rg) window.rg = {};
-	rg.isUndefined = function (val) {
-		return typeof val === 'undefined';
-	};
-	rg.isDefined = function (val) {
-		return typeof val !== 'undefined';
-	};
-	rg.isBoolean = function (val) {
-		return typeof val === 'boolean';
-	};
-	rg.isObject = function (val) {
-		return val !== null && typeof val === 'object';
-	};
-	rg.isString = function (val) {
-		return typeof val === 'string';
-	};
-	rg.isNumber = function (val) {
-		return typeof val === "number" && !isNaN(val);
-	};
-	rg.isDate = function (val) {
-		return toString.call(val) === '[object Date]';
-	};
-	rg.isArray = Array.isArray;
-	rg.isFunction = function (val) {
-		return typeof val === 'function';
-	};
-	rg.isRegExp = function (val) {
-		return toString.call(val) === '[object RegExp]';
-	};
-	rg.isPromise = function (val) {
-		return val && isFunction(val.then);
-	};
-	rg.toBoolean = function (val) {
-		return val == 'true' || val == true;
-	};
-	rg.toNumber = function (val) {
-		val = Number(val);
-		return rg.isNumber(val) ? val : 0;
-	};
-	var uid = 0;
-	rg.uid = function () {
-		return uid++;
-	};
-	rg.xhr = function (method, src, onload) {
-		var req = new XMLHttpRequest();
-		req.onload = function () {
-			if (rg.isFunction(onload)) onload(req.responseText);
-		};
-		req.open(method, src, true);
-		req.send();
-	};
+  if (!window.rg) window.rg = {};
+  rg.isUndefined = function (val) {
+    return typeof val === 'undefined';
+  };
+  rg.isDefined = function (val) {
+    return typeof val !== 'undefined';
+  };
+  rg.isBoolean = function (val) {
+    return typeof val === 'boolean';
+  };
+  rg.isObject = function (val) {
+    return val !== null && typeof val === 'object';
+  };
+  rg.isString = function (val) {
+    return typeof val === 'string';
+  };
+  rg.isNumber = function (val) {
+    return typeof val === "number" && !isNaN(val);
+  };
+  rg.isDate = function (val) {
+    return toString.call(val) === '[object Date]';
+  };
+  rg.isArray = Array.isArray;
+  rg.isFunction = function (val) {
+    return typeof val === 'function';
+  };
+  rg.isRegExp = function (val) {
+    return toString.call(val) === '[object RegExp]';
+  };
+  rg.isPromise = function (val) {
+    return val && isFunction(val.then);
+  };
+  rg.toBoolean = function (val) {
+    return val == 'true' || val == true;
+  };
+  rg.toNumber = function (val) {
+    val = Number(val);
+    return rg.isNumber(val) ? val : 0;
+  };
+  var uid = 0;
+  rg.uid = function () {
+    return uid++;
+  };
+  rg.xhr = function (method, src, onload) {
+    var req = new XMLHttpRequest();
+    req.onload = function () {
+      if (rg.isFunction(onload)) onload(req.responseText);
+    };
+    req.open(method, src, true);
+    req.send();
+  };
 })();
 /*
 jQuery Credit Card Validator 1.0
@@ -81,1457 +81,1601 @@ IN THE SOFTWARE.
  */
 
 (function () {
-	'use strict';
+  'use strict';
 
-	function validateCreditCard(input) {
-		var __indexOf = [].indexOf || function (item) {
-			for (var i = 0, l = this.length; i < l; i++) {
-				if (i in this && this[i] === item) return i;
-			}return -1;
-		};
-		var bind, card, card_type, card_types, get_card_type, is_valid_length, is_valid_luhn, normalize, validate, validate_number, _i, _len, _ref;
-		card_types = [{
-			name: 'amex',
-			icon: 'images/amex.png',
-			pattern: /^3[47]/,
-			valid_length: [15]
-		}, {
-			name: 'diners_club',
-			icon: 'images/diners_club.png',
-			pattern: /^30[0-5]/,
-			valid_length: [14]
-		}, {
-			name: 'diners_club',
-			icon: 'images/diners_club.png',
-			pattern: /^36/,
-			valid_length: [14]
-		}, {
-			name: 'jcb',
-			icon: 'images/jcb.png',
-			pattern: /^35(2[89]|[3-8][0-9])/,
-			valid_length: [16]
-		}, {
-			name: 'laser',
-			pattern: /^(6304|670[69]|6771)/,
-			valid_length: [16, 17, 18, 19]
-		}, {
-			name: 'visa_electron',
-			pattern: /^(4026|417500|4508|4844|491(3|7))/,
-			valid_length: [16]
-		}, {
-			name: 'visa',
-			icon: 'images/visa.png',
-			pattern: /^4/,
-			valid_length: [16]
-		}, {
-			name: 'mastercard',
-			icon: 'images/mastercard.png',
-			pattern: /^5[1-5]/,
-			valid_length: [16]
-		}, {
-			name: 'maestro',
-			pattern: /^(5018|5020|5038|6304|6759|676[1-3])/,
-			valid_length: [12, 13, 14, 15, 16, 17, 18, 19]
-		}, {
-			name: 'discover',
-			icon: 'images/discover.png',
-			pattern: /^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)/,
-			valid_length: [16]
-		}];
+  function validateCreditCard(input) {
+    var __indexOf = [].indexOf || function (item) {
+      for (var i = 0, l = this.length; i < l; i++) {
+        if (i in this && this[i] === item) return i;
+      }return -1;
+    };
+    var bind, card, card_type, card_types, get_card_type, is_valid_length, is_valid_luhn, normalize, validate, validate_number, _i, _len, _ref;
+    card_types = [{
+      name: 'amex',
+      icon: 'images/amex.png',
+      pattern: /^3[47]/,
+      valid_length: [15]
+    }, {
+      name: 'diners_club',
+      icon: 'images/diners_club.png',
+      pattern: /^30[0-5]/,
+      valid_length: [14]
+    }, {
+      name: 'diners_club',
+      icon: 'images/diners_club.png',
+      pattern: /^36/,
+      valid_length: [14]
+    }, {
+      name: 'jcb',
+      icon: 'images/jcb.png',
+      pattern: /^35(2[89]|[3-8][0-9])/,
+      valid_length: [16]
+    }, {
+      name: 'laser',
+      pattern: /^(6304|670[69]|6771)/,
+      valid_length: [16, 17, 18, 19]
+    }, {
+      name: 'visa_electron',
+      pattern: /^(4026|417500|4508|4844|491(3|7))/,
+      valid_length: [16]
+    }, {
+      name: 'visa',
+      icon: 'images/visa.png',
+      pattern: /^4/,
+      valid_length: [16]
+    }, {
+      name: 'mastercard',
+      icon: 'images/mastercard.png',
+      pattern: /^5[1-5]/,
+      valid_length: [16]
+    }, {
+      name: 'maestro',
+      pattern: /^(5018|5020|5038|6304|6759|676[1-3])/,
+      valid_length: [12, 13, 14, 15, 16, 17, 18, 19]
+    }, {
+      name: 'discover',
+      icon: 'images/discover.png',
+      pattern: /^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)/,
+      valid_length: [16]
+    }];
 
-		var options = {};
+    var options = {};
 
-		if (options.accept == null) {
-			options.accept = (function () {
-				var _i, _len, _results;
-				_results = [];
-				for (_i = 0, _len = card_types.length; _i < _len; _i++) {
-					card = card_types[_i];
-					_results.push(card.name);
-				}
-				return _results;
-			})();
-		}
-		_ref = options.accept;
-		for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-			card_type = _ref[_i];
-			if (__indexOf.call((function () {
-				var _j, _len1, _results;
-				_results = [];
-				for (_j = 0, _len1 = card_types.length; _j < _len1; _j++) {
-					card = card_types[_j];
-					_results.push(card.name);
-				}
-				return _results;
-			})(), card_type) < 0) {
-				throw "Credit card type '" + card_type + "' is not supported";
-			}
-		}
+    if (options.accept == null) {
+      options.accept = (function () {
+        var _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = card_types.length; _i < _len; _i++) {
+          card = card_types[_i];
+          _results.push(card.name);
+        }
+        return _results;
+      })();
+    }
+    _ref = options.accept;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      card_type = _ref[_i];
+      if (__indexOf.call((function () {
+        var _j, _len1, _results;
+        _results = [];
+        for (_j = 0, _len1 = card_types.length; _j < _len1; _j++) {
+          card = card_types[_j];
+          _results.push(card.name);
+        }
+        return _results;
+      })(), card_type) < 0) {
+        throw "Credit card type '" + card_type + "' is not supported";
+      }
+    }
 
-		get_card_type = function (number) {
-			var _j, _len1, _ref1;
-			_ref1 = (function () {
-				var _k, _len1, _ref1, _results;
-				_results = [];
-				for (_k = 0, _len1 = card_types.length; _k < _len1; _k++) {
-					card = card_types[_k];
-					if ((_ref1 = card.name, __indexOf.call(options.accept, _ref1) >= 0)) {
-						_results.push(card);
-					}
-				}
-				return _results;
-			})();
-			for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-				card_type = _ref1[_j];
-				if (number.match(card_type.pattern)) {
-					return card_type;
-				}
-			}
-			return null;
-		};
+    get_card_type = function (number) {
+      var _j, _len1, _ref1;
+      _ref1 = (function () {
+        var _k, _len1, _ref1, _results;
+        _results = [];
+        for (_k = 0, _len1 = card_types.length; _k < _len1; _k++) {
+          card = card_types[_k];
+          if ((_ref1 = card.name, __indexOf.call(options.accept, _ref1) >= 0)) {
+            _results.push(card);
+          }
+        }
+        return _results;
+      })();
+      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+        card_type = _ref1[_j];
+        if (number.match(card_type.pattern)) {
+          return card_type;
+        }
+      }
+      return null;
+    };
 
-		is_valid_luhn = function (number) {
-			var digit, n, sum, _j, _len1, _ref1;
-			sum = 0;
-			_ref1 = number.split('').reverse();
-			for (n = _j = 0, _len1 = _ref1.length; _j < _len1; n = ++_j) {
-				digit = _ref1[n];
-				digit = +digit;
-				if (n % 2) {
-					digit *= 2;
-					if (digit < 10) {
-						sum += digit;
-					} else {
-						sum += digit - 9;
-					}
-				} else {
-					sum += digit;
-				}
-			}
-			return sum % 10 === 0;
-		};
+    is_valid_luhn = function (number) {
+      var digit, n, sum, _j, _len1, _ref1;
+      sum = 0;
+      _ref1 = number.split('').reverse();
+      for (n = _j = 0, _len1 = _ref1.length; _j < _len1; n = ++_j) {
+        digit = _ref1[n];
+        digit = +digit;
+        if (n % 2) {
+          digit *= 2;
+          if (digit < 10) {
+            sum += digit;
+          } else {
+            sum += digit - 9;
+          }
+        } else {
+          sum += digit;
+        }
+      }
+      return sum % 10 === 0;
+    };
 
-		is_valid_length = function (number, card_type) {
-			var _ref1;
-			return (_ref1 = number.length, __indexOf.call(card_type.valid_length, _ref1) >= 0);
-		};
+    is_valid_length = function (number, card_type) {
+      var _ref1;
+      return (_ref1 = number.length, __indexOf.call(card_type.valid_length, _ref1) >= 0);
+    };
 
-		validate_number = (function (_this) {
-			return function (number) {
-				var length_valid, luhn_valid;
-				card_type = get_card_type(number);
-				luhn_valid = false;
-				length_valid = false;
-				if (card_type != null) {
-					luhn_valid = is_valid_luhn(number);
-					length_valid = is_valid_length(number, card_type);
-				}
-				return {
-					card_type: card_type,
-					valid: luhn_valid && length_valid,
-					luhn_valid: luhn_valid,
-					length_valid: length_valid
-				};
-			};
-		})(this);
+    validate_number = (function (_this) {
+      return function (number) {
+        var length_valid, luhn_valid;
+        card_type = get_card_type(number);
+        luhn_valid = false;
+        length_valid = false;
+        if (card_type != null) {
+          luhn_valid = is_valid_luhn(number);
+          length_valid = is_valid_length(number, card_type);
+        }
+        return {
+          card_type: card_type,
+          valid: luhn_valid && length_valid,
+          luhn_valid: luhn_valid,
+          length_valid: length_valid
+        };
+      };
+    })(this);
 
-		normalize = function (number) {
-			return number.replace(/[ -]/g, '');
-		};
+    normalize = function (number) {
+      return number.replace(/[ -]/g, '');
+    };
 
-		validate = (function (_this) {
-			return function () {
-				return validate_number(normalize(input));
-			};
-		})(this);
+    validate = (function (_this) {
+      return function () {
+        return validate_number(normalize(input));
+      };
+    })(this);
 
-		return validate(input);
-	};
+    return validate(input);
+  };
 
-	riot.mixin('rg.creditcard', {
-		creditcard: {
-			validate: validateCreditCard
-		}
-	});
+  riot.mixin('rg.creditcard', {
+    creditcard: {
+      validate: validateCreditCard
+    }
+  });
 
-	if (!window.rg) window.rg = {};
-	rg.creditcard = {
-		validate: validateCreditCard
-	};
+  if (!window.rg) window.rg = {};
+  rg.creditcard = {
+    validate: validateCreditCard
+  };
 })();
 ;
 (function () {
-	var map = {
-		initialize: function initialize() {
-			map.trigger('initialize');
-		}
-	};
+  var map = {
+    initialize: function initialize() {
+      map.trigger('initialize');
+    }
+  };
 
-	riot.observable(map);
+  riot.observable(map);
 
-	if (!window.rg) window.rg = {};
-	rg.map = map;
+  if (!window.rg) window.rg = {};
+  rg.map = map;
 })();
 
 var RgAlerts = (function () {
-	function RgAlerts(opts) {
-		var _this3 = this;
+  function RgAlerts(opts) {
+    var _this3 = this;
 
-		_classCallCheck(this, RgAlerts);
+    _classCallCheck(this, RgAlerts);
 
-		riot.observable(this);
-		if (rg.isUndefined(opts)) opts = {};
-		this.alerts = [];
-		if (!rg.isArray(opts)) return;
-		opts.forEach(function (alert) {
-			_this3.add(alert);
-		});
-	}
+    riot.observable(this);
+    if (rg.isUndefined(opts)) opts = {};
+    this.alerts = [];
+    if (!rg.isArray(opts)) return;
+    opts.forEach(function (alert) {
+      _this3.add(alert);
+    });
+  }
 
-	_createClass(RgAlerts, [{
-		key: 'add',
-		value: function add(alert) {
-			var _this4 = this;
+  _createClass(RgAlerts, [{
+    key: 'add',
+    value: function add(alert) {
+      var _this4 = this;
 
-			alert.id = rg.uid();
-			if (rg.isUndefined(alert.isvisible)) alert.isvisible = true;
-			if (alert.timeout) {
-				alert.startTimer = function () {
-					alert.timer = setTimeout(function () {
-						_this4.dismiss(alert);
-					}, rg.toNumber(alert.timeout));
-				};
-				alert.startTimer();
-			}
-			this.alerts.push(alert);
-			this.trigger('add', alert);
-		}
-	}, {
-		key: 'dismiss',
-		value: function dismiss(alert) {
-			alert.isvisible = false;
-			if (rg.isFunction(alert.onclose)) alert.onclose(alert);
-			clearTimeout(alert.timer);
-			this.trigger('dismiss', alert);
-		}
-	}, {
-		key: 'select',
-		value: function select(alert) {
-			if (rg.isFunction(alert.onclick)) alert.onclick(alert);
-			this.trigger('onclick', alert);
-		}
-	}]);
+      alert.id = rg.uid();
+      if (rg.isUndefined(alert.isvisible)) alert.isvisible = true;
+      if (alert.timeout) {
+        alert.startTimer = function () {
+          alert.timer = setTimeout(function () {
+            _this4.dismiss(alert);
+          }, rg.toNumber(alert.timeout));
+        };
+        alert.startTimer();
+      }
+      this.alerts.push(alert);
+      this.trigger('add', alert);
+    }
+  }, {
+    key: 'dismiss',
+    value: function dismiss(alert) {
+      alert.isvisible = false;
+      if (rg.isFunction(alert.onclose)) alert.onclose(alert);
+      clearTimeout(alert.timer);
+      this.trigger('dismiss', alert);
+    }
+  }, {
+    key: 'select',
+    value: function select(alert) {
+      if (rg.isFunction(alert.onclick)) alert.onclick(alert);
+      this.trigger('onclick', alert);
+    }
+  }]);
 
-	return RgAlerts;
+  return RgAlerts;
 })();
 
 var RgBehold = (function () {
-	function RgBehold(opts) {
-		_classCallCheck(this, RgBehold);
+  function RgBehold(opts) {
+    _classCallCheck(this, RgBehold);
 
-		riot.observable(this);
-		if (rg.isUndefined(opts)) opts = {};
-		this._image1 = opts.image1;
-		this._image2 = opts.image2;
-		this._mode = opts.mode;
-	}
+    riot.observable(this);
+    if (rg.isUndefined(opts)) opts = {};
+    this._image1 = opts.image1;
+    this._image2 = opts.image2;
+    this._mode = opts.mode;
+  }
 
-	_createClass(RgBehold, [{
-		key: 'image1',
-		get: function get() {
-			return this._image1;
-		},
-		set: function set(img) {
-			this._image1 = img;
-			this.trigger('image');
-		}
-	}, {
-		key: 'image2',
-		get: function get() {
-			return this._image2;
-		},
-		set: function set(img) {
-			this._image2 = img;
-			this.trigger('image');
-		}
-	}, {
-		key: 'mode',
-		get: function get() {
-			return this._mode || 'swipe';
-		},
-		set: function set(mode) {
-			this.trigger('mode');
-			this._mode = mode;
-		}
-	}]);
+  _createClass(RgBehold, [{
+    key: 'image1',
+    get: function get() {
+      return this._image1;
+    },
+    set: function set(img) {
+      this._image1 = img;
+      this.trigger('image');
+    }
+  }, {
+    key: 'image2',
+    get: function get() {
+      return this._image2;
+    },
+    set: function set(img) {
+      this._image2 = img;
+      this.trigger('image');
+    }
+  }, {
+    key: 'mode',
+    get: function get() {
+      return this._mode || 'swipe';
+    },
+    set: function set(mode) {
+      this.trigger('mode');
+      this._mode = mode;
+    }
+  }]);
 
-	return RgBehold;
+  return RgBehold;
 })();
 
 var RgBubble = (function () {
-	function RgBubble(opts) {
-		_classCallCheck(this, RgBubble);
+  function RgBubble(opts) {
+    _classCallCheck(this, RgBubble);
 
-		riot.observable(this);
-		if (rg.isUndefined(opts)) opts = {};
-		this.isvisible = opts.isvisible;
-		this._content = opts.content;
-	}
+    riot.observable(this);
+    if (rg.isUndefined(opts)) opts = {};
+    this.isvisible = opts.isvisible;
+    this._content = opts.content;
+  }
 
-	_createClass(RgBubble, [{
-		key: 'isvisible',
-		get: function get() {
-			return rg.toBoolean(this._isvisible);
-		},
-		set: function set(isvisible) {
-			this._isvisible = rg.toBoolean(isvisible);
-			this.trigger('visibility');
-		}
-	}, {
-		key: 'content',
-		get: function get() {
-			return this._content || '';
-		},
-		set: function set(content) {
-			this._content = content;
-			this.trigger('content');
-		}
-	}]);
+  _createClass(RgBubble, [{
+    key: 'isvisible',
+    get: function get() {
+      return rg.toBoolean(this._isvisible);
+    },
+    set: function set(isvisible) {
+      this._isvisible = rg.toBoolean(isvisible);
+      this.trigger('visibility');
+    }
+  }, {
+    key: 'content',
+    get: function get() {
+      return this._content || '';
+    },
+    set: function set(content) {
+      this._content = content;
+      this.trigger('content');
+    }
+  }]);
 
-	return RgBubble;
+  return RgBubble;
 })();
 
 var RgCode = (function () {
-	function RgCode(opts) {
-		_classCallCheck(this, RgCode);
+  function RgCode(opts) {
+    _classCallCheck(this, RgCode);
 
-		riot.observable(this);
-		if (rg.isUndefined(opts)) opts = {};
-		this._src = opts.src;
-		this._code = opts.code;
-		this._theme = opts.theme;
-		this._mode = opts.mode;
-		this._tabsize = opts.tabsize;
-		this._softtabs = opts.softtabs;
-		this._wordwrap = opts.wordwrap;
-		this._readonly = opts.readonly;
-	}
+    riot.observable(this);
+    if (rg.isUndefined(opts)) opts = {};
+    this._src = opts.src;
+    this._code = opts.code;
+    this._theme = opts.theme;
+    this._mode = opts.mode;
+    this._tabsize = opts.tabsize;
+    this._softtabs = opts.softtabs;
+    this._wordwrap = opts.wordwrap;
+    this._readonly = opts.readonly;
+  }
 
-	_createClass(RgCode, [{
-		key: 'src',
-		get: function get() {
-			if (this._src) {
-				rg.xhr('get', this._src, function (resp) {});
-			}
-		},
-		set: function set(url) {
-			this._src = url;
-			this.trigger('src');
-		}
-	}, {
-		key: 'code',
-		get: function get() {
-			return this._code || '';
-		},
-		set: function set(code) {
-			this._code = code;
-			this.trigger('code');
-		}
-	}, {
-		key: 'onchange',
-		get: function get() {
-			if (rg.isFunction(this._onchange)) return this._onchange;
-			return null;
-		},
-		set: function set(onchange) {
-			if (rg.isFunction(onchange)) this._onchange = onchange;
-			this.trigger('settings');
-		}
-	}, {
-		key: 'theme',
-		get: function get() {
-			return this._theme || 'monokai';
-		},
-		set: function set(theme) {
-			this._theme = theme;
-			this.trigger('settings');
-		}
-	}, {
-		key: 'mode',
-		get: function get() {
-			return this._mode || 'html';
-		},
-		set: function set(mode) {
-			this._mode = mode;
-			this.trigger('settings');
-		}
-	}, {
-		key: 'tabsize',
-		get: function get() {
-			return rg.toNumber(this._tabsize) || 2;
-		},
-		set: function set(tabsize) {
-			this._tabsize = tabsize;
-			this.trigger('settings');
-		}
-	}, {
-		key: 'softtabs',
-		get: function get() {
-			return rg.toBoolean(this._softtabs);
-		},
-		set: function set(softtabs) {
-			this._softtabs = softtabs;
-			this.trigger('settings');
-		}
-	}, {
-		key: 'wordwrap',
-		get: function get() {
-			return rg.toBoolean(this._wordwrap);
-		},
-		set: function set(wordwrap) {
-			this._wordwrap = wordwrap;
-			this.trigger('settings');
-		}
-	}, {
-		key: 'readonly',
-		get: function get() {
-			return rg.toBoolean(this._readonly);
-		},
-		set: function set(readonly) {
-			this._readonly = readonly;
-			this.trigger('settings');
-		}
-	}]);
+  _createClass(RgCode, [{
+    key: 'src',
+    get: function get() {
+      if (this._src) {
+        rg.xhr('get', this._src, function (resp) {});
+      }
+    },
+    set: function set(url) {
+      this._src = url;
+      this.trigger('src');
+    }
+  }, {
+    key: 'code',
+    get: function get() {
+      return this._code || '';
+    },
+    set: function set(code) {
+      this._code = code;
+      this.trigger('change');
+    }
+  }, {
+    key: 'onchange',
+    get: function get() {
+      if (rg.isFunction(this._onchange)) return this._onchange;
+      return null;
+    },
+    set: function set(onchange) {
+      if (rg.isFunction(onchange)) this._onchange = onchange;
+      this.trigger('settings');
+    }
+  }, {
+    key: 'theme',
+    get: function get() {
+      return this._theme || 'monokai';
+    },
+    set: function set(theme) {
+      this._theme = theme;
+      this.trigger('settings');
+    }
+  }, {
+    key: 'mode',
+    get: function get() {
+      return this._mode || 'html';
+    },
+    set: function set(mode) {
+      this._mode = mode;
+      this.trigger('settings');
+    }
+  }, {
+    key: 'tabsize',
+    get: function get() {
+      return rg.toNumber(this._tabsize) || 2;
+    },
+    set: function set(tabsize) {
+      this._tabsize = tabsize;
+      this.trigger('settings');
+    }
+  }, {
+    key: 'softtabs',
+    get: function get() {
+      return rg.toBoolean(this._softtabs);
+    },
+    set: function set(softtabs) {
+      this._softtabs = softtabs;
+      this.trigger('settings');
+    }
+  }, {
+    key: 'wordwrap',
+    get: function get() {
+      return rg.toBoolean(this._wordwrap);
+    },
+    set: function set(wordwrap) {
+      this._wordwrap = wordwrap;
+      this.trigger('settings');
+    }
+  }, {
+    key: 'readonly',
+    get: function get() {
+      return rg.toBoolean(this._readonly);
+    },
+    set: function set(readonly) {
+      this._readonly = readonly;
+      this.trigger('settings');
+    }
+  }]);
 
-	return RgCode;
+  return RgCode;
 })();
 
 var RgContextMenu = (function () {
-	function RgContextMenu(opts) {
-		var _this5 = this;
+  function RgContextMenu(opts) {
+    var _this5 = this;
 
-		_classCallCheck(this, RgContextMenu);
+    _classCallCheck(this, RgContextMenu);
 
-		riot.observable(this);
-		if (rg.isUndefined(opts)) opts = {};
-		this.name = opts.name;
-		this._isvisible = opts.isvisible;
-		this._onclose = opts.onclose;
-		this._onopen = opts.onopen;
-		this._items = [];
-		if (!rg.isArray(opts.items)) return;
-		opts.items.forEach(function (item) {
-			_this5.add(item);
-		});
-	}
+    riot.observable(this);
+    if (rg.isUndefined(opts)) opts = {};
+    this.name = opts.name;
+    this._isvisible = opts.isvisible;
+    this._onclose = opts.onclose;
+    this._onopen = opts.onopen;
+    this._items = [];
+    if (!rg.isArray(opts.items)) return;
+    opts.items.forEach(function (item) {
+      _this5.add(item);
+    });
+  }
 
-	_createClass(RgContextMenu, [{
-		key: 'add',
-		value: function add(item) {
-			item.id = rg.uid();
-			if (rg.isUndefined(item.isvisible)) item.isvisible = true;
-			if (rg.isUndefined(item.inactive)) item.inactive = false;
-			if (!rg.isFunction(item.onclick)) item.onclick = null;
-			this._items.push(item);
-			this.trigger('add', item);
-		}
-	}, {
-		key: 'select',
-		value: function select(item) {
-			if (!item.inactive) {
-				if (rg.isFunction(item.onclick)) item.onclick(item);
-				this.isvisible = false;
-				this.trigger('onclick', item);
-			}
-		}
-	}, {
-		key: 'items',
-		get: function get() {
-			if (rg.isArray(this._items)) return this._items;
-			return [];
-		},
-		set: function set(items) {
-			this._items = items;
-			this.trigger('items');
-		}
-	}, {
-		key: 'onopen',
-		get: function get() {
-			if (rg.isFunction(this._onopen)) return this._onopen;
-			return null;
-		},
-		set: function set(onopen) {
-			if (rg.isFunction(onopen)) this._onopen = onopen;
-			this.trigger('settings');
-		}
-	}, {
-		key: 'onclose',
-		get: function get() {
-			if (rg.isFunction(this._onclose)) return this._onclose;
-			return null;
-		},
-		set: function set(onclose) {
-			if (rg.isFunction(onclose)) this._onclose = onclose;
-			this.trigger('settings');
-		}
-	}, {
-		key: 'isvisible',
-		get: function get() {
-			return rg.toBoolean(this._isvisible);
-		},
-		set: function set(isvisible) {
-			this._isvisible = rg.toBoolean(isvisible);
-			this.trigger('visibility');
-		}
-	}]);
+  _createClass(RgContextMenu, [{
+    key: 'add',
+    value: function add(item) {
+      item.id = rg.uid();
+      if (rg.isUndefined(item.isvisible)) item.isvisible = true;
+      if (rg.isUndefined(item.inactive)) item.inactive = false;
+      if (!rg.isFunction(item.onclick)) item.onclick = null;
+      this._items.push(item);
+      this.trigger('add', item);
+    }
+  }, {
+    key: 'select',
+    value: function select(item) {
+      if (!item.inactive) {
+        if (rg.isFunction(item.onclick)) item.onclick(item);
+        this.isvisible = false;
+        this.trigger('onclick', item);
+      }
+    }
+  }, {
+    key: 'items',
+    get: function get() {
+      if (rg.isArray(this._items)) return this._items;
+      return [];
+    },
+    set: function set(items) {
+      this._items = items;
+      this.trigger('items');
+    }
+  }, {
+    key: 'onopen',
+    get: function get() {
+      if (rg.isFunction(this._onopen)) return this._onopen;
+      return null;
+    },
+    set: function set(onopen) {
+      if (rg.isFunction(onopen)) this._onopen = onopen;
+      this.trigger('settings');
+    }
+  }, {
+    key: 'onclose',
+    get: function get() {
+      if (rg.isFunction(this._onclose)) return this._onclose;
+      return null;
+    },
+    set: function set(onclose) {
+      if (rg.isFunction(onclose)) this._onclose = onclose;
+      this.trigger('settings');
+    }
+  }, {
+    key: 'isvisible',
+    get: function get() {
+      return rg.toBoolean(this._isvisible);
+    },
+    set: function set(isvisible) {
+      this._isvisible = rg.toBoolean(isvisible);
+      this.trigger('visibility');
+    }
+  }]);
 
-	return RgContextMenu;
+  return RgContextMenu;
 })();
 
 var RgCreditCard = (function () {
-	function RgCreditCard(opts) {
-		_classCallCheck(this, RgCreditCard);
+  function RgCreditCard(opts) {
+    _classCallCheck(this, RgCreditCard);
 
-		riot.observable(this);
-		if (rg.isUndefined(opts)) opts = {};
-		this._placeholder = opts.placeholder;
-		this._cardnumber = opts.cardnumber;
-	}
+    riot.observable(this);
+    if (rg.isUndefined(opts)) opts = {};
+    this._placeholder = opts.placeholder;
+    this._cardnumber = opts.cardnumber;
+  }
 
-	_createClass(RgCreditCard, [{
-		key: 'validate',
-		value: function validate() {
-			var res = rg.creditcard.validate(this.cardnumber);
-			this.valid = res.valid;
-			this.icon = this.valid ? res.card_type.name : '';
-			this.trigger('validate');
-		}
-	}, {
-		key: 'cardnumber',
-		get: function get() {
-			return (this._cardnumber || '').toString();
-		},
-		set: function set(num) {
-			this._cardnumber = num;
-			this.trigger('cardnumber');
-		}
-	}, {
-		key: 'valid',
-		get: function get() {
-			return rg.toBoolean(this._valid);
-		},
-		set: function set(valid) {
-			this._valid = rg.toBoolean(valid);
-		}
-	}, {
-		key: 'placeholder',
-		get: function get() {
-			return this._placeholder || 'Card no.';
-		},
-		set: function set(text) {
-			this._placeholder = text;
-		}
-	}]);
+  _createClass(RgCreditCard, [{
+    key: 'validate',
+    value: function validate() {
+      var res = rg.creditcard.validate(this.cardnumber);
+      this.valid = res.valid;
+      this.icon = this.valid ? res.card_type.name : '';
+      this.trigger('validate');
+    }
+  }, {
+    key: 'cardnumber',
+    get: function get() {
+      return (this._cardnumber || '').toString();
+    },
+    set: function set(num) {
+      this._cardnumber = num;
+      this.trigger('change');
+    }
+  }, {
+    key: 'valid',
+    get: function get() {
+      return rg.toBoolean(this._valid);
+    },
+    set: function set(valid) {
+      this._valid = rg.toBoolean(valid);
+    }
+  }, {
+    key: 'placeholder',
+    get: function get() {
+      return this._placeholder || 'Card no.';
+    },
+    set: function set(text) {
+      this._placeholder = text;
+    }
+  }]);
 
-	return RgCreditCard;
+  return RgCreditCard;
+})();
+
+var RgDate = (function () {
+  function RgDate(opts) {
+    _classCallCheck(this, RgDate);
+
+    riot.observable(this);
+    if (rg.isUndefined(opts)) opts = {};
+    this._isvisible = opts.isvisible;
+    this._date = opts.date;
+    this._showYears = opts.showYears;
+    this._showMonths = opts.showMonths;
+    this._showToday = opts.showToday;
+    this._format = opts.format;
+    this._yearFormat = opts.yearFormat;
+    this._monthFormat = opts.monthFormat;
+    this._weekFormat = opts.weekFormat;
+    this._dayFormat = opts.dayFormat;
+    this._onclose = opts.onclose;
+    this._onselect = opts.onselect;
+    this._onopen = opts.onopen;
+
+    var temp = moment();
+    this.dayNames = [temp.day(0).format(this.weekFormat), temp.day(1).format(this.weekFormat), temp.day(2).format(this.weekFormat), temp.day(3).format(this.weekFormat), temp.day(4).format(this.weekFormat), temp.day(5).format(this.weekFormat), temp.day(6).format(this.weekFormat)];
+  }
+
+  _createClass(RgDate, [{
+    key: '_toMoment',
+    value: function _toMoment(date) {
+      if (!moment.isMoment(date)) date = moment(date);
+      if (date.isValid()) return date;
+      return moment();
+    }
+  }, {
+    key: 'open',
+    value: function open() {
+      this._isvisible = true;
+      if (rg.isFunction(this._onopen)) this._onopen();
+      this.trigger('visibility');
+    }
+  }, {
+    key: 'select',
+    value: function select(date) {
+      this._date = date;
+      if (rg.isFunction(this._onselect)) this._onselect(this.date);
+      this._isvisible = false;
+      this.trigger('change', this._date);
+    }
+  }, {
+    key: 'close',
+    value: function close() {
+      if (!this.isvisible) {
+        this._isvisible = false;
+        if (rg.isFunction(this._onclose)) this._onclose();
+        this.trigger('visibility');
+      }
+    }
+  }, {
+    key: 'setToday',
+    value: function setToday() {
+      this._date = moment();
+      if (rg.isFunction(this._onselect)) this._onselect(this.date);
+      this.trigger('today', this._date);
+    }
+  }, {
+    key: 'prevYear',
+    value: function prevYear() {
+      this._date = this.date.subtract(1, 'year');
+      this.trigger('build', this._date);
+    }
+  }, {
+    key: 'nextYear',
+    value: function nextYear() {
+      this._date = this.date.add(1, 'year');
+      this.trigger('build', this._date);
+    }
+  }, {
+    key: 'prevMonth',
+    value: function prevMonth() {
+      this._date = this.date.subtract(1, 'month');
+      this.trigger('build', this._date);
+    }
+  }, {
+    key: 'nextMonth',
+    value: function nextMonth() {
+      this._date = this.date.add(1, 'month');
+      this.trigger('build', this._date);
+    }
+  }, {
+    key: 'date',
+    get: function get() {
+      return this._toMoment(this._date);
+    }
+  }, {
+    key: 'dateFormatted',
+    get: function get() {
+      return this.date.format(this.format);
+    }
+  }, {
+    key: 'isvisible',
+    get: function get() {
+      return rg.toBoolean(this._isvisible);
+    }
+  }, {
+    key: 'year',
+    get: function get() {
+      return this.date.format(this.yearFormat);
+    }
+  }, {
+    key: 'month',
+    get: function get() {
+      return this.date.format(this.monthFormat);
+    }
+  }, {
+    key: 'day',
+    get: function get() {
+      return this.date.format(this.dayFormat);
+    }
+  }, {
+    key: 'showYears',
+    get: function get() {
+      if (rg.isUndefined(this._showYears)) return true;
+      return rg.toBoolean(this._showYears);
+    },
+    set: function set(show) {
+      this._showYears = rg.toBoolean(show);
+    }
+  }, {
+    key: 'showMonths',
+    get: function get() {
+      if (rg.isUndefined(this._showMonths)) return true;
+      return rg.toBoolean(this._showMonths);
+    },
+    set: function set(show) {
+      this._showMonths = rg.toBoolean(show);
+    }
+  }, {
+    key: 'showToday',
+    get: function get() {
+      if (rg.isUndefined(this._showToday)) return true;
+      return rg.toBoolean(this._showToday);
+    },
+    set: function set(show) {
+      this._showToday = rg.toBoolean(show);
+    }
+  }, {
+    key: 'format',
+    get: function get() {
+      return this._format || 'LL';
+    },
+    set: function set(format) {
+      this._format = format;
+    }
+  }, {
+    key: 'yearFormat',
+    get: function get() {
+      return this._yearFormat || 'YYYY';
+    },
+    set: function set(yearFormat) {
+      this._yearFormat = yearFormat;
+    }
+  }, {
+    key: 'monthFormat',
+    get: function get() {
+      return this._monthFormat || 'MMMM';
+    },
+    set: function set(monthFormat) {
+      this._monthFormat = monthFormat;
+    }
+  }, {
+    key: 'weekFormat',
+    get: function get() {
+      return this._weekFormat || 'ddd';
+    },
+    set: function set(weekFormat) {
+      this._weekFormat = weekFormat;
+    }
+  }, {
+    key: 'dayFormat',
+    get: function get() {
+      return this._dayFormat || 'DD';
+    },
+    set: function set(dayFormat) {
+      this._dayFormat = dayFormat;
+    }
+  }]);
+
+  return RgDate;
 })();
 
 riot.tag('rg-alerts', '<div each="{ RgAlerts.alerts }" class="alert { type } { isvisible: isvisible }" onclick="{ select }"> <a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }"> <span aria-hidden="true">&times;</span> </a> <rg-raw content="{ content }"></rg-raw> </div>', 'rg-alerts, [riot-tag="rg-alerts"]{ font-size: 0.9em; position: relative; top: 0; right: 0; left: 0; width: 100%; } rg-alerts .alert, [riot-tag="rg-alerts"] .alert{ display: none; position: relative; margin-bottom: 15px; padding: 15px 35px 15px 15px; } rg-alerts .isvisible, [riot-tag="rg-alerts"] .isvisible{ display: block; } rg-alerts .close, [riot-tag="rg-alerts"] .close{ position: absolute; top: 50%; right: 20px; line-height: 12px; font-size: 1.1em; border: 0; background-color: transparent; color: rgba(0, 0, 0, 0.5); cursor: pointer; outline: none; transform: translate3d(0, -50%, 0); } rg-alerts .danger, [riot-tag="rg-alerts"] .danger{ color: #8f1d2e; background-color: #ffced8; } rg-alerts .information, [riot-tag="rg-alerts"] .information{ color: #31708f; background-color: #d9edf7; } rg-alerts .success, [riot-tag="rg-alerts"] .success{ color: #2d8f40; background-color: #ccf7d4; } rg-alerts .warning, [riot-tag="rg-alerts"] .warning{ color: #c06329; background-color: #f7dfd0; }', function (opts) {
-	var _this2 = this;
+  var _this2 = this;
 
-	this.on('mount', function () {
-		var _this = this;
+  this.on('mount', function () {
+    var _this = this;
 
-		this.RgAlerts = opts.alerts || new RgAlerts();
-		this.RgAlerts.on('add dismiss', function () {
-			_this.update();
-		});
-		this.update();
-	});
+    this.RgAlerts = opts.alerts || new RgAlerts();
+    this.RgAlerts.on('add dismiss', function () {
+      _this.update();
+    });
+    this.update();
+  });
 
-	this.dismiss = function (e) {
-		var alert = e.item;
-		_this2.RgAlerts.dismiss(alert);
-	};
+  this.dismiss = function (e) {
+    var alert = e.item;
+    _this2.RgAlerts.dismiss(alert);
+  };
 
-	this.select = function (e) {
-		var alert = e.item;
-		_this2.RgAlerts.select(alert);
-	};
+  this.select = function (e) {
+    var alert = e.item;
+    _this2.RgAlerts.select(alert);
+  };
 });
 
 riot.tag('rg-behold', '<div class="container"> <div class="controls"> <div class="modes"> <a onclick="{ swipeMode }" class="mode { active: RgBehold.mode == \'swipe\' }">Swipe</a> <a onclick="{ fadeMode }" class="mode { active: RgBehold.mode == \'fade\' }">Fade</a> </div> <input type="range" class="ranger" name="diff" value="0" min="0" max="1" step="0.01" oninput="{ updateDiff }" onchange="{ updateDiff }"> </div> <div class="images"> <div class="image"> <img class="image-2" riot-src="{ RgBehold.image2 }"> </div> <div class="image fallback"> <img class="image-1" riot-src="{ RgBehold.image1 }"> </div> </div> </div>', 'rg-behold .controls, [riot-tag="rg-behold"] .controls{ text-align: center; } rg-behold .mode, [riot-tag="rg-behold"] .mode{ text-decoration: none; cursor: pointer; padding: 0 10px; } rg-behold a.active, [riot-tag="rg-behold"] a.active{ font-weight: bold; } rg-behold .ranger, [riot-tag="rg-behold"] .ranger{ width: 90%; max-width: 300px; } rg-behold .images, [riot-tag="rg-behold"] .images{ position: relative; } rg-behold .image, [riot-tag="rg-behold"] .image{ position: absolute; width: 100%; text-align: center; } rg-behold .image img, [riot-tag="rg-behold"] .image img{ max-width: 90%; }', function (opts) {
-	var _this2 = this;
+  var _this2 = this;
 
-	var image1 = undefined,
-	    image2 = undefined,
-	    fallback = undefined;
+  var image1 = undefined,
+      image2 = undefined,
+      fallback = undefined;
 
-	var viewer = function viewer() {
-		image1 = _this2.root.querySelector('.image-1');
-		image2 = _this2.root.querySelector('.image-2');
-		fallback = typeof image1.style.webkitClipPath == 'undefined';
+  var viewer = function viewer() {
+    image1 = _this2.root.querySelector('.image-1');
+    image2 = _this2.root.querySelector('.image-2');
+    fallback = typeof image1.style.webkitClipPath == 'undefined';
 
-		var img1Loaded = undefined,
-		    img2Loaded = undefined,
-		    img1H = undefined,
-		    img2H = undefined;
-		var img1 = new Image();
-		var img2 = new Image();
-		img1.onload = function () {
-			img1Loaded = true;
-			img1H = this.height;
-			calculateMaxHeight();
-		};
-		img2.onload = function () {
-			img2Loaded = true;
-			img2H = this.height;
-			calculateMaxHeight();
-		};
-		img1.src = _this2.RgBehold.image1;
-		img2.src = _this2.RgBehold.image2;
+    var img1Loaded = undefined,
+        img2Loaded = undefined,
+        img1H = undefined,
+        img2H = undefined;
+    var img1 = new Image();
+    var img2 = new Image();
+    img1.onload = function () {
+      img1Loaded = true;
+      img1H = this.height;
+      calculateMaxHeight();
+    };
+    img2.onload = function () {
+      img2Loaded = true;
+      img2H = this.height;
+      calculateMaxHeight();
+    };
+    img1.src = _this2.RgBehold.image1;
+    img2.src = _this2.RgBehold.image2;
 
-		var _this = _this2;
+    var _this = _this2;
 
-		function calculateMaxHeight() {
-			if (img1Loaded && img2Loaded) {
-				var controls = _this.root.querySelector('.controls');
-				var container = _this.root.querySelector('.container');
-				container.style.height = controls.getBoundingClientRect().height + Math.max(img1H, img2H) + 'px';
-				_this.updateDiff();
-			}
-		}
-	};
+    function calculateMaxHeight() {
+      if (img1Loaded && img2Loaded) {
+        var controls = _this.root.querySelector('.controls');
+        var container = _this.root.querySelector('.container');
+        container.style.height = controls.getBoundingClientRect().height + Math.max(img1H, img2H) + 'px';
+        _this.updateDiff();
+      }
+    }
+  };
 
-	this.on('mount', function () {
-		_this2.RgBehold = opts.behold || new RgBehold();
-		_this2.RgBehold.on('mode', function () {
-			_this2.diff.value = 0;
-			_this2.updateDiff();
-		});
-		_this2.RgBehold.on('image', function () {
-			viewer();
-		});
-		viewer();
-	});
+  this.on('mount', function () {
+    _this2.RgBehold = opts.behold || new RgBehold();
+    _this2.RgBehold.on('mode', function () {
+      _this2.diff.value = 0;
+      _this2.updateDiff();
+    });
+    _this2.RgBehold.on('image', function () {
+      viewer();
+    });
+    viewer();
+  });
 
-	this.swipeMode = function () {
-		_this2.RgBehold.mode = 'swipe';
-	};
-	this.fadeMode = function () {
-		_this2.RgBehold.mode = 'fade';
-	};
+  this.swipeMode = function () {
+    _this2.RgBehold.mode = 'swipe';
+  };
+  this.fadeMode = function () {
+    _this2.RgBehold.mode = 'fade';
+  };
 
-	this.updateDiff = function () {
-		if (_this2.RgBehold.mode == 'fade') {
-			image1.style.opacity = 1 - _this2.diff.value;
-		} else if (_this2.RgBehold.mode == 'swipe') {
-			if (!fallback) {
-				image1.style.clipPath = image1.style.webkitClipPath = 'inset(0 0 0 ' + (image1.clientWidth * _this2.diff.value - 1) + 'px)';
-			} else {
-				var fallbackImg = _this2.root.querySelector('.fallback');
-				fallbackImg.style.clip = 'rect(auto, auto, auto, ' + fallbackImg.clientWidth * _this2.diff.value + 'px)';
-			}
-		}
-		_this2.update();
-	};
+  this.updateDiff = function () {
+    if (_this2.RgBehold.mode == 'fade') {
+      image1.style.opacity = 1 - _this2.diff.value;
+    } else if (_this2.RgBehold.mode == 'swipe') {
+      if (!fallback) {
+        image1.style.clipPath = image1.style.webkitClipPath = 'inset(0 0 0 ' + (image1.clientWidth * _this2.diff.value - 1) + 'px)';
+      } else {
+        var fallbackImg = _this2.root.querySelector('.fallback');
+        fallbackImg.style.clip = 'rect(auto, auto, auto, ' + fallbackImg.clientWidth * _this2.diff.value + 'px)';
+      }
+    }
+    _this2.update();
+  };
 });
 
 riot.tag('rg-bubble', '<div class="context"> <div class="bubble { isvisible: RgBubble.isvisible }"> <rg-raw content="{ RgBubble.content }"></rg-raw> </div> <div class="content" onmouseover="{ showBubble }" onmouseout="{ hideBubble }" onclick="{ toggleBubble }"> <yield></yield> </div> </div>', 'rg-bubble .context, [riot-tag="rg-bubble"] .context,rg-bubble .content, [riot-tag="rg-bubble"] .content{ display: inline-block; position: relative; } rg-bubble .bubble, [riot-tag="rg-bubble"] .bubble{ position: absolute; top: -50px; left: 50%; transform: translate3d(-50%, 0, 0); padding: 10px 15px; background-color: #000; color: white; text-align: center; font-size: 0.9em; line-height: 1; white-space: nowrap; opacity: 0; } rg-bubble .isvisible, [riot-tag="rg-bubble"] .isvisible{ display: block; opacity: 1; } rg-bubble .bubble:after, [riot-tag="rg-bubble"] .bubble:after{ content: \'\'; position: absolute; display: block; bottom: -20px; left: 50%; transform: translate3d(-50%, 0, 0); width: 0; height: 0; border: 10px solid transparent; border-top-color: #000; }', function (opts) {
-	var _this = this;
+  var _this = this;
 
-	this.on('mount', function () {
-		_this.RgBubble = opts.bubble || new RgBubble();
-		_this.RgBubble.on('content visibility', function () {
-			_this.update();
-		});
-		_this.update();
-	});
+  this.on('mount', function () {
+    _this.RgBubble = opts.bubble || new RgBubble();
+    _this.RgBubble.on('content visibility', function () {
+      _this.update();
+    });
+    _this.update();
+  });
 
-	this.showBubble = function () {
-		clearTimeout(_this.timer);
-		_this.RgBubble.isvisible = true;
-	};
+  this.showBubble = function () {
+    clearTimeout(_this.timer);
+    _this.RgBubble.isvisible = true;
+  };
 
-	this.hideBubble = function () {
-		_this.timer = setTimeout(function () {
-			_this.RgBubble.isvisible = false;
-		}, 1000);
-	};
+  this.hideBubble = function () {
+    _this.timer = setTimeout(function () {
+      _this.RgBubble.isvisible = false;
+    }, 1000);
+  };
 
-	this.toggleBubble = function () {
-		_this.RgBubble.isvisible = !_this.RgBubble.isvisible;
-	};
+  this.toggleBubble = function () {
+    _this.RgBubble.isvisible = !_this.RgBubble.isvisible;
+  };
 });
 
 riot.tag('rg-code', '<div class="editor"></div>', 'rg-code .editor, [riot-tag="rg-code"] .editor{ position: absolute; top: 0; right: 0; bottom: 0; left: 0; }', function (opts) {
-	var _this = this;
+  var _this = this;
 
-	var editor = undefined;
+  var editor = undefined;
 
-	var setupEditor = function setupEditor() {
-		editor.setTheme('ace/theme/' + _this.RgCode.theme);
-		editor.getSession().setMode('ace/mode/' + _this.RgCode.mode);
-		editor.getSession().setTabSize(_this.RgCode.tabsize);
-		editor.getSession().setUseSoftTabs(_this.RgCode.softtabs);
-		editor.getSession().setUseWrapMode(_this.RgCode.wordwrap);
-		editor.setReadOnly(_this.RgCode.readonly);
-		_this.update();
-	};
+  var setupEditor = function setupEditor() {
+    editor.setTheme('ace/theme/' + _this.RgCode.theme);
+    editor.getSession().setMode('ace/mode/' + _this.RgCode.mode);
+    editor.getSession().setTabSize(_this.RgCode.tabsize);
+    editor.getSession().setUseSoftTabs(_this.RgCode.softtabs);
+    editor.getSession().setUseWrapMode(_this.RgCode.wordwrap);
+    editor.setReadOnly(_this.RgCode.readonly);
+    _this.update();
+  };
 
-	this.on('mount', function () {
-		editor = ace.edit(_this.root.querySelector('.editor'));
-		editor.$blockScrolling = Infinity;
+  this.on('mount', function () {
+    editor = ace.edit(_this.root.querySelector('.editor'));
+    editor.$blockScrolling = Infinity;
 
-		_this.RgCode = opts.editor || new RgCode();
-		_this.RgCode.on('settings', function () {
-			setupEditor();
-		});
-		_this.RgCode.on('code src', function () {
-			if (_this.RgCode.code != editor.getValue()) editor.setValue(_this.RgCode.code);
-		});
-		editor.setValue(_this.RgCode.code);
-		editor.getSession().on('change', function (e) {
-			_this.RgCode.code = editor.getValue();
-			if (_this.RgCode.onchange) {
-				_this.RgCode.onchange(editor.getValue());
-			}
-		});
-		setupEditor();
-	});
+    _this.RgCode = opts.editor || new RgCode();
+    _this.RgCode.on('settings', function () {
+      setupEditor();
+    });
+    _this.RgCode.on('change src', function () {
+      if (_this.RgCode.code != editor.getValue()) editor.setValue(_this.RgCode.code);
+    });
+    editor.setValue(_this.RgCode.code);
+    editor.getSession().on('change', function (e) {
+      _this.RgCode.code = editor.getValue();
+      if (_this.RgCode.onchange) {
+        _this.RgCode.onchange(editor.getValue());
+      }
+    });
+    setupEditor();
+  });
 });
 
 riot.tag('rg-context-menu', '<div class="menu { isvisible: RgContextMenu.isvisible }"> <div class="list"> <div each="{ RgContextMenu.items }" class="item { inactive: inactive }" onclick="{ selectItem }"> <rg-raw content="{ content }"></rg-raw> </div> <yield></yield> </div> </div>', 'rg-context-menu .menu, [riot-tag="rg-context-menu"] .menu{ display: none; position: absolute; background-color: white; border: 1px solid #D3D3D3; text-align: left; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; box-sizing: border-box; z-index: 2; } rg-context-menu .menu.isvisible, [riot-tag="rg-context-menu"] .menu.isvisible{ display: block; } rg-context-menu .item, [riot-tag="rg-context-menu"] .item{ cursor: pointer; padding: 10px; border-top: 1px solid #E8E8E8; background-color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-context-menu .item:first-child, [riot-tag="rg-context-menu"] .item:first-child{ border-top: 0; } rg-context-menu .item:hover, [riot-tag="rg-context-menu"] .item:hover{ background-color: #f3f3f3; } rg-context-menu .item.inactive, [riot-tag="rg-context-menu"] .item.inactive{ color: #8a8a8a; font-style: italic; } rg-context-menu .item.inactive:hover, [riot-tag="rg-context-menu"] .item.inactive:hover{ background-color: #fff; }', function (opts) {
-	var _this = this;
+  var _this = this;
 
-	var handleClickOutside = function handleClickOutside(e) {
-		if (!_this.root.contains(e.target)) {
-			if (_this.RgContextMenu.onclose && _this.RgContextMenu.isvisible) _this.RgContextMenu.onclose(e);
-			_this.RgContextMenu.isvisible = false;
-		}
-	};
+  var handleClickOutside = function handleClickOutside(e) {
+    if (!_this.root.contains(e.target)) {
+      if (_this.RgContextMenu.onclose && _this.RgContextMenu.isvisible) _this.RgContextMenu.onclose(e);
+      _this.RgContextMenu.isvisible = false;
+    }
+  };
 
-	var openMenu = function openMenu(e) {
-		e.preventDefault();
-		if (_this.RgContextMenu.onopen) _this.RgContextMenu.onopen(e);
-		_this.RgContextMenu.isvisible = true;
+  var openMenu = function openMenu(e) {
+    e.preventDefault();
+    if (_this.RgContextMenu.onopen) _this.RgContextMenu.onopen(e);
+    _this.RgContextMenu.isvisible = true;
 
-		var x = e.pageX;
-		var y = e.pageY;
-		var dd = _this.root.querySelector('.menu');
-		var ddRect = dd.getBoundingClientRect();
-		// Handle horizontal boundary
-		if (x > window.innerWidth + window.scrollX - ddRect.width) // Its too close to the edge!
-			x = window.innerWidth + window.scrollX - ddRect.width;
+    var x = e.pageX;
+    var y = e.pageY;
+    var dd = _this.root.querySelector('.menu');
+    var ddRect = dd.getBoundingClientRect();
+    // Handle horizontal boundary
+    if (x > window.innerWidth + window.scrollX - ddRect.width) // Its too close to the edge!
+      x = window.innerWidth + window.scrollX - ddRect.width;
 
-		dd.style.left = x + 'px';
+    dd.style.left = x + 'px';
 
-		// Handle vertical boundary
-		if (y > window.innerHeight + window.scrollY - ddRect.height) // Its too close to the edge!
-			y = window.innerHeight + window.scrollY - ddRect.height;
+    // Handle vertical boundary
+    if (y > window.innerHeight + window.scrollY - ddRect.height) // Its too close to the edge!
+      y = window.innerHeight + window.scrollY - ddRect.height;
 
-		dd.style.top = y + 'px';
-		_this.update();
-	};
+    dd.style.top = y + 'px';
+    _this.update();
+  };
 
-	this.on('mount', function () {
-		_this.RgContextMenu = opts.menu || new RgContextMenu();
-		_this.RgContextMenu.on('items add visibility', function () {
-			_this.update();
-		});
-		document.addEventListener('click', handleClickOutside);
-		var targets = document.querySelectorAll('[rg-context-menu]');
-		for (var i = 0, target; target = targets[i]; i++) {
-			if (target.attributes['rg-context-menu'].value == _this.RgContextMenu.name) target.addEventListener('contextmenu', openMenu);else target.addEventListener('contextmenu', _this.closeMenu);
-		}
-	});
+  this.on('mount', function () {
+    _this.RgContextMenu = opts.menu || new RgContextMenu();
+    _this.RgContextMenu.on('items add visibility', function () {
+      _this.update();
+    });
+    document.addEventListener('click', handleClickOutside);
+    var targets = document.querySelectorAll('[rg-context-menu]');
+    for (var i = 0, target; target = targets[i]; i++) {
+      if (target.attributes['rg-context-menu'].value == _this.RgContextMenu.name) target.addEventListener('contextmenu', openMenu);else target.addEventListener('contextmenu', _this.closeMenu);
+    }
+  });
 
-	this.on('unmount', function () {
-		document.removeEventListener('click', handleClickOutside);
-		var targets = document.querySelectorAll('[rg-context-menu]');
-		for (var i = 0, target; target = targets[i]; i++) {
-			if (target.attributes['rg-context-menu'].value == _this.RgContextMenu.name) target.removeEventListener('contextmenu', openMenu);else target.removeEventListener('contextmenu', _this.closeMenu);
-		}
-	});
+  this.on('unmount', function () {
+    document.removeEventListener('click', handleClickOutside);
+    var targets = document.querySelectorAll('[rg-context-menu]');
+    for (var i = 0, target; target = targets[i]; i++) {
+      if (target.attributes['rg-context-menu'].value == _this.RgContextMenu.name) target.removeEventListener('contextmenu', openMenu);else target.removeEventListener('contextmenu', _this.closeMenu);
+    }
+  });
 
-	this.closeMenu = function () {
-		_this.RgContextMenu.isvisible = false;
-	};
+  this.closeMenu = function () {
+    _this.RgContextMenu.isvisible = false;
+  };
 
-	this.selectItem = function (item) {
-		item = item.item;
-		_this.RgContextMenu.select(item);
-	};
+  this.selectItem = function (item) {
+    item = item.item;
+    _this.RgContextMenu.select(item);
+  };
 });
 
 riot.tag('rg-credit-card-number', '<input type="text" name="cardnumber" class="field card-no { RgCreditCard.icon } { valid: RgCreditCard.valid }" oninput="{ validate }" placeholder="{ RgCreditCard.placeholder }">', 'rg-credit-card-number .field, [riot-tag="rg-credit-card-number"] .field{ font-size: 1em; padding: 10px; border: 1px solid #D3D3D3; box-sizing: border-box; outline: none; } rg-credit-card-number .card-no, [riot-tag="rg-credit-card-number"] .card-no{ padding-right: 60px; background-repeat: no-repeat; background-position: right center; background-size: 60px; } rg-credit-card-number .amex, [riot-tag="rg-credit-card-number"] .amex{ background-image: url(img/amex.png); } rg-credit-card-number .diners_club, [riot-tag="rg-credit-card-number"] .diners_club{ background-image: url(img/diners_club.png); } rg-credit-card-number .discover, [riot-tag="rg-credit-card-number"] .discover{ background-image: url(img/discover.png); } rg-credit-card-number .jcb, [riot-tag="rg-credit-card-number"] .jcb{ background-image: url(img/jcb.png); } rg-credit-card-number .mastercard, [riot-tag="rg-credit-card-number"] .mastercard{ background-image: url(img/mastercard.png); } rg-credit-card-number .visa, [riot-tag="rg-credit-card-number"] .visa{ background-image: url(img/visa.png); }', function (opts) {
-	var _this = this;
+  var _this = this;
 
-	var setUI = function setUI() {
-		if (_this.cardnumber.value != _this.RgCreditCard.cardnumber) _this.cardnumber.value = _this.RgCreditCard.cardnumber;
-		_this.RgCreditCard.validate();
-	};
+  var setUI = function setUI() {
+    if (_this.cardnumber.value != _this.RgCreditCard.cardnumber) _this.cardnumber.value = _this.RgCreditCard.cardnumber;
+    _this.RgCreditCard.validate();
+  };
 
-	this.on('mount', function () {
-		_this.RgCreditCard = opts.card || new RgCreditCard();
-		_this.RgCreditCard.on('cardnumber', function () {
-			setUI();
-		});
-		_this.RgCreditCard.on('validate', function () {
-			_this.update();
-		});
-		setUI();
-	});
+  this.on('mount', function () {
+    _this.RgCreditCard = opts.card || new RgCreditCard();
+    _this.RgCreditCard.on('change', function () {
+      setUI();
+    });
+    _this.RgCreditCard.on('validate', function () {
+      _this.update();
+    });
+    setUI();
+  });
 
-	this.validate = function () {
-		_this.RgCreditCard.cardnumber = _this.cardnumber.value;
-		_this.RgCreditCard.validate();
-	};
+  this.validate = function () {
+    _this.RgCreditCard.cardnumber = _this.cardnumber.value;
+    _this.RgCreditCard.validate();
+  };
 });
 
-riot.tag('rg-date', '<div class="container { open: opened }"> <input type="text" class="field" onclick="{ show }" value="{ date.format(this.format) }" readonly> <div class="calendar" show="{ opened }"> <div class="grid grid-row" if="{ years }"> <div class="selector" onclick="{ prevYear }">&lsaquo;</div> <span class="year">{ date.format(this.yearFormat) }</span> <div class="selector" onclick="{ nextYear }">&rsaquo;</div> </div> <div class="grid grid-row" if="{ !years }"> <span class="year fill">{ date.format(this.yearFormat) }</span> </div> <div class="grid grid-row" if="{ months }"> <div class="selector" onclick="{ prevMonth }">&lsaquo;</div> <span class="month">{ date.format(this.monthFormat) }</span> <div class="selector" onclick="{ nextMonth }">&rsaquo;</div> </div> <div class="grid grid-row" if="{ !months }"> <span class="month fill">{ date.format(this.monthFormat) }</span> </div> <div class="grid grid-row"> <span class="day-name" each="{ day in dayNames }">{ day }</span> </div> <div class="grid grid-wrap"> <div each="{ day in startBuffer }" onclick="{ changeDate }" class="date { in: day.inMonth, selected: day.selected, today: day.today }"> { day.date.format(this.dayFormat) } </div> <div each="{ day in days }" onclick="{ changeDate }" class="date { in: day.inMonth, selected: day.selected, today: day.today }"> { day.date.format(this.dayFormat) } </div> <div each="{ day in endBuffer }" onclick="{ changeDate }" class="date { in: day.inMonth, selected: day.selected, today: day.today }"> { day.date.format(this.dayFormat) } </div> </div> <div if="{ today }" class="grid grid-row"> <a class="shortcut" onclick="{ setToday }">Today</a> </div> </div> </div>', 'rg-date .container, [riot-tag="rg-date"] .container{ position: relative; display: inline-block; cursor: pointer; } rg-date .field, [riot-tag="rg-date"] .field{ font-size: 1em; padding: 10px; border: 1px solid #D3D3D3; cursor: pointer; box-sizing: border-box; outline: none; } rg-date .calendar, [riot-tag="rg-date"] .calendar{ position: absolute; text-align: center; background-color: white; border: 1px solid #D3D3D3; padding: 5px; width: 330px; margin-top: 10px; left: 50%; transform: translate3d(-50%, 0, 0); -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; box-sizing: border-box; z-index: 1; } rg-date .grid, [riot-tag="rg-date"] .grid{ display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-align-items: center; -ms-flex-align: center; align-items: center; } rg-date .grid-wrap, [riot-tag="rg-date"] .grid-wrap{ width: 100%; -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap; } rg-date .grid-row, [riot-tag="rg-date"] .grid-row{ height: 35px; } rg-date .selector, [riot-tag="rg-date"] .selector{ font-size: 2em; font-weight: 100; padding: 0; -webkit-flex: 0 0 15%; -ms-flex: 0 0 15%; flex: 0 0 15%; } rg-date .year, [riot-tag="rg-date"] .year,rg-date .month, [riot-tag="rg-date"] .month{ text-transform: uppercase; font-weight: normal; -webkit-flex: 0 0 70%; -ms-flex: 0 0 70%; flex: 0 0 70%; } rg-date .fill, [riot-tag="rg-date"] .fill{ -webkit-flex: 0 0 100%; -ms-flex: 0 0 100%; flex: 0 0 100%; } rg-date .day-name, [riot-tag="rg-date"] .day-name{ font-weight: bold; -webkit-flex: 0 0 14.28%; -ms-flex: 0 0 14.28%; flex: 0 0 14.28%; } rg-date .date, [riot-tag="rg-date"] .date{ -webkit-flex: 0 0 14.28%; -ms-flex: 0 0 14.28%; flex: 0 0 14.28%; padding: 12px 10px; box-sizing: border-box; font-size: 0.8em; font-weight: normal; border: 1px solid transparent; color: #cacaca; } rg-date .date:hover, [riot-tag="rg-date"] .date:hover{ background-color: #f3f3f3; } rg-date .date.in, [riot-tag="rg-date"] .date.in{ color: inherit; } rg-date .today, [riot-tag="rg-date"] .today{ border-color: #ededed; } rg-date .selected, [riot-tag="rg-date"] .selected,rg-date .selected:hover, [riot-tag="rg-date"] .selected:hover{ background-color: #ededed; border-color: #dedede; } rg-date .shortcut, [riot-tag="rg-date"] .shortcut{ -webkit-flex: 0 0 100%; -ms-flex: 0 0 100%; flex: 0 0 100%; color: #6495ed; }', function (opts) {
-	var _this = this;
+riot.tag('rg-date', '<div class="container { open: RgDate.isvisible }"> <input type="text" class="field" onclick="{ open }" value="{ RgDate.dateFormatted }" readonly> <div class="calendar" show="{ RgDate.isvisible }"> <div class="grid grid-row" if="{ RgDate.showYears }"> <div class="selector" onclick="{ prevYear }">&lsaquo;</div> <span class="year">{ RgDate.year }</span> <div class="selector" onclick="{ nextYear }">&rsaquo;</div> </div> <div class="grid grid-row" if="{ !RgDate.showYears }"> <span class="year fill">{ RgDate.year }</span> </div> <div class="grid grid-row" if="{ RgDate.showMonths }"> <div class="selector" onclick="{ prevMonth }">&lsaquo;</div> <span class="month">{ RgDate.month }</span> <div class="selector" onclick="{ nextMonth }">&rsaquo;</div> </div> <div class="grid grid-row" if="{ !RgDate.showMonths }"> <span class="month fill">{ RgDate.month }</span> </div> <div class="grid grid-row"> <span class="day-name" each="{ day in RgDate.dayNames }">{ day }</span> </div> <div class="grid grid-wrap"> <div each="{ day in startBuffer }" onclick="{ select }" class="date { in: day.inMonth, selected: day.selected, today: day.today }"> { day.date.format(this.RgDate.dayFormat) } </div> <div each="{ day in days }" onclick="{ select }" class="date { in: day.inMonth, selected: day.selected, today: day.today }"> { day.date.format(this.RgDate.dayFormat) } </div> <div each="{ day in endBuffer }" onclick="{ select }" class="date { in: day.inMonth, selected: day.selected, today: day.today }"> { day.date.format(this.RgDate.dayFormat) } </div> </div> <div if="{ RgDate.showToday }" class="grid grid-row"> <a class="shortcut" onclick="{ setToday }">Today</a> </div> </div> </div>', 'rg-date .container, [riot-tag="rg-date"] .container{ position: relative; display: inline-block; cursor: pointer; } rg-date .field, [riot-tag="rg-date"] .field{ font-size: 1em; padding: 10px; border: 1px solid #D3D3D3; cursor: pointer; box-sizing: border-box; outline: none; } rg-date .calendar, [riot-tag="rg-date"] .calendar{ position: absolute; text-align: center; background-color: white; border: 1px solid #D3D3D3; padding: 5px; width: 330px; margin-top: 10px; left: 50%; transform: translate3d(-50%, 0, 0); -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; box-sizing: border-box; z-index: 1; } rg-date .grid, [riot-tag="rg-date"] .grid{ display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-align-items: center; -ms-flex-align: center; align-items: center; } rg-date .grid-wrap, [riot-tag="rg-date"] .grid-wrap{ width: 100%; -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap; } rg-date .grid-row, [riot-tag="rg-date"] .grid-row{ height: 35px; } rg-date .selector, [riot-tag="rg-date"] .selector{ font-size: 2em; font-weight: 100; padding: 0; -webkit-flex: 0 0 15%; -ms-flex: 0 0 15%; flex: 0 0 15%; } rg-date .year, [riot-tag="rg-date"] .year,rg-date .month, [riot-tag="rg-date"] .month{ text-transform: uppercase; font-weight: normal; -webkit-flex: 0 0 70%; -ms-flex: 0 0 70%; flex: 0 0 70%; } rg-date .fill, [riot-tag="rg-date"] .fill{ -webkit-flex: 0 0 100%; -ms-flex: 0 0 100%; flex: 0 0 100%; } rg-date .day-name, [riot-tag="rg-date"] .day-name{ font-weight: bold; -webkit-flex: 0 0 14.28%; -ms-flex: 0 0 14.28%; flex: 0 0 14.28%; } rg-date .date, [riot-tag="rg-date"] .date{ -webkit-flex: 0 0 14.28%; -ms-flex: 0 0 14.28%; flex: 0 0 14.28%; padding: 12px 10px; box-sizing: border-box; font-size: 0.8em; font-weight: normal; border: 1px solid transparent; color: #cacaca; } rg-date .date:hover, [riot-tag="rg-date"] .date:hover{ background-color: #f3f3f3; } rg-date .date.in, [riot-tag="rg-date"] .date.in{ color: inherit; } rg-date .today, [riot-tag="rg-date"] .today{ border-color: #ededed; } rg-date .selected, [riot-tag="rg-date"] .selected,rg-date .selected:hover, [riot-tag="rg-date"] .selected:hover{ background-color: #ededed; border-color: #dedede; } rg-date .shortcut, [riot-tag="rg-date"] .shortcut{ -webkit-flex: 0 0 100%; -ms-flex: 0 0 100%; flex: 0 0 100%; color: #6495ed; }', function (opts) {
+  var _this = this;
 
-	var setOpts = function setOpts() {
-		// Display elements
-		_this.months = rg.isDefined(opts.months) ? rg.toBoolean(opts.months) : true;
-		_this.years = rg.isDefined(opts.years) ? rg.toBoolean(opts.years) : true;
-		_this.today = rg.isDefined(opts.today) ? rg.toBoolean(opts.today) : true;
+  var handleClickOutside = function handleClickOutside(e) {
+    if (!_this.root.contains(e.target)) _this.RgDate.close();
+  };
 
-		// Get our display formats
-		_this.format = opts.format || 'LL';
-		_this.yearFormat = opts['year-format'] || 'YYYY';
-		_this.monthFormat = opts['month-format'] || 'MMMM';
-		_this.weekFormat = opts['week-format'] || 'ddd';
-		_this.dayFormat = opts['day-format'] || 'DD';
+  var dayObj = function dayObj(dayDate) {
+    var dateObj = dayDate || moment();
 
-		// Convert the given date to a moment object
-		_this.date = moment(opts.date);
+    return {
+      date: dateObj,
+      selected: _this.RgDate.date.isSame(dayDate, 'day'),
+      today: moment().isSame(dayDate, 'day'),
+      inMonth: _this.RgDate.date.isSame(dayDate, 'month')
+    };
+  };
 
-		// Setup the weekday list
-		var temp = moment();
-		_this.dayNames = [temp.day(0).format(_this.weekFormat), temp.day(1).format(_this.weekFormat), temp.day(2).format(_this.weekFormat), temp.day(3).format(_this.weekFormat), temp.day(4).format(_this.weekFormat), temp.day(5).format(_this.weekFormat), temp.day(6).format(_this.weekFormat)];
-	};
+  var buildCalendar = function buildCalendar() {
+    var begin = moment(_this.RgDate.date).startOf('month');
+    var end = moment(_this.RgDate.date).endOf('month');
 
-	var handleClickOutside = function handleClickOutside(e) {
-		if (!_this.root.contains(e.target) && _this.opened) {
-			if (rg.isFunction(opts.onclose)) opts.onclose(_this.date);
-			_this.opened = false;
-			_this.update();
-		}
-	};
+    _this.days = [];
+    _this.startBuffer = [];
+    _this.endBuffer = [];
 
-	var dayObj = function dayObj(dayDate) {
-		var dateObj = dayDate || moment();
+    for (var i = begin.weekday(); i >= 0; i -= 1) {
+      var bufferDate = moment(begin).subtract(i, 'days');
+      _this.startBuffer.push(dayObj(bufferDate));
+    }
 
-		return {
-			date: dateObj,
-			selected: _this.date.isSame(dayDate, 'day'),
-			today: moment().isSame(dayDate, 'day'),
-			inMonth: _this.date.isSame(dayDate, 'month')
-		};
-	};
+    for (var i = end.date() - 1; i > 0; i -= 1) {
+      var current = moment(begin).add(i, 'days');
+      _this.days.unshift(dayObj(current));
+    }
 
-	var buildCalendar = function buildCalendar() {
-		var begin = moment(_this.date).startOf('month');
-		var end = moment(_this.date).endOf('month');
+    for (var i = end.weekday(); i < 6; i += 1) {
+      var bufferDate = moment(end).add(i, 'days');
+      _this.endBuffer.push(dayObj(bufferDate));
+    }
 
-		_this.days = [];
-		_this.startBuffer = [];
-		_this.endBuffer = [];
+    _this.update();
+  };
 
-		for (var i = begin.weekday(); i >= 0; i -= 1) {
-			var bufferDate = moment(begin).subtract(i, 'days');
-			_this.startBuffer.push(dayObj(bufferDate));
-		}
+  this.on('mount', function () {
+    _this.RgDate = opts.date || new RgDate();
+    _this.RgDate.on('visibility change today build', function () {
+      buildCalendar();
+    });
+    document.addEventListener('click', handleClickOutside);
+    _this.update();
+  });
 
-		for (var i = end.date() - 1; i > 0; i -= 1) {
-			var current = moment(begin).add(i, 'days');
-			_this.days.unshift(dayObj(current));
-		}
+  this.on('unmount', function () {
+    document.removeEventListener('click', handleClickOutside);
+  });
 
-		for (var i = end.weekday(); i < 6; i += 1) {
-			var bufferDate = moment(end).add(i, 'days');
-			_this.endBuffer.push(dayObj(bufferDate));
-		}
+  this.open = function () {
+    _this.RgDate.open();
+  };
 
-		_this.update();
-	};
+  this.prevYear = function () {
+    _this.RgDate.prevYear();
+  };
 
-	this.on('mount', function () {
-		setOpts();
-		document.addEventListener('click', handleClickOutside);
-	});
+  this.nextYear = function () {
+    _this.RgDate.nextYear();
+  };
 
-	this.on('unmount', function () {
-		document.removeEventListener('click', handleClickOutside);
-	});
+  this.prevMonth = function () {
+    _this.RgDate.prevMonth();
+  };
 
-	this.parent.on('updated', function () {
-		if (_this.isMounted) setOpts();
-	});
+  this.nextMonth = function () {
+    _this.RgDate.nextMonth();
+  };
 
-	// Handle the clicks on dates
-	this.changeDate = function (e) {
-		var day = e.item.day;
-		_this.date = day.date;
-		if (rg.isFunction(opts.onselect)) opts.onselect(_this.date);
-		buildCalendar();
-		_this.opened = false;
-	};
+  this.setToday = function () {
+    _this.RgDate.setToday();
+  };
 
-	// Handle today shortcut
-	this.setToday = function () {
-		_this.date = moment();
-		buildCalendar();
-		_this.opened = false;
-	};
-
-	// Handle the previous year change
-	this.prevYear = function () {
-		_this.date.subtract(1, 'year').startOf('month');
-		buildCalendar();
-	};
-
-	// Handle the next month change
-	this.nextYear = function () {
-		_this.date.add(1, 'year').startOf('month');
-		buildCalendar();
-	};
-
-	// Handle the previous month change
-	this.prevMonth = function () {
-		_this.date.subtract(1, 'month').startOf('month');
-		buildCalendar();
-	};
-
-	// Handle the next month change
-	this.nextMonth = function () {
-		_this.date.add(1, 'month').startOf('month');
-		buildCalendar();
-	};
-
-	// Show/hide the datepicker
-	this.show = function () {
-		if (rg.isFunction(opts.onopen)) opts.onopen();
-		buildCalendar();
-		_this.opened = true;
-	};
+  this.select = function (e) {
+    _this.RgDate.select(e.item.day.date);
+  };
 });
 
 riot.tag('rg-ga', '', function (opts) {
-	/* istanbul ignore next */
-	(function (i, s, o, g, r, a, m) {
-		i['GoogleAnalyticsObject'] = r;i[r] = i[r] || function () {
-			(i[r].q = i[r].q || []).push(arguments);
-		}, i[r].l = 1 * new Date();a = s.createElement(o), m = s.getElementsByTagName(o)[0];a.async = 1;a.src = g;m.parentNode.insertBefore(a, m);
-	})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+  /* istanbul ignore next */
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments);
+    }, i[r].l = 1 * new Date();a = s.createElement(o), m = s.getElementsByTagName(o)[0];a.async = 1;a.src = g;m.parentNode.insertBefore(a, m);
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-	ga('create', opts.property, 'auto');
-	ga('send', 'pageview');
+  ga('create', opts.property, 'auto');
+  ga('send', 'pageview');
 });
 
 riot.tag('rg-include', '{{ responseText }}', function (opts) {
-	var _this = this;
+  var _this = this;
 
-	rg.xhr('get', opts.src, function (resp) {
-		if (opts.unsafe) _this.root.innerHTML = resp;else _this.responseText = resp;
-		_this.update();
-	});
+  rg.xhr('get', opts.src, function (resp) {
+    if (opts.unsafe) _this.root.innerHTML = resp;else _this.responseText = resp;
+    _this.update();
+  });
 });
 
 riot.tag('rg-loading', '<div class="loading { visible: visible }"> <div class="overlay"></div> <div class="content"> <yield></yield> </div> </div>', 'rg-loading .loading, [riot-tag="rg-loading"] .loading{ display: none; } rg-loading .visible, [riot-tag="rg-loading"] .visible{ display: block; } rg-loading .overlay, [riot-tag="rg-loading"] .overlay{ position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 200; } rg-loading .content, [riot-tag="rg-loading"] .content{ position: absolute; width: 95%; max-width: 420px; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0); background-color: transparent; color: #fff; text-align: center; z-index: 201; }', function (opts) {
-	var _this = this;
+  var _this = this;
 
-	this.on('update', function () {
-		_this.visible = rg.toBoolean(opts.visible);
-	});
+  this.on('update', function () {
+    _this.visible = rg.toBoolean(opts.visible);
+  });
 });
 
 riot.tag('rg-map', '<div class="rg-map"></div>', 'rg-map .rg-map, [riot-tag="rg-map"] .rg-map{ margin: 0; padding: 0; width: 100%; height: 100%; } rg-map .rg-map img, [riot-tag="rg-map"] .rg-map img{ max-width: inherit; }', function (opts) {
-	var _this = this;
+  var _this = this;
 
-	var defaultOptions = {
-		center: { lat: 53.806, lng: -1.535 },
-		zoom: 5
-	};
-	var mapOptions = opts.map || defaultOptions;
+  var defaultOptions = {
+    center: { lat: 53.806, lng: -1.535 },
+    zoom: 5
+  };
+  var mapOptions = opts.map || defaultOptions;
 
-	/* istanbul ignore next */
-	rg.map.on('initialize', function () {
-		rg.map.obj = new google.maps.Map(_this.root.querySelector('.rg-map'), mapOptions);
-	});
+  /* istanbul ignore next */
+  rg.map.on('initialize', function () {
+    rg.map.obj = new google.maps.Map(_this.root.querySelector('.rg-map'), mapOptions);
+  });
 
-	(function () {
-		if (!document.getElementById('gmap_script')) {
-			var script = document.createElement('script');
-			script.setAttribute('id', 'gmap_script');
-			script.type = 'text/javascript';
-			script.src = 'https://maps.googleapis.com/maps/api/js?sensor=false&callback=rg.map.initialize';
-			document.body.appendChild(script);
-		}
-	})();
+  (function () {
+    if (!document.getElementById('gmap_script')) {
+      var script = document.createElement('script');
+      script.setAttribute('id', 'gmap_script');
+      script.type = 'text/javascript';
+      script.src = 'https://maps.googleapis.com/maps/api/js?sensor=false&callback=rg.map.initialize';
+      document.body.appendChild(script);
+    }
+  })();
 });
 
 riot.tag('rg-markdown', '<div class="markdown"></div>', function (opts) {
-	var _this = this;
+  var _this = this;
 
-	var reader = new commonmark.Parser();
-	var writer = new commonmark.HtmlRenderer();
+  var reader = new commonmark.Parser();
+  var writer = new commonmark.HtmlRenderer();
 
-	var markItDown = function markItDown(content) {
-		var parsed = reader.parse(content);
-		_this.root.innerHTML = writer.render(parsed);
-	};
+  var markItDown = function markItDown(content) {
+    var parsed = reader.parse(content);
+    _this.root.innerHTML = writer.render(parsed);
+  };
 
-	/* istanbul ignore next */
-	if (opts.src) {
-		rg.xhr('get', opts.src, function (resp) {
-			markItDown(resp);
-			_this.update();
-		});
-	} else {
-		markItDown(opts.content);
-	}
+  /* istanbul ignore next */
+  if (opts.src) {
+    rg.xhr('get', opts.src, function (resp) {
+      markItDown(resp);
+      _this.update();
+    });
+  } else {
+    markItDown(opts.content);
+  }
 });
 
 riot.tag('rg-modal', '<div class="overlay { visible: visible, ghost: ghost, dismissable: dismissable }" onclick="{ close }"></div> <div class="modal { visible: visible, ghost: ghost, dismissable: dismissable }"> <header class="header"> <button if="{ dismissable }" type="button" class="close" aria-label="Close" onclick="{ close }"> <span aria-hidden="true">&times;</span> </button> <h3 class="heading"><rg-raw content="{ opts.heading }"></rg-raw></h3> </header> <div class="body"> <yield></yield> </div> <footer class="footer"> <button class="button" each="{ opts.buttons }" type="button" onclick="{ action }" riot-style="{ style }"> <rg-raw content="{ content }"></rg-raw> </button> <div class="clear"></div> </footer> </div>', 'rg-modal .overlay, [riot-tag="rg-modal"] .overlay{ display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 50; } rg-modal .overlay.dismissable, [riot-tag="rg-modal"] .overlay.dismissable{ cursor: pointer; } rg-modal .modal, [riot-tag="rg-modal"] .modal{ display: none; position: absolute; width: 95%; max-width: 500px; font-size: 1.1em; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0); background-color: white; color: #252519; z-index: 101; } rg-modal .modal.ghost, [riot-tag="rg-modal"] .modal.ghost{ background-color: transparent; color: white; } rg-modal .visible, [riot-tag="rg-modal"] .visible{ display: block; } rg-modal .header, [riot-tag="rg-modal"] .header{ position: relative; text-align: center; } rg-modal .heading, [riot-tag="rg-modal"] .heading{ padding: 20px 20px 0 20px; margin: 0; font-size: 1.2em; } rg-modal .modal.ghost .heading, [riot-tag="rg-modal"] .modal.ghost .heading{ color: white; } rg-modal .close, [riot-tag="rg-modal"] .close{ position: absolute; top: 5px; right: 10px; padding: 0; font-size: 1.2em; border: 0; background-color: transparent; color: #000; cursor: pointer; outline: none; } rg-modal .modal.ghost .close, [riot-tag="rg-modal"] .modal.ghost .close{ color: white; } rg-modal .body, [riot-tag="rg-modal"] .body{ padding: 20px; } rg-modal .footer, [riot-tag="rg-modal"] .footer{ padding: 0 20px 20px 20px; } rg-modal .button, [riot-tag="rg-modal"] .button{ float: right; padding: 10px; margin: 0 5px 0 0; border: none; font-size: 0.9em; text-transform: uppercase; cursor: pointer; outline: none; background-color: white; } rg-modal .modal.ghost .button, [riot-tag="rg-modal"] .modal.ghost .button{ color: white; background-color: transparent; } rg-modal .clear, [riot-tag="rg-modal"] .clear{ clear: both; }', function (opts) {
-	var _this = this;
+  var _this = this;
 
-	this.on('update', function () {
-		_this.visible = rg.toBoolean(opts.visible);
-		_this.ghost = rg.toBoolean(opts.ghost);
-		_this.dismissable = rg.isDefined(opts.dismissable) ? rg.toBoolean(opts.dismissable) : true;
-	});
+  this.on('update', function () {
+    _this.visible = rg.toBoolean(opts.visible);
+    _this.ghost = rg.toBoolean(opts.ghost);
+    _this.dismissable = rg.isDefined(opts.dismissable) ? rg.toBoolean(opts.dismissable) : true;
+  });
 
-	this.close = function () {
-		if (rg.isFunction(opts.onclose)) opts.onclose();
-	};
+  this.close = function () {
+    if (rg.isFunction(opts.onclose)) opts.onclose();
+  };
 });
 
 riot.tag('rg-phone-sim', '<div class="emulator"> <iframe class="screen" riot-src="{ opts.src }"></iframe> </div>', 'rg-phone-sim .emulator, [riot-tag="rg-phone-sim"] .emulator{ position: relative; width: 365px; height: 792px; background-image: url(\'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAW0AAAMYCAMAAAA3r0ZLAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAwBQTFRFMDk6+vr6KTM0lJucMz4/PklKJS8wLTg5Qk1OxsjILzo7gomJ2NvbdH5/ho2O9fb2KzY3ztHRPEdIOkVGZWxtjJSVOEJDkpeYWGRluL2+KTQ1vcHBoaWlPUZHcnp6nKKjOkRF1NfXqa2tp62tZnBxanV2VmFiZ29wVl1eaXJzbXR04uTktbq7QElK1tnZipKTi5CRTlZXpKioo6mqXmlqUVlaOEFCSVFSUFxdISssT1tcTlpbJC4vIiwtTVlaJjAxIy0uTFhZS1dYJzEyKDIzSlZXPUhJOURFO0ZHSVVWKzU2P0pLKjQ1OENEND0+QEtMLDY3SFRVN0JDQ05PLTc4ND9ANUBBQUxNNkFCR1NUMTo7RE9QLjg5N0BBR1JTRlJTLzk6RVFSMjs8RVBRRlFSNj9AMzw9SFNUMj0+IissMTs8MDo7SVRVRFBRMDs8MTw9IiwsMz0+Mjw9SlVWQ09QLjk6NT4/S1ZXND4/JC4uQU1OIy0tQk5PTFdYTVhZQExNTllaJS8vJzIyP0tMLzg5LDc4KDMzNT9AKjU1N0FCNkBBJjAwIywtMDs7Mj09NkFBJjExLjk5LDc3N0JCNUBAKjU2MTw8LDU2Ljc4OUNEKDEyQU1NPEhIPEhJO0dHOkZGND8/Qk5ORFBQQ09PLTY3OUREPkpKPkpLPUlJT1pbP0tLJTAwPUlKJzAxKjM07u/vKTIzsbW2YGprtLm50tXWPkhJo6endn+A3d/f6uvreoOEg4yN2tvc/Pz8n6am8/T0VFtcm6CgJS4v4OLi5ufnYGdncnt8dHp7gYaHJC0uu8DAjJGRQkxNxMfHKzQ1YGtsS1NUaXN0bnh5yMzMyszMy83Oy8/PdoCAKDIy7O3tT1dYuLu70NTUbXd46Onq6erreoCA2dzc8PHx8vPz5OXlnaSkn6Wmqq6ucHZ2t7y8o6eoeoSEkJaWm5+gW2ZnZG5vqa+wOEFB09bWtru7qrCwcXd4t7u83eDgzM7O7/DwNT4+7e7uwMPDwcPEeH5/////70wnUQAAAQB0Uk5T////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AFP3ByUAAA+NSURBVHja7N13nBTlGcDxEQI5AmJQBAkcnqhEDIhoWMt5iogmQbOaYNrqYrJh16gplmTVkILJpYCmF+DSE1JIcjRR7L333ntPYjQxvTl55tnr7N7t7uw+vDP3+/0x3G3hs5+vr++8M7s7eH75Xb5x+rOjN017aeq+tO++U1+atmn0s9M3Xl6BoFfm466ZOPROhIt259CJ19RS++7LdgW133a97O7aaI/a+VE0y+jRnUeF1p6wqfvvaz6+YVjT0jMyJ3rkeSdmzljaNKzh+OZuoE0TQmmvv67zLzrwmMY8wkXLNx5zYCfTdeur1p6wdeegblgKar8tbegc4lv/rirtjTMLT99/UVMKzgFLNS3avwA2c2Pl2n8tPHV1QxLJMks2rC6g/alC7ScvKozrhhyIFZRrKIzvi56sRHt94b/RIsZ1xeN7UYFuffna4/UJB68Er4rGHax648vUfmqkPnxBBrmqyixQv5FPlaP9Dz2eWdIEW9U1LdFjnQsG1n5ETz4dyowdavY+VE9XPTKQ9phddPfICjvk6lt3lruM6V97j132l26BK3S3BJAv79Gf9jN3BY85HKsadHhAedebSmtf+ofgEcOQqknDAsyLLi2pPTq4/0icatSRAefoUto7Bvc2oFSzGgLQHYtr3xTct5DVSA1XJgsD0puKaa99s9wzlwPImh5WzhXTl/5TRHt7uaN5GUI1bVmzqL64ufZfgkF/GD417rCA9e99tf8VzCPHoVPzjhPXaVv10d5bblzCyZE6nDIJ5pKde2u/Egz487Cp1zHlHr20h8otp50ETT2WgaeL7dCe2vcF/uOQqUsrA9z7emgHQ3thdEZLLpeL0kHYwq7BrdqjAv2ofEAnlU0EZaPjvTTgHdWlvXeEhnYu0VkuUoN7707tbW6X35oiciyc6C4yZxmaxPf2bTq0z5VfTo/IC8/20M5GZnAHy5JzO7Tvj85bCKlEzyIzdQdvLNxf0L4wmMQjMgnmemlHZubOBcQXqvb0CO0jk720o3OmIdhPTlft4FTrth5ju55tK8bbq/YG+emUiLzqTC/t6Lz1cYoYbwi0r47QisTz0j2w0xE6ngxWJVeLdrD+WxCZVx3J9ba0QNeAnj9T/twuOi87GcF9pLSdKM8U7Q2rV6+O0jcQMoXJJB2t96tzorzB99Y2NzfPjdQL9zLJZDJynw2YK85rvZ1ku9Cjuq+4xXknb4Js+XxU/WsQ5wnec7LlDcn6d544P+ddLFu+zlT/Vorzxd5k2fIJqfq3TJwney/Lls+RGBwniPPL3g6y5aOWBstWcd7BmypbLjhS/1LiPNWTTTMWBik02mijTWijTWijjTbFVTuZTqSTRW8OUzqJdpGyxT89mU2ELYv25kO4+LvnyUT4kmj3LV38YzjpGmin3dReIm2pF9BlU+LmMDmnrdBbUntQje0trj2o5m2FPlBiTWKQQm9R7cG03nZAexCFNtpoE9poE9poo01oo01oo01oo4021VT7MxIUBik02mijTeG1D5agMEih0UYbbUIbbUIbbbQJbbQJbbQJbbTRplppf1qCwiCFRhtttCm89lwJCoMUGm200Sa00Sa00Uab0Eab0Eab0EY73tqnS1AYpNBoo402hdc+VILCIIVGG220CW20CW200Sa00Sa00aYC9GkSFAYpNNpoo01oR0v7bRIUBik02mijTWijTWijjTahjTah7bL2hyUoDFJotNFGm9BGm0ppv0OCwiCFRhtttAlttAlttNEmtOOhfbwEhUEKjTbaaBPaaBPaLmi/T4LCIIVGG220CW20CW200ab6aS+UoDBIodFGG21CG21C2wXt4yQoDFJotNFGm9BGm9BGe7BpL5KgMEih0UYbbUIbbULbBe0PSFAYpNBoo402oY02oY32YNP+oASFQQqNNtpoE9poE9poDzbtj0hQGKTQaKONNqGNNpXS/qkEhUEKfYwEhUEKjTbaaBPaaBPaaA827Y9LUBik0GijjTahHS3tn0lQGKTQCyQoDFJotNFGm9BGm9BGG22qn/anJCgMUmi00Uabwmv/RILCIIVukKAwSKHRRhttQhttQhtttKl+2p+UoDBIodFGG20Kr/09CQqDFPo9EhQGKTTaaKNNaKNNaKONNtVP+7MSFAYpNNpoo03htY+UoDBIodFGG21CG21CG220Ce14aH9egsIghUYb7bhq/1qCwiCFPlyCwiCFRhtttAlttAlttNEmtNGmSrV/KUFhkEL/QoLCIIUeJkFhkEKjjTbahDbahDbaaBPaaFOl2r+VoDBIoX8lQWGQQh8mQWGQQqONNtqENtqENtpoE9poE9oua/9AgsIghf6+BIVBCr2tBIVBCo022mgT2mgT2mijTWijTWi7rP1DCQqDFPqtEhQGKTTaaKNNaKNNaKONNqGNNqHtsvaPJCgMUujtJCgMUmi00Uab0Eab0EYbbUIbbUIbbSpAv0WCwiCFRhtttAlttAlttNEmtNEmtF3W/rkEhUEKvVKCwiCFfrsEhUEKjTbaaBPaaBPaaKNNaKNNaLusPU6CwiCFfqcEhUEKjTbaaBPaaBPaaKNNaMdD+1sSFAYpNNqW2kslKAxSaLQttd8rQWGQQqONNtqENtqENtpoU/20vyZBYZBCo22pvUyCwiCFRttS+90SFAYpNNpoo01oo01oo4021U/72xIUBik02pbaX5KgMEih0UY7rtrvkqAwSKHRRhttQhttQhtttKl+2j+WoDBIoc+QoDBIodFGG20Kr/0aCQqDFBpttNEmtNEmtNFGm+qnfYoEhUEKjTbaaBPa0dL+kASFQQqNNtpoE9poE9ouaH9VgsIghUbbUvtUCQqDFBpttNEmtKOl/TEJCoMUGm200Sa00aZS2t+VoDBIodG21D5RgsIghUYbbbQJbbSplPZHJSgMUmi00Uab0EabSml/RYLCIIVG21L7JAkKgxQabbTRJrTRplLar5OgMEih0UYbbUIbbULbBe33S1AYpNBoo402oY02oY32YNP+hASFQQqNNtpoE9rR0v6GBIVBCo22pfaxEhQGKTTaaKNNaKNNaKM92LRfK0FhkEKjjTbahDbaVEr7aAkKgxQabbTRJrTRJrTRRpvqp/0FCQqDFBpttOOq/U0JCoMUGm1L7aMkKAxSaLTRRpvQRpvQRhttQjse2q+XoDBIodFGG21CO1ra8yUoDFJotNFGm9BGm9BGG21CG22qVPs7EhQGKTTaltpflqAwSKHRRjuu2kdIUBik0GijjTahjTahjTbahDbaVKn2GyQoDFJotNFGm8JrD5GgMEih0UYbbUIbbUIbbbQJbbQJbbSpAP1FCQqDFBpttNGm8NrzJCgMUmi00Uab0Eab0EYbbUIbbUIbbULbXvtzEhQGKTTaaMdV+xAJCoMUGm200Sa00Sa00Uab0Eab0Eab0EY73tpfl6AwSKHRttQ+SILCIIVGG220CW20CW200Sa00Sa00Sa00UabaqV9tgSFQQqNtqX2byQoDFLo4RIUBik02mijTWijTWijjTahjTahjTZFVTuVymQyqRTa9S6TzGcTnaWz+VwK7TqVyyc2L5tMoV376SOZTpQom4uO9lmS+9b5RH+lo+Ct0FHQTiYGKptCu0a7xj5zSDqdzmbTfSeWZCS0D5AiM7DT+Vyme3rJJLMRGt4K7bp2D9B8psjOs8f9GbRD7h67MUst9TLdD8mhHQq7a3bO9zNP5CIxebuvnS5v1HYvEHNoh56z8wPuAHPuz92ua+crmB+6uFNoV3depKLJuPPRabSr2kNWuOfrfHwe7eon7WTF/y9k0K52HslW/pQ02tUu/ira6SVdXnW7rJ2sav2cdnhwu6ydrnge0aN4hwe3w9q5Knd4eXcHt8Pa2SoXcxl3lyXuaqeqRss7u+Z2VztZ1azdY3C7qn2m5OhEUtUJvbSrU4lCO6kd4gRT3tVVibPamaonknDPHZzayTDj09WJW6HnSK69sHyY92HSjp7mVmgXtbNh9nRZR3eTzmqHGp55R9+gRBvtsDu6pKNLQLTRRjt687aj2kfJppW9ZN1rFeflau6adhzX2606hzTKdgXHknXvWHFu9GbJ9mjOk9S9o8V5lje2MJ84VRzPAS4X57HeaNmucXMJGKvz22vEebQ3RbbzXHtpMXzvZp44T/Huka1zl82N4fuSB4nzPd7jsnXubeAYvud+gDg/7vnjHFxwx+/zJMFye5zv+bvLn/Nde3Gx+6zUfFHeXbQnLV68+AHnXl3cPgf4gChPEu1R8qd7372O22dczxLlUaLt/1l+aHV0cMfl89utYvxvP9B+QX66zbnXF6/vJtwmxrur9vnyk4MX84/V927O1mk70H7mHMm9qSRO3ylrDYifUW3/CvlxjefqXBKH70uuEeEr/IL2pJaWFhe/DVLVd4Gd/P7eASI8qUP76YT8stzBF1nF99ydvKzAcvFNPN2h7d8sv7l44bRUxddwcPPLe8PF92a/U3uM/NayymnuKF+fZFXAO6ZL23/C0cEdj2vvBEP7Cb9be2KLozN3HK4rFczaLRN7aPuvOros8WJwzbRgQfKq31N7ROC/xs1Xu/n1ALNRuh7gkID23l7a/p5y05xjPfeHd9Sudblijsi+6PfWvjApNzr7z3pG+DquB4nrjG36aPu/d3gu8aJ7jeI1Aetefl9t/wVXF91dy+piAzzt9vW3dan9N39z7cdODdYlrS6/9shdW741WI+c+lgRbf/5FlePcfpMKtH5dxOC45qW5/1i2v7I4L42j2pVWwA60i+u7Y8N7l2HUo1aF3CO9Utpb7VbcP8QnGp3WLPbViW1/Uv2gbum2Ptc4pfW9v/ZGDxmHlahmxdANt7r96ft/0+521vhCrf0a1fs//r9a/u3zjhZumoFYmFOjlwVIM641R9I239ldvDIxcsxq7rliwPC2a/4A2v7D14bPPbkNmaTKmeRNvW79kG/HG3fn6wPP5PhXdXAPlP1JheDLartX6lPOPlsZu+KZ+z2At2Vfvna/pjdTtCYTiqcRApsV6z3K9H2/fGF553Txvgue1y3nVNAG18KtaS2P2Ja4akntDN/lzVft3d4vXGEX7m27+81q+P5N7atQrPfVrXd2GE1a69+RPvTlr3lHft11NJ+BFNKiQnkiPaWTqY7/tivZ//avn/+7P26ahl+yJD5q1a0sufUPWLrilXzhxwyvKUbaPb5A2gOpC3z956N+9HANe05YkDLgbWlh0fOQLPfZox8uBzIsrSlC6Zcj3gJ6eunXFCmYrnaQWtHTLph7EONresQlta1Nj409oZJI9ZWIPh/AQYA2whzWlA9R/cAAAAASUVORK5CYII=\'); background-repeat: no-repeat; background-position: center; background-size: cover; } rg-phone-sim .screen, [riot-tag="rg-phone-sim"] .screen{ position: absolute; top: 105px; left: 22px; background-color: white; width: 320px; height: 568px; border: 0; }', function (opts) {});
 
 riot.tag('rg-placeholdit', '<img riot-src="https://placeholdit.imgix.net/~text?bg={ background }&txtclr={ color }&txt={ text }&txtsize={ textSize }&w={ width }&h={ height }&fm={ format }">', function (opts) {
-	this.width = opts.width || 450;
-	this.height = opts.height || 250;
-	this.background = opts['background-color'] || 'f01e52';
-	this.color = opts.color || 'fff';
-	this.text = opts.text || this.width + ' x ' + this.height;
-	this.textSize = opts['font-size'] || '30';
-	this.format = opts.format || 'png';
+  this.width = opts.width || 450;
+  this.height = opts.height || 250;
+  this.background = opts['background-color'] || 'f01e52';
+  this.color = opts.color || 'fff';
+  this.text = opts.text || this.width + ' x ' + this.height;
+  this.textSize = opts['font-size'] || '30';
+  this.format = opts.format || 'png';
 });
 
 riot.tag('rg-raw', '<span></span>', function (opts) {
-	this.on('mount update', function () {
-		this.root.innerHTML = opts.content || '';
-	});
+  this.on('mount update', function () {
+    this.root.innerHTML = opts.content || '';
+  });
 });
 
 riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="width: { width }"> <input if="{ !autocomplete }" type="text" name="selectfield" class="field { visible: visible }" value="{ fieldText }" placeholder="{ opts.placeholder }" onkeydown="{ handleKeys }" onclick="{ toggle }" readonly> <input if="{ autocomplete }" type="text" name="autocompletefield" class="field { visible: visible }" value="{ fieldText }" placeholder="{ opts.placeholder }" onkeydown="{ handleKeys }" onclick="{ toggle }" oninput="{ filterItems }"> <div class="dropdown { visible: visible } { empty: filteredItems.length == 0 }"> <div class="filter" if="{ filter }"> <input type="text" name="filterfield" class="filter-box" placeholder="{ opts[\'filter-placeholder\'] || \'Filter\' }" onkeydown="{ handleKeys }" oninput="{ filterItems }"> </div> <ul class="list { empty: filteredItems.length == 0 }"> <li each="{ filteredItems }" onclick="{ parent.select }" class="item { selected: selected, disabled: disabled, active: active }"> { text } </li> </ul> </div> </div>', 'rg-select .container, [riot-tag="rg-select"] .container{ position: relative; display: inline-block; cursor: pointer; } rg-select .field, [riot-tag="rg-select"] .field{ width: 100%; padding: 10px; border: 1px solid #D3D3D3; box-sizing: border-box; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 1em; line-height: normal; outline: 0; } rg-select .dropdown, [riot-tag="rg-select"] .dropdown{ display: none; position: relative; width: 100%; background-color: white; border-bottom: 1px solid #D3D3D3; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; max-height: 280px; } rg-select .dropdown.visible, [riot-tag="rg-select"] .dropdown.visible{ display: block; } rg-select .dropdown.empty, [riot-tag="rg-select"] .dropdown.empty{ border-bottom: 0; } rg-select .filter-box, [riot-tag="rg-select"] .filter-box{ width: 100%; padding: 10px; font-size: 0.9em; border: 0; border-left: 1px solid #D3D3D3; border-right: 1px solid #D3D3D3; border-bottom: 1px solid #E8E8E8; outline: none; color: #555; box-sizing: border-box; } rg-select .list, [riot-tag="rg-select"] .list,rg-select .item, [riot-tag="rg-select"] .item{ list-style: none; padding: 0; margin: 0; } rg-select .list.empty, [riot-tag="rg-select"] .list.empty{ display: none; } rg-select .item, [riot-tag="rg-select"] .item{ padding: 10px; border-left: 1px solid #D3D3D3; border-right: 1px solid #D3D3D3; border-top: 1px solid #E8E8E8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-select .item:first-child, [riot-tag="rg-select"] .item:first-child{ border-top: 0; } rg-select .selected, [riot-tag="rg-select"] .selected{ font-weight: bold; background-color: #f8f8f8; } rg-select .item:hover, [riot-tag="rg-select"] .item:hover{ background-color: #f3f3f3; } rg-select .item.active, [riot-tag="rg-select"] .item.active,rg-select .item:hover.active, [riot-tag="rg-select"] .item:hover.active{ background-color: #ededed; }', function (opts) {
-	var _this = this;
+  var _this = this;
 
-	this.visible = true;
+  this.visible = true;
 
-	/* istanbul ignore next */
-	var handleClickOutside = function handleClickOutside(e) {
-		if (!_this.root.contains(e.target)) {
-			if (rg.isFunction(opts.onclose) && _this.visible) opts.onclose();
-			_this.visible = false;
-			_this.update();
-		}
-	};
+  /* istanbul ignore next */
+  var handleClickOutside = function handleClickOutside(e) {
+    if (!_this.root.contains(e.target)) {
+      if (rg.isFunction(opts.onclose) && _this.visible) opts.onclose();
+      _this.visible = false;
+      _this.update();
+    }
+  };
 
-	this.handleKeys = function (e) {
-		if ([13, 38, 40].indexOf(e.keyCode) > -1 && !_this.visible) {
-			e.preventDefault();
-			_this.toggle();
-			return true;
-		}
-		if (_this.autocomplete && !_this.visible) _this.visible = true;
-		var length = _this.filteredItems.length;
-		if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
-			e.preventDefault();
-			// Get the currently selected item
-			var activeIndex = null;
-			for (var i = 0; i < length; i++) {
-				var item = _this.filteredItems[i];
-				if (item.active) {
-					activeIndex = i;
-					break;
-				}
-			}
+  this.handleKeys = function (e) {
+    if ([13, 38, 40].indexOf(e.keyCode) > -1 && !_this.visible) {
+      e.preventDefault();
+      _this.toggle();
+      return true;
+    }
+    if (_this.autocomplete && !_this.visible) _this.visible = true;
+    var length = _this.filteredItems.length;
+    if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
+      e.preventDefault();
+      // Get the currently selected item
+      var activeIndex = null;
+      for (var i = 0; i < length; i++) {
+        var item = _this.filteredItems[i];
+        if (item.active) {
+          activeIndex = i;
+          break;
+        }
+      }
 
-			// We're leaving this item
-			if (activeIndex != null) _this.filteredItems[activeIndex].active = false;
+      // We're leaving this item
+      if (activeIndex != null) _this.filteredItems[activeIndex].active = false;
 
-			if (e.keyCode == 38) {
-				// Move the active state to the next item lower down the index
-				if (activeIndex == null || activeIndex == 0) _this.filteredItems[length - 1].active = true;else _this.filteredItems[activeIndex - 1].active = true;
-			} else if (e.keyCode == 40) {
-				// Move the active state to the next item higher up the index
-				if (activeIndex == null || activeIndex == length - 1) _this.filteredItems[0].active = true;else _this.filteredItems[activeIndex + 1].active = true;
-			} else if (e.keyCode == 13 && activeIndex != null) {
-				_this.select({ item: _this.filteredItems[activeIndex] });
-			}
-		}
-		return true;
-	};
+      if (e.keyCode == 38) {
+        // Move the active state to the next item lower down the index
+        if (activeIndex == null || activeIndex == 0) _this.filteredItems[length - 1].active = true;else _this.filteredItems[activeIndex - 1].active = true;
+      } else if (e.keyCode == 40) {
+        // Move the active state to the next item higher up the index
+        if (activeIndex == null || activeIndex == length - 1) _this.filteredItems[0].active = true;else _this.filteredItems[activeIndex + 1].active = true;
+      } else if (e.keyCode == 13 && activeIndex != null) {
+        _this.select({ item: _this.filteredItems[activeIndex] });
+      }
+    }
+    return true;
+  };
 
-	this.toggle = function () {
-		_this.visible = !_this.visible;
-		if (rg.isFunction(opts.onopen) && _this.visible) opts.onopen();else if (rg.isFunction(opts.onclose) && !_this.visible) opts.onclose();
-	};
+  this.toggle = function () {
+    _this.visible = !_this.visible;
+    if (rg.isFunction(opts.onopen) && _this.visible) opts.onopen();else if (rg.isFunction(opts.onclose) && !_this.visible) opts.onclose();
+  };
 
-	this.filterItems = function () {
-		if (!rg.isArray(opts.options)) return;
-		_this.filteredItems = opts.options.filter(function (item) {
-			item.active = false;
-			var filterOn = opts['filter-on'] || 'text';
-			var filterField = item[filterOn];
-			if (rg.isUndefined(filterField)) throw Error('filter-on field is undefined: option.' + filterOn);
-			var filterInput = _this.filterfield.value;
-			if (_this.autocomplete) filterInput = _this.autocompletefield.value;
-			if (filterInput.length == 0 || filterField.toString().toLowerCase().indexOf(filterInput.toString().toLowerCase()) > -1) return true;
-		});
-		if (rg.isFunction(opts.onfilter)) opts.onfilter();
-		_this.update();
-	};
+  this.filterItems = function () {
+    if (!rg.isArray(opts.options)) return;
+    _this.filteredItems = opts.options.filter(function (item) {
+      item.active = false;
+      var filterOn = opts['filter-on'] || 'text';
+      var filterField = item[filterOn];
+      if (rg.isUndefined(filterField)) throw Error('filter-on field is undefined: option.' + filterOn);
+      var filterInput = _this.filterfield.value;
+      if (_this.autocomplete) filterInput = _this.autocompletefield.value;
+      if (filterInput.length == 0 || filterField.toString().toLowerCase().indexOf(filterInput.toString().toLowerCase()) > -1) return true;
+    });
+    if (rg.isFunction(opts.onfilter)) opts.onfilter();
+    _this.update();
+  };
 
-	this.select = function (item) {
-		item = item.item;
-		if (!rg.isArray(opts.options)) return;
-		opts.options.forEach(function (i) {
-			return i.selected = false;
-		});
-		item.selected = true;
-		if (rg.isFunction(opts.onselect)) opts.onselect(item);
-		_this.selectfield.value = item.text;
-		_this.autocompletefield.value = item.text;
-		_this.visible = false;
-		if (_this.autocomplete) _this.filterItems();
-	};
+  this.select = function (item) {
+    item = item.item;
+    if (!rg.isArray(opts.options)) return;
+    opts.options.forEach(function (i) {
+      return i.selected = false;
+    });
+    item.selected = true;
+    if (rg.isFunction(opts.onselect)) opts.onselect(item);
+    _this.selectfield.value = item.text;
+    _this.autocompletefield.value = item.text;
+    _this.visible = false;
+    if (_this.autocomplete) _this.filterItems();
+  };
 
-	this.on('mount', function () {
-		// Filter items
-		_this.filterItems();
+  this.on('mount', function () {
+    // Filter items
+    _this.filterItems();
 
-		// Give each dropdown item an index and select one if applicable
-		if (!rg.isArray(opts.options)) return;
-		opts.options.forEach(function (item, i) {
-			item.index = i;
-			if (item.selected) _this.select({ item: item });
-		});
+    // Give each dropdown item an index and select one if applicable
+    if (!rg.isArray(opts.options)) return;
+    opts.options.forEach(function (item, i) {
+      item.index = i;
+      if (item.selected) _this.select({ item: item });
+    });
 
-		// Setup listeners and style component given content
-		document.addEventListener('click', handleClickOutside);
-		var dd = _this.root.querySelector('.dropdown');
-		_this.width = dd.getBoundingClientRect().width + 20 + 'px';
-		dd.style.position = 'absolute';
+    // Setup listeners and style component given content
+    document.addEventListener('click', handleClickOutside);
+    var dd = _this.root.querySelector('.dropdown');
+    _this.width = dd.getBoundingClientRect().width + 20 + 'px';
+    dd.style.position = 'absolute';
 
-		_this.autocomplete = rg.toBoolean(opts.autocomplete);
-		_this.visible = rg.toBoolean(opts.visible);
-		_this.filter = rg.toBoolean(opts.filter);
-		_this.fieldText = opts.value;
-		_this.update();
-	});
+    _this.autocomplete = rg.toBoolean(opts.autocomplete);
+    _this.visible = rg.toBoolean(opts.visible);
+    _this.filter = rg.toBoolean(opts.filter);
+    _this.fieldText = opts.value;
+    _this.update();
+  });
 
-	this.on('unmount', function () {
-		return document.removeEventListener('click', handleClickOutside);
-	});
+  this.on('unmount', function () {
+    return document.removeEventListener('click', handleClickOutside);
+  });
 });
 
 riot.tag('rg-sidemenu', '<div class="overlay { visible: visible }" onclick="{ close }"></div> <div class="sidemenu { visible: visible }"> <h4 class="header">{ opts.header }</h4> <ul class="items"> <li class="item { active: active }" each="{ opts.items }" onclick="{ selected }"> <rg-raw content="{ content }"></rg-raw> </li> </ul> <div class="body"> <yield></yield> </div> </div>', 'rg-sidemenu .overlay, [riot-tag="rg-sidemenu"] .overlay{ display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); cursor: pointer; z-index: 50; } rg-sidemenu .overlay.visible, [riot-tag="rg-sidemenu"] .overlay.visible{ display: block; } rg-sidemenu .sidemenu, [riot-tag="rg-sidemenu"] .sidemenu{ position: absolute; top: 0; left: 0; height: 100%; width: 260px; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; background-color: black; color: white; transform: translate3d(-100%, 0, 0); transition: transform 0.5s ease; z-index: 51; } rg-sidemenu .sidemenu.visible, [riot-tag="rg-sidemenu"] .sidemenu.visible{ transform: translate3d(0, 0, 0); } rg-sidemenu .header, [riot-tag="rg-sidemenu"] .header{ padding: 1.2rem; margin: 0; text-align: center; color: white; } rg-sidemenu .items, [riot-tag="rg-sidemenu"] .items{ padding: 0; margin: 0; list-style: none; } rg-sidemenu .item, [riot-tag="rg-sidemenu"] .item{ padding: 1rem 0.5rem; box-sizing: border-box; border-top: 1px solid #1a1a1a; color: white; } rg-sidemenu .item:last-child, [riot-tag="rg-sidemenu"] .item:last-child{ border-bottom: 1px solid #1a1a1a; } rg-sidemenu .item:hover, [riot-tag="rg-sidemenu"] .item:hover{ cursor: pointer; background-color: #2a2a2a; } rg-sidemenu .item.active, [riot-tag="rg-sidemenu"] .item.active{ cursor: pointer; background-color: #444; }', function (opts) {
-	this.on('update', function () {
-		this.visible = rg.toBoolean(opts.visible);
-	});
+  this.on('update', function () {
+    this.visible = rg.toBoolean(opts.visible);
+  });
 
-	this.close = function () {
-		if (rg.isFunction(opts.onclose)) opts.onclose();
-	};
+  this.close = function () {
+    if (rg.isFunction(opts.onclose)) opts.onclose();
+  };
 
-	this.selected = function (item) {
-		item = item.item;
-		opts.items.forEach(function (item) {
-			return item.active = false;
-		});
-		item.active = true;
-		if (item.action) item.action(item);
-	};
+  this.selected = function (item) {
+    item = item.item;
+    opts.items.forEach(function (item) {
+      return item.active = false;
+    });
+    item.active = true;
+    if (item.action) item.action(item);
+  };
 });
 
 riot.tag('rg-tab-heading', '<yield></yield>', 'rg-tab-heading, [riot-tag="rg-tab-heading"]{ display: none; }', function (opts) {});
 
 riot.tag('rg-tab', '<div class="tab { active: active }"> <yield></yield> </div>', '.tab { display: none; padding: 10px; } .tab.active { display: block; }', function (opts) {
-	this.active = opts.active == 'true';
-	this.disabled = opts.disabled == 'true';
+  this.active = opts.active == 'true';
+  this.disabled = opts.disabled == 'true';
 });
 
 riot.tag('rg-tabs', '<div class="tabs"> <div class="headers"> <div each="{ tab in tabs }" class="header { active: tab.active, disabled: tab.disabled }" onclick="{ activate }"> <h4 class="heading" if="{ tab.opts.heading && !tab.heading }">{ tab.opts.heading }</h4> <div class="heading" if="{ tab.heading }"> <rg-raw content="{ tab.heading }"></rg-raw> </div> </div> </div> <yield></yield> </div>', 'rg-tabs .tabs, [riot-tag="rg-tabs"] .tabs{ background-color: white; } rg-tabs .headers, [riot-tag="rg-tabs"] .headers{ display: -webkit-flex; display: -ms-flexbox; display: flex; } rg-tabs .header, [riot-tag="rg-tabs"] .header{ -webkit-flex: 1; -ms-flex: 1; flex: 1; box-sizing: border-box; text-align: center; cursor: pointer; box-shadow: 0 -1px 0 0 #000 inset; } rg-tabs .heading, [riot-tag="rg-tabs"] .heading{ padding: 10px; margin: 0; } rg-tabs .header.active, [riot-tag="rg-tabs"] .header.active{ background-color: #000; } rg-tabs .header.active .heading, [riot-tag="rg-tabs"] .header.active .heading{ color: white; } rg-tabs .header.disabled .heading, [riot-tag="rg-tabs"] .header.disabled .heading{ color: #888; }', function (opts) {
-	var _this = this;
+  var _this = this;
 
-	this.onopen = opts.onopen;
-	this.tabs = this.tags['rg-tab'];
-	var deselectTabs = function deselectTabs() {
-		return _this.tabs.forEach(function (tab) {
-			return tab.active = false;
-		});
-	};
+  this.onopen = opts.onopen;
+  this.tabs = this.tags['rg-tab'];
+  var deselectTabs = function deselectTabs() {
+    return _this.tabs.forEach(function (tab) {
+      return tab.active = false;
+    });
+  };
 
-	// If more than one tab set to active honor the first one
-	this.on('mount', function () {
-		var activeTab = false;
-		_this.tabs.forEach(function (tab, i) {
-			// Give each tab an index
-			tab.index = i;
+  // If more than one tab set to active honor the first one
+  this.on('mount', function () {
+    var activeTab = false;
+    _this.tabs.forEach(function (tab, i) {
+      // Give each tab an index
+      tab.index = i;
 
-			var tabHeading = tab.tags['rg-tab-heading'];
-			if (tabHeading) {
-				/* istanbul ignore next */
-				if (Object.prototype.toString.call(tabHeading) !== '[object Array]') tab.heading = tabHeading.root.innerHTML;
-			}
+      var tabHeading = tab.tags['rg-tab-heading'];
+      if (tabHeading) {
+        /* istanbul ignore next */
+        if (Object.prototype.toString.call(tabHeading) !== '[object Array]') tab.heading = tabHeading.root.innerHTML;
+      }
 
-			if (activeTab) tab.active = false;
-			if (tab.active) activeTab = true;
-		});
-		_this.update();
-	});
+      if (activeTab) tab.active = false;
+      if (tab.active) activeTab = true;
+    });
+    _this.update();
+  });
 
-	// Deactivate all tabs and active selected one
-	this.activate = function (e) {
-		var tab = e.item.tab;
-		if (!tab.disabled) {
-			deselectTabs();
-			if (rg.isFunction(_this.onopen)) _this.onopen(tab);
-			tab.active = true;
-		}
-	};
+  // Deactivate all tabs and active selected one
+  this.activate = function (e) {
+    var tab = e.item.tab;
+    if (!tab.disabled) {
+      deselectTabs();
+      if (rg.isFunction(_this.onopen)) _this.onopen(tab);
+      tab.active = true;
+    }
+  };
 });
 
 riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="tag" each="{ opts.tags }" onclick="{ parent.removeTag }"> { text } <span class="close">&times;</span> </span> </span> <div class="field-container { visible: visible }"> <input type="{ opts.type || \'text\' }" class="field" name="filterField" placeholder="{ opts.placeholder }" onkeydown="{ handleKeys }" oninput="{ filterItems }" onfocus="{ filterItems }"> <div class="dropdown { visible: visible }"> <ul class="list"> <li each="{ filteredItems }" onclick="{ parent.select }" class="item { active: active }"> { text } </li> </ul> </div> </div> </div>', 'rg-tags .container, [riot-tag="rg-tags"] .container{ position: relative; width: 100%; border: 1px solid #D3D3D3; background-color: white; text-align: left; padding: 0; box-sizing: border-box; } rg-tags .field-container, [riot-tag="rg-tags"] .field-container{ position: absolute; display: inline-block; cursor: pointer; } rg-tags .field, [riot-tag="rg-tags"] .field{ width: 100%; padding: 10px; border: 0; box-sizing: border-box; background-color: transparent; white-space: nowrap; font-size: 1em; line-height: normal; outline: 0; } rg-tags .dropdown, [riot-tag="rg-tags"] .dropdown{ display: none; position: absolute; width: 100%; background-color: white; border-bottom: 1px solid #D3D3D3; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; max-height: 280px; margin: -1px 0 0 -1px; } rg-tags .dropdown.visible, [riot-tag="rg-tags"] .dropdown.visible{ display: block; } rg-tags .list, [riot-tag="rg-tags"] .list,rg-tags .item, [riot-tag="rg-tags"] .item{ list-style: none; padding: 0; margin: 0; } rg-tags .list.empty, [riot-tag="rg-tags"] .list.empty{ display: none; } rg-tags .item, [riot-tag="rg-tags"] .item{ padding: 10px; border-left: 1px solid #D3D3D3; border-right: 1px solid #D3D3D3; border-top: 1px solid #E8E8E8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-tags .item:first-child, [riot-tag="rg-tags"] .item:first-child{ border-top: 0; } rg-tags .item:hover, [riot-tag="rg-tags"] .item:hover{ background-color: #f3f3f3; } rg-tags .item.active, [riot-tag="rg-tags"] .item.active,rg-tags .item:hover.active, [riot-tag="rg-tags"] .item:hover.active{ background-color: #ededed; } rg-tags .tags, [riot-tag="rg-tags"] .tags{ display: inline-block; max-width: 70%; white-space: nowrap; overflow-y: hidden; overflow-x: auto; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; } rg-tags .tag, [riot-tag="rg-tags"] .tag{ position: relative; display: inline-block; padding: 8px 20px 8px 5px; margin: 1px; background-color: #000; color: #fff; font-size: 1em; line-height: normal; cursor: pointer; } rg-tags .tag:hover, [riot-tag="rg-tags"] .tag:hover,rg-tags .tag:active, [riot-tag="rg-tags"] .tag:active{ background-color: #666; } rg-tags .close, [riot-tag="rg-tags"] .close{ position: absolute; right: 5px; top: 7px; color: rgba(255, 255, 255, 0.7); }', function (opts) {
-	var _this = this;
+  var _this = this;
 
-	this.visible = false;
-	this.filterField.value = opts.value || '';
-	opts.options = opts.options || [];
-	opts.tags = opts.tags || [];
-	opts.tags.forEach(function (tag, i) {
-		return tag.index = i;
-	});
+  this.visible = false;
+  this.filterField.value = opts.value || '';
+  opts.options = opts.options || [];
+  opts.tags = opts.tags || [];
+  opts.tags.forEach(function (tag, i) {
+    return tag.index = i;
+  });
 
-	this.filterItems = function () {
-		_this.filteredItems = opts.options.filter(function (item) {
-			item.active = false;
-			if (_this.filterField.value.length == 0 || item.text.toString().toLowerCase().indexOf(_this.filterField.value.toString().toLowerCase()) > -1) return true;
-		});
-		_this.visible = _this.filteredItems.length > 0;
-		if (rg.isFunction(opts.onfilter)) opts.onfilter();
-		_this.update();
-	};
+  this.filterItems = function () {
+    _this.filteredItems = opts.options.filter(function (item) {
+      item.active = false;
+      if (_this.filterField.value.length == 0 || item.text.toString().toLowerCase().indexOf(_this.filterField.value.toString().toLowerCase()) > -1) return true;
+    });
+    _this.visible = _this.filteredItems.length > 0;
+    if (rg.isFunction(opts.onfilter)) opts.onfilter();
+    _this.update();
+  };
 
-	this.handleKeys = function (e) {
-		var length = _this.filteredItems.length;
-		if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
-			_this.visible = true;
-			e.preventDefault();
-			// Get the currently selected item
-			var activeIndex = null;
-			for (var i = 0; i < length; i++) {
-				var item = _this.filteredItems[i];
-				if (item.active) {
-					activeIndex = i;
-					break;
-				}
-			}
+  this.handleKeys = function (e) {
+    var length = _this.filteredItems.length;
+    if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
+      _this.visible = true;
+      e.preventDefault();
+      // Get the currently selected item
+      var activeIndex = null;
+      for (var i = 0; i < length; i++) {
+        var item = _this.filteredItems[i];
+        if (item.active) {
+          activeIndex = i;
+          break;
+        }
+      }
 
-			// We're leaving this item
-			if (activeIndex != null) _this.filteredItems[activeIndex].active = false;
+      // We're leaving this item
+      if (activeIndex != null) _this.filteredItems[activeIndex].active = false;
 
-			if (e.keyCode == 38) {
-				// Move the active state to the next item lower down the index
-				if (activeIndex == null || activeIndex == 0) _this.filteredItems[length - 1].active = true;else _this.filteredItems[activeIndex - 1].active = true;
-			} else if (e.keyCode == 40) {
-				// Move the active state to the next item higher up the index
-				if (activeIndex == null || activeIndex == length - 1) _this.filteredItems[0].active = true;else _this.filteredItems[activeIndex + 1].active = true;
-			} else if (e.keyCode == 13 && activeIndex != null) {
-				_this.select({ item: _this.filteredItems[activeIndex] });
-			}
-		}
-		if (e.keyCode == 13) {
-			_this.addTag();
-		} else if (e.keyCode == 8 && _this.filterField.value == '' && opts.tags.length > 0) {
-			var tag = opts.tags.pop();
-			_this.filterField.value = tag.text;
-		}
-		return true;
-	};
+      if (e.keyCode == 38) {
+        // Move the active state to the next item lower down the index
+        if (activeIndex == null || activeIndex == 0) _this.filteredItems[length - 1].active = true;else _this.filteredItems[activeIndex - 1].active = true;
+      } else if (e.keyCode == 40) {
+        // Move the active state to the next item higher up the index
+        if (activeIndex == null || activeIndex == length - 1) _this.filteredItems[0].active = true;else _this.filteredItems[activeIndex + 1].active = true;
+      } else if (e.keyCode == 13 && activeIndex != null) {
+        _this.select({ item: _this.filteredItems[activeIndex] });
+      }
+    }
+    if (e.keyCode == 13) {
+      _this.addTag();
+    } else if (e.keyCode == 8 && _this.filterField.value == '' && opts.tags.length > 0) {
+      var tag = opts.tags.pop();
+      _this.filterField.value = tag.text;
+    }
+    return true;
+  };
 
-	this.addTag = function (item) {
-		var tag = item || { text: _this.filterField.value };
-		if (tag.text.length > 0) {
-			tag.index = opts.tags.length;
-			opts.tags.push(tag);
-			_this.filterField.value = '';
-			_this.filteredItems = opts.options;
-			_this.visible = false;
-		}
-		_this.update();
-	};
+  this.addTag = function (item) {
+    var tag = item || { text: _this.filterField.value };
+    if (tag.text.length > 0) {
+      tag.index = opts.tags.length;
+      opts.tags.push(tag);
+      _this.filterField.value = '';
+      _this.filteredItems = opts.options;
+      _this.visible = false;
+    }
+    _this.update();
+  };
 
-	this.removeTag = function (e) {
-		opts.tags.splice(opts.tags.indexOf(e.item), 1);
-		_this.visible = false;
-	};
+  this.removeTag = function (e) {
+    opts.tags.splice(opts.tags.indexOf(e.item), 1);
+    _this.visible = false;
+  };
 
-	this.select = function (item) {
-		item = item.item;
-		if (rg.isFunction(opts.onselect)) opts.onselect(item);
-		_this.addTag(item);
-	};
+  this.select = function (item) {
+    item = item.item;
+    if (rg.isFunction(opts.onselect)) opts.onselect(item);
+    _this.addTag(item);
+  };
 
-	this.closeDropdown = function (e) {
-		if (!_this.root.contains(e.target)) {
-			if (rg.isFunction(opts.onclose) && _this.visible) opts.onclose();
-			_this.visible = false;
-			_this.update();
-		}
-	};
+  this.closeDropdown = function (e) {
+    if (!_this.root.contains(e.target)) {
+      if (rg.isFunction(opts.onclose) && _this.visible) opts.onclose();
+      _this.visible = false;
+      _this.update();
+    }
+  };
 
-	this.on('mount', function () {
-		document.addEventListener('click', _this.closeDropdown);
-		document.addEventListener('focus', _this.closeDropdown, true);
-		_this.visible = opts.visible;
-		_this.update();
-	});
+  this.on('mount', function () {
+    document.addEventListener('click', _this.closeDropdown);
+    document.addEventListener('focus', _this.closeDropdown, true);
+    _this.visible = opts.visible;
+    _this.update();
+  });
 
-	this.on('unmount', function () {
-		document.removeEventListener('click', _this.closeDropdown);
-		document.removeEventListener('focus', _this.closeDropdown, true);
-	});
+  this.on('unmount', function () {
+    document.removeEventListener('click', _this.closeDropdown);
+    document.removeEventListener('focus', _this.closeDropdown, true);
+  });
 
-	this.on('update', function () {
-		if (_this.isMounted) {
-			var container = _this.root.querySelector('.container');
-			var containerWidth = container.getBoundingClientRect().width;
-			var tagList = _this.root.querySelector('.tags');
-			var tagListWidth = tagList.getBoundingClientRect().width;
-			tagList.scrollLeft = Number.MAX_VALUE;
+  this.on('update', function () {
+    if (_this.isMounted) {
+      var container = _this.root.querySelector('.container');
+      var containerWidth = container.getBoundingClientRect().width;
+      var tagList = _this.root.querySelector('.tags');
+      var tagListWidth = tagList.getBoundingClientRect().width;
+      tagList.scrollLeft = Number.MAX_VALUE;
 
-			var fieldContainer = _this.root.querySelector('.field-container');
-			fieldContainer.style.width = containerWidth - tagListWidth + 'px';
-			_this.root.querySelector('.container').style.height = fieldContainer.getBoundingClientRect().height + 'px';
-		}
-	});
+      var fieldContainer = _this.root.querySelector('.field-container');
+      fieldContainer.style.width = containerWidth - tagListWidth + 'px';
+      _this.root.querySelector('.container').style.height = fieldContainer.getBoundingClientRect().height + 'px';
+    }
+  });
 });
 
 riot.tag('rg-time', '<rg-select placeholder="{ opts.placeholder || \'Select a time\' }" filter="{ filter }" filter-placeholder="Filter times" options="{ times }" onopen="{ opts.onopen }" onclose="{ opts.onclose }" onselect="{ opts.onselect }"> </rg-select>', function (opts) {
-	this.filter = rg.toBoolean(opts.filter);
-	opts.time = opts.time || 'now';
-	if (opts.time == 'now') opts.time = new Date();
-	if (opts.min) opts.min = opts.min.split(':');
-	if (opts.max) opts.max = opts.max.split(':');
-	var step = parseInt(opts.step) || 1;
-	this.times = [];
+  this.filter = rg.toBoolean(opts.filter);
+  opts.time = opts.time || 'now';
+  if (opts.time == 'now') opts.time = new Date();
+  if (opts.min) opts.min = opts.min.split(':');
+  if (opts.max) opts.max = opts.max.split(':');
+  var step = parseInt(opts.step) || 1;
+  this.times = [];
 
-	for (var i = 0; i < 1440; i++) {
-		if (i % step == 0) {
-			var d = new Date(0);
-			d.setHours(opts.time.getHours());
-			d.setMinutes(opts.time.getMinutes());
-			d = new Date(d.getTime() + i * 60000);
-			// Check min range
-			if (opts.min) {
-				if (d.getHours() < opts.min[0]) continue;
-				if (d.getHours() == opts.min[0] && d.getMinutes() < opts.min[1]) continue;
-			}
-			// Check max range
-			if (opts.max) {
-				if (d.getHours() > opts.max[0]) continue;
-				if (d.getHours() == opts.max[0] && d.getMinutes() > opts.max[1]) continue;
-			}
-			var t = {
-				hours: d.getHours(),
-				minutes: d.getMinutes()
-			};
-			var m = t.minutes;
-			if (m < 10) m = '0' + m;
-			if (opts.ampm) {
-				// 12h
-				var ampm = 'am';
-				var h = t.hours;
-				if (h >= 12) {
-					ampm = 'pm';
-					h = h - 12;
-				}
-				if (h == 0) h = 12;
-				t.text = h + ':' + m + ' ' + ampm;
-				t.period = ampm;
-			} else {
-				// 24h
-				var h = t.hours;
-				if (h < 10) h = '0' + h;
-				t.text = h + ':' + m;
-			}
-			this.times.push(t);
-		}
-	}
+  for (var i = 0; i < 1440; i++) {
+    if (i % step == 0) {
+      var d = new Date(0);
+      d.setHours(opts.time.getHours());
+      d.setMinutes(opts.time.getMinutes());
+      d = new Date(d.getTime() + i * 60000);
+      // Check min range
+      if (opts.min) {
+        if (d.getHours() < opts.min[0]) continue;
+        if (d.getHours() == opts.min[0] && d.getMinutes() < opts.min[1]) continue;
+      }
+      // Check max range
+      if (opts.max) {
+        if (d.getHours() > opts.max[0]) continue;
+        if (d.getHours() == opts.max[0] && d.getMinutes() > opts.max[1]) continue;
+      }
+      var t = {
+        hours: d.getHours(),
+        minutes: d.getMinutes()
+      };
+      var m = t.minutes;
+      if (m < 10) m = '0' + m;
+      if (opts.ampm) {
+        // 12h
+        var ampm = 'am';
+        var h = t.hours;
+        if (h >= 12) {
+          ampm = 'pm';
+          h = h - 12;
+        }
+        if (h == 0) h = 12;
+        t.text = h + ':' + m + ' ' + ampm;
+        t.period = ampm;
+      } else {
+        // 24h
+        var h = t.hours;
+        if (h < 10) h = '0' + h;
+        t.text = h + ':' + m;
+      }
+      this.times.push(t);
+    }
+  }
 });
 
 riot.tag('rg-toast', '<div class="toasts { opts.position } { active: active }"> <div each="{ opts.toasts }" class="toast { visible: visible }" onclick="{ parent.toastClicked }"> <rg-raw content="{ content }"></rg-raw> </div> </div>', 'rg-toast .toasts, [riot-tag="rg-toast"] .toasts{ display: none; position: absolute; width: 250px; max-height: 100%; overflow-y: auto; background-color: transparent; z-index: 101; } rg-toast .toasts.active, [riot-tag="rg-toast"] .toasts.active{ display: block; } rg-toast .toasts.topleft, [riot-tag="rg-toast"] .toasts.topleft{ top: 0; left: 0; } rg-toast .toasts.topright, [riot-tag="rg-toast"] .toasts.topright{ top: 0; right: 0; } rg-toast .toasts.bottomleft, [riot-tag="rg-toast"] .toasts.bottomleft{ bottom: 0; left: 0; } rg-toast .toasts.bottomright, [riot-tag="rg-toast"] .toasts.bottomright{ bottom: 0; right: 0; } rg-toast .toast, [riot-tag="rg-toast"] .toast{ display: none; padding: 20px; margin: 20px; background-color: #000; color: white; font-size: 0.9em; cursor: pointer; } rg-toast .toast.visible, [riot-tag="rg-toast"] .toast.visible{ display: block; }', function (opts) {
-	var _this = this;
+  var _this = this;
 
-	if (!opts.position) opts.position = 'topright';
+  if (!opts.position) opts.position = 'topright';
 
-	this.toastClicked = function (e) {
-		var toast = e.item;
-		if (rg.isFunction(toast.onclick)) toast.onclick();
-		if (rg.isFunction(toast.onclose)) toast.onclose();
-		window.clearTimeout(toast.timer);
-		toast.visible = false;
-	};
+  this.toastClicked = function (e) {
+    var toast = e.item;
+    if (rg.isFunction(toast.onclick)) toast.onclick();
+    if (rg.isFunction(toast.onclose)) toast.onclose();
+    window.clearTimeout(toast.timer);
+    toast.visible = false;
+  };
 
-	this.on('update', function () {
-		if (!rg.isArray(opts.toasts)) return;
-		opts.toasts.forEach(function (toast) {
-			if (rg.isUndefined(toast.visible)) toast.visible = true;
-			toast.id = Math.random().toString(36).substr(2, 8);
-			if (!toast.timer && !toast.sticky) {
-				toast.startTimer = function () {
-					toast.timer = window.setTimeout(function () {
-						toast.visible = false;
-						if (rg.isFunction(toast.onclose)) toast.onclose();
-						_this.update();
-					}, rg.toNumber(toast.timeout) || 6000);
-				};
-				toast.startTimer();
-			}
-		});
+  this.on('update', function () {
+    if (!rg.isArray(opts.toasts)) return;
+    opts.toasts.forEach(function (toast) {
+      if (rg.isUndefined(toast.visible)) toast.visible = true;
+      toast.id = Math.random().toString(36).substr(2, 8);
+      if (!toast.timer && !toast.sticky) {
+        toast.startTimer = function () {
+          toast.timer = window.setTimeout(function () {
+            toast.visible = false;
+            if (rg.isFunction(toast.onclose)) toast.onclose();
+            _this.update();
+          }, rg.toNumber(toast.timeout) || 6000);
+        };
+        toast.startTimer();
+      }
+    });
 
-		_this.active = opts.toasts.filter(function (toast) {
-			return toast.visible;
-		}).length;
-	});
+    _this.active = opts.toasts.filter(function (toast) {
+      return toast.visible;
+    }).length;
+  });
 });
 
 riot.tag('rg-toggle', '<div class="wrapper"> <label class="toggle"> <input type="checkbox" __checked="{ checked }" onclick="{ toggle }"> <div class="track"> <div class="handle"></div> </div> </label> </div>', 'rg-toggle .wrapper, [riot-tag="rg-toggle"] .wrapper{ width: 60px; height: 20px; margin: 0; display: inline-block; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; } rg-toggle .toggle, [riot-tag="rg-toggle"] .toggle{ position: absolute; cursor: pointer; } rg-toggle input[type=checkbox], [riot-tag="rg-toggle"] input[type=checkbox]{ display: none; } rg-toggle .track, [riot-tag="rg-toggle"] .track{ position: absolute; top: 0; bottom: 0; left: 0; right: 0; width: 60px; height: 20px; padding: 2px; background-color: #b6c0c7; transition: background-color 0.1s linear; box-sizing: border-box; } rg-toggle input[type=checkbox]:checked + .track, [riot-tag="rg-toggle"] input[type=checkbox]:checked + .track{ background-color: #000; } rg-toggle .handle, [riot-tag="rg-toggle"] .handle{ position: relative; left: 0; width: 50%; height: 100%; background-color: white; transition: transform 0.1s linear; } rg-toggle input[type=checkbox]:checked + .track .handle, [riot-tag="rg-toggle"] input[type=checkbox]:checked + .track .handle{ transform: translate3d(100%, 0, 0); }', function (opts) {
-	var _this = this;
+  var _this = this;
 
-	this.on('update', function () {
-		this.checked = rg.toBoolean(opts.checked);
-	});
+  this.on('update', function () {
+    this.checked = rg.toBoolean(opts.checked);
+  });
 
-	this.toggle = function () {
-		_this.checked = !_this.checked;
-		if (rg.isFunction(opts.ontoggle)) opts.ontoggle(_this.checked);
-	};
+  this.toggle = function () {
+    _this.checked = !_this.checked;
+    if (rg.isFunction(opts.ontoggle)) opts.ontoggle(_this.checked);
+  };
 });
 
 riot.tag('rg-unsplash', '<img riot-src="https://unsplash.it/{ grayscale }{ width }/{ height }/?{ options }">', function (opts) {
-	this.width = opts.width || 450;
-	this.height = opts.height || 250;
-	this.options = '';
-	if (rg.toBoolean(opts.greyscale) || rg.toBoolean(opts.grayscale)) this.grayscale = 'g/';
-	if (rg.toBoolean(opts.random)) this.options += 'random&';
-	if (rg.toBoolean(opts.blur)) this.options += 'blur&';
-	if (rg.toNumber(opts.image)) this.options += 'image=' + opts.image + '&';
-	if (rg.isDefined(opts.gravity)) this.options += 'gravity=' + opts.gravity;
+  this.width = opts.width || 450;
+  this.height = opts.height || 250;
+  this.options = '';
+  if (rg.toBoolean(opts.greyscale) || rg.toBoolean(opts.grayscale)) this.grayscale = 'g/';
+  if (rg.toBoolean(opts.random)) this.options += 'random&';
+  if (rg.toBoolean(opts.blur)) this.options += 'blur&';
+  if (rg.toNumber(opts.image)) this.options += 'image=' + opts.image + '&';
+  if (rg.isDefined(opts.gravity)) this.options += 'gravity=' + opts.gravity;
 });

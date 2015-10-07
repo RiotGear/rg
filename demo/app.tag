@@ -36,11 +36,10 @@
     <button onclick="{ changeCardNumber }">Change Card Number</button>
   </div>
 
-  <!--
   <h2>Date</h2>
   <div class="demo">
     <rg-date date="{ date }"></rg-date>
-    { date }
+    { date.date }
     <button onclick="{ changeDate }">Change date</button>
   </div>
 
@@ -50,6 +49,7 @@
     <rg-ga property="UA-36978977-5"></rg-ga>
   </div>
 
+  <!--
   <h2>Include</h2>
   <div class="demo">
     <rg-include src="inc.html"></rg-include>
@@ -266,12 +266,15 @@
     this.changeCardNumber = () => {
       this.creditcard.cardnumber = 5105105105105100
     }
-    //
-    // this.date = '1982-01-14'
-    //
-    // this.changeDate = () => {
-    //   this.date = '2015-12-25'
-    // }
+
+    /*
+     * DATE
+     */
+     this.date = new RgDate({
+       date: '14-01-1982'
+     })
+
+     this.date.on('change', () => { this.update() })
 
   </script>
 </app>

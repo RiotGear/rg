@@ -23,7 +23,7 @@
 			this.RgCode.on('settings', () => {
 				setupEditor()
 			})
-			this.RgCode.on('code src', () => {
+			this.RgCode.on('change src', () => {
 				if (this.RgCode.code != editor.getValue())
 					editor.setValue(this.RgCode.code)
 			})

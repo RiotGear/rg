@@ -30,7 +30,7 @@ class RgCode {
   }
   set code(code) {
     this._code = code
-    this.trigger('code')
+    this.trigger('change')
   }
 
   get onchange() {
