@@ -23,7 +23,7 @@
 		}
 
 		this.hideBubble = () => {
-				this.RgBubble.hideBubble()
+			this.RgBubble.hideBubble()
 		}
 
 		this.toggleBubble = () => {
