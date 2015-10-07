@@ -19,18 +19,15 @@
 		})
 
 		this.showBubble = () => {
-			clearTimeout(this.timer)
-			this.RgBubble.isvisible = true
+			this.RgBubble.showBubble()
 		}
 
 		this.hideBubble = () => {
-			this.timer = setTimeout(() => {
-				this.RgBubble.isvisible = false
-			}, 1000)
+				this.RgBubble.hideBubble()
 		}
 
 		this.toggleBubble = () => {
-			this.RgBubble.isvisible = !this.RgBubble.isvisible
+			this.RgBubble.toggleBubble()
 		}
 
 	</script>

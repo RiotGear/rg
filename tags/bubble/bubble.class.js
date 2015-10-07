@@ -11,7 +11,7 @@ class RgBubble {
     return rg.toBoolean(this._isvisible)
   }
   set isvisible(isvisible) {
-    this._isvisible = rg.toBoolean(isvisible)
+    this._isvisible = isvisible
     this.trigger('visibility')
   }
 
@@ -21,5 +21,20 @@ class RgBubble {
   set content(content) {
     this._content = content
     this.trigger('content')
+  }
+
+  showBubble() {
+    clearTimeout(this._timer)
+    this.isvisible = true
+  }
+
+  hideBubble() {
+    this._timer = setTimeout(() => {
+      this.isvisible = false
+    }, 1000)
+  }
+
+  toggleBubble() {
+    this.isvisible = !this.isvisible
   }
 }

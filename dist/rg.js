@@ -379,12 +379,32 @@ var RgBubble = (function () {
   }
 
   _createClass(RgBubble, [{
+    key: 'showBubble',
+    value: function showBubble() {
+      clearTimeout(this._timer);
+      this.isvisible = true;
+    }
+  }, {
+    key: 'hideBubble',
+    value: function hideBubble() {
+      var _this5 = this;
+
+      this._timer = setTimeout(function () {
+        _this5.isvisible = false;
+      }, 1000);
+    }
+  }, {
+    key: 'toggleBubble',
+    value: function toggleBubble() {
+      this.isvisible = !this.isvisible;
+    }
+  }, {
     key: 'isvisible',
     get: function get() {
       return rg.toBoolean(this._isvisible);
     },
     set: function set(isvisible) {
-      this._isvisible = rg.toBoolean(isvisible);
+      this._isvisible = isvisible;
       this.trigger('visibility');
     }
   }, {
@@ -508,7 +528,7 @@ var RgCode = (function () {
 
 var RgContextMenu = (function () {
   function RgContextMenu(opts) {
-    var _this5 = this;
+    var _this6 = this;
 
     _classCallCheck(this, RgContextMenu);
 
@@ -521,7 +541,7 @@ var RgContextMenu = (function () {
     this._items = [];
     if (!rg.isArray(opts.items)) return;
     opts.items.forEach(function (item) {
-      _this5.add(item);
+      _this6.add(item);
     });
   }
 
@@ -937,18 +957,15 @@ riot.tag('rg-bubble', '<div class="context"> <div class="bubble { isvisible: RgB
   });
 
   this.showBubble = function () {
-    clearTimeout(_this.timer);
-    _this.RgBubble.isvisible = true;
+    _this.RgBubble.showBubble();
   };
 
   this.hideBubble = function () {
-    _this.timer = setTimeout(function () {
-      _this.RgBubble.isvisible = false;
-    }, 1000);
+    _this.RgBubble.hideBubble();
   };
 
   this.toggleBubble = function () {
-    _this.RgBubble.isvisible = !_this.RgBubble.isvisible;
+    _this.RgBubble.toggleBubble();
   };
 });
 
