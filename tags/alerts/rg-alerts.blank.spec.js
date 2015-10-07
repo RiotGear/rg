@@ -1,10 +1,10 @@
-describe('rg-bubble', function() {
+describe('rg-alerts blank', function() {
   let tag
 
   beforeEach(function() {
 
-    $('body').append('<rg-bubble></rg-bubble>')
-    tag = riot.mount('rg-bubble')[0]
+    $('body').append('<rg-alerts></rg-alerts>')
+    tag = riot.mount('rg-alerts')[0]
   })
 
   after(function() {
