@@ -55,6 +55,7 @@
       <rg-include include="{ include }"></rg-include>
     </div>
     <button onclick="{ unsafe }">Make unsafe</button>
+    <button onclick="{ changeIncludeFile }">Change content</button>
   </div>
 
   <!--
@@ -294,6 +295,13 @@
     this.unsafe = () => {
       this.include.unsafe = true
     }
+    this.changeIncludeFile = () => {
+      this.include.src = 'inc2.html'
+    }
+
+    /*
+     * LOADING
+     */
 
   </script>
 </app>
