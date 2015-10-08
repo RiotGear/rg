@@ -66,17 +66,18 @@
   </div>
   <button onclick="{ toggleLoading }">Toggle loading</button>
 
-<!--
+  <!--
   <h2>Map</h2>
   <div class="demo">
     <rg-map></rg-map>
   </div>
-
+  -->
   <h2>Markdown</h2>
   <div class="demo">
-    <rg-markdown src="inc.md"></rg-markdown>
+    <rg-markdown markdown="{ markdown }"></rg-markdown>
+    <button onclick="{ changeMarkdown }">Change content</button>
   </div>
-
+<!--
   <h2>Modal</h2>
   <div class="demo">
     <rg-modal>
@@ -303,11 +304,21 @@
     /*
      * LOADING
      */
-     this.loading = new RgLoading({
-       isvisible: false
+    this.loading = new RgLoading({
+      isvisible: false
+    })
+    this.toggleLoading = () => {
+      this.loading.isvisible = !this.loading.isvisible
+    }
+
+    /*
+     * MARKDOWN
+     */
+     this.markdown = new RgMarkdown({
+       src: 'inc.md'
      })
-     this.toggleLoading = () => {
-       this.loading.isvisible = !this.loading.isvisible
+     this.changeMarkdown = () => {
+       this.markdown.parse('### Hello RiotGear!')
      }
 
   </script>

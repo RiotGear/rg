@@ -1,18 +1,13 @@
-class RgInclude {
+class RgMarkdown {
 
   constructor(opts) {
     riot.observable(this)
     if (rg.isUndefined(opts)) opts = {}
-    this._unsafe = opts.unsafe
+    if (commonmark) {
+      this.reader = new commonmark.Parser()
+      this.writer = new commonmark.HtmlRenderer()
+    }
     this._src = opts.src
-  }
-
-  get unsafe() {
-    return rg.toBoolean(this._unsafe)
-  }
-  set unsafe(unsafe) {
-    this._unsafe = unsafe
-    this.trigger('change')
   }
 
   get src() {
@@ -23,9 +18,15 @@ class RgInclude {
     this.trigger('change')
   }
 
+  parse(md) {
+    var parsed = this.reader.parse(md)
+    this.trigger('parse', this.writer.render(parsed))
+    return this.writer.render(parsed)
+  }
+
   fetch() {
     rg.xhr('get', this.src, resp => {
       this.trigger('fetch', resp)
-		})
+    })
   }
 }

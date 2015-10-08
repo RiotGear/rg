@@ -8,7 +8,7 @@
 			this.RgInclude.on('change', () => {
 				this.RgInclude.fetch()
 			})
-			this.RgInclude.on('fetched', content => {
+			this.RgInclude.on('fetch', content => {
 				if (this.RgInclude.unsafe) this.root.innerHTML = content
 				else this.responseText = content
 				this.update()

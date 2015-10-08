@@ -3,23 +3,20 @@
 	<div class="markdown"></div>
 
 	<script>
-		var reader = new commonmark.Parser()
-		var writer = new commonmark.HtmlRenderer()
-
-		var markItDown = content => {
-			var parsed = reader.parse(content)
-			this.root.innerHTML = writer.render(parsed)
-		}
-
-		/* istanbul ignore next */
-		if (opts.src) {
-			rg.xhr('get', opts.src, resp => {
-				markItDown(resp)
+		this.on('mount', () => {
+			this.RgMarkdown = opts.markdown || new RgMarkdown()
+			this.RgMarkdown.on('change', () => {
+				this.RgMarkdown.fetch()
+			})
+			this.RgMarkdown.on('fetch', md => {
+				this.RgMarkdown.parse(md)
+			})
+			this.RgMarkdown.on('parse', content => {
+				this.root.innerHTML = content
 				this.update()
 			})
-		} else {
-			markItDown(opts.content)
-		}
+			this.RgMarkdown.fetch()
+		})
 	</script>
 
 </rg-markdown>

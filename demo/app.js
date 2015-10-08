@@ -1,4 +1,4 @@
-riot.tag('app', '<rg-context-menu menu="{ contextMenu }"></rg-context-menu> <h2>Alert</h2> <div class="demo"> <rg-alerts alerts="{ alerts }"></rg-alerts> <button onclick="{ addAlert }">Add alert</button> </div> <h2>Behold</h2> <div class="demo"> <rg-behold behold="{ behold }"></rg-behold> <button onclick="{ changeBeholdMode }">Change mode</button> <button onclick="{ changeBeholdImages }">Change image</button> </div> <h2>Bubble</h2> <div class="demo"> <rg-bubble bubble="{ bubble }">Hover over me</rg-bubble> <button onclick="{ updateBubbleContent }">Change bubble</button> </div> <h2>Code</h2> <div class="demo"> <rg-code editor="{ editorSettings }"></rg-code> </div> <button onclick="{ changeCode }">Change code</button> <h2>Context Menu</h2> <div class="demo" rg-context-menu="myMenu"> Right click here. </div> <h2>Credit Card</h2> <div class="demo"> <rg-credit-card-number card="{ creditcard }"></rg-credit-card-number> <button onclick="{ changeCardNumber }">Change Card Number</button> </div> <h2>Date</h2> <div class="demo"> <rg-date date="{ date }"></rg-date> { date.date } <button onclick="{ changeDate }">Change date</button> </div> <h2>GA</h2> <div class="demo"> Google Analytics tag is on this page. Look at Network tab in Developer Tools <rg-ga property="UA-36978977-5"></rg-ga> </div> <h2>Include</h2> <div class="demo"> <div> <rg-include include="{ include }"></rg-include> </div> <button onclick="{ unsafe }">Make unsafe</button> <button onclick="{ changeIncludeFile }">Change content</button> </div> <h2>Loading</h2> <div class="demo"> <rg-loading loading="{ loading }"> Please wait... </rg-loading> </div> <button onclick="{ toggleLoading }">Toggle loading</button>  <h3>>> END</h3>', function(opts) {var _this = this;
+riot.tag('app', '<rg-context-menu menu="{ contextMenu }"></rg-context-menu> <h2>Alert</h2> <div class="demo"> <rg-alerts alerts="{ alerts }"></rg-alerts> <button onclick="{ addAlert }">Add alert</button> </div> <h2>Behold</h2> <div class="demo"> <rg-behold behold="{ behold }"></rg-behold> <button onclick="{ changeBeholdMode }">Change mode</button> <button onclick="{ changeBeholdImages }">Change image</button> </div> <h2>Bubble</h2> <div class="demo"> <rg-bubble bubble="{ bubble }">Hover over me</rg-bubble> <button onclick="{ updateBubbleContent }">Change bubble</button> </div> <h2>Code</h2> <div class="demo"> <rg-code editor="{ editorSettings }"></rg-code> </div> <button onclick="{ changeCode }">Change code</button> <h2>Context Menu</h2> <div class="demo" rg-context-menu="myMenu"> Right click here. </div> <h2>Credit Card</h2> <div class="demo"> <rg-credit-card-number card="{ creditcard }"></rg-credit-card-number> <button onclick="{ changeCardNumber }">Change Card Number</button> </div> <h2>Date</h2> <div class="demo"> <rg-date date="{ date }"></rg-date> { date.date } <button onclick="{ changeDate }">Change date</button> </div> <h2>GA</h2> <div class="demo"> Google Analytics tag is on this page. Look at Network tab in Developer Tools <rg-ga property="UA-36978977-5"></rg-ga> </div> <h2>Include</h2> <div class="demo"> <div> <rg-include include="{ include }"></rg-include> </div> <button onclick="{ unsafe }">Make unsafe</button> <button onclick="{ changeIncludeFile }">Change content</button> </div> <h2>Loading</h2> <div class="demo"> <rg-loading loading="{ loading }"> Please wait... </rg-loading> </div> <button onclick="{ toggleLoading }">Toggle loading</button>  <h2>Markdown</h2> <div class="demo"> <rg-markdown markdown="{ markdown }"></rg-markdown> <button onclick="{ changeMarkdown }">Change content</button> </div>  <h3>>> END</h3>', function(opts) {var _this = this;
 
 /*
  * ALERTS
@@ -145,5 +145,15 @@ this.loading = new RgLoading({
 });
 this.toggleLoading = function () {
   _this.loading.isvisible = !_this.loading.isvisible;
+};
+
+/*
+ * MARKDOWN
+ */
+this.markdown = new RgMarkdown({
+  src: 'inc.md'
+});
+this.changeMarkdown = function () {
+  _this.markdown.parse('### Hello RiotGear!');
 };
 });
