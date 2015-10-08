@@ -884,6 +884,29 @@ var RgInclude = (function () {
   return RgInclude;
 })();
 
+var RgLoading = (function () {
+  function RgLoading(opts) {
+    _classCallCheck(this, RgLoading);
+
+    riot.observable(this);
+    if (rg.isUndefined(opts)) opts = {};
+    this._isvisible = opts.isvisible;
+  }
+
+  _createClass(RgLoading, [{
+    key: 'isvisible',
+    get: function get() {
+      return rg.toBoolean(this._isvisible);
+    },
+    set: function set(isvisible) {
+      this._isvisible = isvisible;
+      this.trigger('visibility');
+    }
+  }]);
+
+  return RgLoading;
+})();
+
 riot.tag('rg-alerts', '<div each="{ RgAlerts.alerts }" class="alert { type } { isvisible: isvisible }" onclick="{ select }"> <a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }"> <span aria-hidden="true">&times;</span> </a> <rg-raw content="{ content }"></rg-raw> </div>', 'rg-alerts, [riot-tag="rg-alerts"]{ font-size: 0.9em; position: relative; top: 0; right: 0; left: 0; width: 100%; } rg-alerts .alert, [riot-tag="rg-alerts"] .alert{ display: none; position: relative; margin-bottom: 15px; padding: 15px 35px 15px 15px; } rg-alerts .isvisible, [riot-tag="rg-alerts"] .isvisible{ display: block; } rg-alerts .close, [riot-tag="rg-alerts"] .close{ position: absolute; top: 50%; right: 20px; line-height: 12px; font-size: 1.1em; border: 0; background-color: transparent; color: rgba(0, 0, 0, 0.5); cursor: pointer; outline: none; transform: translate3d(0, -50%, 0); } rg-alerts .danger, [riot-tag="rg-alerts"] .danger{ color: #8f1d2e; background-color: #ffced8; } rg-alerts .information, [riot-tag="rg-alerts"] .information{ color: #31708f; background-color: #d9edf7; } rg-alerts .success, [riot-tag="rg-alerts"] .success{ color: #2d8f40; background-color: #ccf7d4; } rg-alerts .warning, [riot-tag="rg-alerts"] .warning{ color: #c06329; background-color: #f7dfd0; }', function (opts) {
   var _this2 = this;
 
@@ -1248,11 +1271,14 @@ riot.tag('rg-include', '{{ responseText }}', function (opts) {
   });
 });
 
-riot.tag('rg-loading', '<div class="loading { visible: visible }"> <div class="overlay"></div> <div class="content"> <yield></yield> </div> </div>', 'rg-loading .loading, [riot-tag="rg-loading"] .loading{ display: none; } rg-loading .visible, [riot-tag="rg-loading"] .visible{ display: block; } rg-loading .overlay, [riot-tag="rg-loading"] .overlay{ position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 200; } rg-loading .content, [riot-tag="rg-loading"] .content{ position: absolute; width: 95%; max-width: 420px; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0); background-color: transparent; color: #fff; text-align: center; z-index: 201; }', function (opts) {
+riot.tag('rg-loading', '<div class="loading { visible: RgLoading.isvisible }"> <div class="overlay"></div> <div class="content"> <yield></yield> </div> </div>', 'rg-loading .loading, [riot-tag="rg-loading"] .loading{ display: none; } rg-loading .visible, [riot-tag="rg-loading"] .visible{ display: block; } rg-loading .overlay, [riot-tag="rg-loading"] .overlay{ position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 200; } rg-loading .content, [riot-tag="rg-loading"] .content{ position: absolute; width: 95%; max-width: 420px; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0); background-color: transparent; color: #fff; text-align: center; z-index: 201; }', function (opts) {
   var _this = this;
 
-  this.on('update', function () {
-    _this.visible = rg.toBoolean(opts.visible);
+  this.on('mount', function () {
+    _this.RgLoading = opts.loading || new RgLoading();
+    _this.RgLoading.on('visibility', function () {
+      _this.update();
+    });
   });
 });
 

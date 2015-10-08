@@ -58,14 +58,15 @@
     <button onclick="{ changeIncludeFile }">Change content</button>
   </div>
 
-  <!--
   <h2>Loading</h2>
   <div class="demo">
-    <rg-loading visible="true">
+    <rg-loading loading="{ loading }">
       Please wait...
     </rg-loading>
   </div>
+  <button onclick="{ toggleLoading }">Toggle loading</button>
 
+<!--
   <h2>Map</h2>
   <div class="demo">
     <rg-map></rg-map>
@@ -302,6 +303,12 @@
     /*
      * LOADING
      */
+     this.loading = new RgLoading({
+       isvisible: false
+     })
+     this.toggleLoading = () => {
+       this.loading.isvisible = !this.loading.isvisible
+     }
 
   </script>
 </app>

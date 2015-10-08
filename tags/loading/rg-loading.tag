@@ -1,6 +1,6 @@
 <rg-loading>
 
-	<div class="loading { visible: visible }">
+	<div class="loading { visible: RgLoading.isvisible }">
 		<div class="overlay"></div>
 		<div class="content">
 			<yield/>
@@ -8,8 +8,11 @@
 	</div>
 
 	<script>
-		this.on('update', () => {
-			this.visible = rg.toBoolean(opts.visible)
+		this.on('mount', () => {
+			this.RgLoading = opts.loading || new RgLoading()
+			this.RgLoading.on('visibility', () => {
+				this.update()
+			})
 		})
 	</script>
 

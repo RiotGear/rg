@@ -1,9 +1,14 @@
 describe('rg-loading', function() {
-  let tag
+  let tag, loading
 
   beforeEach(function() {
-    $('body').append('<rg-loading visible="true">Please wait...</rg-loading>')
-    tag = riot.mount('rg-loading')[0]
+    loading = new RgLoading({
+      isvisible: true
+    })
+    $('body').append('<rg-loading>Please wait...</rg-loading>')
+    tag = riot.mount('rg-loading', {
+      loading
+    })[0]
   })
 
   afterEach(function() {
