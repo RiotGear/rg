@@ -131,7 +131,7 @@ class RgDate {
   }
 
   close() {
-    if (!this.isvisible) {
+    if (this.isvisible) {
       this._isvisible = false
       if (rg.isFunction(this._onclose)) this._onclose()
       this.trigger('visibility')

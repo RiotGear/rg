@@ -697,7 +697,7 @@ var RgDate = (function () {
   }, {
     key: 'close',
     value: function close() {
-      if (!this.isvisible) {
+      if (this.isvisible) {
         this._isvisible = false;
         if (rg.isFunction(this._onclose)) this._onclose();
         this.trigger('visibility');
