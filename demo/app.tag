@@ -309,7 +309,7 @@
      * LOADING
      */
     this.loading = new RgLoading({
-      isvisible: false
+      isvisible: true
     })
     this.toggleLoading = () => {
       this.loading.isvisible = !this.loading.isvisible

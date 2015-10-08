@@ -1009,7 +1009,7 @@ var RgModal = (function () {
       return null;
     },
     set: function set(onopen) {
-      if (rg.isFunction(onopen)) this._onopen = onopen;
+      this._onopen = onopen;
     }
   }, {
     key: 'onclose',
@@ -1018,7 +1018,7 @@ var RgModal = (function () {
       return null;
     },
     set: function set(onclose) {
-      if (rg.isFunction(onclose)) this._onclose = onclose;
+      this._onclose = onclose;
     }
   }, {
     key: 'isvisible',
@@ -1408,6 +1408,7 @@ riot.tag('rg-loading', '<div class="loading { visible: RgLoading.isvisible }"> <
     _this.RgLoading.on('visibility', function () {
       _this.update();
     });
+    _this.update();
   });
 });
 

@@ -13,6 +13,7 @@
 			this.RgLoading.on('visibility', () => {
 				this.update()
 			})
+			this.update()
 		})
 	</script>
 

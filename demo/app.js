@@ -141,7 +141,7 @@ this.changeIncludeFile = function () {
  * LOADING
  */
 this.loading = new RgLoading({
-  isvisible: false
+  isvisible: true
 });
 this.toggleLoading = function () {
   _this.loading.isvisible = !_this.loading.isvisible;
