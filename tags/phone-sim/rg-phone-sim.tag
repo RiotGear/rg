@@ -1,8 +1,19 @@
 <rg-phone-sim>
 
 	<div class="emulator">
-		<iframe class="screen" src="{ opts.src }"></iframe>
+		<iframe class="screen" src="{ RgPhoneSim.src }"></iframe>
 	</div>
+
+	<script>
+	this.on('mount', () => {
+		this.RgPhoneSim = opts.phonesim || new RgPhoneSim()
+		this.RgPhoneSim.on('change', () => {
+			this.update()
+		})
+		this.update()
+	})
+
+	</script>
 
 	<style scoped>
 		.emulator {

@@ -88,12 +88,13 @@
   <button onclick="{ toggleModalType }">Toggle type</button>
   <button onclick="{ toggleModalDismissable }">Toggle dismissable</button>
 
-<!--
   <h2>Phone Sim</h2>
   <div class="demo">
-    <rg-phone-sim src="http://riotgear.js.org/"></rg-phone-sim>
+    <rg-phone-sim phonesim="{ phonesim }"></rg-phone-sim>
+    <button onclick="{ changePhoneSimURL }">Change URL</button>
   </div>
 
+<!--
   <h2>Placehold.it</h2>
   <div class="demo">
     <rg-placeholdit width="200" height="100" background-color="1fadc5" color="4df" font-size="50" text="JPEG" format="jpg"></rg-placeholdit>
@@ -349,6 +350,16 @@
       this.toggleModalDismissable = () => {
         this.modal.dismissable = !this.modal.dismissable
       }
+
+      /*
+       * PHONE SIM
+       */
+       this.phonesim = new RgPhoneSim({
+         src: 'http://riotgear.js.org/'
+       })
+       this.changePhoneSimURL = () => {
+         this.phonesim.src = 'http://riotjs.com'
+       }
 
   </script>
 </app>
