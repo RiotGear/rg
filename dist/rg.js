@@ -695,14 +695,6 @@ var RgDate = (function () {
       this.trigger('visibility');
     }
   }, {
-    key: 'select',
-    value: function select(date) {
-      this._date = date;
-      if (rg.isFunction(this._onselect)) this._onselect(this.date);
-      this._isvisible = false;
-      this.trigger('change', this._date);
-    }
-  }, {
     key: 'close',
     value: function close() {
       if (!this.isvisible) {
@@ -716,36 +708,42 @@ var RgDate = (function () {
     value: function setToday() {
       this._date = moment();
       if (rg.isFunction(this._onselect)) this._onselect(this.date);
-      this.trigger('today', this._date);
+      this.trigger('today', this.date);
     }
   }, {
     key: 'prevYear',
     value: function prevYear() {
       this._date = this.date.subtract(1, 'year');
-      this.trigger('build', this._date);
+      this.trigger('build', this.date);
     }
   }, {
     key: 'nextYear',
     value: function nextYear() {
       this._date = this.date.add(1, 'year');
-      this.trigger('build', this._date);
+      this.trigger('build', this.date);
     }
   }, {
     key: 'prevMonth',
     value: function prevMonth() {
       this._date = this.date.subtract(1, 'month');
-      this.trigger('build', this._date);
+      this.trigger('build', this.date);
     }
   }, {
     key: 'nextMonth',
     value: function nextMonth() {
       this._date = this.date.add(1, 'month');
-      this.trigger('build', this._date);
+      this.trigger('build', this.date);
     }
   }, {
     key: 'date',
     get: function get() {
       return this._toMoment(this._date);
+    },
+    set: function set(date) {
+      this._date = date;
+      if (rg.isFunction(this._onselect)) this._onselect(this.date);
+      this._isvisible = false;
+      this.trigger('change', this.date);
     }
   }, {
     key: 'dateFormatted',
@@ -842,6 +840,48 @@ var RgDate = (function () {
   }]);
 
   return RgDate;
+})();
+
+var RgInclude = (function () {
+  function RgInclude(opts) {
+    _classCallCheck(this, RgInclude);
+
+    riot.observable(this);
+    if (rg.isUndefined(opts)) opts = {};
+    this._unsafe = opts.unsafe;
+    this._src = opts.src;
+  }
+
+  _createClass(RgInclude, [{
+    key: 'fetch',
+    value: function fetch() {
+      var _this7 = this;
+
+      rg.xhr('get', this.src, function (resp) {
+        _this7.trigger('fetched', resp);
+      });
+    }
+  }, {
+    key: 'unsafe',
+    get: function get() {
+      return rg.toBoolean(this._unsafe);
+    },
+    set: function set(unsafe) {
+      this._unsafe = unsafe;
+      this.trigger('change');
+    }
+  }, {
+    key: 'src',
+    get: function get() {
+      return this._src || '';
+    },
+    set: function set(src) {
+      this._src = src;
+      this.trigger('change');
+    }
+  }]);
+
+  return RgInclude;
 })();
 
 riot.tag('rg-alerts', '<div each="{ RgAlerts.alerts }" class="alert { type } { isvisible: isvisible }" onclick="{ select }"> <a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }"> <span aria-hidden="true">&times;</span> </a> <rg-raw content="{ content }"></rg-raw> </div>', 'rg-alerts, [riot-tag="rg-alerts"]{ font-size: 0.9em; position: relative; top: 0; right: 0; left: 0; width: 100%; } rg-alerts .alert, [riot-tag="rg-alerts"] .alert{ display: none; position: relative; margin-bottom: 15px; padding: 15px 35px 15px 15px; } rg-alerts .isvisible, [riot-tag="rg-alerts"] .isvisible{ display: block; } rg-alerts .close, [riot-tag="rg-alerts"] .close{ position: absolute; top: 50%; right: 20px; line-height: 12px; font-size: 1.1em; border: 0; background-color: transparent; color: rgba(0, 0, 0, 0.5); cursor: pointer; outline: none; transform: translate3d(0, -50%, 0); } rg-alerts .danger, [riot-tag="rg-alerts"] .danger{ color: #8f1d2e; background-color: #ffced8; } rg-alerts .information, [riot-tag="rg-alerts"] .information{ color: #31708f; background-color: #d9edf7; } rg-alerts .success, [riot-tag="rg-alerts"] .success{ color: #2d8f40; background-color: #ccf7d4; } rg-alerts .warning, [riot-tag="rg-alerts"] .warning{ color: #c06329; background-color: #f7dfd0; }', function (opts) {
@@ -1176,7 +1216,7 @@ riot.tag('rg-date', '<div class="container { open: RgDate.isvisible }"> <input t
   };
 
   this.select = function (e) {
-    _this.RgDate.select(e.item.day.date);
+    _this.RgDate.date = e.item.day.date;
   };
 });
 
@@ -1195,9 +1235,16 @@ riot.tag('rg-ga', '', function (opts) {
 riot.tag('rg-include', '{{ responseText }}', function (opts) {
   var _this = this;
 
-  rg.xhr('get', opts.src, function (resp) {
-    if (opts.unsafe) _this.root.innerHTML = resp;else _this.responseText = resp;
-    _this.update();
+  this.on('mount', function () {
+    _this.RgInclude = opts.include || new RgInclude();
+    _this.RgInclude.on('change', function () {
+      _this.RgInclude.fetch();
+    });
+    _this.RgInclude.on('fetched', function (content) {
+      if (_this.RgInclude.unsafe) _this.root.innerHTML = content;else _this.responseText = content;
+      _this.update();
+    });
+    _this.RgInclude.fetch();
   });
 });
 

@@ -38,6 +38,12 @@ class RgDate {
   get date() {
     return this._toMoment(this._date)
   }
+  set date(date) {
+    this._date = date
+    if (rg.isFunction(this._onselect)) this._onselect(this.date)
+    this._isvisible = false
+    this.trigger('change', this.date)
+  }
 
   get dateFormatted() {
     return this.date.format(this.format)
@@ -124,13 +130,6 @@ class RgDate {
     this.trigger('visibility')
   }
 
-  select(date) {
-    this._date = date
-    if (rg.isFunction(this._onselect)) this._onselect(this.date)
-    this._isvisible = false
-    this.trigger('change', this._date)
-  }
-
   close() {
     if (!this.isvisible) {
       this._isvisible = false
@@ -142,26 +141,26 @@ class RgDate {
   setToday() {
     this._date = moment()
     if (rg.isFunction(this._onselect)) this._onselect(this.date)
-    this.trigger('today', this._date)
+    this.trigger('today', this.date)
   }
 
   prevYear() {
     this._date = this.date.subtract(1, 'year')
-    this.trigger('build', this._date)
+    this.trigger('build', this.date)
   }
 
   nextYear() {
     this._date = this.date.add(1, 'year')
-    this.trigger('build', this._date)
+    this.trigger('build', this.date)
   }
 
   prevMonth() {
     this._date = this.date.subtract(1, 'month')
-    this.trigger('build', this._date)
+    this.trigger('build', this.date)
   }
 
   nextMonth() {
     this._date = this.date.add(1, 'month')
-    this.trigger('build', this._date)
+    this.trigger('build', this.date)
   }
 }

@@ -133,7 +133,7 @@
 		}
 
 		this.select = e => {
-			this.RgDate.select(e.item.day.date)
+			this.RgDate.date = e.item.day.date
 		}
 
 	</script>

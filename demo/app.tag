@@ -49,12 +49,12 @@
     <rg-ga property="UA-36978977-5"></rg-ga>
   </div>
 
-  <!--
   <h2>Include</h2>
   <div class="demo">
-    <rg-include src="inc.html"></rg-include>
+    <rg-include include="{ include }"></rg-include>
   </div>
 
+  <!--
   <h2>Loading</h2>
   <div class="demo">
     <rg-loading visible="true">
@@ -270,11 +270,23 @@
     /*
      * DATE
      */
-     this.date = new RgDate({
-       date: '14-01-1982'
+    this.date = new RgDate({
+      date: moment('14-01-1982', 'DD-MM-YYYY')
+    })
+
+    this.changeDate = () => {
+      this.date.date = moment()
+    }
+
+    this.date.on('change', () => {
+      this.update()
+    })
+
+    /*
+     * INCLUDE
+     */
+     this.include = new RgInclude({
+       src: 'inc.html'
      })
-
-     this.date.on('change', () => { this.update() })
-
   </script>
 </app>
