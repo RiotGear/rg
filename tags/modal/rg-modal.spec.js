@@ -2,9 +2,9 @@ describe('rg-modal', function() {
   let tag
   let spyOnClose = sinon.spy()
   let spyOnClick = sinon.spy()
-  let modal = {
+  let modal = new RgModal({
     heading: 'Modal heading',
-    visible: true,
+    isvisible: true,
     ghost: true,
     dismissable: false,
     buttons: [{
@@ -15,11 +15,11 @@ describe('rg-modal', function() {
       style: 'color: cornflowerblue;'
     }],
     onclose: spyOnClose
-  }
+  })
 
   beforeEach(function() {
     $('body').append('<rg-modal>This is the <strong>body</strong></rg-modal>')
-    tag = riot.mount('rg-modal', modal)[0]
+    tag = riot.mount('rg-modal', { modal })[0]
   })
 
   afterEach(function() {
@@ -66,25 +66,23 @@ describe('rg-modal', function() {
   it('click the close button calls the onclose callback', function() {
     spyOnClose.reset()
     modal.dismissable = true
-    tag.update()
     $('rg-modal .close').click()
-    $('rg-modal .modal.visible').length.should.equal(1)
+    $('rg-modal .modal.visible').length.should.equal(0)
     spyOnClose.should.have.been.calledOnce
   })
 
   it('clicking the overlay calls the onclose callback', function() {
     spyOnClose.reset()
     $('rg-modal .overlay').click()
-    $('rg-modal .modal.visible').length.should.equal(1)
+    $('rg-modal .modal.visible').length.should.equal(0)
     spyOnClose.should.have.been.calledOnce
   })
 
   it('clicking the overlay doesnt call onclose if not set', function() {
     spyOnClose.reset()
-    delete modal.onclose
-    tag.update()
+    delete modal._onclose
     $('rg-modal .overlay').click()
-    $('rg-modal .modal.visible').length.should.equal(1)
+    $('rg-modal .modal.visible').length.should.equal(0)
     spyOnClose.should.not.have.been.called
   })
 })

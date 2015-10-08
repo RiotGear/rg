@@ -950,6 +950,92 @@ var RgMarkdown = (function () {
   return RgMarkdown;
 })();
 
+var RgModal = (function () {
+  function RgModal(opts) {
+    _classCallCheck(this, RgModal);
+
+    riot.observable(this);
+    this._isvisible = opts.isvisible;
+    this._dismissable = opts.dismissable;
+    this._ghost = opts.ghost;
+    this._heading = opts.heading;
+    this._buttons = opts.buttons;
+    this._onclose = opts.onclose;
+    this._onopen = opts.onopen;
+  }
+
+  _createClass(RgModal, [{
+    key: 'dismissable',
+    get: function get() {
+      if (rg.isUndefined(this._dismissable)) this._dismissable = true;
+      return rg.toBoolean(this._dismissable);
+    },
+    set: function set(dismissable) {
+      this._dismissable = dismissable;
+      this.trigger('change');
+    }
+  }, {
+    key: 'ghost',
+    get: function get() {
+      return rg.toBoolean(this._ghost);
+    },
+    set: function set(ghost) {
+      this._ghost = ghost;
+      this.trigger('change');
+    }
+  }, {
+    key: 'heading',
+    get: function get() {
+      return this._heading || '';
+    },
+    set: function set(heading) {
+      this._heading = heading;
+      this.trigger('change');
+    }
+  }, {
+    key: 'buttons',
+    get: function get() {
+      if (rg.isArray(this._buttons)) return this._buttons;
+      return [];
+    },
+    set: function set(buttons) {
+      this._buttons = buttons;
+      this.trigger('change');
+    }
+  }, {
+    key: 'onopen',
+    get: function get() {
+      if (rg.isFunction(this._onopen)) return this._onopen;
+      return null;
+    },
+    set: function set(onopen) {
+      if (rg.isFunction(onopen)) this._onopen = onopen;
+    }
+  }, {
+    key: 'onclose',
+    get: function get() {
+      if (rg.isFunction(this._onclose)) return this._onclose;
+      return null;
+    },
+    set: function set(onclose) {
+      if (rg.isFunction(onclose)) this._onclose = onclose;
+    }
+  }, {
+    key: 'isvisible',
+    get: function get() {
+      return rg.toBoolean(this._isvisible);
+    },
+    set: function set(isvisible) {
+      this._isvisible = isvisible;
+      if (this.isvisible && this.onopen) this.onopen();
+      if (!this.isvisible && this.onclose) this.onclose();
+      this.trigger('visibility');
+    }
+  }]);
+
+  return RgModal;
+})();
+
 riot.tag('rg-alerts', '<div each="{ RgAlerts.alerts }" class="alert { type } { isvisible: isvisible }" onclick="{ select }"> <a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }"> <span aria-hidden="true">&times;</span> </a> <rg-raw content="{ content }"></rg-raw> </div>', 'rg-alerts, [riot-tag="rg-alerts"]{ font-size: 0.9em; position: relative; top: 0; right: 0; left: 0; width: 100%; } rg-alerts .alert, [riot-tag="rg-alerts"] .alert{ display: none; position: relative; margin-bottom: 15px; padding: 15px 35px 15px 15px; } rg-alerts .isvisible, [riot-tag="rg-alerts"] .isvisible{ display: block; } rg-alerts .close, [riot-tag="rg-alerts"] .close{ position: absolute; top: 50%; right: 20px; line-height: 12px; font-size: 1.1em; border: 0; background-color: transparent; color: rgba(0, 0, 0, 0.5); cursor: pointer; outline: none; transform: translate3d(0, -50%, 0); } rg-alerts .danger, [riot-tag="rg-alerts"] .danger{ color: #8f1d2e; background-color: #ffced8; } rg-alerts .information, [riot-tag="rg-alerts"] .information{ color: #31708f; background-color: #d9edf7; } rg-alerts .success, [riot-tag="rg-alerts"] .success{ color: #2d8f40; background-color: #ccf7d4; } rg-alerts .warning, [riot-tag="rg-alerts"] .warning{ color: #c06329; background-color: #f7dfd0; }', function (opts) {
   var _this2 = this;
 
@@ -1369,17 +1455,23 @@ riot.tag('rg-markdown', '<div class="markdown"></div>', function (opts) {
   });
 });
 
-riot.tag('rg-modal', '<div class="overlay { visible: visible, ghost: ghost, dismissable: dismissable }" onclick="{ close }"></div> <div class="modal { visible: visible, ghost: ghost, dismissable: dismissable }"> <header class="header"> <button if="{ dismissable }" type="button" class="close" aria-label="Close" onclick="{ close }"> <span aria-hidden="true">&times;</span> </button> <h3 class="heading"><rg-raw content="{ opts.heading }"></rg-raw></h3> </header> <div class="body"> <yield></yield> </div> <footer class="footer"> <button class="button" each="{ opts.buttons }" type="button" onclick="{ action }" riot-style="{ style }"> <rg-raw content="{ content }"></rg-raw> </button> <div class="clear"></div> </footer> </div>', 'rg-modal .overlay, [riot-tag="rg-modal"] .overlay{ display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 50; } rg-modal .overlay.dismissable, [riot-tag="rg-modal"] .overlay.dismissable{ cursor: pointer; } rg-modal .modal, [riot-tag="rg-modal"] .modal{ display: none; position: absolute; width: 95%; max-width: 500px; font-size: 1.1em; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0); background-color: white; color: #252519; z-index: 101; } rg-modal .modal.ghost, [riot-tag="rg-modal"] .modal.ghost{ background-color: transparent; color: white; } rg-modal .visible, [riot-tag="rg-modal"] .visible{ display: block; } rg-modal .header, [riot-tag="rg-modal"] .header{ position: relative; text-align: center; } rg-modal .heading, [riot-tag="rg-modal"] .heading{ padding: 20px 20px 0 20px; margin: 0; font-size: 1.2em; } rg-modal .modal.ghost .heading, [riot-tag="rg-modal"] .modal.ghost .heading{ color: white; } rg-modal .close, [riot-tag="rg-modal"] .close{ position: absolute; top: 5px; right: 10px; padding: 0; font-size: 1.2em; border: 0; background-color: transparent; color: #000; cursor: pointer; outline: none; } rg-modal .modal.ghost .close, [riot-tag="rg-modal"] .modal.ghost .close{ color: white; } rg-modal .body, [riot-tag="rg-modal"] .body{ padding: 20px; } rg-modal .footer, [riot-tag="rg-modal"] .footer{ padding: 0 20px 20px 20px; } rg-modal .button, [riot-tag="rg-modal"] .button{ float: right; padding: 10px; margin: 0 5px 0 0; border: none; font-size: 0.9em; text-transform: uppercase; cursor: pointer; outline: none; background-color: white; } rg-modal .modal.ghost .button, [riot-tag="rg-modal"] .modal.ghost .button{ color: white; background-color: transparent; } rg-modal .clear, [riot-tag="rg-modal"] .clear{ clear: both; }', function (opts) {
+riot.tag('rg-modal', '<div class="overlay { visible: RgModal.isvisible, ghost: RgModal.ghost, dismissable: RgModal.dismissable }" onclick="{ overlayClose }"></div> <div class="modal { visible: RgModal.isvisible, ghost: RgModal.ghost, dismissable: RgModal.dismissable }"> <header class="header"> <button if="{ RgModal.dismissable }" type="button" class="close" aria-label="Close" onclick="{ close }"> <span aria-hidden="true">&times;</span> </button> <h3 class="heading"><rg-raw content="{ RgModal.heading }"></rg-raw></h3> </header> <div class="body"> <yield></yield> </div> <footer class="footer"> <button class="button" each="{ RgModal.buttons }" type="button" onclick="{ action }" riot-style="{ style }"> <rg-raw content="{ content }"></rg-raw> </button> <div class="clear"></div> </footer> </div>', 'rg-modal .overlay, [riot-tag="rg-modal"] .overlay{ display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 50; } rg-modal .overlay.dismissable, [riot-tag="rg-modal"] .overlay.dismissable{ cursor: pointer; } rg-modal .modal, [riot-tag="rg-modal"] .modal{ display: none; position: absolute; width: 95%; max-width: 500px; font-size: 1.1em; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0); background-color: white; color: #252519; z-index: 101; } rg-modal .modal.ghost, [riot-tag="rg-modal"] .modal.ghost{ background-color: transparent; color: white; } rg-modal .visible, [riot-tag="rg-modal"] .visible{ display: block; } rg-modal .header, [riot-tag="rg-modal"] .header{ position: relative; text-align: center; } rg-modal .heading, [riot-tag="rg-modal"] .heading{ padding: 20px 20px 0 20px; margin: 0; font-size: 1.2em; } rg-modal .modal.ghost .heading, [riot-tag="rg-modal"] .modal.ghost .heading{ color: white; } rg-modal .close, [riot-tag="rg-modal"] .close{ position: absolute; top: 5px; right: 10px; padding: 0; font-size: 1.2em; border: 0; background-color: transparent; color: #000; cursor: pointer; outline: none; } rg-modal .modal.ghost .close, [riot-tag="rg-modal"] .modal.ghost .close{ color: white; } rg-modal .body, [riot-tag="rg-modal"] .body{ padding: 20px; } rg-modal .footer, [riot-tag="rg-modal"] .footer{ padding: 0 20px 20px 20px; } rg-modal .button, [riot-tag="rg-modal"] .button{ float: right; padding: 10px; margin: 0 5px 0 0; border: none; font-size: 0.9em; text-transform: uppercase; cursor: pointer; outline: none; background-color: white; } rg-modal .modal.ghost .button, [riot-tag="rg-modal"] .modal.ghost .button{ color: white; background-color: transparent; } rg-modal .clear, [riot-tag="rg-modal"] .clear{ clear: both; }', function (opts) {
   var _this = this;
 
-  this.on('update', function () {
-    _this.visible = rg.toBoolean(opts.visible);
-    _this.ghost = rg.toBoolean(opts.ghost);
-    _this.dismissable = rg.isDefined(opts.dismissable) ? rg.toBoolean(opts.dismissable) : true;
+  this.on('mount', function () {
+    _this.RgModal = opts.modal || new RgModal();
+    _this.RgModal.on('visibility change', function () {
+      _this.update();
+    });
+    _this.update();
   });
 
   this.close = function () {
-    if (rg.isFunction(opts.onclose)) opts.onclose();
+    _this.RgModal.isvisible = false;
+  };
+
+  this.overlayClose = function () {
+    if (_this.RgModal.dismissable) _this.close();
   };
 });
 

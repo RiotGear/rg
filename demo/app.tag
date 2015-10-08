@@ -77,14 +77,18 @@
     <rg-markdown markdown="{ markdown }"></rg-markdown>
     <button onclick="{ changeMarkdown }">Change content</button>
   </div>
-<!--
+
   <h2>Modal</h2>
   <div class="demo">
-    <rg-modal>
-      Modal body text
+    <rg-modal modal="{ modal }">
+      Well hello there!
     </rg-modal>
   </div>
+  <button onclick="{ toggleModal }">Toggle modal</button>
+  <button onclick="{ toggleModalType }">Toggle type</button>
+  <button onclick="{ toggleModalDismissable }">Toggle dismissable</button>
 
+<!--
   <h2>Phone Sim</h2>
   <div class="demo">
     <rg-phone-sim src="http://riotgear.js.org/"></rg-phone-sim>
@@ -320,6 +324,31 @@
      this.changeMarkdown = () => {
        this.markdown.parse('### Hello RiotGear!')
      }
+
+     /*
+      * MODAL
+      */
+      this.modal = new RgModal({
+        isvisible: true,
+        heading: 'Modal heading',
+        buttons: [{
+          content: '<em>Ok</em>',
+          style: 'background-color:#000;color:#fff',
+          action: () => this.modal.isvisible = false
+        }]
+      })
+
+      this.toggleModal = () => {
+        this.modal.isvisible = !this.modal.isvisible
+      }
+
+      this.toggleModalType = () => {
+        this.modal.ghost = !this.modal.ghost
+      }
+
+      this.toggleModalDismissable = () => {
+        this.modal.dismissable = !this.modal.dismissable
+      }
 
   </script>
 </app>
