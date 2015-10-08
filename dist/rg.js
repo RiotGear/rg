@@ -1059,6 +1059,89 @@ var RgPhoneSim = (function () {
   return RgPhoneSim;
 })();
 
+var RgPlaceholdit = (function () {
+  function RgPlaceholdit(opts) {
+    _classCallCheck(this, RgPlaceholdit);
+
+    riot.observable(this);
+    if (rg.isUndefined(opts)) opts = {};
+    this._width = opts.width;
+    this._height = opts.height;
+    this._background = opts.background;
+    this._color = opts.color;
+    this._text = opts.text;
+    this._textsize = opts.textsize;
+    this._format = opts.format;
+  }
+
+  _createClass(RgPlaceholdit, [{
+    key: 'width',
+    get: function get() {
+      return rg.toNumber(this._width) || 450;
+    },
+    set: function set(width) {
+      this._width = width;
+      this.trigger('change');
+    }
+  }, {
+    key: 'height',
+    get: function get() {
+      return rg.toNumber(this._height) || 250;
+    },
+    set: function set(height) {
+      this._height = height;
+      this.trigger('change');
+    }
+  }, {
+    key: 'background',
+    get: function get() {
+      return this._background || 'f01e52';
+    },
+    set: function set(background) {
+      this._background = background;
+      this.trigger('change');
+    }
+  }, {
+    key: 'color',
+    get: function get() {
+      return this._color || 'fff';
+    },
+    set: function set(color) {
+      this._color = color;
+      this.trigger('change');
+    }
+  }, {
+    key: 'text',
+    get: function get() {
+      return this._text || this.width + ' x ' + this.height;
+    },
+    set: function set(text) {
+      this._text = text;
+      this.trigger('change');
+    }
+  }, {
+    key: 'textsize',
+    get: function get() {
+      return rg.toNumber(this._textsize) || 30;
+    },
+    set: function set(textsize) {
+      this._textsize = textsize;
+      this.trigger('change');
+    }
+  }, {
+    key: 'format',
+    get: function get() {
+      return this._format || 'png';
+    },
+    set: function set(format) {
+      this._format = format;
+      this.trigger('change');
+    }
+  }]);
+
+  return RgPlaceholdit;
+})();
+
 riot.tag('rg-alerts', '<div each="{ RgAlerts.alerts }" class="alert { type } { isvisible: isvisible }" onclick="{ select }"> <a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }"> <span aria-hidden="true">&times;</span> </a> <rg-raw content="{ content }"></rg-raw> </div>', 'rg-alerts, [riot-tag="rg-alerts"]{ font-size: 0.9em; position: relative; top: 0; right: 0; left: 0; width: 100%; } rg-alerts .alert, [riot-tag="rg-alerts"] .alert{ display: none; position: relative; margin-bottom: 15px; padding: 15px 35px 15px 15px; } rg-alerts .isvisible, [riot-tag="rg-alerts"] .isvisible{ display: block; } rg-alerts .close, [riot-tag="rg-alerts"] .close{ position: absolute; top: 50%; right: 20px; line-height: 12px; font-size: 1.1em; border: 0; background-color: transparent; color: rgba(0, 0, 0, 0.5); cursor: pointer; outline: none; transform: translate3d(0, -50%, 0); } rg-alerts .danger, [riot-tag="rg-alerts"] .danger{ color: #8f1d2e; background-color: #ffced8; } rg-alerts .information, [riot-tag="rg-alerts"] .information{ color: #31708f; background-color: #d9edf7; } rg-alerts .success, [riot-tag="rg-alerts"] .success{ color: #2d8f40; background-color: #ccf7d4; } rg-alerts .warning, [riot-tag="rg-alerts"] .warning{ color: #c06329; background-color: #f7dfd0; }', function (opts) {
   var _this2 = this;
 
@@ -1511,14 +1594,16 @@ riot.tag('rg-phone-sim', '<div class="emulator"> <iframe class="screen" riot-src
   });
 });
 
-riot.tag('rg-placeholdit', '<img riot-src="https://placeholdit.imgix.net/~text?bg={ background }&txtclr={ color }&txt={ text }&txtsize={ textSize }&w={ width }&h={ height }&fm={ format }">', function (opts) {
-  this.width = opts.width || 450;
-  this.height = opts.height || 250;
-  this.background = opts['background-color'] || 'f01e52';
-  this.color = opts.color || 'fff';
-  this.text = opts.text || this.width + ' x ' + this.height;
-  this.textSize = opts['font-size'] || '30';
-  this.format = opts.format || 'png';
+riot.tag('rg-placeholdit', '<img riot-src="https://placeholdit.imgix.net/~text?bg={ RgPlaceholdit.background }&txtclr={ RgPlaceholdit.color }&txt={ RgPlaceholdit.text }&txtsize={ RgPlaceholdit.textsize }&w={ RgPlaceholdit.width }&h={ RgPlaceholdit.height }&fm={ RgPlaceholdit.format }">', function (opts) {
+  var _this = this;
+
+  this.on('mount', function () {
+    _this.RgPlaceholdit = opts.placeholdit || new RgPlaceholdit();
+    _this.RgPlaceholdit.on('change', function () {
+      _this.update();
+    });
+    _this.update();
+  });
 });
 
 riot.tag('rg-raw', '<span></span>', function (opts) {

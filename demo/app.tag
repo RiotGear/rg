@@ -94,12 +94,13 @@
     <button onclick="{ changePhoneSimURL }">Change URL</button>
   </div>
 
-<!--
   <h2>Placehold.it</h2>
   <div class="demo">
-    <rg-placeholdit width="200" height="100" background-color="1fadc5" color="4df" font-size="50" text="JPEG" format="jpg"></rg-placeholdit>
+    <rg-placeholdit placeholdit="{ placeholdit }"></rg-placeholdit>
+    <button onclick="{ changePlacholdIt }">Change image</button>
   </div>
 
+  <!--
   <h2>Select</h2>
   <div class="demo">
     <rg-select id="dropdown"></rg-select>
@@ -319,47 +320,61 @@
     /*
      * MARKDOWN
      */
-     this.markdown = new RgMarkdown({
-       src: 'inc.md'
-     })
-     this.changeMarkdown = () => {
-       this.markdown.parse('### Hello RiotGear!')
+    this.markdown = new RgMarkdown({
+      src: 'inc.md'
+    })
+    this.changeMarkdown = () => {
+      this.markdown.parse('### Hello RiotGear!')
+    }
+
+    /*
+     * MODAL
+     */
+    this.modal = new RgModal({
+      isvisible: true,
+      heading: 'Modal heading',
+      buttons: [{
+        content: '<em>Ok</em>',
+        style: 'background-color:#000;color:#fff',
+        action: () => this.modal.isvisible = false
+      }]
+    })
+
+    this.toggleModal = () => {
+      this.modal.isvisible = !this.modal.isvisible
+    }
+
+    this.toggleModalType = () => {
+      this.modal.ghost = !this.modal.ghost
+    }
+
+    this.toggleModalDismissable = () => {
+      this.modal.dismissable = !this.modal.dismissable
+    }
+
+    /*
+     * PHONE SIM
+     */
+    this.phonesim = new RgPhoneSim({
+      src: 'http://riotgear.js.org/'
+    })
+    this.changePhoneSimURL = () => {
+      this.phonesim.src = 'http://riotjs.com'
+    }
+
+    /*
+     * PLACEHOLDIT
+     */
+     this.placeholdit = new RgPlaceholdit()
+     this.changePlacholdIt = () => {
+       this.placeholdit.width = 200
+       this.placeholdit.height = 100
+       this.placeholdit.background = '1fadc5'
+       this.placeholdit.color = '4df'
+       this.placeholdit.textsize = 50
+       this.placeholdit.text = 'JPEG'
+       this.placeholdit.format = 'jpg'
      }
-
-     /*
-      * MODAL
-      */
-      this.modal = new RgModal({
-        isvisible: true,
-        heading: 'Modal heading',
-        buttons: [{
-          content: '<em>Ok</em>',
-          style: 'background-color:#000;color:#fff',
-          action: () => this.modal.isvisible = false
-        }]
-      })
-
-      this.toggleModal = () => {
-        this.modal.isvisible = !this.modal.isvisible
-      }
-
-      this.toggleModalType = () => {
-        this.modal.ghost = !this.modal.ghost
-      }
-
-      this.toggleModalDismissable = () => {
-        this.modal.dismissable = !this.modal.dismissable
-      }
-
-      /*
-       * PHONE SIM
-       */
-       this.phonesim = new RgPhoneSim({
-         src: 'http://riotgear.js.org/'
-       })
-       this.changePhoneSimURL = () => {
-         this.phonesim.src = 'http://riotjs.com'
-       }
 
   </script>
 </app>
