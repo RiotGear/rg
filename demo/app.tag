@@ -51,7 +51,10 @@
 
   <h2>Include</h2>
   <div class="demo">
-    <rg-include include="{ include }"></rg-include>
+    <div>
+      <rg-include include="{ include }"></rg-include>
+    </div>
+    <button onclick="{ unsafe }">Make unsafe</button>
   </div>
 
   <!--
@@ -285,8 +288,12 @@
     /*
      * INCLUDE
      */
-     this.include = new RgInclude({
-       src: 'inc.html'
-     })
+    this.include = new RgInclude({
+      src: 'inc.html'
+    })
+    this.unsafe = () => {
+      this.include.unsafe = true
+    }
+
   </script>
 </app>
