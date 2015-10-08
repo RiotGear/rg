@@ -164,12 +164,13 @@
   <h2>Toggle</h2>
   <div class="demo">
     <rg-toggle checked="true"></rg-toggle>
-  </div>
+  </div> -->
 
   <h2>Unsplash</h2>
   <div class="demo">
-    <rg-unsplash random="true"></rg-unsplash>
-  </div> -->
+    <rg-unsplash unsplash="{ unsplash }"></rg-unsplash>
+    <button onclick="{ changeUnsplash }">Change image</button>
+  </div>
 
   <h3>>> END</h3>
 
@@ -365,16 +366,31 @@
     /*
      * PLACEHOLDIT
      */
-     this.placeholdit = new RgPlaceholdit()
-     this.changePlacholdIt = () => {
-       this.placeholdit.width = 200
-       this.placeholdit.height = 100
-       this.placeholdit.background = '1fadc5'
-       this.placeholdit.color = '4df'
-       this.placeholdit.textsize = 50
-       this.placeholdit.text = 'JPEG'
-       this.placeholdit.format = 'jpg'
-     }
+    this.placeholdit = new RgPlaceholdit()
+    this.changePlacholdIt = () => {
+      this.placeholdit.width = 200
+      this.placeholdit.height = 100
+      this.placeholdit.background = '1fadc5'
+      this.placeholdit.color = '4df'
+      this.placeholdit.textsize = 50
+      this.placeholdit.text = 'JPEG'
+      this.placeholdit.format = 'jpg'
+    }
+
+    /*
+     * UNSPLASH
+     */
+    this.unsplash = new RgUnsplash()
+    this.changeUnsplash = () => {
+      this.unsplash.width = 200
+      this.unsplash.height = 100
+      this.unsplash.greyscale = "true"
+      this.unsplash.random = "true"
+      this.unsplash.blur = "true"
+      this.unsplash.image = "491"
+      this.unsplash.gravity = "north"
+    }
+
 
   </script>
 </app>

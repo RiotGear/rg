@@ -1142,6 +1142,97 @@ var RgPlaceholdit = (function () {
   return RgPlaceholdit;
 })();
 
+var RgUnsplash = (function () {
+  function RgUnsplash(opts) {
+    _classCallCheck(this, RgUnsplash);
+
+    riot.observable(this);
+    if (rg.isUndefined(opts)) opts = {};
+    this._width = opts.width;
+    this._height = opts.height;
+    this._greyscale = opts.greyscale || opts.grayscale;
+    this._random = opts.random;
+    this._blur = opts.blur;
+    this._image = opts.image;
+    this._gravity = opts.gravity;
+  }
+
+  _createClass(RgUnsplash, [{
+    key: 'width',
+    get: function get() {
+      return rg.toNumber(this._width) || 450;
+    },
+    set: function set(width) {
+      this._width = width;
+      this.trigger('change');
+    }
+  }, {
+    key: 'height',
+    get: function get() {
+      return rg.toNumber(this._height) || 250;
+    },
+    set: function set(height) {
+      this._height = height;
+      this.trigger('change');
+    }
+  }, {
+    key: 'greyscale',
+    get: function get() {
+      return rg.toBoolean(this._greyscale);
+    },
+    set: function set(greyscale) {
+      this._greyscale = greyscale;
+      this.trigger('change');
+    }
+  }, {
+    key: 'grayscale',
+    get: function get() {
+      return this.greyscale;
+    },
+    set: function set(grayscale) {
+      this.greyscale = grayscale;
+    }
+  }, {
+    key: 'random',
+    get: function get() {
+      return rg.toBoolean(this._random);
+    },
+    set: function set(random) {
+      this._random = random;
+      this.trigger('change');
+    }
+  }, {
+    key: 'blur',
+    get: function get() {
+      return rg.toBoolean(this._blur);
+    },
+    set: function set(blur) {
+      this._blur = blur;
+      this.trigger('change');
+    }
+  }, {
+    key: 'image',
+    get: function get() {
+      return rg.toNumber(this._image);
+    },
+    set: function set(image) {
+      this._image = image;
+      this.trigger('change');
+    }
+  }, {
+    key: 'gravity',
+    get: function get() {
+      return this._gravity;
+    },
+    set: function set(gravity) {
+      this._gravity = gravity;
+      this.trigger('change');
+    }
+  }]);
+
+  return RgUnsplash;
+})();
+
 riot.tag('rg-alerts', '<div each="{ RgAlerts.alerts }" class="alert { type } { isvisible: isvisible }" onclick="{ select }"> <a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }"> <span aria-hidden="true">&times;</span> </a> <rg-raw content="{ content }"></rg-raw> </div>', 'rg-alerts, [riot-tag="rg-alerts"]{ font-size: 0.9em; position: relative; top: 0; right: 0; left: 0; width: 100%; } rg-alerts .alert, [riot-tag="rg-alerts"] .alert{ display: none; position: relative; margin-bottom: 15px; padding: 15px 35px 15px 15px; } rg-alerts .isvisible, [riot-tag="rg-alerts"] .isvisible{ display: block; } rg-alerts .close, [riot-tag="rg-alerts"] .close{ position: absolute; top: 50%; right: 20px; line-height: 12px; font-size: 1.1em; border: 0; background-color: transparent; color: rgba(0, 0, 0, 0.5); cursor: pointer; outline: none; transform: translate3d(0, -50%, 0); } rg-alerts .danger, [riot-tag="rg-alerts"] .danger{ color: #8f1d2e; background-color: #ffced8; } rg-alerts .information, [riot-tag="rg-alerts"] .information{ color: #31708f; background-color: #d9edf7; } rg-alerts .success, [riot-tag="rg-alerts"] .success{ color: #2d8f40; background-color: #ccf7d4; } rg-alerts .warning, [riot-tag="rg-alerts"] .warning{ color: #c06329; background-color: #f7dfd0; }', function (opts) {
   var _this2 = this;
 
@@ -2010,13 +2101,20 @@ riot.tag('rg-toggle', '<div class="wrapper"> <label class="toggle"> <input type=
   };
 });
 
-riot.tag('rg-unsplash', '<img riot-src="https://unsplash.it/{ grayscale }{ width }/{ height }/?{ options }">', function (opts) {
-  this.width = opts.width || 450;
-  this.height = opts.height || 250;
-  this.options = '';
-  if (rg.toBoolean(opts.greyscale) || rg.toBoolean(opts.grayscale)) this.grayscale = 'g/';
-  if (rg.toBoolean(opts.random)) this.options += 'random&';
-  if (rg.toBoolean(opts.blur)) this.options += 'blur&';
-  if (rg.toNumber(opts.image)) this.options += 'image=' + opts.image + '&';
-  if (rg.isDefined(opts.gravity)) this.options += 'gravity=' + opts.gravity;
+riot.tag('rg-unsplash', '<img riot-src="https://unsplash.it/{ greyscale }{ RgUnsplash.width }/{ RgUnsplash.height }/?{ options }">', function (opts) {
+  var _this = this;
+
+  this.on('mount', function () {
+    _this.RgUnsplash = opts.unsplash || new RgUnsplash();
+    _this.RgUnsplash.on('change', function () {
+      _this.options = '';
+      if (_this.RgUnsplash.greyscale) _this.greyscale = 'g/';
+      if (_this.RgUnsplash.random) _this.options += 'random&';
+      if (_this.RgUnsplash.blur) _this.options += 'blur&';
+      if (_this.RgUnsplash.image) _this.options += 'image=' + _this.RgUnsplash.image + '&';
+      if (rg.isDefined(_this.RgUnsplash.gravity)) _this.options += 'gravity=' + _this.RgUnsplash.gravity;
+      _this.update();
+    });
+    _this.update();
+  });
 });

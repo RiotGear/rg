@@ -1,16 +1,21 @@
 <rg-unsplash>
 
-	<img src="https://unsplash.it/{ grayscale }{ width }/{ height }/?{ options }">
+	<img src="https://unsplash.it/{ greyscale }{ RgUnsplash.width }/{ RgUnsplash.height }/?{ options }">
 
 	<script>
-		this.width = opts.width || 450
-		this.height = opts.height || 250
-		this.options = ''
-		if (rg.toBoolean(opts.greyscale) || rg.toBoolean(opts.grayscale)) this.grayscale = 'g/'
-		if (rg.toBoolean(opts.random)) this.options += 'random&'
-		if (rg.toBoolean(opts.blur)) this.options += 'blur&'
-		if (rg.toNumber(opts.image)) this.options += 'image=' + opts.image + '&'
-		if (rg.isDefined(opts.gravity)) this.options += 'gravity=' + opts.gravity
+		this.on('mount', () => {
+			this.RgUnsplash = opts.unsplash || new RgUnsplash()
+			this.RgUnsplash.on('change', () => {
+				this.options = ''
+				if (this.RgUnsplash.greyscale) this.greyscale = 'g/'
+				if (this.RgUnsplash.random) this.options += 'random&'
+				if (this.RgUnsplash.blur) this.options += 'blur&'
+				if (this.RgUnsplash.image) this.options += 'image=' + this.RgUnsplash.image + '&'
+				if (rg.isDefined(this.RgUnsplash.gravity)) this.options += 'gravity=' + this.RgUnsplash.gravity
+				this.update()
+			})
+			this.update()
+		})
 	</script>
 
 </rg-unsplash>
