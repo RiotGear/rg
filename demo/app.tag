@@ -66,12 +66,11 @@
   </div>
   <button onclick="{ toggleLoading }">Toggle loading</button>
 
-  <!--
   <h2>Map</h2>
   <div class="demo">
-    <rg-map></rg-map>
+    <rg-map map="{ map }"></rg-map>
   </div>
-  -->
+
   <h2>Markdown</h2>
   <div class="demo">
     <rg-markdown markdown="{ markdown }"></rg-markdown>
@@ -330,6 +329,11 @@
     }
 
     /*
+     * MAP
+     */
+     this.map = new RgMap()
+
+    /*
      * MODAL
      */
     this.modal = new RgModal({
@@ -403,7 +407,7 @@
     })
 
     this.changeToggle = () => {
-      this.toggle.checked = !this.toggle.checked
+      this.toggle.toggle()
     }
 
   </script>

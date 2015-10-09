@@ -907,6 +907,40 @@ var RgLoading = (function () {
   return RgLoading;
 })();
 
+var RgMap = (function () {
+  function RgMap(opts) {
+    _classCallCheck(this, RgMap);
+
+    riot.observable(this);
+    this._options = opts;
+  }
+
+  _createClass(RgMap, [{
+    key: 'options',
+    get: function get() {
+      if (rg.isUndefined(this._options)) {
+        this._options = {
+          center: {
+            lat: 53.806,
+            lng: -1.535
+          },
+          zoom: 7
+        };
+      }
+
+      return this._options;
+    }
+  }, {
+    key: 'checked',
+    set: function set(options) {
+      this._options = options;
+      this.trigger('change');
+    }
+  }]);
+
+  return RgMap;
+})();
+
 var RgMarkdown = (function () {
   function RgMarkdown(opts) {
     _classCallCheck(this, RgMarkdown);
@@ -1651,18 +1685,13 @@ riot.tag('rg-loading', '<div class="loading { visible: RgLoading.isvisible }"> <
 riot.tag('rg-map', '<div class="rg-map"></div>', 'rg-map .rg-map, [riot-tag="rg-map"] .rg-map{ margin: 0; padding: 0; width: 100%; height: 100%; } rg-map .rg-map img, [riot-tag="rg-map"] .rg-map img{ max-width: inherit; }', function (opts) {
   var _this = this;
 
-  var defaultOptions = {
-    center: { lat: 53.806, lng: -1.535 },
-    zoom: 5
-  };
-  var mapOptions = opts.map || defaultOptions;
+  this.on('mount', function () {
+    _this.RgMap = opts.map || new RgMap();
+    /* istanbul ignore next */
+    rg.map.on('initialize', function () {
+      rg.map.obj = new google.maps.Map(_this.root.querySelector('.rg-map'), _this.RgMap.options);
+    });
 
-  /* istanbul ignore next */
-  rg.map.on('initialize', function () {
-    rg.map.obj = new google.maps.Map(_this.root.querySelector('.rg-map'), mapOptions);
-  });
-
-  (function () {
     if (!document.getElementById('gmap_script')) {
       var script = document.createElement('script');
       script.setAttribute('id', 'gmap_script');
@@ -1670,7 +1699,7 @@ riot.tag('rg-map', '<div class="rg-map"></div>', 'rg-map .rg-map, [riot-tag="rg-
       script.src = 'https://maps.googleapis.com/maps/api/js?sensor=false&callback=rg.map.initialize';
       document.body.appendChild(script);
     }
-  })();
+  });
 });
 
 riot.tag('rg-markdown', '<div class="markdown"></div>', function (opts) {
