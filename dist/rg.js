@@ -1142,6 +1142,45 @@ var RgPlaceholdit = (function () {
   return RgPlaceholdit;
 })();
 
+var RgToggle = (function () {
+  function RgToggle(opts) {
+    _classCallCheck(this, RgToggle);
+
+    riot.observable(this);
+    if (rg.isUndefined(opts)) opts = {};
+    this._checked = opts.checked;
+    this._ontoggle = opts.ontoggle;
+  }
+
+  _createClass(RgToggle, [{
+    key: 'toggle',
+    value: function toggle() {
+      this.checked = !this.checked;
+      if (this.ontoggle) this.ontoggle(this.checked);
+    }
+  }, {
+    key: 'checked',
+    get: function get() {
+      return rg.toBoolean(this._checked);
+    },
+    set: function set(checked) {
+      this._checked = checked;
+      this.trigger('checked');
+    }
+  }, {
+    key: 'ontoggle',
+    get: function get() {
+      if (rg.isFunction(this._ontoggle)) return this._ontoggle;
+      return null;
+    },
+    set: function set(ontoggle) {
+      this._ontoggle = ontoggle;
+    }
+  }]);
+
+  return RgToggle;
+})();
+
 var RgUnsplash = (function () {
   function RgUnsplash(opts) {
     _classCallCheck(this, RgUnsplash);
@@ -2088,16 +2127,19 @@ riot.tag('rg-toast', '<div class="toasts { opts.position } { active: active }"> 
   });
 });
 
-riot.tag('rg-toggle', '<div class="wrapper"> <label class="toggle"> <input type="checkbox" __checked="{ checked }" onclick="{ toggle }"> <div class="track"> <div class="handle"></div> </div> </label> </div>', 'rg-toggle .wrapper, [riot-tag="rg-toggle"] .wrapper{ width: 60px; height: 20px; margin: 0; display: inline-block; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; } rg-toggle .toggle, [riot-tag="rg-toggle"] .toggle{ position: absolute; cursor: pointer; } rg-toggle input[type=checkbox], [riot-tag="rg-toggle"] input[type=checkbox]{ display: none; } rg-toggle .track, [riot-tag="rg-toggle"] .track{ position: absolute; top: 0; bottom: 0; left: 0; right: 0; width: 60px; height: 20px; padding: 2px; background-color: #b6c0c7; transition: background-color 0.1s linear; box-sizing: border-box; } rg-toggle input[type=checkbox]:checked + .track, [riot-tag="rg-toggle"] input[type=checkbox]:checked + .track{ background-color: #000; } rg-toggle .handle, [riot-tag="rg-toggle"] .handle{ position: relative; left: 0; width: 50%; height: 100%; background-color: white; transition: transform 0.1s linear; } rg-toggle input[type=checkbox]:checked + .track .handle, [riot-tag="rg-toggle"] input[type=checkbox]:checked + .track .handle{ transform: translate3d(100%, 0, 0); }', function (opts) {
+riot.tag('rg-toggle', '<div class="wrapper"> <label class="toggle"> <input type="checkbox" __checked="{ RgToggle.checked }" onclick="{ toggle }"> <div class="track"> <div class="handle"></div> </div> </label> </div>', 'rg-toggle .wrapper, [riot-tag="rg-toggle"] .wrapper{ width: 60px; height: 20px; margin: 0; display: inline-block; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; } rg-toggle .toggle, [riot-tag="rg-toggle"] .toggle{ position: absolute; cursor: pointer; } rg-toggle input[type=checkbox], [riot-tag="rg-toggle"] input[type=checkbox]{ display: none; } rg-toggle .track, [riot-tag="rg-toggle"] .track{ position: absolute; top: 0; bottom: 0; left: 0; right: 0; width: 60px; height: 20px; padding: 2px; background-color: #b6c0c7; transition: background-color 0.1s linear; box-sizing: border-box; } rg-toggle input[type=checkbox]:checked + .track, [riot-tag="rg-toggle"] input[type=checkbox]:checked + .track{ background-color: #000; } rg-toggle .handle, [riot-tag="rg-toggle"] .handle{ position: relative; left: 0; width: 50%; height: 100%; background-color: white; transition: transform 0.1s linear; } rg-toggle input[type=checkbox]:checked + .track .handle, [riot-tag="rg-toggle"] input[type=checkbox]:checked + .track .handle{ transform: translate3d(100%, 0, 0); }', function (opts) {
   var _this = this;
 
-  this.on('update', function () {
-    this.checked = rg.toBoolean(opts.checked);
+  this.on('mount', function () {
+    _this.RgToggle = opts.toggle || new RgToggle();
+    _this.RgToggle.on('checked', function () {
+      _this.update();
+    });
+    _this.update();
   });
 
   this.toggle = function () {
-    _this.checked = !_this.checked;
-    if (rg.isFunction(opts.ontoggle)) opts.ontoggle(_this.checked);
+    _this.RgToggle.toggle();
   };
 });
 

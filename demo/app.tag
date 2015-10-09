@@ -97,8 +97,8 @@
   <h2>Placehold.it</h2>
   <div class="demo">
     <rg-placeholdit placeholdit="{ placeholdit }"></rg-placeholdit>
-    <button onclick="{ changePlacholdIt }">Change image</button>
   </div>
+  <button onclick="{ changePlacholdIt }">Change image</button>
 
   <!--
   <h2>Select</h2>
@@ -159,18 +159,19 @@
   <h2>Toast</h2>
   <div class="demo">
     <rg-toast position="topleft"></rg-toast>
-  </div>
+  </div> -->
 
   <h2>Toggle</h2>
   <div class="demo">
-    <rg-toggle checked="true"></rg-toggle>
-  </div> -->
+    <rg-toggle toggle="{ toggle }"></rg-toggle>
+    <button onclick="{ changeToggle }">Change toggle</button>
+  </div>
 
   <h2>Unsplash</h2>
   <div class="demo">
     <rg-unsplash unsplash="{ unsplash }"></rg-unsplash>
-    <button onclick="{ changeUnsplash }">Change image</button>
   </div>
+  <button onclick="{ changeUnsplash }">Change image</button>
 
   <h3>>> END</h3>
 
@@ -391,6 +392,19 @@
       this.unsplash.gravity = "north"
     }
 
+    /*
+     * TOGGLE
+     */
+    this.toggle = new RgToggle({
+      checked: true,
+      ontoggle: checked => {
+        console.log('checked', checked);
+      }
+    })
+
+    this.changeToggle = () => {
+      this.toggle.checked = !this.toggle.checked
+    }
 
   </script>
 </app>

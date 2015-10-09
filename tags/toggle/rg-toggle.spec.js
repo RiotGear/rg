@@ -1,12 +1,15 @@
 describe('rg-toggle', function() {
-  let tag, spy
+  let tag, spy, toggle
 
   beforeEach(function() {
     spy = sinon.spy()
-    $('body').append('<rg-toggle></rg-toggle>')
-    tag = riot.mount('rg-toggle', {
+    toggle = new RgToggle({
       checked: false,
       ontoggle: spy
+    })
+    $('body').append('<rg-toggle></rg-toggle>')
+    tag = riot.mount('rg-toggle', {
+      toggle
     })[0]
   })
 
@@ -23,22 +26,18 @@ describe('rg-toggle', function() {
   })
 
   it('has a checked checkbox', function() {
-    tag.unmount(true)
-    tag = riot.mount('rg-toggle', {
-        checked: true
-    })[0]
+    toggle.checked = true
     $('rg-toggle input[type=checkbox]').is(':checked').should.be.true
-  })
-
-  it('no ontoggle function', function() {
-    tag.unmount(true)
-    tag = riot.mount('rg-toggle')[0]
-    $('rg-toggle input[type=checkbox]').click()
-    spy.should.not.have.been.called
   })
 
   it('calls ontoggle when toggled', function() {
     $('rg-toggle input[type=checkbox]').click()
     spy.should.have.been.calledOnce
+  })
+
+  it('no ontoggle function', function() {
+    toggle.ontoggle = null
+    $('rg-toggle input[type=checkbox]').click()
+    spy.should.not.have.been.called
   })
 })

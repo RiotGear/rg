@@ -2,7 +2,7 @@
 
 	<div class="wrapper">
 		<label class="toggle">
-			<input type="checkbox" checked="{ checked }" onclick="{ toggle }">
+			<input type="checkbox" checked="{ RgToggle.checked }" onclick="{ toggle }">
 
 			<div class="track">
 				<div class="handle"></div>
@@ -11,14 +11,18 @@
 	</div>
 
 	<script>
-		this.on('update', function() {
-			this.checked = rg.toBoolean(opts.checked)
+		this.on('mount', () => {
+			this.RgToggle = opts.toggle || new RgToggle()
+			this.RgToggle.on('checked', () => {
+				this.update()
+			})
+			this.update()
 		})
 
 		this.toggle = () => {
-			this.checked = !this.checked
-			if (rg.isFunction(opts.ontoggle)) opts.ontoggle(this.checked)
+			this.RgToggle.toggle()
 		}
+
 	</script>
 
 	<style scoped>
@@ -72,5 +76,6 @@
 		input[type=checkbox]:checked + .track .handle {
 			transform: translate3d(100%, 0, 0);
 		}
+
 	</style>
 </rg-toggle>
