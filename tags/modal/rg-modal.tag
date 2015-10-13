@@ -23,7 +23,7 @@
 
 	<script>
 		this.on('mount', () => {
-			this.RgModal = opts.modal || new RgModal()
+			this.RgModal = opts.modal || new RgModal(opts)
 			this.RgModal.on('visibility change', () => {
 				this.update()
 			})
