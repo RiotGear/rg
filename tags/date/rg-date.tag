@@ -96,7 +96,7 @@
 		}
 
 		this.on('mount', () => {
-			this.RgDate = opts.date || new RgDate()
+			this.RgDate = opts.date || new RgDate(opts)
 			this.RgDate.on('visibility change today build', () => {
 				buildCalendar()
 			})
