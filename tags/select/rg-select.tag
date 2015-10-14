@@ -156,6 +156,7 @@
 			overflow-y: auto;
 			overflow-x: hidden;
 			max-height: 280px;
+			z-index: 10;
 		}
 
 		.dropdown.visible {
