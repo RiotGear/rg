@@ -1,20 +1,20 @@
 describe('rg-sidemenu', function() {
-  let tag
+  let tag, sidemenu
   let spy = sinon.spy()
 
   beforeEach(function() {
     $('body').append('<rg-sidemenu></rg-sidemenu>')
-    var sidemenu = {
+    sidemenu = new RgSidemenu({
       header: 'Side Menu',
-      visible: true,
-      onclose: function() { sidemenu.visible = false },
+      isvisible: true,
+      onselect: function() { sidemenu.isvisible = false },
       items: [{
         content: 'Item 1',
         action: spy
       }, {
         content: 'Item 2'
       }]
-    };
+    })
     tag = riot.mount('rg-sidemenu', sidemenu)[0]
   })
 

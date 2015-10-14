@@ -1,12 +1,12 @@
 <rg-sidemenu>
 
-	<div class="overlay { visible: visible }" onclick="{ close }"></div>
+	<div class="overlay { visible: RgSidemenu.isvisible }" onclick="{ close }"></div>
 
-	<div class="sidemenu { visible: visible }">
-		<h4 class="header">{ opts.header }</h4>
+	<div class="sidemenu { visible: RgSidemenu.isvisible }">
+		<h4 class="header">{ RgSidemenu.header }</h4>
 
 		<ul class="items">
-			<li class="item { active: active }" each="{ opts.items }" onclick="{ selected }">
+			<li class="item { active: active }" each="{ RgSidemenu.items }" onclick="{ parent.select }">
 				<rg-raw content="{ content }"></rg-raw>
 			</li>
 		</ul>
@@ -17,20 +17,22 @@
 	</div>
 
 	<script>
-		this.on('update', function () {
-			this.visible = rg.toBoolean(opts.visible)
+		this.on('mount', () => {
+			this.RgSidemenu = opts.sidemenu || new RgSidemenu(opts)
+			this.RgSidemenu.on('change visibility', () => {
+				this.update()
+			})
+			this.update()
 		})
 
-		this.close = function () {
-			if (rg.isFunction(opts.onclose)) opts.onclose()
+		this.close = () => {
+			this.RgSidemenu.close()
 		}
 
-		this.selected = item => {
-			item = item.item
-			opts.items.forEach(item => item.active = false)
-			item.active = true
-			if (item.action) item.action(item)
+		this.select = e => {
+			this.RgSidemenu.select(e.item)
 		}
+
 	</script>
 
 	<style scoped>

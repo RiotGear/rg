@@ -1366,6 +1366,108 @@ var RgSelect = (function () {
   return RgSelect;
 })();
 
+var RgSidemenu = (function () {
+  function RgSidemenu(opts) {
+    _classCallCheck(this, RgSidemenu);
+
+    riot.observable(this);
+    if (rg.isUndefined(opts)) opts = {};
+    this._isvisible = opts.isvisible;
+    this._header = opts.header;
+    this._items = opts.items;
+    this._onselect = opts.onselect;
+    this._onopen = opts.onopen;
+    this._onclose = opts.onclose;
+  }
+
+  _createClass(RgSidemenu, [{
+    key: 'open',
+    value: function open() {
+      if (this.onopen && !this.isvisible) this.onopen();
+      this.isvisible = true;
+    }
+  }, {
+    key: 'close',
+    value: function close() {
+      if (this.onclose && this.isvisible) this.onclose();
+      this.isvisible = false;
+    }
+  }, {
+    key: 'toggle',
+    value: function toggle() {
+      this.isvisible = !this.isvisible;
+      if (this.onopen && this.isvisible) this.onopen();else if (this.onclose && !this.isvisible) this.onclose();
+    }
+  }, {
+    key: 'select',
+    value: function select(item) {
+      this.items.forEach(function (item) {
+        return item.active = false;
+      });
+      item.active = true;
+      if (item.action) item.action(item);
+      if (this.onselect) this.onselect(item);
+    }
+  }, {
+    key: 'isvisible',
+    get: function get() {
+      return rg.toBoolean(this._isvisible);
+    },
+    set: function set(isvisible) {
+      this._isvisible = isvisible;
+      this.trigger('visibility');
+    }
+  }, {
+    key: 'header',
+    get: function get() {
+      return this._header;
+    },
+    set: function set(header) {
+      this._header = header;
+      this.trigger('change');
+    }
+  }, {
+    key: 'items',
+    get: function get() {
+      if (rg.isArray(this._items)) return this._items;
+      return [];
+    },
+    set: function set(items) {
+      this._items = items;
+      this.trigger('change');
+    }
+  }, {
+    key: 'onopen',
+    get: function get() {
+      if (rg.isFunction(this._onopen)) return this._onopen;
+      return null;
+    },
+    set: function set(onopen) {
+      this._onopen = onopen;
+    }
+  }, {
+    key: 'onclose',
+    get: function get() {
+      if (rg.isFunction(this._onclose)) return this._onclose;
+      return null;
+    },
+    set: function set(onclose) {
+      this._onclose = onclose;
+    }
+  }, {
+    key: 'onselect',
+    get: function get() {
+      if (rg.isFunction(this._onselect)) return this._onselect;
+      return null;
+    },
+    set: function set(onselect) {
+      this._onselect = onselect;
+    }
+  }]);
+
+  return RgSidemenu;
+})();
+
 var RgTime = (function (_RgSelect) {
   _inherits(RgTime, _RgSelect);
 
@@ -2111,22 +2213,23 @@ riot.tag('rg-select', '<div class="container { visible: RgSelect.isvisible }" ri
   });
 });
 
-riot.tag('rg-sidemenu', '<div class="overlay { visible: visible }" onclick="{ close }"></div> <div class="sidemenu { visible: visible }"> <h4 class="header">{ opts.header }</h4> <ul class="items"> <li class="item { active: active }" each="{ opts.items }" onclick="{ selected }"> <rg-raw content="{ content }"></rg-raw> </li> </ul> <div class="body"> <yield></yield> </div> </div>', 'rg-sidemenu .overlay, [riot-tag="rg-sidemenu"] .overlay{ display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); cursor: pointer; z-index: 50; } rg-sidemenu .overlay.visible, [riot-tag="rg-sidemenu"] .overlay.visible{ display: block; } rg-sidemenu .sidemenu, [riot-tag="rg-sidemenu"] .sidemenu{ position: absolute; top: 0; left: 0; height: 100%; width: 260px; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; background-color: black; color: white; transform: translate3d(-100%, 0, 0); transition: transform 0.5s ease; z-index: 51; } rg-sidemenu .sidemenu.visible, [riot-tag="rg-sidemenu"] .sidemenu.visible{ transform: translate3d(0, 0, 0); } rg-sidemenu .header, [riot-tag="rg-sidemenu"] .header{ padding: 1.2rem; margin: 0; text-align: center; color: white; } rg-sidemenu .items, [riot-tag="rg-sidemenu"] .items{ padding: 0; margin: 0; list-style: none; } rg-sidemenu .item, [riot-tag="rg-sidemenu"] .item{ padding: 1rem 0.5rem; box-sizing: border-box; border-top: 1px solid #1a1a1a; color: white; } rg-sidemenu .item:last-child, [riot-tag="rg-sidemenu"] .item:last-child{ border-bottom: 1px solid #1a1a1a; } rg-sidemenu .item:hover, [riot-tag="rg-sidemenu"] .item:hover{ cursor: pointer; background-color: #2a2a2a; } rg-sidemenu .item.active, [riot-tag="rg-sidemenu"] .item.active{ cursor: pointer; background-color: #444; }', function (opts) {
-  this.on('update', function () {
-    this.visible = rg.toBoolean(opts.visible);
+riot.tag('rg-sidemenu', '<div class="overlay { visible: RgSidemenu.isvisible }" onclick="{ close }"></div> <div class="sidemenu { visible: RgSidemenu.isvisible }"> <h4 class="header">{ RgSidemenu.header }</h4> <ul class="items"> <li class="item { active: active }" each="{ RgSidemenu.items }" onclick="{ parent.select }"> <rg-raw content="{ content }"></rg-raw> </li> </ul> <div class="body"> <yield></yield> </div> </div>', 'rg-sidemenu .overlay, [riot-tag="rg-sidemenu"] .overlay{ display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); cursor: pointer; z-index: 50; } rg-sidemenu .overlay.visible, [riot-tag="rg-sidemenu"] .overlay.visible{ display: block; } rg-sidemenu .sidemenu, [riot-tag="rg-sidemenu"] .sidemenu{ position: absolute; top: 0; left: 0; height: 100%; width: 260px; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; background-color: black; color: white; transform: translate3d(-100%, 0, 0); transition: transform 0.5s ease; z-index: 51; } rg-sidemenu .sidemenu.visible, [riot-tag="rg-sidemenu"] .sidemenu.visible{ transform: translate3d(0, 0, 0); } rg-sidemenu .header, [riot-tag="rg-sidemenu"] .header{ padding: 1.2rem; margin: 0; text-align: center; color: white; } rg-sidemenu .items, [riot-tag="rg-sidemenu"] .items{ padding: 0; margin: 0; list-style: none; } rg-sidemenu .item, [riot-tag="rg-sidemenu"] .item{ padding: 1rem 0.5rem; box-sizing: border-box; border-top: 1px solid #1a1a1a; color: white; } rg-sidemenu .item:last-child, [riot-tag="rg-sidemenu"] .item:last-child{ border-bottom: 1px solid #1a1a1a; } rg-sidemenu .item:hover, [riot-tag="rg-sidemenu"] .item:hover{ cursor: pointer; background-color: #2a2a2a; } rg-sidemenu .item.active, [riot-tag="rg-sidemenu"] .item.active{ cursor: pointer; background-color: #444; }', function (opts) {
+  var _this = this;
+
+  this.on('mount', function () {
+    _this.RgSidemenu = opts.sidemenu || new RgSidemenu(opts);
+    _this.RgSidemenu.on('change visibility', function () {
+      _this.update();
+    });
+    _this.update();
   });
 
   this.close = function () {
-    if (rg.isFunction(opts.onclose)) opts.onclose();
+    _this.RgSidemenu.close();
   };
 
-  this.selected = function (item) {
-    item = item.item;
-    opts.items.forEach(function (item) {
-      return item.active = false;
-    });
-    item.active = true;
-    if (item.action) item.action(item);
+  this.select = function (e) {
+    _this.RgSidemenu.select(e.item);
   };
 });
 

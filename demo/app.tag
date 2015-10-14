@@ -105,18 +105,13 @@
     <button onclick="{ toggleAutocomplete }">Toggle autocomplete</button>
   </div>
 
-  <!--
-  <h2>Select: Autocomplete</h2>
-  <div class="demo">
-    <label>Auto complete</label>
-    <rg-select id="autocomplete"></rg-select>
-  </div>
-
   <h2>SideMenu</h2>
   <div class="demo no-overflow">
-    <rg-sidemenu></rg-sidemenu>
+    <rg-sidemenu sidemenu="{ sidemenu }"></rg-sidemenu>
   </div>
+  <button onclick="{ changeSidemenu }">Change sidemenu</button>
 
+  <!--
   <h2>Tabs</h2>
   <div class="demo">
     <rg-tabs>
@@ -456,6 +451,28 @@
 
     this.changeToggle = () => {
       this.toggle.toggle()
+    }
+
+    /*
+     * SIDEMENU
+     */
+    this.sidemenu = new RgSidemenu({
+      header: 'Side Menu',
+      isvisible: true,
+      onselect: () => {
+        this.sidemenu.isvisible = false
+      },
+      items: [{
+        content: 'Item 1'
+      }, {
+        content: 'Item 2'
+      }]
+    })
+
+    this.changeSidemenu = () => {
+      this.sidemenu.items.push({
+        content: '<em>Item x</em>'
+      })
     }
 
   </script>
