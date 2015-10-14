@@ -2092,7 +2092,7 @@ riot.tag('rg-select', '<div class="container { visible: RgSelect.isvisible }" ri
   this.on('mount', function () {
     _this.RgSelect = opts.select || new RgSelect(opts);
     _this.RgSelect.on('visibility change filter', function () {
-      _this.filter();
+      if (_this.RgSelect.isvisible) _this.filter();
       _this.update();
     });
     _this.RgSelect.on('select', function (item) {

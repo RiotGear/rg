@@ -108,7 +108,7 @@
 		this.on('mount', () => {
 			this.RgSelect = opts.select || new RgSelect(opts)
 			this.RgSelect.on('visibility change filter', () => {
-				this.filter()
+				if (this.RgSelect.isvisible) this.filter()
 				this.update()
 			})
 			this.RgSelect.on('select', item => {
