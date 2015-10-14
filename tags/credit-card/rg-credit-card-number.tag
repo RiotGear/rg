@@ -12,7 +12,7 @@
 		}
 
 		this.on('mount', () => {
-			this.RgCreditCard = opts.card || new RgCreditCard()
+			this.RgCreditCard = opts.card || new RgCreditCard(opts)
 			this.RgCreditCard.on('change', () => {
 				setUI()
 			})

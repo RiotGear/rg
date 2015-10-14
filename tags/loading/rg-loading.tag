@@ -9,7 +9,7 @@
 
 	<script>
 		this.on('mount', () => {
-			this.RgLoading = opts.loading || new RgLoading()
+			this.RgLoading = opts.loading || new RgLoading(opts)
 			this.RgLoading.on('visibility', () => {
 				this.update()
 			})

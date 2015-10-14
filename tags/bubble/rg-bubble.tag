@@ -11,7 +11,7 @@
 
 	<script>
 		this.on('mount', () => {
-			this.RgBubble = opts.bubble || new RgBubble()
+			this.RgBubble = opts.bubble || new RgBubble(opts)
 			this.RgBubble.on('content visibility', () => {
 				this.update()
 			})

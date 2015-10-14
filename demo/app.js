@@ -1,4 +1,4 @@
-riot.tag('app', '<rg-context-menu menu="{ contextMenu }"></rg-context-menu> <h2>Alert</h2> <div class="demo"> <rg-alerts alerts="{ alerts }"></rg-alerts> <button onclick="{ addAlert }">Add alert</button> </div> <h2>Behold</h2> <div class="demo"> <rg-behold behold="{ behold }"></rg-behold> <button onclick="{ changeBeholdMode }">Change mode</button> <button onclick="{ changeBeholdImages }">Change image</button> </div> <h2>Bubble</h2> <div class="demo"> <rg-bubble bubble="{ bubble }">Hover over me</rg-bubble> <button onclick="{ updateBubbleContent }">Change bubble</button> </div> <h2>Code</h2> <div class="demo"> <rg-code editor="{ editorSettings }"></rg-code> </div> <button onclick="{ changeCode }">Change code</button> <h2>Context Menu</h2> <div class="demo" rg-context-menu="myMenu"> Right click here. </div> <h2>Credit Card</h2> <div class="demo"> <rg-credit-card-number card="{ creditcard }"></rg-credit-card-number> <button onclick="{ changeCardNumber }">Change Card Number</button> </div> <h2>Date</h2> <div class="demo"> <rg-date date="{ date }"></rg-date> { date.date } <button onclick="{ changeDate }">Change date</button> </div> <h2>GA</h2> <div class="demo"> Google Analytics tag is on this page. Look at Network tab in Developer Tools <rg-ga property="UA-36978977-5"></rg-ga> </div> <h2>Include</h2> <div class="demo"> <div> <rg-include include="{ include }"></rg-include> </div> <button onclick="{ unsafe }">Make unsafe</button> <button onclick="{ changeIncludeFile }">Change content</button> </div> <h2>Loading</h2> <div class="demo"> <rg-loading loading="{ loading }"> Please wait... </rg-loading> </div> <button onclick="{ toggleLoading }">Toggle loading</button> <h2>Map</h2> <div class="demo"> <rg-map map="{ map }"></rg-map> </div> <h2>Markdown</h2> <div class="demo"> <rg-markdown markdown="{ markdown }"></rg-markdown> <button onclick="{ changeMarkdown }">Change content</button> </div> <h2>Modal</h2> <div class="demo"> <rg-modal modal="{ modal }"> Well hello there! </rg-modal> </div> <button onclick="{ toggleModal }">Toggle modal</button> <button onclick="{ toggleModalType }">Toggle type</button> <button onclick="{ toggleModalDismissable }">Toggle dismissable</button> <h2>Phone Sim</h2> <div class="demo"> <rg-phone-sim phonesim="{ phonesim }"></rg-phone-sim> <button onclick="{ changePhoneSimURL }">Change URL</button> </div> <h2>Placehold.it</h2> <div class="demo"> <rg-placeholdit placeholdit="{ placeholdit }"></rg-placeholdit> </div> <button onclick="{ changePlacholdIt }">Change image</button>  <h2>Toggle</h2> <div class="demo"> <rg-toggle toggle="{ toggle }"></rg-toggle> <button onclick="{ changeToggle }">Change toggle</button> </div> <h2>Unsplash</h2> <div class="demo"> <rg-unsplash unsplash="{ unsplash }"></rg-unsplash> </div> <button onclick="{ changeUnsplash }">Change image</button> <h3>>> END</h3>', function(opts) {var _this = this;
+riot.tag('app', '<rg-context-menu menu="{ contextMenu }"></rg-context-menu> <h2>Alert</h2> <div class="demo"> <rg-alerts alerts="{ alerts }"></rg-alerts> <button onclick="{ addAlert }">Add alert</button> </div> <h2>Behold</h2> <div class="demo"> <rg-behold behold="{ behold }"></rg-behold> <button onclick="{ changeBeholdMode }">Change mode</button> <button onclick="{ changeBeholdImages }">Change image</button> </div> <h2>Bubble</h2> <div class="demo"> <rg-bubble bubble="{ bubble }">Hover over me</rg-bubble> <button onclick="{ updateBubbleContent }">Change bubble</button> </div> <h2>Code</h2> <div class="demo"> <rg-code editor="{ editorSettings }"></rg-code> </div> <button onclick="{ changeCode }">Change code</button> <h2>Context Menu</h2> <div class="demo" rg-context-menu="myMenu"> Right click here. </div> <h2>Credit Card</h2> <div class="demo"> <rg-credit-card-number card="{ creditcard }"></rg-credit-card-number> <button onclick="{ changeCardNumber }">Change Card Number</button> </div> <h2>Date</h2> <div class="demo"> <rg-date date="{ date }"></rg-date> { date.date } <button onclick="{ changeDate }">Change date</button> </div> <h2>GA</h2> <div class="demo"> Google Analytics tag is on this page. Look at Network tab in Developer Tools <rg-ga property="UA-36978977-5"></rg-ga> </div> <h2>Include</h2> <div class="demo"> <div> <rg-include include="{ include }"></rg-include> </div> <button onclick="{ unsafe }">Make unsafe</button> <button onclick="{ changeIncludeFile }">Change content</button> </div> <h2>Loading</h2> <div class="demo"> <rg-loading loading="{ loading }"> Please wait... </rg-loading> </div> <button onclick="{ toggleLoading }">Toggle loading</button> <h2>Map</h2> <div class="demo"> <rg-map map="{ map }"></rg-map> </div> <h2>Markdown</h2> <div class="demo"> <rg-markdown markdown="{ markdown }"></rg-markdown> <button onclick="{ changeMarkdown }">Change content</button> </div> <h2>Modal</h2> <div class="demo"> <rg-modal modal="{ modal }"> Well hello there! </rg-modal> </div> <button onclick="{ toggleModal }">Toggle modal</button> <button onclick="{ toggleModalType }">Toggle type</button> <button onclick="{ toggleModalDismissable }">Toggle dismissable</button> <h2>Phone Sim</h2> <div class="demo"> <rg-phone-sim phonesim="{ phonesim }"></rg-phone-sim> <button onclick="{ changePhoneSimURL }">Change URL</button> </div> <h2>Placehold.it</h2> <div class="demo"> <rg-placeholdit placeholdit="{ placeholdit }"></rg-placeholdit> </div> <button onclick="{ changePlacholdIt }">Change image</button> <h2>Select</h2> <div class="demo"> <rg-select select="{ select }"></rg-select> <button onclick="{ toggleAutocomplete }">Toggle autocomplete</button> </div>  <h2>Time</h2> <div class="demo"> <rg-time time="{ time }"></rg-time> <button onclick="{ changeTime }">Change time</button> </div>  <h2>Toggle</h2> <div class="demo"> <rg-toggle toggle="{ toggle }"></rg-toggle> <button onclick="{ changeToggle }">Change toggle</button> </div> <h2>Unsplash</h2> <div class="demo"> <rg-unsplash unsplash="{ unsplash }"></rg-unsplash> </div> <button onclick="{ changeUnsplash }">Change image</button> <h3>>> END</h3>', function(opts) {var _this = this;
 
 /*
  * ALERTS
@@ -214,6 +214,47 @@ this.changePlacholdIt = function () {
 };
 
 /*
+ * SELECT
+ */
+this.select = new RgSelect({
+  autocomplete: false,
+  placeholder: 'Please select a card',
+  hasfilter: true,
+  filterplaceholder: 'Filter cards',
+  filterfield: 'text',
+  onopen: function onopen() {
+    return console.log('select opened');
+  },
+  onclose: function onclose() {
+    return console.log('select closed');
+  },
+  onfilter: function onfilter() {
+    return console.log('select filtered');
+  },
+  onselect: function onselect(item) {
+    return console.log('select', item);
+  },
+  options: [{
+    id: 0,
+    text: 'Visa'
+  }, {
+    id: 1,
+    text: 'MasterCard',
+    selected: true
+  }, {
+    id: 2,
+    text: 'American Express'
+  }, {
+    id: 3,
+    text: 'Discover'
+  }]
+});
+
+this.toggleAutocomplete = function () {
+  _this.select.autocomplete = !_this.select.autocomplete;
+};
+
+/*
  * UNSPLASH
  */
 this.unsplash = new RgUnsplash();
@@ -225,6 +266,20 @@ this.changeUnsplash = function () {
   _this.unsplash.blur = "true";
   _this.unsplash.image = "491";
   _this.unsplash.gravity = "north";
+};
+
+/*
+ * TIME
+ */
+this.time = new RgTime({
+  ampm: true,
+  step: 15,
+  min: '00:00',
+  max: '23:59'
+});
+
+this.changeTime = function () {
+  _this.time.placeholder = 'Select a time';
 };
 
 /*

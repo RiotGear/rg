@@ -41,7 +41,7 @@
 		}
 
 		this.on('mount', () => {
-			this.RgContextMenu = opts.menu || new RgContextMenu()
+			this.RgContextMenu = opts.menu || new RgContextMenu(opts)
 			this.RgContextMenu.on('items add visibility', () => {
 				this.update()
 			})

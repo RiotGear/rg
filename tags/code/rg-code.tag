@@ -19,7 +19,7 @@
 			editor = ace.edit(this.root.querySelector('.editor'))
 			editor.$blockScrolling = Infinity
 
-			this.RgCode = opts.editor || new RgCode()
+			this.RgCode = opts.editor || new RgCode(opts)
 			this.RgCode.on('settings', () => {
 				setupEditor()
 			})

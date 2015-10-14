@@ -4,7 +4,7 @@
 
 	<script>
 		this.on('mount', () => {
-			this.RgMap = opts.map || new RgMap()
+			this.RgMap = opts.map || new RgMap(opts)
 			/* istanbul ignore next */
 			rg.map.on('initialize', () => {
 				rg.map.obj = new google.maps.Map(this.root.querySelector('.rg-map'), this.RgMap.options)

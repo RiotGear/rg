@@ -4,7 +4,7 @@
 
 	<script>
 	this.on('mount', () => {
-		this.RgPlaceholdit = opts.placeholdit || new RgPlaceholdit()
+		this.RgPlaceholdit = opts.placeholdit || new RgPlaceholdit(opts)
 		this.RgPlaceholdit.on('change', () => {
 			this.update()
 		})

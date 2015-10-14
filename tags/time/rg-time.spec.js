@@ -1,14 +1,16 @@
 describe('rg-time', function() {
-  let tag
+  let tag, time
   let spy = sinon.spy()
 
   beforeEach(function() {
-    $('body').append(`<rg-time
-                        ampm="true"
-                        step="15"
-                        min="00:00"
-                        max="23:59"></rg-time>`)
-    tag = riot.mount('rg-time')[0]
+    time = new RgTime({
+      ampm: true,
+      step: 15,
+      min: "00:00",
+      max: "23:59"
+    })
+    $('body').append(`<rg-time></rg-time>`)
+    tag = riot.mount('rg-time', { time })[0]
   })
 
   afterEach(function() {

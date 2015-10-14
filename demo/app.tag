@@ -99,12 +99,13 @@
   </div>
   <button onclick="{ changePlacholdIt }">Change image</button>
 
-  <!--
   <h2>Select</h2>
   <div class="demo">
-    <rg-select id="dropdown"></rg-select>
+    <rg-select select="{ select }"></rg-select>
+    <button onclick="{ toggleAutocomplete }">Toggle autocomplete</button>
   </div>
 
+  <!--
   <h2>Select: Autocomplete</h2>
   <div class="demo">
     <label>Auto complete</label>
@@ -148,13 +149,13 @@
   <div class="demo">
     <rg-tags type="text" value="Canada" placeholder="Enter a country name"></rg-tags>
   </div>
-
+-->
   <h2>Time</h2>
   <div class="demo">
-    <rg-time time="now" ampm="true" step="15" min="08:00" max="16:30">
-    </rg-time>
+    <rg-time time="{ time }"></rg-time>
+    <button onclick="{ changeTime }">Change time</button>
   </div>
-
+  <!--
   <h2>Toast</h2>
   <div class="demo">
     <rg-toast position="topleft"></rg-toast>
@@ -331,7 +332,7 @@
     /*
      * MAP
      */
-     this.map = new RgMap()
+    this.map = new RgMap()
 
     /*
      * MODAL
@@ -383,6 +384,39 @@
     }
 
     /*
+     * SELECT
+     */
+    this.select = new RgSelect({
+      autocomplete: false,
+      placeholder: 'Please select a card',
+      hasfilter: true,
+      filterplaceholder: 'Filter cards',
+      filterfield: 'text',
+      onopen: () => console.log('select opened'),
+      onclose: () => console.log('select closed'),
+      onfilter: () => console.log('select filtered'),
+      onselect: item => console.log('select', item),
+      options: [{
+        id: 0,
+        text: 'Visa'
+      }, {
+        id: 1,
+        text: 'MasterCard',
+        selected: true
+      }, {
+        id: 2,
+        text: 'American Express'
+      }, {
+        id: 3,
+        text: 'Discover'
+      }]
+    })
+
+    this.toggleAutocomplete = () => {
+      this.select.autocomplete = !this.select.autocomplete
+    }
+
+    /*
      * UNSPLASH
      */
     this.unsplash = new RgUnsplash()
@@ -394,6 +428,20 @@
       this.unsplash.blur = "true"
       this.unsplash.image = "491"
       this.unsplash.gravity = "north"
+    }
+
+    /*
+     * TIME
+     */
+    this.time = new RgTime({
+      ampm: true,
+      step: 15,
+      min: '00:00',
+      max: '23:59'
+    })
+
+    this.changeTime = () => {
+      this.time.placeholder = 'Select a time'
     }
 
     /*

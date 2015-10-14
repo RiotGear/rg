@@ -1,17 +1,16 @@
 describe('rg-select', function() {
-  let tag
+  let tag, select
   let spyOnOpen = sinon.spy()
   let spyOnClose = sinon.spy()
   let spyOnFilter = sinon.spy()
   let spyOnSelect = sinon.spy()
 
   beforeEach(function() {
-    $('body').append('<rg-select></rg-select>')
-    tag = riot.mount('rg-select', {
+    select = new RgSelect({
       placeholder: 'Please select a card',
-      'filter-placeholder': 'Filter cards',
-      'filter-on': 'text',
-      filter: true,
+      hasfilter: true,
+      filterplaceholder: 'Filter cards',
+      filterfield: 'text',
       onopen: spyOnOpen,
       onclose: spyOnClose,
       onfilter: spyOnFilter,
@@ -21,7 +20,8 @@ describe('rg-select', function() {
         text: 'Visa'
       }, {
         id: 1,
-        text: 'MasterCard'
+        text: 'MasterCard',
+        selected: true
       }, {
         id: 2,
         text: 'American Express'
@@ -29,7 +29,9 @@ describe('rg-select', function() {
         id: 3,
         text: 'Discover'
       }]
-    })[0]
+    })
+    $('body').append('<rg-select></rg-select>')
+    tag = riot.mount('rg-select', { select })[0]
   })
 
   afterEach(function() {
@@ -105,5 +107,46 @@ describe('rg-select', function() {
     $('rg-select .field').trigger(e)
     $('rg-select .dropdown').is(':visible').should.be.true
     spyOnOpen.should.have.been.calledOnce
+  })
+})
+
+describe('rg-select no filter', function() {
+  let tag, select
+
+  beforeEach(function() {
+    select = new RgSelect({
+      placeholder: 'Please select a card',
+      hasfilter: false,
+      filterplaceholder: 'Filter cards',
+      filterfield: 'text',
+      options: [{
+        id: 0,
+        text: 'Visa'
+      }, {
+        id: 1,
+        text: 'MasterCard',
+        selected: true
+      }, {
+        id: 2,
+        text: 'American Express'
+      }, {
+        id: 3,
+        text: 'Discover'
+      }]
+    })
+    $('body').append('<rg-select></rg-select>')
+    tag = riot.mount('rg-select', { select })[0]
+  })
+
+  afterEach(function() {
+    tag.unmount()
+  })
+
+  it('is mounted', function() {
+    tag.isMounted.should.be.true
+  })
+
+  it('has no filter box', function() {
+    $('rg-select .filter-box').length.should.equal(0)
   })
 })

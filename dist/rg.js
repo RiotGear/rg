@@ -1,6 +1,10 @@
 'use strict';
 
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
@@ -1176,6 +1180,259 @@ var RgPlaceholdit = (function () {
   return RgPlaceholdit;
 })();
 
+var RgSelect = (function () {
+  function RgSelect(opts) {
+    _classCallCheck(this, RgSelect);
+
+    riot.observable(this);
+    if (rg.isUndefined(opts)) opts = {};
+    this._isvisible = opts.isvisible;
+    this._autocomplete = opts.autocomplete;
+    this._filterfield = opts.filterfield;
+    this._options = opts.options;
+    this._hasfilter = opts.hasfilter;
+    this._placeholder = opts.placeholder;
+    this._filterplaceholder = opts.filterplaceholder;
+    this._filtereditems = opts.filtereditems;
+    this._onopen = opts.onopen;
+    this._onclose = opts.onclose;
+    this._onselect = opts.onselect;
+    this._onfilter = opts.onfilter;
+  }
+
+  _createClass(RgSelect, [{
+    key: 'open',
+    value: function open() {
+      if (this.onopen && !this.isvisible) this.onopen();
+      this.isvisible = true;
+    }
+  }, {
+    key: 'close',
+    value: function close() {
+      if (this.onclose && this.isvisible) this.onclose();
+      this.isvisible = false;
+    }
+  }, {
+    key: 'toggle',
+    value: function toggle() {
+      this.isvisible = !this.isvisible;
+      if (this.onopen && this.isvisible) this.onopen();else if (this.onclose && !this.isvisible) this.onclose();
+    }
+  }, {
+    key: 'filter',
+    value: function filter(text) {
+      var _this9 = this;
+
+      this.filtereditems = this.options.filter(function (item) {
+        item.active = false;
+        var filterField = item[_this9.filterfield];
+        if (rg.isUndefined(filterField)) return false;
+        if (text.length == 0 || filterField.toString().toLowerCase().indexOf(text.toString().toLowerCase()) > -1) return true;
+      });
+      if (this.onfilter) this.onfilter();
+      this.trigger('filter');
+    }
+  }, {
+    key: 'select',
+    value: function select(item) {
+      this.options.forEach(function (i) {
+        return i.selected = false;
+      });
+      item.selected = true;
+      if (this.onselect) this.onselect(item);
+      this.isvisible = false;
+      if (this.autocomplete) this.filter(item[this.filterfield]);
+      this.trigger('select', item);
+    }
+  }, {
+    key: 'isvisible',
+    get: function get() {
+      return rg.toBoolean(this._isvisible);
+    },
+    set: function set(isvisible) {
+      this._isvisible = isvisible;
+      this.trigger('visibility');
+    }
+  }, {
+    key: 'autocomplete',
+    get: function get() {
+      return rg.toBoolean(this._autocomplete);
+    },
+    set: function set(autocomplete) {
+      this._autocomplete = autocomplete;
+      this.trigger('change');
+    }
+  }, {
+    key: 'filterfield',
+    get: function get() {
+      return this._filterfield || 'text';
+    },
+    set: function set(filterfield) {
+      this._filterfield = filterfield;
+      this.trigger('change');
+    }
+  }, {
+    key: 'placeholder',
+    get: function get() {
+      return this._placeholder;
+    },
+    set: function set(placeholder) {
+      this._placeholder = placeholder;
+      this.trigger('change');
+    }
+  }, {
+    key: 'filterplaceholder',
+    get: function get() {
+      return this._filterplaceholder;
+    },
+    set: function set(filterplaceholder) {
+      this._filterplaceholder = filterplaceholder;
+      this.trigger('change');
+    }
+  }, {
+    key: 'hasfilter',
+    get: function get() {
+      return rg.toBoolean(this._hasfilter);
+    },
+    set: function set(hasfilter) {
+      this._hasfilter = hasfilter;
+      this.trigger('change');
+    }
+  }, {
+    key: 'options',
+    get: function get() {
+      if (rg.isArray(this._options)) return this._options;
+      return [];
+    },
+    set: function set(options) {
+      var _this10 = this;
+
+      if (!rg.isArray(options)) options = [];
+      options.forEach(function (item, i) {
+        item.index = i;
+        if (item.selected) _this10.select(item);
+      });
+      this._options = options;
+      this.trigger('change');
+    }
+  }, {
+    key: 'filtereditems',
+    get: function get() {
+      if (rg.isArray(this._filtereditems)) return this._filtereditems;
+      return [];
+    },
+    set: function set(filtereditems) {
+      this._filtereditems = filtereditems;
+      this.trigger('change');
+    }
+  }, {
+    key: 'onopen',
+    get: function get() {
+      if (rg.isFunction(this._onopen)) return this._onopen;
+      return null;
+    },
+    set: function set(onopen) {
+      this._onopen = onopen;
+    }
+  }, {
+    key: 'onclose',
+    get: function get() {
+      if (rg.isFunction(this._onclose)) return this._onclose;
+      return null;
+    },
+    set: function set(onclose) {
+      this._onclose = onclose;
+    }
+  }, {
+    key: 'onfilter',
+    get: function get() {
+      if (rg.isFunction(this._onfilter)) return this._onfilter;
+      return null;
+    },
+    set: function set(onfilter) {
+      this._onfilter = onfilter;
+    }
+  }, {
+    key: 'onselect',
+    get: function get() {
+      if (rg.isFunction(this._onselect)) return this._onselect;
+      return null;
+    },
+    set: function set(onselect) {
+      this._onselect = onselect;
+    }
+  }]);
+
+  return RgSelect;
+})();
+
+var RgTime = (function (_RgSelect) {
+  _inherits(RgTime, _RgSelect);
+
+  function RgTime(opts) {
+    _classCallCheck(this, RgTime);
+
+    _get(Object.getPrototypeOf(RgTime.prototype), 'constructor', this).call(this, opts);
+    this._min = opts.min;
+    this._max = opts.max;
+    this._time = opts.time;
+    this._step = opts.step;
+    this._ampm = opts.ampm;
+  }
+
+  _createClass(RgTime, [{
+    key: 'min',
+    get: function get() {
+      if (this._min) return this._min.split(':');
+      return this._min;
+    },
+    set: function set(min) {
+      this._min = min;
+      this.trigger('change');
+    }
+  }, {
+    key: 'max',
+    get: function get() {
+      if (this._max) return this._max.split(':');
+      return this._max;
+    },
+    set: function set(max) {
+      this._max = max;
+      this.trigger('change');
+    }
+  }, {
+    key: 'time',
+    get: function get() {
+      if (rg.isDate(this._time)) return this._time;
+      return new Date();
+    },
+    set: function set(time) {
+      this._time = time;
+      this.trigger('change');
+    }
+  }, {
+    key: 'step',
+    get: function get() {
+      return rg.toNumber(this._step) || 1;
+    },
+    set: function set(step) {
+      this._step = step;
+      this.trigger('change');
+    }
+  }, {
+    key: 'ampm',
+    get: function get() {
+      return rg.toBoolean(this._ampm);
+    },
+    set: function set(ampm) {
+      this._ampm = ampm;
+      this.trigger('change');
+    }
+  }]);
+
+  return RgTime;
+})(RgSelect);
+
 var RgToggle = (function () {
   function RgToggle(opts) {
     _classCallCheck(this, RgToggle);
@@ -1312,7 +1569,7 @@ riot.tag('rg-alerts', '<div each="{ RgAlerts.alerts }" class="alert { type } { i
   this.on('mount', function () {
     var _this = this;
 
-    this.RgAlerts = opts.alerts || new RgAlerts();
+    this.RgAlerts = opts.alerts || new RgAlerts(opts);
     this.RgAlerts.on('add dismiss', function () {
       _this.update();
     });
@@ -1374,7 +1631,7 @@ riot.tag('rg-behold', '<div class="container"> <div class="controls"> <div class
   };
 
   this.on('mount', function () {
-    _this2.RgBehold = opts.behold || new RgBehold();
+    _this2.RgBehold = opts.behold || new RgBehold(opts);
     _this2.RgBehold.on('mode', function () {
       _this2.diff.value = 0;
       _this2.updateDiff();
@@ -1411,7 +1668,7 @@ riot.tag('rg-bubble', '<div class="context"> <div class="bubble { isvisible: RgB
   var _this = this;
 
   this.on('mount', function () {
-    _this.RgBubble = opts.bubble || new RgBubble();
+    _this.RgBubble = opts.bubble || new RgBubble(opts);
     _this.RgBubble.on('content visibility', function () {
       _this.update();
     });
@@ -1450,7 +1707,7 @@ riot.tag('rg-code', '<div class="editor"></div>', 'rg-code .editor, [riot-tag="r
     editor = ace.edit(_this.root.querySelector('.editor'));
     editor.$blockScrolling = Infinity;
 
-    _this.RgCode = opts.editor || new RgCode();
+    _this.RgCode = opts.editor || new RgCode(opts);
     _this.RgCode.on('settings', function () {
       setupEditor();
     });
@@ -1502,7 +1759,7 @@ riot.tag('rg-context-menu', '<div class="menu { isvisible: RgContextMenu.isvisib
   };
 
   this.on('mount', function () {
-    _this.RgContextMenu = opts.menu || new RgContextMenu();
+    _this.RgContextMenu = opts.menu || new RgContextMenu(opts);
     _this.RgContextMenu.on('items add visibility', function () {
       _this.update();
     });
@@ -1540,7 +1797,7 @@ riot.tag('rg-credit-card-number', '<input type="text" name="cardnumber" class="f
   };
 
   this.on('mount', function () {
-    _this.RgCreditCard = opts.card || new RgCreditCard();
+    _this.RgCreditCard = opts.card || new RgCreditCard(opts);
     _this.RgCreditCard.on('change', function () {
       setUI();
     });
@@ -1601,7 +1858,7 @@ riot.tag('rg-date', '<div class="container { open: RgDate.isvisible }"> <input t
   };
 
   this.on('mount', function () {
-    _this.RgDate = opts.date || new RgDate();
+    _this.RgDate = opts.date || new RgDate(opts);
     _this.RgDate.on('visibility change today build', function () {
       buildCalendar();
     });
@@ -1658,7 +1915,7 @@ riot.tag('rg-include', '{{ responseText }}', function (opts) {
   var _this = this;
 
   this.on('mount', function () {
-    _this.RgInclude = opts.include || new RgInclude();
+    _this.RgInclude = opts.include || new RgInclude(opts);
     _this.RgInclude.on('change', function () {
       _this.RgInclude.fetch();
     });
@@ -1674,7 +1931,7 @@ riot.tag('rg-loading', '<div class="loading { visible: RgLoading.isvisible }"> <
   var _this = this;
 
   this.on('mount', function () {
-    _this.RgLoading = opts.loading || new RgLoading();
+    _this.RgLoading = opts.loading || new RgLoading(opts);
     _this.RgLoading.on('visibility', function () {
       _this.update();
     });
@@ -1686,7 +1943,7 @@ riot.tag('rg-map', '<div class="rg-map"></div>', 'rg-map .rg-map, [riot-tag="rg-
   var _this = this;
 
   this.on('mount', function () {
-    _this.RgMap = opts.map || new RgMap();
+    _this.RgMap = opts.map || new RgMap(opts);
     /* istanbul ignore next */
     rg.map.on('initialize', function () {
       rg.map.obj = new google.maps.Map(_this.root.querySelector('.rg-map'), _this.RgMap.options);
@@ -1706,7 +1963,7 @@ riot.tag('rg-markdown', '<div class="markdown"></div>', function (opts) {
   var _this = this;
 
   this.on('mount', function () {
-    _this.RgMarkdown = opts.markdown || new RgMarkdown();
+    _this.RgMarkdown = opts.markdown || new RgMarkdown(opts);
     _this.RgMarkdown.on('change', function () {
       _this.RgMarkdown.fetch();
     });
@@ -1725,7 +1982,7 @@ riot.tag('rg-modal', '<div class="overlay { visible: RgModal.isvisible, ghost: R
   var _this = this;
 
   this.on('mount', function () {
-    _this.RgModal = opts.modal || new RgModal();
+    _this.RgModal = opts.modal || new RgModal(opts);
     _this.RgModal.on('visibility change', function () {
       _this.update();
     });
@@ -1745,7 +2002,7 @@ riot.tag('rg-phone-sim', '<div class="emulator"> <iframe class="screen" riot-src
   var _this = this;
 
   this.on('mount', function () {
-    _this.RgPhoneSim = opts.phonesim || new RgPhoneSim();
+    _this.RgPhoneSim = opts.phonesim || new RgPhoneSim(opts);
     _this.RgPhoneSim.on('change', function () {
       _this.update();
     });
@@ -1757,7 +2014,7 @@ riot.tag('rg-placeholdit', '<img riot-src="https://placeholdit.imgix.net/~text?b
   var _this = this;
 
   this.on('mount', function () {
-    _this.RgPlaceholdit = opts.placeholdit || new RgPlaceholdit();
+    _this.RgPlaceholdit = opts.placeholdit || new RgPlaceholdit(opts);
     _this.RgPlaceholdit.on('change', function () {
       _this.update();
     });
@@ -1771,34 +2028,30 @@ riot.tag('rg-raw', '<span></span>', function (opts) {
   });
 });
 
-riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="width: { width }"> <input if="{ !autocomplete }" type="text" name="selectfield" class="field { visible: visible }" value="{ fieldText }" placeholder="{ opts.placeholder }" onkeydown="{ handleKeys }" onclick="{ toggle }" readonly> <input if="{ autocomplete }" type="text" name="autocompletefield" class="field { visible: visible }" value="{ fieldText }" placeholder="{ opts.placeholder }" onkeydown="{ handleKeys }" onclick="{ toggle }" oninput="{ filterItems }"> <div class="dropdown { visible: visible } { empty: filteredItems.length == 0 }"> <div class="filter" if="{ filter }"> <input type="text" name="filterfield" class="filter-box" placeholder="{ opts[\'filter-placeholder\'] || \'Filter\' }" onkeydown="{ handleKeys }" oninput="{ filterItems }"> </div> <ul class="list { empty: filteredItems.length == 0 }"> <li each="{ filteredItems }" onclick="{ parent.select }" class="item { selected: selected, disabled: disabled, active: active }"> { text } </li> </ul> </div> </div>', 'rg-select .container, [riot-tag="rg-select"] .container{ position: relative; display: inline-block; cursor: pointer; } rg-select .field, [riot-tag="rg-select"] .field{ width: 100%; padding: 10px; border: 1px solid #D3D3D3; box-sizing: border-box; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 1em; line-height: normal; outline: 0; } rg-select .dropdown, [riot-tag="rg-select"] .dropdown{ display: none; position: relative; width: 100%; background-color: white; border-bottom: 1px solid #D3D3D3; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; max-height: 280px; } rg-select .dropdown.visible, [riot-tag="rg-select"] .dropdown.visible{ display: block; } rg-select .dropdown.empty, [riot-tag="rg-select"] .dropdown.empty{ border-bottom: 0; } rg-select .filter-box, [riot-tag="rg-select"] .filter-box{ width: 100%; padding: 10px; font-size: 0.9em; border: 0; border-left: 1px solid #D3D3D3; border-right: 1px solid #D3D3D3; border-bottom: 1px solid #E8E8E8; outline: none; color: #555; box-sizing: border-box; } rg-select .list, [riot-tag="rg-select"] .list,rg-select .item, [riot-tag="rg-select"] .item{ list-style: none; padding: 0; margin: 0; } rg-select .list.empty, [riot-tag="rg-select"] .list.empty{ display: none; } rg-select .item, [riot-tag="rg-select"] .item{ padding: 10px; border-left: 1px solid #D3D3D3; border-right: 1px solid #D3D3D3; border-top: 1px solid #E8E8E8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-select .item:first-child, [riot-tag="rg-select"] .item:first-child{ border-top: 0; } rg-select .selected, [riot-tag="rg-select"] .selected{ font-weight: bold; background-color: #f8f8f8; } rg-select .item:hover, [riot-tag="rg-select"] .item:hover{ background-color: #f3f3f3; } rg-select .item.active, [riot-tag="rg-select"] .item.active,rg-select .item:hover.active, [riot-tag="rg-select"] .item:hover.active{ background-color: #ededed; }', function (opts) {
+riot.tag('rg-select', '<div class="container { visible: RgSelect.isvisible }" riot-style="width: { width }"> <input if="{ !RgSelect.autocomplete }" type="text" name="selectfield" class="field { visible: RgSelect.isvisible }" value="{ fieldText }" placeholder="{ RgSelect.placeholder }" onkeydown="{ handleKeys }" onclick="{ toggle }" readonly> <input if="{ RgSelect.autocomplete }" type="text" name="autocompletefield" class="field { visible: RgSelect.isvisible }" value="{ fieldText }" placeholder="{ RgSelect.placeholder }" onkeydown="{ handleKeys }" onclick="{ toggle }" oninput="{ filter }"> <div class="dropdown { visible: RgSelect.isvisible } { empty: RgSelect.filtereditems.length == 0 }"> <div class="filter" if="{ RgSelect.hasfilter && !RgSelect.autocomplete }"> <input type="text" name="filterfield" class="filter-box" placeholder="{ RgSelect.filterplaceholder || \'Filter\' }" onkeydown="{ handleKeys }" oninput="{ filter }"> </div> <ul class="list { empty: RgSelect.filtereditems.length == 0 }"> <li each="{ RgSelect.filtereditems }" onclick="{ parent.select }" class="item { selected: selected, disabled: disabled, active: active }"> { text } </li> </ul> </div> </div>', 'rg-select .container, [riot-tag="rg-select"] .container{ position: relative; display: inline-block; cursor: pointer; } rg-select .field, [riot-tag="rg-select"] .field{ width: 100%; padding: 10px; border: 1px solid #D3D3D3; box-sizing: border-box; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 1em; line-height: normal; outline: 0; } rg-select .dropdown, [riot-tag="rg-select"] .dropdown{ display: none; position: absolute; width: 100%; background-color: white; border-bottom: 1px solid #D3D3D3; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; max-height: 280px; } rg-select .dropdown.visible, [riot-tag="rg-select"] .dropdown.visible{ display: block; } rg-select .dropdown.empty, [riot-tag="rg-select"] .dropdown.empty{ border-bottom: 0; } rg-select .filter-box, [riot-tag="rg-select"] .filter-box{ width: 100%; padding: 10px; font-size: 0.9em; border: 0; border-left: 1px solid #D3D3D3; border-right: 1px solid #D3D3D3; border-bottom: 1px solid #E8E8E8; outline: none; color: #555; box-sizing: border-box; } rg-select .list, [riot-tag="rg-select"] .list,rg-select .item, [riot-tag="rg-select"] .item{ list-style: none; padding: 0; margin: 0; } rg-select .list.empty, [riot-tag="rg-select"] .list.empty{ display: none; } rg-select .item, [riot-tag="rg-select"] .item{ padding: 10px; border-left: 1px solid #D3D3D3; border-right: 1px solid #D3D3D3; border-top: 1px solid #E8E8E8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-select .item:first-child, [riot-tag="rg-select"] .item:first-child{ border-top: 0; } rg-select .selected, [riot-tag="rg-select"] .selected{ font-weight: bold; background-color: #f8f8f8; } rg-select .item:hover, [riot-tag="rg-select"] .item:hover{ background-color: #f3f3f3; } rg-select .item.active, [riot-tag="rg-select"] .item.active,rg-select .item:hover.active, [riot-tag="rg-select"] .item:hover.active{ background-color: #ededed; }', function (opts) {
   var _this = this;
-
-  this.visible = true;
 
   /* istanbul ignore next */
   var handleClickOutside = function handleClickOutside(e) {
     if (!_this.root.contains(e.target)) {
-      if (rg.isFunction(opts.onclose) && _this.visible) opts.onclose();
-      _this.visible = false;
-      _this.update();
+      _this.RgSelect.close();
     }
   };
 
   this.handleKeys = function (e) {
-    if ([13, 38, 40].indexOf(e.keyCode) > -1 && !_this.visible) {
+    if ([13, 38, 40].indexOf(e.keyCode) > -1 && !_this.RgSelect.isvisible) {
       e.preventDefault();
       _this.toggle();
       return true;
     }
-    if (_this.autocomplete && !_this.visible) _this.visible = true;
-    var length = _this.filteredItems.length;
+    if (_this.RgSelect.autocomplete && !_this.RgSelect.isvisible) _this.toggle();
+    var length = _this.RgSelect.filtereditems.length;
     if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
       e.preventDefault();
       // Get the currently selected item
       var activeIndex = null;
       for (var i = 0; i < length; i++) {
-        var item = _this.filteredItems[i];
+        var item = _this.RgSelect.filtereditems[i];
         if (item.active) {
           activeIndex = i;
           break;
@@ -1806,81 +2059,55 @@ riot.tag('rg-select', '<div class="container { visible: visible }" riot-style="w
       }
 
       // We're leaving this item
-      if (activeIndex != null) _this.filteredItems[activeIndex].active = false;
+      if (activeIndex != null) _this.RgSelect.filtereditems[activeIndex].active = false;
 
       if (e.keyCode == 38) {
         // Move the active state to the next item lower down the index
-        if (activeIndex == null || activeIndex == 0) _this.filteredItems[length - 1].active = true;else _this.filteredItems[activeIndex - 1].active = true;
+        if (activeIndex == null || activeIndex == 0) _this.RgSelect.filtereditems[length - 1].active = true;else _this.RgSelect.filtereditems[activeIndex - 1].active = true;
       } else if (e.keyCode == 40) {
         // Move the active state to the next item higher up the index
-        if (activeIndex == null || activeIndex == length - 1) _this.filteredItems[0].active = true;else _this.filteredItems[activeIndex + 1].active = true;
+        if (activeIndex == null || activeIndex == length - 1) _this.RgSelect.filtereditems[0].active = true;else _this.RgSelect.filtereditems[activeIndex + 1].active = true;
       } else if (e.keyCode == 13 && activeIndex != null) {
-        _this.select({ item: _this.filteredItems[activeIndex] });
+        _this.select({ item: _this.RgSelect.filtereditems[activeIndex] });
       }
     }
     return true;
   };
 
   this.toggle = function () {
-    _this.visible = !_this.visible;
-    if (rg.isFunction(opts.onopen) && _this.visible) opts.onopen();else if (rg.isFunction(opts.onclose) && !_this.visible) opts.onclose();
+    _this.RgSelect.toggle();
   };
 
-  this.filterItems = function () {
-    if (!rg.isArray(opts.options)) return;
-    _this.filteredItems = opts.options.filter(function (item) {
-      item.active = false;
-      var filterOn = opts['filter-on'] || 'text';
-      var filterField = item[filterOn];
-      if (rg.isUndefined(filterField)) throw Error('filter-on field is undefined: option.' + filterOn);
-      var filterInput = _this.filterfield.value;
-      if (_this.autocomplete) filterInput = _this.autocompletefield.value;
-      if (filterInput.length == 0 || filterField.toString().toLowerCase().indexOf(filterInput.toString().toLowerCase()) > -1) return true;
-    });
-    if (rg.isFunction(opts.onfilter)) opts.onfilter();
-    _this.update();
+  this.filter = function () {
+    var text = _this.filterfield.value;
+    if (_this.RgSelect.autocomplete) text = _this.autocompletefield.value;
+    _this.RgSelect.filter(text);
   };
 
   this.select = function (item) {
     item = item.item;
-    if (!rg.isArray(opts.options)) return;
-    opts.options.forEach(function (i) {
-      return i.selected = false;
-    });
-    item.selected = true;
-    if (rg.isFunction(opts.onselect)) opts.onselect(item);
-    _this.selectfield.value = item.text;
-    _this.autocompletefield.value = item.text;
-    _this.visible = false;
-    if (_this.autocomplete) _this.filterItems();
+    _this.RgSelect.select(item);
   };
 
   this.on('mount', function () {
-    // Filter items
-    _this.filterItems();
-
-    // Give each dropdown item an index and select one if applicable
-    if (!rg.isArray(opts.options)) return;
-    opts.options.forEach(function (item, i) {
-      item.index = i;
-      if (item.selected) _this.select({ item: item });
+    _this.RgSelect = opts.select || new RgSelect(opts);
+    _this.RgSelect.on('visibility change filter', function () {
+      _this.filter();
+      _this.update();
     });
-
-    // Setup listeners and style component given content
+    _this.RgSelect.on('select', function (item) {
+      _this.selectfield.value = item[_this.RgSelect.filterfield];
+      _this.autocompletefield.value = item[_this.RgSelect.filterfield];
+      _this.update();
+    });
     document.addEventListener('click', handleClickOutside);
-    var dd = _this.root.querySelector('.dropdown');
-    _this.width = dd.getBoundingClientRect().width + 20 + 'px';
-    dd.style.position = 'absolute';
 
-    _this.autocomplete = rg.toBoolean(opts.autocomplete);
-    _this.visible = rg.toBoolean(opts.visible);
-    _this.filter = rg.toBoolean(opts.filter);
-    _this.fieldText = opts.value;
+    _this.filter();
     _this.update();
   });
 
   this.on('unmount', function () {
-    return document.removeEventListener('click', handleClickOutside);
+    document.removeEventListener('click', handleClickOutside);
   });
 });
 
@@ -2067,57 +2294,65 @@ riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="ta
   });
 });
 
-riot.tag('rg-time', '<rg-select placeholder="{ opts.placeholder || \'Select a time\' }" filter="{ filter }" filter-placeholder="Filter times" options="{ times }" onopen="{ opts.onopen }" onclose="{ opts.onclose }" onselect="{ opts.onselect }"> </rg-select>', function (opts) {
-  this.filter = rg.toBoolean(opts.filter);
-  opts.time = opts.time || 'now';
-  if (opts.time == 'now') opts.time = new Date();
-  if (opts.min) opts.min = opts.min.split(':');
-  if (opts.max) opts.max = opts.max.split(':');
-  var step = parseInt(opts.step) || 1;
-  this.times = [];
+riot.tag('rg-time', '<rg-select select="{ RgTime }"></rg-select>', function (opts) {
+  var _this = this;
 
-  for (var i = 0; i < 1440; i++) {
-    if (i % step == 0) {
-      var d = new Date(0);
-      d.setHours(opts.time.getHours());
-      d.setMinutes(opts.time.getMinutes());
-      d = new Date(d.getTime() + i * 60000);
-      // Check min range
-      if (opts.min) {
-        if (d.getHours() < opts.min[0]) continue;
-        if (d.getHours() == opts.min[0] && d.getMinutes() < opts.min[1]) continue;
-      }
-      // Check max range
-      if (opts.max) {
-        if (d.getHours() > opts.max[0]) continue;
-        if (d.getHours() == opts.max[0] && d.getMinutes() > opts.max[1]) continue;
-      }
-      var t = {
-        hours: d.getHours(),
-        minutes: d.getMinutes()
-      };
-      var m = t.minutes;
-      if (m < 10) m = '0' + m;
-      if (opts.ampm) {
-        // 12h
-        var ampm = 'am';
-        var h = t.hours;
-        if (h >= 12) {
-          ampm = 'pm';
-          h = h - 12;
+  var build = function build() {
+    _this.RgTime.options = [];
+
+    for (var i = 0; i < 1440; i++) {
+      if (i % _this.RgTime.step == 0) {
+        var d = new Date(0);
+        d.setHours(_this.RgTime.time.getHours());
+        d.setMinutes(_this.RgTime.time.getMinutes());
+        d = new Date(d.getTime() + i * 60000);
+        // Check min range
+        if (_this.RgTime.min) {
+          if (d.getHours() < _this.RgTime.min[0]) continue;
+          if (d.getHours() == _this.RgTime.min[0] && d.getMinutes() < _this.RgTime.min[1]) continue;
         }
-        if (h == 0) h = 12;
-        t.text = h + ':' + m + ' ' + ampm;
-        t.period = ampm;
-      } else {
-        // 24h
-        var h = t.hours;
-        if (h < 10) h = '0' + h;
-        t.text = h + ':' + m;
+        // Check max range
+        if (_this.RgTime.max) {
+          if (d.getHours() > _this.RgTime.max[0]) continue;
+          if (d.getHours() == _this.RgTime.max[0] && d.getMinutes() > _this.RgTime.max[1]) continue;
+        }
+        var t = {
+          hours: d.getHours(),
+          minutes: d.getMinutes()
+        };
+        var m = t.minutes;
+        if (m < 10) m = '0' + m;
+        if (_this.RgTime.ampm) {
+          // 12h
+          var ampm = 'am';
+          var h = t.hours;
+          if (h >= 12) {
+            ampm = 'pm';
+            h = h - 12;
+          }
+          if (h == 0) h = 12;
+          t.text = h + ':' + m + ' ' + ampm;
+          t.period = ampm;
+        } else {
+          // 24h
+          var h = t.hours;
+          if (h < 10) h = '0' + h;
+          t.text = h + ':' + m;
+        }
+        _this.RgTime.options.push(t);
       }
-      this.times.push(t);
     }
-  }
+  };
+
+  this.on('mount', function () {
+    _this.RgTime = opts.time || new RgTime(opts);
+    _this.RgTime.on('change', function () {
+      build();
+      _this.update();
+    });
+    build();
+    _this.update();
+  });
 });
 
 riot.tag('rg-toast', '<div class="toasts { opts.position } { active: active }"> <div each="{ opts.toasts }" class="toast { visible: visible }" onclick="{ parent.toastClicked }"> <rg-raw content="{ content }"></rg-raw> </div> </div>', 'rg-toast .toasts, [riot-tag="rg-toast"] .toasts{ display: none; position: absolute; width: 250px; max-height: 100%; overflow-y: auto; background-color: transparent; z-index: 101; } rg-toast .toasts.active, [riot-tag="rg-toast"] .toasts.active{ display: block; } rg-toast .toasts.topleft, [riot-tag="rg-toast"] .toasts.topleft{ top: 0; left: 0; } rg-toast .toasts.topright, [riot-tag="rg-toast"] .toasts.topright{ top: 0; right: 0; } rg-toast .toasts.bottomleft, [riot-tag="rg-toast"] .toasts.bottomleft{ bottom: 0; left: 0; } rg-toast .toasts.bottomright, [riot-tag="rg-toast"] .toasts.bottomright{ bottom: 0; right: 0; } rg-toast .toast, [riot-tag="rg-toast"] .toast{ display: none; padding: 20px; margin: 20px; background-color: #000; color: white; font-size: 0.9em; cursor: pointer; } rg-toast .toast.visible, [riot-tag="rg-toast"] .toast.visible{ display: block; }', function (opts) {

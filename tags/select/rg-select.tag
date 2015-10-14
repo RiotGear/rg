@@ -1,37 +1,37 @@
 <rg-select>
 
-	<div class="container { visible: visible }" style="width: { width }">
-		<input if="{ !autocomplete }"
+	<div class="container { visible: RgSelect.isvisible }" style="width: { width }">
+		<input if="{ !RgSelect.autocomplete }"
 					 type="text"
 					 name="selectfield"
-					 class="field { visible: visible }"
+					 class="field { visible: RgSelect.isvisible }"
 					 value="{ fieldText }"
-					 placeholder="{ opts.placeholder }"
+					 placeholder="{ RgSelect.placeholder }"
 					 onkeydown="{ handleKeys }"
 					 onclick="{ toggle }"
 					 readonly>
 
-		<input if="{ autocomplete }"
+		<input if="{ RgSelect.autocomplete }"
 					 type="text"
 					 name="autocompletefield"
-					 class="field { visible: visible }"
+					 class="field { visible: RgSelect.isvisible }"
 					 value="{ fieldText }"
-					 placeholder="{ opts.placeholder }"
+					 placeholder="{ RgSelect.placeholder }"
 					 onkeydown="{ handleKeys }"
 					 onclick="{ toggle }"
-					 oninput="{ filterItems }">
+					 oninput="{ filter }">
 
-		<div class="dropdown { visible: visible } { empty: filteredItems.length == 0 }">
-			<div class="filter" if="{ filter }">
+		<div class="dropdown { visible: RgSelect.isvisible } { empty: RgSelect.filtereditems.length == 0 }">
+			<div class="filter" if="{ RgSelect.hasfilter && !RgSelect.autocomplete }">
 				<input type="text"
 							 name="filterfield"
 							 class="filter-box"
-							 placeholder="{ opts['filter-placeholder'] || 'Filter' }"
+							 placeholder="{ RgSelect.filterplaceholder || 'Filter' }"
 							 onkeydown="{ handleKeys }"
-							 oninput="{ filterItems }">
+							 oninput="{ filter }">
 			</div>
-			<ul class="list { empty: filteredItems.length == 0 }">
-				<li each="{ filteredItems }"
+			<ul class="list { empty: RgSelect.filtereditems.length == 0 }">
+				<li each="{ RgSelect.filtereditems }"
 						onclick="{ parent.select }"
 						class="item { selected: selected, disabled: disabled, active: active }">
 					{ text }
@@ -41,31 +41,27 @@
 	</div>
 
 	<script>
-		this.visible = true;
-
 		/* istanbul ignore next */
-		var handleClickOutside = e => {
+		const handleClickOutside = e => {
 			if (!this.root.contains(e.target)) {
-				if (rg.isFunction(opts.onclose) && this.visible) opts.onclose()
-				this.visible = false
-				this.update()
+				this.RgSelect.close()
 			}
 		}
 
 		this.handleKeys = e => {
-			if ([13, 38, 40].indexOf(e.keyCode) > -1 && !this.visible) {
+			if ([13, 38, 40].indexOf(e.keyCode) > -1 && !this.RgSelect.isvisible) {
 				e.preventDefault()
 				this.toggle()
 				return true
 			}
-			if (this.autocomplete && !this.visible) this.visible = true
-			var length = this.filteredItems.length
+			if (this.RgSelect.autocomplete && !this.RgSelect.isvisible) this.toggle()
+			var length = this.RgSelect.filtereditems.length
 			if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
 				e.preventDefault()
 				// Get the currently selected item
 				var activeIndex = null
 				for (let i = 0; i < length; i++) {
-					let item = this.filteredItems[i]
+					let item = this.RgSelect.filtereditems[i]
 					if (item.active) {
 						activeIndex = i
 						break
@@ -73,89 +69,61 @@
 				}
 
 				// We're leaving this item
-				if (activeIndex != null) this.filteredItems[activeIndex].active = false
+				if (activeIndex != null) this.RgSelect.filtereditems[activeIndex].active = false
 
 				if (e.keyCode == 38) {
 					// Move the active state to the next item lower down the index
 					if (activeIndex == null || activeIndex == 0)
-						this.filteredItems[length - 1].active = true
+						this.RgSelect.filtereditems[length - 1].active = true
 					else
-						this.filteredItems[activeIndex - 1].active = true
+						this.RgSelect.filtereditems[activeIndex - 1].active = true
 				} else if (e.keyCode == 40) {
 					// Move the active state to the next item higher up the index
 					if (activeIndex == null || activeIndex == length - 1)
-						this.filteredItems[0].active = true
+						this.RgSelect.filtereditems[0].active = true
 					else
-						this.filteredItems[activeIndex + 1].active = true
+						this.RgSelect.filtereditems[activeIndex + 1].active = true
 				} else if (e.keyCode == 13 && activeIndex != null) {
-					this.select({ item: this.filteredItems[activeIndex] })
+					this.select({ item: this.RgSelect.filtereditems[activeIndex] })
 				}
 			}
 			return true
 		};
 
 		this.toggle = () => {
-			this.visible = !this.visible
-			if (rg.isFunction(opts.onopen) && this.visible) opts.onopen()
-			else if (rg.isFunction(opts.onclose) && !this.visible) opts.onclose()
+			this.RgSelect.toggle()
 		}
 
-		this.filterItems = () => {
-			if (!rg.isArray(opts.options)) return
-			this.filteredItems = opts.options.filter(item => {
-				item.active = false
-				const filterOn = opts['filter-on'] || 'text'
-				const filterField = item[filterOn]
-				if (rg.isUndefined(filterField)) throw Error(`filter-on field is undefined: option.${filterOn}`)
-				let filterInput = this.filterfield.value
-				if (this.autocomplete) filterInput = this.autocompletefield.value
-				if (filterInput.length == 0 ||
-					filterField.toString()
-					           .toLowerCase()
-										 .indexOf(filterInput.toString().toLowerCase()) > -1)
-					return true
-			})
-			if (rg.isFunction(opts.onfilter)) opts.onfilter()
-			this.update()
+		this.filter = () => {
+			let text = this.filterfield.value
+			if (this.RgSelect.autocomplete) text = this.autocompletefield.value
+			this.RgSelect.filter(text)
 		}
 
 		this.select = item => {
 			item = item.item
-			if (!rg.isArray(opts.options)) return
-			opts.options.forEach(i => i.selected = false)
-			item.selected = true
-			if (rg.isFunction(opts.onselect)) opts.onselect(item)
-			this.selectfield.value = item.text
-			this.autocompletefield.value = item.text
-			this.visible = false
-			if (this.autocomplete) this.filterItems()
+			this.RgSelect.select(item)
 		}
 
 		this.on('mount', () => {
-			// Filter items
-			this.filterItems()
-
-			// Give each dropdown item an index and select one if applicable
-			if (!rg.isArray(opts.options)) return
-			opts.options.forEach((item, i) => {
-				item.index = i
-				if (item.selected) this.select({ item })
+			this.RgSelect = opts.select || new RgSelect(opts)
+			this.RgSelect.on('visibility change filter', () => {
+				this.filter()
+				this.update()
 			})
-
-			// Setup listeners and style component given content
+			this.RgSelect.on('select', item => {
+				this.selectfield.value = item[this.RgSelect.filterfield]
+				this.autocompletefield.value = item[this.RgSelect.filterfield]
+				this.update()
+			})
 			document.addEventListener('click', handleClickOutside)
-			var dd = this.root.querySelector('.dropdown')
-			this.width = `${dd.getBoundingClientRect().width + 20}px`
-			dd.style.position = 'absolute'
 
-			this.autocomplete = rg.toBoolean(opts.autocomplete)
-			this.visible = rg.toBoolean(opts.visible)
-			this.filter = rg.toBoolean(opts.filter)
-			this.fieldText = opts.value
+			this.filter()
 			this.update()
 		})
 
-		this.on('unmount', () => document.removeEventListener('click', handleClickOutside))
+		this.on('unmount', () => {
+			document.removeEventListener('click', handleClickOutside)})
 	</script>
 
 	<style scoped>
@@ -180,7 +148,7 @@
 
 		.dropdown {
 			display: none;
-			position: relative;
+			position: absolute;
 			width: 100%;
 			background-color: white;
 			border-bottom: 1px solid #D3D3D3;
