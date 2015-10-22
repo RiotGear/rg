@@ -1,40 +1,26 @@
 <rg-toast>
 
-	<div class="toasts { opts.position } { active: active }">
-		<div each="{ opts.toasts }" class="toast { visible: visible }" onclick="{ parent.toastClicked }">
+	<div class="toasts { RgToasts.position } { isvisible: RgToasts.isvisible }">
+		<div each="{ RgToasts.toasts }" class="toast { isvisible: isvisible }" onclick="{ parent.toastClicked }">
 			<rg-raw content="{ content }"></rg-raw>
 		</div>
 	</div>
 
 	<script>
-		if (!opts.position) opts.position = 'topright'
-
 		this.toastClicked = e => {
 			let toast = e.item
 			if (rg.isFunction(toast.onclick)) toast.onclick()
 			if (rg.isFunction(toast.onclose)) toast.onclose()
 			window.clearTimeout(toast.timer)
-			toast.visible = false
+			toast.isvisible = false
 		}
 
-		this.on('update', () => {
-			if (!rg.isArray(opts.toasts)) return
-			opts.toasts.forEach(toast => {
-				if (rg.isUndefined(toast.visible)) toast.visible = true
-				toast.id = Math.random().toString(36).substr(2, 8)
-				if (!toast.timer && !toast.sticky) {
-					toast.startTimer = () => {
-						toast.timer = window.setTimeout(() => {
-							toast.visible = false
-							if (rg.isFunction(toast.onclose)) toast.onclose()
-							this.update()
-						}, rg.toNumber(toast.timeout) || 6000)
-					}
-					toast.startTimer()
-				}
+		this.on('mount', () => {
+			this.RgToasts = opts.toasts || new RgToasts(opts)
+			this.RgToasts.on('visibility change', () => {
+				this.update()
 			})
-
-			this.active = opts.toasts.filter(toast => toast.visible).length
+			this.update()
 		})
 	</script>
 
@@ -49,7 +35,7 @@
 			z-index: 101;
 		}
 
-		.toasts.active {
+		.toasts.isvisible {
 			display: block;
 		}
 
@@ -83,7 +69,7 @@
 			cursor: pointer;
 		}
 
-		.toast.visible {
+		.toast.isvisible {
 			display: block;
 		}
 	</style>

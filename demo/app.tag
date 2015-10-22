@@ -150,11 +150,12 @@
     <rg-time time="{ time }"></rg-time>
     <button onclick="{ changeTime }">Change time</button>
   </div>
-  <!--
+
   <h2>Toast</h2>
   <div class="demo">
-    <rg-toast position="topleft"></rg-toast>
-  </div> -->
+    <rg-toast toasts="{ toasts }"></rg-toast>
+    <button onclick="{ changeToasts }">Change toasts</button>
+  </div>
 
   <h2>Toggle</h2>
   <div class="demo">
@@ -473,6 +474,22 @@
       this.sidemenu.items.push({
         content: '<em>Item x</em>'
       })
+    }
+
+    /*
+     * TOASTS
+     */
+    this.toasts = new RgToasts({
+      toasts: [{
+        content: 'Hey look at me!'
+      }]
+    })
+
+    this.changeToasts = () => {
+      this.toasts.add({
+        content: 'Me is a new toast'
+      })
+      this.toasts.position = 'bottomleft'
     }
 
   </script>

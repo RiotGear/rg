@@ -1535,6 +1535,77 @@ var RgTime = (function (_RgSelect) {
   return RgTime;
 })(RgSelect);
 
+var RgToasts = (function () {
+  function RgToasts(opts) {
+    _classCallCheck(this, RgToasts);
+
+    riot.observable(this);
+    if (rg.isUndefined(opts)) opts = {};
+    this._toasts = opts.toasts;
+    this._position = opts.position;
+    this._isvisible = opts.isvisible;
+  }
+
+  _createClass(RgToasts, [{
+    key: 'add',
+    value: function add(toast) {
+      this.toasts.push(toast);
+      this.trigger('add');
+    }
+  }, {
+    key: 'toasts',
+    get: function get() {
+      var _this11 = this;
+
+      if (rg.isArray(this._toasts)) {
+        this._toasts.forEach(function (toast) {
+          if (rg.isUndefined(toast.isvisible)) toast.isvisible = true;
+          toast.id = toast.id || rg.uid();
+          if (!toast.timer && !toast.sticky) {
+            toast.startTimer = function () {
+              toast.timer = window.setTimeout(function () {
+                toast.isvisible = false;
+                if (rg.isFunction(toast.onclose)) toast.onclose();
+                _this11.trigger('change');
+              }, rg.toNumber(toast.timeout) || 6000);
+            };
+            toast.startTimer();
+          }
+        });
+        this.isvisible = this._toasts.filter(function (toast) {
+          return toast.isvisible;
+        }).length > 0;
+        return this._toasts;
+      }
+      return [];
+    },
+    set: function set(toasts) {
+      this._toasts = toasts;
+      this.trigger('change');
+    }
+  }, {
+    key: 'position',
+    get: function get() {
+      return this._position || 'topright';
+    },
+    set: function set(position) {
+      this._position = position;
+      this.trigger('change');
+    }
+  }, {
+    key: 'isvisible',
+    get: function get() {
+      return rg.toBoolean(this._isvisible);
+    },
+    set: function set(isvisible) {
+      this._isvisible = isvisible;
+      this.trigger('visibility');
+    }
+  }]);
+
+  return RgToasts;
+})();
+
 var RgToggle = (function () {
   function RgToggle(opts) {
     _classCallCheck(this, RgToggle);
@@ -2458,39 +2529,23 @@ riot.tag('rg-time', '<rg-select select="{ RgTime }"></rg-select>', function (opt
   });
 });
 
-riot.tag('rg-toast', '<div class="toasts { opts.position } { active: active }"> <div each="{ opts.toasts }" class="toast { visible: visible }" onclick="{ parent.toastClicked }"> <rg-raw content="{ content }"></rg-raw> </div> </div>', 'rg-toast .toasts, [riot-tag="rg-toast"] .toasts{ display: none; position: absolute; width: 250px; max-height: 100%; overflow-y: auto; background-color: transparent; z-index: 101; } rg-toast .toasts.active, [riot-tag="rg-toast"] .toasts.active{ display: block; } rg-toast .toasts.topleft, [riot-tag="rg-toast"] .toasts.topleft{ top: 0; left: 0; } rg-toast .toasts.topright, [riot-tag="rg-toast"] .toasts.topright{ top: 0; right: 0; } rg-toast .toasts.bottomleft, [riot-tag="rg-toast"] .toasts.bottomleft{ bottom: 0; left: 0; } rg-toast .toasts.bottomright, [riot-tag="rg-toast"] .toasts.bottomright{ bottom: 0; right: 0; } rg-toast .toast, [riot-tag="rg-toast"] .toast{ display: none; padding: 20px; margin: 20px; background-color: #000; color: white; font-size: 0.9em; cursor: pointer; } rg-toast .toast.visible, [riot-tag="rg-toast"] .toast.visible{ display: block; }', function (opts) {
+riot.tag('rg-toast', '<div class="toasts { RgToasts.position } { isvisible: RgToasts.isvisible }"> <div each="{ RgToasts.toasts }" class="toast { isvisible: isvisible }" onclick="{ parent.toastClicked }"> <rg-raw content="{ content }"></rg-raw> </div> </div>', 'rg-toast .toasts, [riot-tag="rg-toast"] .toasts{ display: none; position: absolute; width: 250px; max-height: 100%; overflow-y: auto; background-color: transparent; z-index: 101; } rg-toast .toasts.isvisible, [riot-tag="rg-toast"] .toasts.isvisible{ display: block; } rg-toast .toasts.topleft, [riot-tag="rg-toast"] .toasts.topleft{ top: 0; left: 0; } rg-toast .toasts.topright, [riot-tag="rg-toast"] .toasts.topright{ top: 0; right: 0; } rg-toast .toasts.bottomleft, [riot-tag="rg-toast"] .toasts.bottomleft{ bottom: 0; left: 0; } rg-toast .toasts.bottomright, [riot-tag="rg-toast"] .toasts.bottomright{ bottom: 0; right: 0; } rg-toast .toast, [riot-tag="rg-toast"] .toast{ display: none; padding: 20px; margin: 20px; background-color: #000; color: white; font-size: 0.9em; cursor: pointer; } rg-toast .toast.isvisible, [riot-tag="rg-toast"] .toast.isvisible{ display: block; }', function (opts) {
   var _this = this;
-
-  if (!opts.position) opts.position = 'topright';
 
   this.toastClicked = function (e) {
     var toast = e.item;
     if (rg.isFunction(toast.onclick)) toast.onclick();
     if (rg.isFunction(toast.onclose)) toast.onclose();
     window.clearTimeout(toast.timer);
-    toast.visible = false;
+    toast.isvisible = false;
   };
 
-  this.on('update', function () {
-    if (!rg.isArray(opts.toasts)) return;
-    opts.toasts.forEach(function (toast) {
-      if (rg.isUndefined(toast.visible)) toast.visible = true;
-      toast.id = Math.random().toString(36).substr(2, 8);
-      if (!toast.timer && !toast.sticky) {
-        toast.startTimer = function () {
-          toast.timer = window.setTimeout(function () {
-            toast.visible = false;
-            if (rg.isFunction(toast.onclose)) toast.onclose();
-            _this.update();
-          }, rg.toNumber(toast.timeout) || 6000);
-        };
-        toast.startTimer();
-      }
+  this.on('mount', function () {
+    _this.RgToasts = opts.toasts || new RgToasts(opts);
+    _this.RgToasts.on('visibility change', function () {
+      _this.update();
     });
-
-    _this.active = opts.toasts.filter(function (toast) {
-      return toast.visible;
-    }).length;
+    _this.update();
   });
 });
 
