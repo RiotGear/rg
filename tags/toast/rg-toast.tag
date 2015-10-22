@@ -1,7 +1,7 @@
 <rg-toast>
 
-	<div class="toasts { RgToasts.position } { isvisible: RgToasts.isvisible }">
-		<div each="{ RgToasts.toasts }" class="toast { isvisible: isvisible }" onclick="{ parent.toastClicked }">
+	<div class="toasts { RgToast.position } { isvisible: RgToast.isvisible }">
+		<div each="{ RgToast.toasts }" class="toast { isvisible: isvisible }" onclick="{ parent.toastClicked }">
 			<rg-raw content="{ content }"></rg-raw>
 		</div>
 	</div>
@@ -16,8 +16,8 @@
 		}
 
 		this.on('mount', () => {
-			this.RgToasts = opts.toasts || new RgToasts(opts)
-			this.RgToasts.on('visibility change', () => {
+			this.RgToast = opts.toasts || new RgToast(opts)
+			this.RgToast.on('visibility change', () => {
 				this.update()
 			})
 			this.update()

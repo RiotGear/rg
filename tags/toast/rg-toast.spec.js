@@ -4,7 +4,7 @@ describe('rg-toast', function() {
   beforeEach(function() {
     onClickSpy = sinon.spy()
     onCloseSpy = sinon.spy()
-    toasts = new RgToasts({
+    toasts = new RgToast({
       position: 'bottomleft',
       toasts: [{
         content: 'Auto disappear',
@@ -35,7 +35,7 @@ describe('rg-toast', function() {
   })
 
   it('position can be set', function() {
-    tag.RgToasts.position.should.equal('bottomleft')
+    tag.RgToast.position.should.equal('bottomleft')
   })
 
   it('has correct number of toasts', function() {
@@ -69,7 +69,7 @@ describe('rg-toast no position', function() {
   let tag, toasts
 
   beforeEach(function() {
-    toasts = new RgToasts({
+    toasts = new RgToast({
       toasts: [{
         content: 'Auto disappear',
         timeout: 500
@@ -90,7 +90,7 @@ describe('rg-toast no position', function() {
   })
 
   it('position is defaulted', function() {
-    tag.RgToasts.position.should.equal('topright')
+    tag.RgToast.position.should.equal('topright')
   })
 })
 
@@ -98,7 +98,7 @@ describe('rg-toast no events', function() {
   let tag, onClickSpy, onCloseSpy, toasts
 
   beforeEach(function() {
-    toasts = new RgToasts({
+    toasts = new RgToast({
       toasts: [{
         content: 'Auto disappear',
         timeout: 500

@@ -321,7 +321,7 @@ this.changeSidemenu = function () {
 /*
  * TOASTS
  */
-this.toasts = new RgToasts({
+this.toasts = new RgToast({
   toasts: [{
     content: 'Hey look at me!'
   }]
@@ -329,10 +329,7 @@ this.toasts = new RgToasts({
 
 this.changeToasts = function () {
   _this.toasts.add({
-    content: 'Me is a new toast',
-    onclick: function onclick() {
-      alert('here');
-    }
+    content: 'Me is a new toast'
   });
   _this.toasts.position = 'bottomleft';
 };

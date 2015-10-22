@@ -1,4 +1,4 @@
-class RgToasts {
+class RgToast {
 
   constructor(opts) {
     riot.observable(this)
