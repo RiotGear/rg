@@ -1468,8 +1468,62 @@ var RgSidemenu = (function () {
   return RgSidemenu;
 })();
 
-var RgTime = (function (_RgSelect) {
-  _inherits(RgTime, _RgSelect);
+var RgTags = (function (_RgSelect) {
+  _inherits(RgTags, _RgSelect);
+
+  function RgTags(opts) {
+    _classCallCheck(this, RgTags);
+
+    _get(Object.getPrototypeOf(RgTags.prototype), 'constructor', this).call(this, opts);
+    this._tags = opts.tags;
+    this._value = opts.value;
+  }
+
+  _createClass(RgTags, [{
+    key: 'addTag',
+    value: function addTag(tag) {
+      tag.index = this.tags.length;
+      this.tags.push(tag);
+      this.isvisible = false;
+      this.trigger('add', tag);
+    }
+  }, {
+    key: 'removeTag',
+    value: function removeTag(tag) {
+      this.tags.splice(this.tags.indexOf(tag), 1);
+      this.isvisible = false;
+      this.trigger('remove', tag);
+    }
+  }, {
+    key: 'value',
+    get: function get() {
+      return this._value || '';
+    },
+    set: function set(val) {
+      this._value = val;
+      this.trigger('value');
+    }
+  }, {
+    key: 'tags',
+    get: function get() {
+      if (rg.isArray(this._tags)) return this._tags;
+      return [];
+    },
+    set: function set(tags) {
+      if (!rg.isArray(tags)) tags = [];
+      tags.forEach(function (item, i) {
+        item.index = i;
+      });
+      this._tags = tags;
+      this.trigger('change');
+    }
+  }]);
+
+  return RgTags;
+})(RgSelect);
+
+var RgTime = (function (_RgSelect2) {
+  _inherits(RgTime, _RgSelect2);
 
   function RgTime(opts) {
     _classCallCheck(this, RgTime);
@@ -2352,36 +2406,30 @@ riot.tag('rg-tabs', '<div class="tabs"> <div class="headers"> <div each="{ tab i
   };
 });
 
-riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="tag" each="{ opts.tags }" onclick="{ parent.removeTag }"> { text } <span class="close">&times;</span> </span> </span> <div class="field-container { visible: visible }"> <input type="{ opts.type || \'text\' }" class="field" name="filterField" placeholder="{ opts.placeholder }" onkeydown="{ handleKeys }" oninput="{ filterItems }" onfocus="{ filterItems }"> <div class="dropdown { visible: visible }"> <ul class="list"> <li each="{ filteredItems }" onclick="{ parent.select }" class="item { active: active }"> { text } </li> </ul> </div> </div> </div>', 'rg-tags .container, [riot-tag="rg-tags"] .container{ position: relative; width: 100%; border: 1px solid #D3D3D3; background-color: white; text-align: left; padding: 0; box-sizing: border-box; } rg-tags .field-container, [riot-tag="rg-tags"] .field-container{ position: absolute; display: inline-block; cursor: pointer; } rg-tags .field, [riot-tag="rg-tags"] .field{ width: 100%; padding: 10px; border: 0; box-sizing: border-box; background-color: transparent; white-space: nowrap; font-size: 1em; line-height: normal; outline: 0; } rg-tags .dropdown, [riot-tag="rg-tags"] .dropdown{ display: none; position: absolute; width: 100%; background-color: white; border-bottom: 1px solid #D3D3D3; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; max-height: 280px; margin: -1px 0 0 -1px; } rg-tags .dropdown.visible, [riot-tag="rg-tags"] .dropdown.visible{ display: block; } rg-tags .list, [riot-tag="rg-tags"] .list,rg-tags .item, [riot-tag="rg-tags"] .item{ list-style: none; padding: 0; margin: 0; } rg-tags .list.empty, [riot-tag="rg-tags"] .list.empty{ display: none; } rg-tags .item, [riot-tag="rg-tags"] .item{ padding: 10px; border-left: 1px solid #D3D3D3; border-right: 1px solid #D3D3D3; border-top: 1px solid #E8E8E8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-tags .item:first-child, [riot-tag="rg-tags"] .item:first-child{ border-top: 0; } rg-tags .item:hover, [riot-tag="rg-tags"] .item:hover{ background-color: #f3f3f3; } rg-tags .item.active, [riot-tag="rg-tags"] .item.active,rg-tags .item:hover.active, [riot-tag="rg-tags"] .item:hover.active{ background-color: #ededed; } rg-tags .tags, [riot-tag="rg-tags"] .tags{ display: inline-block; max-width: 70%; white-space: nowrap; overflow-y: hidden; overflow-x: auto; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; } rg-tags .tag, [riot-tag="rg-tags"] .tag{ position: relative; display: inline-block; padding: 8px 20px 8px 5px; margin: 1px; background-color: #000; color: #fff; font-size: 1em; line-height: normal; cursor: pointer; } rg-tags .tag:hover, [riot-tag="rg-tags"] .tag:hover,rg-tags .tag:active, [riot-tag="rg-tags"] .tag:active{ background-color: #666; } rg-tags .close, [riot-tag="rg-tags"] .close{ position: absolute; right: 5px; top: 7px; color: rgba(255, 255, 255, 0.7); }', function (opts) {
+riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="tag" each="{ RgTags.tags }" onclick="{ parent.removeTag }"> { text } <span class="close">&times;</span> </span> </span> <div class="field-container { isvisible: RgTags.isvisible }"> <input type="text" class="field" name="filterfield" placeholder="{ RgTags.placeholder }" onkeydown="{ handleKeys }" oninput="{ filter }" onfocus="{ toggle }"> <div class="dropdown { isvisible: RgTags.isvisible }"> <ul class="list"> <li each="{ RgTags.filtereditems }" onclick="{ parent.addTag }" class="item { disabled: disabled, active: active }"> { text } </li> </ul> </div> </div> </div>', 'rg-tags .container, [riot-tag="rg-tags"] .container{ position: relative; width: 100%; border: 1px solid #D3D3D3; background-color: white; text-align: left; padding: 0; box-sizing: border-box; } rg-tags .field-container, [riot-tag="rg-tags"] .field-container{ position: absolute; display: inline-block; cursor: pointer; } rg-tags .field, [riot-tag="rg-tags"] .field{ width: 100%; padding: 10px; border: 0; box-sizing: border-box; background-color: transparent; white-space: nowrap; font-size: 1em; line-height: normal; outline: 0; } rg-tags .dropdown, [riot-tag="rg-tags"] .dropdown{ display: none; position: absolute; width: 100%; background-color: white; border-bottom: 1px solid #D3D3D3; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; max-height: 280px; margin: -1px 0 0 -1px; } rg-tags .dropdown.isvisible, [riot-tag="rg-tags"] .dropdown.isvisible{ display: block; } rg-tags .list, [riot-tag="rg-tags"] .list,rg-tags .item, [riot-tag="rg-tags"] .item{ list-style: none; padding: 0; margin: 0; } rg-tags .list.empty, [riot-tag="rg-tags"] .list.empty{ display: none; } rg-tags .item, [riot-tag="rg-tags"] .item{ padding: 10px; border-left: 1px solid #D3D3D3; border-right: 1px solid #D3D3D3; border-top: 1px solid #E8E8E8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-tags .item:first-child, [riot-tag="rg-tags"] .item:first-child{ border-top: 0; } rg-tags .item:hover, [riot-tag="rg-tags"] .item:hover{ background-color: #f3f3f3; } rg-tags .item.active, [riot-tag="rg-tags"] .item.active,rg-tags .item:hover.active, [riot-tag="rg-tags"] .item:hover.active{ background-color: #ededed; } rg-tags .tags, [riot-tag="rg-tags"] .tags{ display: inline-block; max-width: 70%; white-space: nowrap; overflow-y: hidden; overflow-x: auto; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; } rg-tags .tag, [riot-tag="rg-tags"] .tag{ position: relative; display: inline-block; padding: 8px 20px 8px 5px; margin: 1px; background-color: #000; color: #fff; font-size: 1em; line-height: normal; cursor: pointer; } rg-tags .tag:hover, [riot-tag="rg-tags"] .tag:hover,rg-tags .tag:active, [riot-tag="rg-tags"] .tag:active{ background-color: #666; } rg-tags .close, [riot-tag="rg-tags"] .close{ position: absolute; right: 5px; top: 7px; color: rgba(255, 255, 255, 0.7); }', function (opts) {
   var _this = this;
 
-  this.visible = false;
-  this.filterField.value = opts.value || '';
-  opts.options = opts.options || [];
-  opts.tags = opts.tags || [];
-  opts.tags.forEach(function (tag, i) {
-    return tag.index = i;
-  });
-
-  this.filterItems = function () {
-    _this.filteredItems = opts.options.filter(function (item) {
-      item.active = false;
-      if (_this.filterField.value.length == 0 || item.text.toString().toLowerCase().indexOf(_this.filterField.value.toString().toLowerCase()) > -1) return true;
-    });
-    _this.visible = _this.filteredItems.length > 0;
-    if (rg.isFunction(opts.onfilter)) opts.onfilter();
-    _this.update();
+  /* istanbul ignore next */
+  var handleClickOutside = function handleClickOutside(e) {
+    if (!_this.root.contains(e.target)) {
+      _this.RgTags.close();
+    }
   };
 
   this.handleKeys = function (e) {
-    var length = _this.filteredItems.length;
+    if ([13, 38, 40].indexOf(e.keyCode) > -1 && !_this.RgTags.isvisible) {
+      e.preventDefault();
+      _this.toggle();
+      return true;
+    }
+    if (!_this.RgTags.isvisible) _this.toggle();
+    var length = _this.RgTags.filtereditems.length;
     if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
-      _this.visible = true;
       e.preventDefault();
       // Get the currently selected item
       var activeIndex = null;
       for (var i = 0; i < length; i++) {
-        var item = _this.filteredItems[i];
+        var item = _this.RgTags.filtereditems[i];
         if (item.active) {
           activeIndex = i;
           break;
@@ -2389,68 +2437,71 @@ riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="ta
       }
 
       // We're leaving this item
-      if (activeIndex != null) _this.filteredItems[activeIndex].active = false;
+      if (activeIndex != null) _this.RgTags.filtereditems[activeIndex].active = false;
 
       if (e.keyCode == 38) {
         // Move the active state to the next item lower down the index
-        if (activeIndex == null || activeIndex == 0) _this.filteredItems[length - 1].active = true;else _this.filteredItems[activeIndex - 1].active = true;
+        if (activeIndex == null || activeIndex == 0) _this.RgTags.filtereditems[length - 1].active = true;else _this.RgTags.filtereditems[activeIndex - 1].active = true;
       } else if (e.keyCode == 40) {
         // Move the active state to the next item higher up the index
-        if (activeIndex == null || activeIndex == length - 1) _this.filteredItems[0].active = true;else _this.filteredItems[activeIndex + 1].active = true;
+        if (activeIndex == null || activeIndex == length - 1) _this.RgTags.filtereditems[0].active = true;else _this.RgTags.filtereditems[activeIndex + 1].active = true;
       } else if (e.keyCode == 13 && activeIndex != null) {
-        _this.select({ item: _this.filteredItems[activeIndex] });
+        _this.addTag({
+          item: _this.RgTags.filtereditems[activeIndex]
+        });
       }
     }
     if (e.keyCode == 13) {
       _this.addTag();
-    } else if (e.keyCode == 8 && _this.filterField.value == '' && opts.tags.length > 0) {
-      var tag = opts.tags.pop();
-      _this.filterField.value = tag.text;
+    } else if (e.keyCode == 8 && _this.filterfield.value == '' && _this.RgTags.tags.length > 0) {
+      var tag = _this.RgTags.tags.pop();
+      _this.filterfield.value = tag.text;
     }
     return true;
   };
 
-  this.addTag = function (item) {
-    var tag = item || { text: _this.filterField.value };
-    if (tag.text.length > 0) {
-      tag.index = opts.tags.length;
-      opts.tags.push(tag);
-      _this.filterField.value = '';
-      _this.filteredItems = opts.options;
-      _this.visible = false;
-    }
-    _this.update();
+  this.toggle = function () {
+    _this.RgTags.toggle();
+  };
+
+  this.filter = function () {
+    _this.RgTags.filter(_this.filterfield.value);
+  };
+
+  this.addTag = function (e) {
+    var tag = {
+      text: _this.filterfield.value
+    };
+    if (e) tag = e.item;
+    if (tag.text.length > 0) _this.RgTags.addTag(tag);
   };
 
   this.removeTag = function (e) {
-    opts.tags.splice(opts.tags.indexOf(e.item), 1);
-    _this.visible = false;
-  };
-
-  this.select = function (item) {
-    item = item.item;
-    if (rg.isFunction(opts.onselect)) opts.onselect(item);
-    _this.addTag(item);
-  };
-
-  this.closeDropdown = function (e) {
-    if (!_this.root.contains(e.target)) {
-      if (rg.isFunction(opts.onclose) && _this.visible) opts.onclose();
-      _this.visible = false;
-      _this.update();
-    }
+    _this.RgTags.removeTag(e.item);
   };
 
   this.on('mount', function () {
-    document.addEventListener('click', _this.closeDropdown);
-    document.addEventListener('focus', _this.closeDropdown, true);
-    _this.visible = opts.visible;
+    _this.RgTags = opts.tags || new RgTags(opts);
+    _this.RgTags.on('visibility change filter remove', function () {
+      if (_this.RgTags.isvisible) _this.filter();
+      _this.update();
+    });
+    _this.RgTags.on('add', function (item) {
+      _this.filterfield.value = '';
+      _this.update();
+    });
+    _this.RgTags.on('value', function () {
+      _this.filterfield.value = _this.RgTags.value;
+    });
+    document.addEventListener('click', handleClickOutside);
+    document.addEventListener('focus', handleClickOutside, true);
+    _this.filterfield.value = _this.RgTags.value;
     _this.update();
   });
 
   this.on('unmount', function () {
-    document.removeEventListener('click', _this.closeDropdown);
-    document.removeEventListener('focus', _this.closeDropdown, true);
+    document.removeEventListener('click', handleClickOutside);
+    document.removeEventListener('focus', handleClickOutside, true);
   });
 
   this.on('update', function () {

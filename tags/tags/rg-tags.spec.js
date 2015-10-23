@@ -1,13 +1,10 @@
 describe('rg-tags', function() {
-  let tag
+  let tag, tags
 
   beforeEach(function() {
-    $('body').append(`<rg-tags type="text"
-                        value="Canada"
-                        opened="false"
-                        placeholder="Enter a country name">
-                      </rg-tags>`)
-    tag = riot.mount('rg-tags', {
+    tags = new RgTags({
+      value: 'Canada',
+      placeholder: 'Enter a country name',
       options: [{
         text: 'England'
       }, {
@@ -20,6 +17,10 @@ describe('rg-tags', function() {
       tags: [{
         text: 'America'
       }]
+    })
+    $('body').append('<rg-tags></rg-tags>')
+    tag = riot.mount('rg-tags', {
+      tags
     })[0]
   })
 
@@ -32,7 +33,7 @@ describe('rg-tags', function() {
   })
 
   it('has the correct value in the text box', function() {
-    $('input[name=filterField]').val().should.equal('Canada')
+    $('input[name=filterfield]').val().should.equal('Canada')
   })
 
   it('has correct number of tags', function() {
@@ -41,20 +42,21 @@ describe('rg-tags', function() {
   })
 
   it('pressing enter will add the value to the list of tags', function() {
-    $('input[name=filterField]').focus()
+    $('input[name=filterfield]').focus()
+    $('input[name=filterfield]').val('Japan')
     let e = $.Event('keydown')
     e.keyCode = 13
-    $('input[name=filterField]').trigger(e)
+    $('input[name=filterfield]').trigger(e)
     $('.tag').length.should.equal(2)
-    $('.tag:nth-child(2)').text().should.contain('Canada')
+    $('.tag:nth-child(2)').text().should.contain('Japan')
   })
 
   it('pressing enter with no text will be ignored', function() {
-    $('input[name=filterField]').focus()
-    $('input[name=filterField]').val('')
+    $('input[name=filterfield]').focus()
+    $('input[name=filterfield]').val('')
     let e = $.Event('keydown')
     e.keyCode = 13
-    $('input[name=filterField]').trigger(e)
+    $('input[name=filterfield]').trigger(e)
     $('.tag').length.should.equal(1)
   })
 
@@ -64,16 +66,16 @@ describe('rg-tags', function() {
   })
 
   it('pressing backspace will remove the tag and add the value to the input if value is empty', function() {
-    $('input[name=filterField]').val('').trigger('input')
+    $('input[name=filterfield]').val('').trigger('input')
     let e = $.Event('keydown')
     e.keyCode = 8
-    $('input[name=filterField]').trigger(e)
+    $('input[name=filterfield]').trigger(e)
     $('.tag').length.should.equal(0)
-    $('input[name=filterField]').val().should.equal('America')
+    $('input[name=filterfield]').val().should.equal('America')
   })
 
   it('filters the autocomplete list', function() {
-    $('input[name=filterField]').val('land').trigger('input')
+    $('input[name=filterfield]').val('land').trigger('input')
     $('.item').length.should.equal(3)
   })
 })

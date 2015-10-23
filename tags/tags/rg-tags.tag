@@ -2,26 +2,26 @@
 
 	<div class="container">
 		<span class="tags">
-			<span class="tag" each="{ opts.tags }" onclick="{ parent.removeTag }">
+			<span class="tag" each="{ RgTags.tags }" onclick="{ parent.removeTag }">
 				{ text }
 				<span class="close">&times;</span>
 			</span>
 		</span>
 
-		<div class="field-container { visible: visible }">
-			<input type="{ opts.type || 'text' }"
+		<div class="field-container { isvisible: RgTags.isvisible }">
+			<input type="text"
 						 class="field"
-						 name="filterField"
-						 placeholder="{ opts.placeholder }"
+						 name="filterfield"
+						 placeholder="{ RgTags.placeholder }"
 						 onkeydown="{ handleKeys }"
-						 oninput="{ filterItems }"
-						 onfocus="{ filterItems }">
+						 oninput="{ filter }"
+						 onfocus="{ toggle }">
 
-			<div class="dropdown { visible: visible }">
+			<div class="dropdown { isvisible: RgTags.isvisible }">
 				<ul class="list">
-					<li each="{ filteredItems }"
-							onclick="{ parent.select }"
-							class="item { active: active }">
+					<li each="{ RgTags.filtereditems }"
+							onclick="{ parent.addTag }"
+							class="item { disabled: disabled, active: active }">
 						{ text }
 					</li>
 				</ul>
@@ -30,35 +30,27 @@
 	</div>
 
 	<script>
-		this.visible = false
-		this.filterField.value = opts.value || ''
-		opts.options = opts.options || []
-		opts.tags = opts.tags || []
-		opts.tags.forEach((tag, i) => tag.index = i)
-
-		this.filterItems = () => {
-			this.filteredItems = opts.options.filter(item => {
-				item.active = false
-				if (this.filterField.value.length == 0 ||
-					item.text.toString()
-					         .toLowerCase()
-									 .indexOf(this.filterField.value.toString().toLowerCase()) > -1)
-					return true
-			})
-			this.visible = this.filteredItems.length > 0
-			if (rg.isFunction(opts.onfilter)) opts.onfilter()
-			this.update()
+		/* istanbul ignore next */
+		const handleClickOutside = e => {
+			if (!this.root.contains(e.target)) {
+				this.RgTags.close()
+			}
 		}
 
 		this.handleKeys = e => {
-			let length = this.filteredItems.length
-			if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
-				this.visible = true
+			if ([13, 38, 40].indexOf(e.keyCode) > -1 && !this.RgTags.isvisible) {
 				e.preventDefault()
-				// Get the currently selected item
-				let activeIndex = null
-				for (var i = 0; i < length; i++) {
-					let item = this.filteredItems[i]
+				this.toggle()
+				return true
+			}
+			if (!this.RgTags.isvisible) this.toggle()
+			var length = this.RgTags.filtereditems.length
+			if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
+				e.preventDefault()
+					// Get the currently selected item
+				var activeIndex = null
+				for (let i = 0; i < length; i++) {
+					let item = this.RgTags.filtereditems[i]
 					if (item.active) {
 						activeIndex = i
 						break
@@ -66,74 +58,77 @@
 				}
 
 				// We're leaving this item
-				if (activeIndex != null) this.filteredItems[activeIndex].active = false
+				if (activeIndex != null) this.RgTags.filtereditems[activeIndex].active = false
 
 				if (e.keyCode == 38) {
 					// Move the active state to the next item lower down the index
 					if (activeIndex == null || activeIndex == 0)
-						this.filteredItems[length - 1].active = true
+						this.RgTags.filtereditems[length - 1].active = true
 					else
-						this.filteredItems[activeIndex - 1].active = true
+						this.RgTags.filtereditems[activeIndex - 1].active = true
 				} else if (e.keyCode == 40) {
 					// Move the active state to the next item higher up the index
 					if (activeIndex == null || activeIndex == length - 1)
-						this.filteredItems[0].active = true
+						this.RgTags.filtereditems[0].active = true
 					else
-						this.filteredItems[activeIndex + 1].active = true
+						this.RgTags.filtereditems[activeIndex + 1].active = true
 				} else if (e.keyCode == 13 && activeIndex != null) {
-					this.select({ item: this.filteredItems[activeIndex] })
+					this.addTag({
+						item: this.RgTags.filtereditems[activeIndex]
+					})
 				}
 			}
 			if (e.keyCode == 13) {
 				this.addTag()
-			} else if (e.keyCode == 8 && this.filterField.value == '' && opts.tags.length > 0) {
-				let tag = opts.tags.pop()
-				this.filterField.value = tag.text
+			} else if (e.keyCode == 8 && this.filterfield.value == '' && this.RgTags.tags.length > 0) {
+				let tag = this.RgTags.tags.pop()
+				this.filterfield.value = tag.text
 			}
 			return true
+		};
+
+		this.toggle = () => {
+			this.RgTags.toggle()
 		}
 
-		this.addTag = item => {
-			let tag = item || { text: this.filterField.value }
-			if (tag.text.length > 0) {
-				tag.index = opts.tags.length
-				opts.tags.push(tag)
-				this.filterField.value = ''
-				this.filteredItems = opts.options
-				this.visible = false
+		this.filter = () => {
+			this.RgTags.filter(this.filterfield.value)
+		}
+
+		this.addTag = e => {
+			let tag = {
+				text: this.filterfield.value
 			}
-			this.update()
+			if (e) tag = e.item
+			if (tag.text.length > 0) this.RgTags.addTag(tag)
 		}
 
 		this.removeTag = e => {
-			opts.tags.splice(opts.tags.indexOf(e.item), 1)
-			this.visible = false
-		}
-
-		this.select = item => {
-			item = item.item
-			if (rg.isFunction(opts.onselect)) opts.onselect(item)
-			this.addTag(item)
-		}
-
-		this.closeDropdown = e => {
-			if (!this.root.contains(e.target)) {
-				if (rg.isFunction(opts.onclose) && this.visible) opts.onclose()
-				this.visible = false
-				this.update()
-			}
+			this.RgTags.removeTag(e.item)
 		}
 
 		this.on('mount', () => {
-			document.addEventListener('click', this.closeDropdown)
-			document.addEventListener('focus', this.closeDropdown, true)
-			this.visible = opts.visible
+			this.RgTags = opts.tags || new RgTags(opts)
+			this.RgTags.on('visibility change filter remove', () => {
+				if (this.RgTags.isvisible) this.filter()
+				this.update()
+			})
+			this.RgTags.on('add', item => {
+				this.filterfield.value = ''
+				this.update()
+			})
+			this.RgTags.on('value', () => {
+				this.filterfield.value = this.RgTags.value
+			})
+			document.addEventListener('click', handleClickOutside)
+			document.addEventListener('focus', handleClickOutside, true)
+			this.filterfield.value = this.RgTags.value
 			this.update()
 		})
 
 		this.on('unmount', () => {
-			document.removeEventListener('click', this.closeDropdown)
-			document.removeEventListener('focus', this.closeDropdown, true)
+			document.removeEventListener('click', handleClickOutside)
+			document.removeEventListener('focus', handleClickOutside, true)
 		})
 
 		this.on('update', () => {
@@ -149,6 +144,7 @@
 				this.root.querySelector('.container').style.height = `${fieldContainer.getBoundingClientRect().height}px`
 			}
 		})
+
 	</script>
 
 	<style scoped>
@@ -193,7 +189,7 @@
 			margin: -1px 0 0 -1px;
 		}
 
-		.dropdown.visible {
+		.dropdown.isvisible {
 			display: block;
 		}
 

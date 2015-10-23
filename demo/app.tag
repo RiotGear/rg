@@ -139,12 +139,13 @@
       </rg-tab>
     </rg-tabs>
   </div>
+-->
 
   <h2>Tags</h2>
   <div class="demo">
-    <rg-tags type="text" value="Canada" placeholder="Enter a country name"></rg-tags>
+    <rg-tags tags="{ tags }"></rg-tags>
   </div>
--->
+
   <h2>Time</h2>
   <div class="demo">
     <rg-time time="{ time }"></rg-time>
@@ -475,6 +476,26 @@
         content: '<em>Item x</em>'
       })
     }
+
+    /*
+     * TAGS
+     */
+    this.tags = new RgTags({
+      value: 'Canada',
+      placeholder: 'Choose a country',
+      options: [{
+        text: 'England'
+      }, {
+        text: 'Scotland'
+      }, {
+        text: 'Ireland'
+      }, {
+        text: 'Wales'
+      }],
+      tags: [{
+        text: 'America'
+      }]
+    })
 
     /*
      * TOASTS

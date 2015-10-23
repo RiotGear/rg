@@ -123,7 +123,8 @@
 		})
 
 		this.on('unmount', () => {
-			document.removeEventListener('click', handleClickOutside)})
+			document.removeEventListener('click', handleClickOutside)
+		})
 	</script>
 
 	<style scoped>
