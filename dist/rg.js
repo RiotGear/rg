@@ -1188,7 +1188,7 @@ var RgSelect = (function () {
     if (rg.isUndefined(opts)) opts = {};
     this._isvisible = opts.isvisible;
     this._autocomplete = opts.autocomplete;
-    this._filterfield = opts.filterfield;
+    this._filteron = opts.filteron;
     this._options = opts.options;
     this._hasfilter = opts.hasfilter;
     this._placeholder = opts.placeholder;
@@ -1225,9 +1225,9 @@ var RgSelect = (function () {
 
       this.filtereditems = this.options.filter(function (item) {
         item.active = false;
-        var filterField = item[_this9.filterfield];
-        if (rg.isUndefined(filterField)) return false;
-        if (text.length == 0 || filterField.toString().toLowerCase().indexOf(text.toString().toLowerCase()) > -1) return true;
+        var f = item[_this9.filteron];
+        if (rg.isUndefined(f)) return false;
+        if (text.length == 0 || f.toString().toLowerCase().indexOf(text.toString().toLowerCase()) > -1) return true;
       });
       if (this.onfilter) this.onfilter();
       this.trigger('filter');
@@ -1241,7 +1241,7 @@ var RgSelect = (function () {
       item.selected = true;
       if (this.onselect) this.onselect(item);
       this.isvisible = false;
-      if (this.autocomplete) this.filter(item[this.filterfield]);
+      if (this.autocomplete) this.filter(item[this.filteron]);
       this.trigger('select', item);
     }
   }, {
@@ -1263,12 +1263,12 @@ var RgSelect = (function () {
       this.trigger('change');
     }
   }, {
-    key: 'filterfield',
+    key: 'filteron',
     get: function get() {
-      return this._filterfield || 'text';
+      return this._filteron || 'text';
     },
-    set: function set(filterfield) {
-      this._filterfield = filterfield;
+    set: function set(filteron) {
+      this._filteron = filteron;
       this.trigger('change');
     }
   }, {
@@ -2269,8 +2269,8 @@ riot.tag('rg-select', '<div class="container { visible: RgSelect.isvisible }" ri
       _this.update();
     });
     _this.RgSelect.on('select', function (item) {
-      _this.selectfield.value = item[_this.RgSelect.filterfield];
-      _this.autocompletefield.value = item[_this.RgSelect.filterfield];
+      _this.selectfield.value = item[_this.RgSelect.filteron];
+      _this.autocompletefield.value = item[_this.RgSelect.filteron];
       _this.update();
     });
     document.addEventListener('click', handleClickOutside);

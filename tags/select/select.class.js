@@ -5,7 +5,7 @@ class RgSelect {
     if (rg.isUndefined(opts)) opts = {}
     this._isvisible = opts.isvisible
     this._autocomplete = opts.autocomplete
-    this._filterfield = opts.filterfield
+    this._filteron = opts.filteron
     this._options = opts.options
     this._hasfilter = opts.hasfilter
     this._placeholder = opts.placeholder
@@ -33,11 +33,11 @@ class RgSelect {
     this.trigger('change')
   }
 
-  get filterfield() {
-    return this._filterfield || 'text'
+  get filteron() {
+    return this._filteron || 'text'
   }
-  set filterfield(filterfield) {
-    this._filterfield = filterfield
+  set filteron(filteron) {
+    this._filteron = filteron
     this.trigger('change')
   }
 
@@ -139,10 +139,10 @@ class RgSelect {
   filter(text) {
     this.filtereditems = this.options.filter(item => {
       item.active = false
-      const filterField = item[this.filterfield]
-      if (rg.isUndefined(filterField)) return false
+      const f = item[this.filteron]
+      if (rg.isUndefined(f)) return false
       if (text.length == 0 ||
-        filterField.toString()
+        f.toString()
                    .toLowerCase()
                    .indexOf(text.toString().toLowerCase()) > -1)
         return true
@@ -156,7 +156,7 @@ class RgSelect {
     item.selected = true
     if (this.onselect) this.onselect(item)
     this.isvisible = false
-    if (this.autocomplete) this.filter(item[this.filterfield])
+    if (this.autocomplete) this.filter(item[this.filteron])
     this.trigger('select', item)
   }
 }

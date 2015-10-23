@@ -10,7 +10,7 @@ describe('rg-select', function() {
       placeholder: 'Please select a card',
       hasfilter: true,
       filterplaceholder: 'Filter cards',
-      filterfield: 'text',
+      filteron: 'text',
       onopen: spyOnOpen,
       onclose: spyOnClose,
       onfilter: spyOnFilter,
@@ -118,7 +118,7 @@ describe('rg-select no filter', function() {
       placeholder: 'Please select a card',
       hasfilter: false,
       filterplaceholder: 'Filter cards',
-      filterfield: 'text',
+      filteron: 'text',
       options: [{
         id: 0,
         text: 'Visa'

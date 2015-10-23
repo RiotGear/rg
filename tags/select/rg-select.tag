@@ -112,8 +112,8 @@
 				this.update()
 			})
 			this.RgSelect.on('select', item => {
-				this.selectfield.value = item[this.RgSelect.filterfield]
-				this.autocompletefield.value = item[this.RgSelect.filterfield]
+				this.selectfield.value = item[this.RgSelect.filteron]
+				this.autocompletefield.value = item[this.RgSelect.filteron]
 				this.update()
 			})
 			document.addEventListener('click', handleClickOutside)
