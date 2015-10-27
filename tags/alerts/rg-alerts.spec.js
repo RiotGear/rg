@@ -5,25 +5,27 @@ describe('rg-alerts', function() {
   beforeEach(function() {
     oncloseSpy = sinon.spy()
     $('body').append('<rg-alerts></rg-alerts>')
-    let alerts = new RgAlerts([{
-      type: 'danger',
-      content: 'Danger! Something bad happened.',
-      dismissable: true,
-      onclose: oncloseSpy
-    }, {
-      type: 'warning',
-      content: 'Warning! Something sort of bad happened.',
-      dismissable: false
-    }, {
-      type: 'information',
-      content: 'Look! Something you should know about.',
-      timeout: seconds
-    }, {
-      type: 'success',
-      content: 'Success! Well done.',
-      timeout: seconds,
-      onclose: oncloseSpy
-    }])
+    let alerts = new RgAlerts({
+      alerts: [{
+        type: 'danger',
+        content: 'Danger! Something bad happened.',
+        dismissable: true,
+        onclose: oncloseSpy
+      }, {
+        type: 'warning',
+        content: 'Warning! Something sort of bad happened.',
+        dismissable: false
+      }, {
+        type: 'information',
+        content: 'Look! Something you should know about.',
+        timeout: seconds
+      }, {
+        type: 'success',
+        content: 'Success! Well done.',
+        timeout: seconds,
+        onclose: oncloseSpy
+      }]
+    })
     tag = riot.mount('rg-alerts', {
       alerts
     })[0]

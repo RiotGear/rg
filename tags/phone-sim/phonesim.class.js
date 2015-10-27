@@ -3,14 +3,14 @@ class RgPhoneSim {
   constructor(opts) {
     riot.observable(this)
     if (rg.isUndefined(opts)) opts = {}
-    this._src = opts.src
+    this._url = opts.url
   }
 
-  get src() {
-    return this._src || ''
+  get url() {
+    return this._url || ''
   }
-  set src(src) {
-    this._src = src
+  set url(url) {
+    this._url = url
     this.trigger('change')
   }
 }

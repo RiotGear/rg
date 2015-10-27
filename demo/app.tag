@@ -111,35 +111,11 @@
   </div>
   <button onclick="{ changeSidemenu }">Change sidemenu</button>
 
-  <!--
   <h2>Tabs</h2>
   <div class="demo">
-    <rg-tabs>
-      <rg-tab>
-        <rg-tab-heading>Tab
-          <em>One</em>
-        </rg-tab-heading>
-        The first tab content
-      </rg-tab>
-
-      <rg-tab heading="Tab 2" active="true">
-        Tab two
-      </rg-tab>
-
-      <rg-tab heading="Tab 3">
-        Tab three
-      </rg-tab>
-
-      <rg-tab heading="Tab 4" disabled="true">
-        Tab four
-      </rg-tab>
-
-      <rg-tab heading="Tab 5">
-        Tab five
-      </rg-tab>
-    </rg-tabs>
+    <rg-tabs tabs="{ tabs }"></rg-tabs>
   </div>
--->
+  <button onclick="{ changeTabContent }">Change tab</button>
 
   <h2>Tags</h2>
   <div class="demo">
@@ -176,22 +152,24 @@
     /*
      * ALERTS
      */
-    this.alerts = new RgAlerts([{
-      type: 'danger',
-      content: 'Danger! Something bad happened.',
-      dismissable: true,
-      timeout: 4000
-    }, {
-      type: 'warning',
-      content: 'Warning! Something sort of bad happened.',
-      dismissable: false
-    }, {
-      type: 'information',
-      content: 'Look! Something you should know about.'
-    }, {
-      type: 'success',
-      content: 'Success! Well done.'
-    }])
+    this.alerts = new RgAlerts({
+      alerts: [{
+        type: 'danger',
+        content: 'Danger! Something bad happened.',
+        dismissable: true,
+        timeout: 4000
+      }, {
+        type: 'warning',
+        content: 'Warning! Something sort of bad happened.',
+        dismissable: false
+      }, {
+        type: 'information',
+        content: 'Look! Something you should know about.'
+      }, {
+        type: 'success',
+        content: 'Success! Well done.'
+      }]
+    })
 
     this.addAlert = () => {
       this.alerts.add({
@@ -297,13 +275,13 @@
      * INCLUDE
      */
     this.include = new RgInclude({
-      src: 'inc.html'
+      url: 'inc.html'
     })
     this.unsafe = () => {
       this.include.unsafe = true
     }
     this.changeIncludeFile = () => {
-      this.include.src = 'inc2.html'
+      this.include.url = 'inc2.html'
     }
 
     /*
@@ -320,7 +298,7 @@
      * MARKDOWN
      */
     this.markdown = new RgMarkdown({
-      src: 'inc.md'
+      url: 'inc.md'
     })
     this.changeMarkdown = () => {
       this.markdown.parse('### Hello RiotGear!')
@@ -360,10 +338,10 @@
      * PHONE SIM
      */
     this.phonesim = new RgPhoneSim({
-      src: 'http://riotgear.js.org/'
+      url: 'http://riotgear.js.org/'
     })
     this.changePhoneSimURL = () => {
-      this.phonesim.src = 'http://riotjs.com'
+      this.phonesim.url = 'http://riotjs.com'
     }
 
     /*
@@ -511,6 +489,35 @@
         content: 'Me is a new toast'
       })
       this.toasts.position = 'bottomleft'
+    }
+
+    /*
+     * TABS
+     */
+    this.tabs = new RgTabs({
+      tabs: [{
+        heading: 'Tab <em>one</em>',
+        content: 'This is tab one'
+      }, {
+        heading: 'Tab two',
+        content: 'This is tab two',
+        active: true
+      }, {
+        heading: 'Disabled tab',
+        content: 'This is disabled tab',
+        disabled: true
+      }, {
+        heading: 'Tab three',
+        content: 'This is tab three content',
+        include: new RgInclude({
+          url: 'tab.html',
+          unsafe: true
+        })
+      }]
+    })
+    this.changeTabContent = () => {
+      this.tabs.tabs[0].heading = 'take a look at tab three'
+      this.tabs.tabs[3].include.url = 'inc.html'
     }
 
   </script>

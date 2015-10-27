@@ -4,7 +4,7 @@ class RgInclude {
     riot.observable(this)
     if (rg.isUndefined(opts)) opts = {}
     this._unsafe = opts.unsafe
-    this._src = opts.src
+    this._url = opts.url
   }
 
   get unsafe() {
@@ -15,17 +15,19 @@ class RgInclude {
     this.trigger('change')
   }
 
-  get src() {
-    return this._src || ''
+  get url() {
+    return this._url || ''
   }
-  set src(src) {
-    this._src = src
-    this.trigger('change')
+  set url(url) {
+    if (this.url != url) {
+      this._url = url
+      this.trigger('change')
+    }
   }
 
   fetch() {
-    rg.xhr('get', this.src, resp => {
+    rg.xhr('get', this.url, resp => {
       this.trigger('fetch', resp)
-		})
+    })
   }
 }

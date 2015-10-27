@@ -3,7 +3,7 @@ describe('rg-include', function() {
 
   beforeEach(function() {
     include = new RgInclude({
-      src: 'inc.html'
+      url: 'inc.html'
     })
 
     $('body').append('<rg-include></rg-include>')
@@ -34,7 +34,7 @@ describe('rg-include unsafe', function() {
 
   beforeEach(function() {
     include = new RgInclude({
-      src: 'inc.html',
+      url: 'inc.html',
       unsafe: true
     })
 

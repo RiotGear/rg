@@ -1,61 +1,36 @@
 <rg-tabs>
-
-	<div class="tabs">
-		<div class="headers">
-			<div each="{ tab in tabs }" class="header { active: tab.active, disabled: tab.disabled }" onclick="{ activate }">
-				<h4 class="heading" if="{ tab.opts.heading && !tab.heading }">{ tab.opts.heading }</h4>
-				<div class="heading" if="{ tab.heading }">
-					<rg-raw content="{ tab.heading }"></rg-raw>
-				</div>
+	<div class="headers">
+		<div each="{ RgTabs.tabs }" class="header { active: active, disabled: disabled }" onclick="{ parent.select }">
+			<div class="heading" if="{ heading }">
+				<rg-raw content="{ heading }"></rg-raw>
 			</div>
 		</div>
-
-		<yield/>
-
+	</div>
+	<div each="{ RgTabs.tabs }" class="tab { active: active }">
+		<div if="{ rg.isDefined(content) }">
+			{ content }
+		</div>
+		<div if="{ rg.isDefined(include) }">
+			<rg-include include="{ include }"></rg-include>
+		</div>
 	</div>
 
 	<script>
-		this.onopen = opts.onopen
-		this.tabs = this.tags['rg-tab']
-		var deselectTabs = () => this.tabs.forEach(tab => tab.active = false)
-
-		// If more than one tab set to active honor the first one
 		this.on('mount', () => {
-			let activeTab = false
-			this.tabs.forEach((tab, i) => {
-				// Give each tab an index
-				tab.index = i
-
-				let tabHeading = tab.tags['rg-tab-heading']
-				if (tabHeading) {
-					/* istanbul ignore next */
-					if (Object.prototype.toString.call(tabHeading) !== '[object Array]')
-						tab.heading = tabHeading.root.innerHTML
-				}
-
-				if (activeTab) tab.active = false
-				if (tab.active) activeTab = true
+			this.RgTabs = opts.tabs || new RgTabs(opts)
+			this.RgTabs.on('settings add select change', () => {
+				this.update()
 			})
 			this.update()
 		})
 
-		// Deactivate all tabs and active selected one
-		this.activate = e => {
-			let tab = e.item.tab
-			if (!tab.disabled) {
-				deselectTabs()
-				if (rg.isFunction(this.onopen)) this.onopen(tab)
-				tab.active = true
-			}
+		this.select = e => {
+			this.RgTabs.select(e.item)
 		}
+
 	</script>
 
 	<style scoped>
-
-		.tabs {
-			background-color: white;
-		}
-
 		.headers {
 			display: -webkit-flex;
 			display: -ms-flexbox;
@@ -87,6 +62,15 @@
 
 		.header.disabled .heading {
 			color: #888;
+		}
+
+		.tab {
+			display: none;
+			padding: 10px;
+		}
+
+		.tab.active {
+			display: block;
 		}
 
 	</style>

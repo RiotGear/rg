@@ -1,7 +1,7 @@
 <rg-phone-sim>
 
 	<div class="emulator">
-		<iframe class="screen" src="{ RgPhoneSim.src }"></iframe>
+		<iframe class="screen" src="{ RgPhoneSim.url }"></iframe>
 	</div>
 
 	<script>

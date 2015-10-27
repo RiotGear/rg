@@ -4,8 +4,8 @@ class RgAlerts {
     riot.observable(this)
     if (rg.isUndefined(opts)) opts = {}
     this.alerts = []
-    if (!rg.isArray(opts)) return
-    opts.forEach((alert) => {
+    if (!rg.isArray(opts.alerts)) return
+    opts.alerts.forEach((alert) => {
       this.add(alert)
     })
   }

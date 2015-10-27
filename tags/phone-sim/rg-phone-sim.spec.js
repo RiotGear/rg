@@ -2,7 +2,7 @@ describe('rg-phone-sim', function() {
   let tag, phonesim
 
   beforeEach(function() {
-    phonesim = new RgPhoneSim({ src: 'http://riotjs.com/'})
+    phonesim = new RgPhoneSim({ url: 'http://riotjs.com/'})
     $('body').append('<rg-phone-sim></rg-phone-sim>')
     tag = riot.mount('rg-phone-sim', { phonesim })[0]
   })
@@ -19,7 +19,7 @@ describe('rg-phone-sim', function() {
     $('rg-phone-sim .emulator iframe').length.should.be.equal(1)
   })
 
-  it('iframe is pointed to src attribute', function() {
+  it('iframe is pointed to url attribute', function() {
     $('rg-phone-sim iframe').attr('src').should.equal('http://riotjs.com/')
   })
 })

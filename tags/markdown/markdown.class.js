@@ -7,14 +7,14 @@ class RgMarkdown {
       this.reader = new commonmark.Parser()
       this.writer = new commonmark.HtmlRenderer()
     }
-    this._src = opts.src
+    this._url = opts.url
   }
 
-  get src() {
-    return this._src || ''
+  get url() {
+    return this._url || ''
   }
-  set src(src) {
-    this._src = src
+  set url(url) {
+    this._url = url
     this.trigger('change')
   }
 
@@ -25,7 +25,7 @@ class RgMarkdown {
   }
 
   fetch() {
-    rg.xhr('get', this.src, resp => {
+    rg.xhr('get', this.url, resp => {
       this.trigger('fetch', resp)
     })
   }

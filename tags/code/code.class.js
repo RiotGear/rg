@@ -3,7 +3,7 @@ class RgCode {
   constructor(opts) {
     riot.observable(this)
     if (rg.isUndefined(opts)) opts = {}
-    this._src = opts.src
+    this._url = opts.url
     this._code = opts.code
     this._theme = opts.theme
     this._mode = opts.mode
@@ -13,16 +13,16 @@ class RgCode {
     this._readonly = opts.readonly
   }
 
-  get src() {
-    if (this._src) {
-      rg.xhr('get', this._src, resp => {
+  get url() {
+    if (this._url) {
+      rg.xhr('get', this._url, resp => {
 
       })
     }
   }
-  set src(url) {
-    this._src = url
-    this.trigger('src')
+  set url(url) {
+    this._url = url
+    this.trigger('url')
   }
 
   get code() {

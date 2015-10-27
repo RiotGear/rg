@@ -3,7 +3,7 @@ class RgBubble {
   constructor(opts) {
     riot.observable(this)
     if (rg.isUndefined(opts)) opts = {}
-    this.isvisible = opts.isvisible
+    this._isvisible = opts.isvisible
     this._content = opts.content
   }
 
