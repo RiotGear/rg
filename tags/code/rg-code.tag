@@ -23,16 +23,19 @@
 			this.RgCode.on('settings', () => {
 				setupEditor()
 			})
-			this.RgCode.on('change src', () => {
+			this.RgCode.on('change url', () => {
 				if (this.RgCode.code != editor.getValue())
 					editor.setValue(this.RgCode.code)
 			})
+			if (this.RgCode.url) {
+				rg.xhr('get', this.RgCode.url, resp => {
+					this.RgCode.code = resp
+				})
+			}
 			editor.setValue(this.RgCode.code)
 			editor.getSession().on('change', e => {
 				this.RgCode.code = editor.getValue()
-				if (this.RgCode.onchange) {
-					this.RgCode.onchange(editor.getValue())
-				}
+				if (this.RgCode.onchange) this.RgCode.onchange(editor.getValue())
 			})
 			setupEditor()
 		})

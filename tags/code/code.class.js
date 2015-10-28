@@ -5,6 +5,7 @@ class RgCode {
     if (rg.isUndefined(opts)) opts = {}
     this._url = opts.url
     this._code = opts.code
+    this._onchange = opts.onchange
     this._theme = opts.theme
     this._mode = opts.mode
     this._tabsize = opts.tabsize
@@ -14,11 +15,7 @@ class RgCode {
   }
 
   get url() {
-    if (this._url) {
-      rg.xhr('get', this._url, resp => {
-
-      })
-    }
+    return this._url
   }
   set url(url) {
     this._url = url

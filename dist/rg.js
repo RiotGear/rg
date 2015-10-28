@@ -433,6 +433,7 @@ var RgCode = (function () {
     if (rg.isUndefined(opts)) opts = {};
     this._url = opts.url;
     this._code = opts.code;
+    this._onchange = opts.onchange;
     this._theme = opts.theme;
     this._mode = opts.mode;
     this._tabsize = opts.tabsize;
@@ -444,9 +445,7 @@ var RgCode = (function () {
   _createClass(RgCode, [{
     key: 'url',
     get: function get() {
-      if (this._url) {
-        rg.xhr('get', this._url, function (resp) {});
-      }
+      return this._url;
     },
     set: function set(url) {
       this._url = url;
@@ -2004,15 +2003,18 @@ riot.tag('rg-code', '<div class="editor"></div>', 'rg-code .editor, [riot-tag="r
     _this.RgCode.on('settings', function () {
       setupEditor();
     });
-    _this.RgCode.on('change src', function () {
+    _this.RgCode.on('change url', function () {
       if (_this.RgCode.code != editor.getValue()) editor.setValue(_this.RgCode.code);
     });
+    if (_this.RgCode.url) {
+      rg.xhr('get', _this.RgCode.url, function (resp) {
+        _this.RgCode.code = resp;
+      });
+    }
     editor.setValue(_this.RgCode.code);
     editor.getSession().on('change', function (e) {
       _this.RgCode.code = editor.getValue();
-      if (_this.RgCode.onchange) {
-        _this.RgCode.onchange(editor.getValue());
-      }
+      if (_this.RgCode.onchange) _this.RgCode.onchange(editor.getValue());
     });
     setupEditor();
   });
