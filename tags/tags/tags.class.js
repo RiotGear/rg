@@ -16,7 +16,8 @@ class RgTags extends RgSelect {
 
   get tags() {
     if (rg.isArray(this._tags)) return this._tags
-    return []
+    this._tags = []
+    return this._tags
   }
   set tags(tags) {
     if (!rg.isArray(tags)) tags = []

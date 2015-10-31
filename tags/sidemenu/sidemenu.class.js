@@ -29,7 +29,8 @@ class RgSidemenu {
 
   get items() {
     if (rg.isArray(this._items)) return this._items
-    return []
+    this._items = []
+    return this._items
   }
   set items(items) {
     this._items = items

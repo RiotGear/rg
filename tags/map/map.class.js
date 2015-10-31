@@ -18,8 +18,4 @@ class RgMap {
 
     return this._options
   }
-  set checked(options) {
-    this._options = options
-    this.trigger('change')
-  }
 }

@@ -1,4 +1,4 @@
-class RgToast {
+class RgToasts {
 
   constructor(opts) {
     riot.observable(this)
@@ -27,7 +27,8 @@ class RgToast {
       this.isvisible = this._toasts.filter(toast => toast.isvisible).length > 0
       return this._toasts
     }
-    return []
+    this._toats = []
+    return this._toasts
   }
   set toasts(toasts) {
     this._toasts = toasts

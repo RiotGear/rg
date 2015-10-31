@@ -571,7 +571,8 @@ var RgContextMenu = (function () {
     key: 'items',
     get: function get() {
       if (rg.isArray(this._items)) return this._items;
-      return [];
+      this._items = [];
+      return this._items;
     },
     set: function set(items) {
       this._items = items;
@@ -935,12 +936,6 @@ var RgMap = (function () {
 
       return this._options;
     }
-  }, {
-    key: 'checked',
-    set: function set(options) {
-      this._options = options;
-      this.trigger('change');
-    }
   }]);
 
   return RgMap;
@@ -1303,7 +1298,8 @@ var RgSelect = (function () {
     key: 'options',
     get: function get() {
       if (rg.isArray(this._options)) return this._options;
-      return [];
+      this._options = [];
+      return this._options;
     },
     set: function set(options) {
       var _this10 = this;
@@ -1320,7 +1316,8 @@ var RgSelect = (function () {
     key: 'filtereditems',
     get: function get() {
       if (rg.isArray(this._filtereditems)) return this._filtereditems;
-      return [];
+      this._filtereditems = [];
+      return this._filtereditems;
     },
     set: function set(filtereditems) {
       this._filtereditems = filtereditems;
@@ -1431,7 +1428,8 @@ var RgSidemenu = (function () {
     key: 'items',
     get: function get() {
       if (rg.isArray(this._items)) return this._items;
-      return [];
+      this._items = [];
+      return this._items;
     },
     set: function set(items) {
       this._items = items;
@@ -1522,7 +1520,8 @@ var RgTabs = (function () {
 
         if (typeof _ret === 'object') return _ret.v;
       }
-      return [];
+      this._tabs = [];
+      return this._tabs;
     },
     set: function set(tabs) {
       this._tabs = tabs;
@@ -1572,7 +1571,8 @@ var RgTags = (function (_RgSelect) {
     key: 'tags',
     get: function get() {
       if (rg.isArray(this._tags)) return this._tags;
-      return [];
+      this._tags = [];
+      return this._tags;
     },
     set: function set(tags) {
       if (!rg.isArray(tags)) tags = [];
@@ -1654,9 +1654,9 @@ var RgTime = (function (_RgSelect2) {
   return RgTime;
 })(RgSelect);
 
-var RgToast = (function () {
-  function RgToast(opts) {
-    _classCallCheck(this, RgToast);
+var RgToasts = (function () {
+  function RgToasts(opts) {
+    _classCallCheck(this, RgToasts);
 
     riot.observable(this);
     if (rg.isUndefined(opts)) opts = {};
@@ -1665,7 +1665,7 @@ var RgToast = (function () {
     this._isvisible = opts.isvisible;
   }
 
-  _createClass(RgToast, [{
+  _createClass(RgToasts, [{
     key: 'add',
     value: function add(toast) {
       this.toasts.push(toast);
@@ -1696,7 +1696,8 @@ var RgToast = (function () {
         }).length > 0;
         return this._toasts;
       }
-      return [];
+      this._toats = [];
+      return this._toasts;
     },
     set: function set(toasts) {
       this._toasts = toasts;
@@ -1722,7 +1723,7 @@ var RgToast = (function () {
     }
   }]);
 
-  return RgToast;
+  return RgToasts;
 })();
 
 var RgToggle = (function () {
@@ -2616,7 +2617,7 @@ riot.tag('rg-time', '<rg-select select="{ RgTime }"></rg-select>', function (opt
   });
 });
 
-riot.tag('rg-toast', '<div class="toasts { RgToast.position } { isvisible: RgToast.isvisible }"> <div each="{ RgToast.toasts }" class="toast { isvisible: isvisible }" onclick="{ parent.toastClicked }"> <rg-raw content="{ content }"></rg-raw> </div> </div>', 'rg-toast .toasts, [riot-tag="rg-toast"] .toasts{ display: none; position: absolute; width: 250px; max-height: 100%; overflow-y: auto; background-color: transparent; z-index: 101; } rg-toast .toasts.isvisible, [riot-tag="rg-toast"] .toasts.isvisible{ display: block; } rg-toast .toasts.topleft, [riot-tag="rg-toast"] .toasts.topleft{ top: 0; left: 0; } rg-toast .toasts.topright, [riot-tag="rg-toast"] .toasts.topright{ top: 0; right: 0; } rg-toast .toasts.bottomleft, [riot-tag="rg-toast"] .toasts.bottomleft{ bottom: 0; left: 0; } rg-toast .toasts.bottomright, [riot-tag="rg-toast"] .toasts.bottomright{ bottom: 0; right: 0; } rg-toast .toast, [riot-tag="rg-toast"] .toast{ display: none; padding: 20px; margin: 20px; background-color: #000; color: white; font-size: 0.9em; cursor: pointer; } rg-toast .toast.isvisible, [riot-tag="rg-toast"] .toast.isvisible{ display: block; }', function (opts) {
+riot.tag('rg-toasts', '<div class="toasts { RgToasts.position } { isvisible: RgToasts.isvisible }"> <div each="{ RgToasts.toasts }" class="toast { isvisible: isvisible }" onclick="{ parent.toastClicked }"> <rg-raw content="{ content }"></rg-raw> </div> </div>', 'rg-toasts .toasts, [riot-tag="rg-toasts"] .toasts{ display: none; position: fixed; width: 250px; max-height: 100%; overflow-y: auto; background-color: transparent; z-index: 101; } rg-toasts .toasts.isvisible, [riot-tag="rg-toasts"] .toasts.isvisible{ display: block; } rg-toasts .toasts.topleft, [riot-tag="rg-toasts"] .toasts.topleft{ top: 0; left: 0; } rg-toasts .toasts.topright, [riot-tag="rg-toasts"] .toasts.topright{ top: 0; right: 0; } rg-toasts .toasts.bottomleft, [riot-tag="rg-toasts"] .toasts.bottomleft{ bottom: 0; left: 0; } rg-toasts .toasts.bottomright, [riot-tag="rg-toasts"] .toasts.bottomright{ bottom: 0; right: 0; } rg-toasts .toast, [riot-tag="rg-toasts"] .toast{ display: none; padding: 20px; margin: 20px; background-color: #000; color: white; font-size: 0.9em; cursor: pointer; } rg-toasts .toast.isvisible, [riot-tag="rg-toasts"] .toast.isvisible{ display: block; }', function (opts) {
   var _this = this;
 
   this.toastClicked = function (e) {
@@ -2628,8 +2629,8 @@ riot.tag('rg-toast', '<div class="toasts { RgToast.position } { isvisible: RgToa
   };
 
   this.on('mount', function () {
-    _this.RgToast = opts.toasts || new RgToast(opts);
-    _this.RgToast.on('visibility change', function () {
+    _this.RgToasts = opts.toasts || new RgToasts(opts);
+    _this.RgToasts.on('visibility change', function () {
       _this.update();
     });
     _this.update();

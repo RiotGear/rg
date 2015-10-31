@@ -27,7 +27,8 @@ class RgTabs {
       })
       return this._tabs
     }
-    return []
+    this._tabs = []
+    return this._tabs
   }
   set tabs(tabs) {
     this._tabs = tabs

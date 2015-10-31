@@ -334,9 +334,6 @@ this.tags = new RgTags({
     text: 'Ireland'
   }, {
     text: 'Wales'
-  }],
-  tags: [{
-    text: 'America'
   }]
 });
 

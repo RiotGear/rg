@@ -67,7 +67,8 @@ class RgSelect {
 
   get options() {
     if (rg.isArray(this._options)) return this._options
-    return []
+    this._options = []
+    return this._options
   }
   set options(options) {
     if (!rg.isArray(options)) options = []
@@ -81,7 +82,8 @@ class RgSelect {
 
   get filtereditems() {
     if (rg.isArray(this._filtereditems)) return this._filtereditems
-    return []
+    this._filtereditems = []
+    return this._filtereditems
   }
   set filtereditems(filtereditems) {
     this._filtereditems = filtereditems
