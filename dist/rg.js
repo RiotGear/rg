@@ -2005,7 +2005,7 @@ riot.tag('rg-code', '<div class="editor"></div>', 'rg-code .editor, [riot-tag="r
       setupEditor();
     });
     _this.RgCode.on('change url', function () {
-      if (_this.RgCode.code != editor.getValue()) editor.setValue(_this.RgCode.code);
+      if (_this.RgCode.code != editor.getValue()) editor.setValue(_this.RgCode.code, -1);
     });
     if (_this.RgCode.url) {
       rg.xhr('get', _this.RgCode.url, function (resp) {

@@ -25,7 +25,7 @@
 			})
 			this.RgCode.on('change url', () => {
 				if (this.RgCode.code != editor.getValue())
-					editor.setValue(this.RgCode.code)
+					editor.setValue(this.RgCode.code, -1)
 			})
 			if (this.RgCode.url) {
 				rg.xhr('get', this.RgCode.url, resp => {
