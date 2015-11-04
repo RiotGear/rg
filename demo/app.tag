@@ -475,7 +475,7 @@
     /*
      * TOASTS
      */
-    this.toasts = new RgToast({
+    this.toasts = new RgToasts({
       toasts: [{
         content: 'Hey look at me!'
       }]
