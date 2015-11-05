@@ -1998,6 +1998,7 @@ riot.tag('rg-code', '<div class="editor"></div>', 'rg-code .editor, [riot-tag="r
     if (_this.RgCode.url) {
       rg.xhr('get', _this.RgCode.url, function (resp) {
         _this.RgCode.code = resp;
+        _this.update();
       });
     }
     editor.setValue(_this.RgCode.code, 1);
@@ -2445,7 +2446,6 @@ riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="ta
   this.handleKeys = function (e) {
     if ([13, 38, 40].indexOf(e.keyCode) > -1 && !_this.RgTags.isvisible) {
       e.preventDefault();
-      _this.filter();
       _this.toggle();
       return true;
     }
@@ -2488,6 +2488,7 @@ riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="ta
   };
 
   this.toggle = function () {
+    _this.filter();
     _this.RgTags.toggle();
   };
 

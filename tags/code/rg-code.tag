@@ -30,6 +30,7 @@
 			if (this.RgCode.url) {
 				rg.xhr('get', this.RgCode.url, resp => {
 					this.RgCode.code = resp
+					this.update()
 				})
 			}
 			editor.setValue(this.RgCode.code, 1)

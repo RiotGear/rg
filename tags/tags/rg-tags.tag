@@ -40,7 +40,6 @@
 		this.handleKeys = e => {
 			if ([13, 38, 40].indexOf(e.keyCode) > -1 && !this.RgTags.isvisible) {
 				e.preventDefault()
-				this.filter()
 				this.toggle()
 				return true
 			}
@@ -89,6 +88,7 @@
 		};
 
 		this.toggle = () => {
+			this.filter()
 			this.RgTags.toggle()
 		}
 
