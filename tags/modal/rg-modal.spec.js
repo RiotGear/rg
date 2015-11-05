@@ -66,15 +66,16 @@ describe('rg-modal', function() {
   it('click the close button calls the onclose callback', function() {
     spyOnClose.reset()
     modal.dismissable = true
+    modal.update()
     $('rg-modal .close').click()
-    $('rg-modal .modal.visible').length.should.equal(0)
+    $('rg-modal .modal.isvisible').length.should.equal(0)
     spyOnClose.should.have.been.calledOnce
   })
 
   it('clicking the overlay calls the onclose callback', function() {
     spyOnClose.reset()
     $('rg-modal .overlay').click()
-    $('rg-modal .modal.visible').length.should.equal(0)
+    $('rg-modal .modal.isvisible').length.should.equal(0)
     spyOnClose.should.have.been.calledOnce
   })
 
@@ -82,7 +83,7 @@ describe('rg-modal', function() {
     spyOnClose.reset()
     delete modal._onclose
     $('rg-modal .overlay').click()
-    $('rg-modal .modal.visible').length.should.equal(0)
+    $('rg-modal .modal.isvisible').length.should.equal(0)
     spyOnClose.should.not.have.been.called
   })
 })

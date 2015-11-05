@@ -42,7 +42,7 @@
 
 		this.on('mount', () => {
 			this.RgContextMenu = opts.menu || new RgContextMenu(opts)
-			this.RgContextMenu.on('items add visibility', () => {
+			this.RgContextMenu.on('update', () => {
 				this.update()
 			})
 			document.addEventListener('click', handleClickOutside)
@@ -53,6 +53,7 @@
 				else
 					target.addEventListener('contextmenu', this.closeMenu)
 			}
+			this.update()
 		});
 
 		this.on('unmount', () => {

@@ -56,20 +56,23 @@
 
 		this.on('mount', () => {
 			this.RgBehold = opts.behold || new RgBehold(opts)
-			this.RgBehold.on('mode', () => {
-				this.diff.value = 0
-				this.updateDiff()
+			this.RgBehold.on('update', () => {
+				this.update()
 			})
-			this.RgBehold.on('image', () => {
+			this.on('update', () => {
 				viewer()
 			})
-			viewer()
+			this.update()
 		})
 
 		this.swipeMode = () => {
+			this.diff.value = 0
+			this.updateDiff()
 			this.RgBehold.mode = 'swipe'
 		}
 		this.fadeMode = () => {
+			this.diff.value = 0
+			this.updateDiff()
 			this.RgBehold.mode = 'fade'
 		}
 
@@ -87,7 +90,7 @@
 						`rect(auto, auto, auto, ${fallbackImg.clientWidth * this.diff.value}px)`
 				}
 			}
-			this.update()
+			// this.update()
 		}
 
 	</script>

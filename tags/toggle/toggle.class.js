@@ -1,7 +1,7 @@
-class RgToggle {
+class RgToggle extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     if (rg.isUndefined(opts)) opts = {}
     this._checked = opts.checked
     this._ontoggle = opts.ontoggle
@@ -12,7 +12,6 @@ class RgToggle {
   }
   set checked(checked) {
     this._checked = checked
-    this.trigger('checked')
   }
 
   get ontoggle() {

@@ -1,7 +1,7 @@
-class RgBehold {
+class RgBehold extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     if (rg.isUndefined(opts)) opts = {}
     this._image1 = opts.image1
     this._image2 = opts.image2
@@ -13,7 +13,6 @@ class RgBehold {
   }
   set image1(img) {
     this._image1 = img
-    this.trigger('image')
   }
 
   get image2() {
@@ -21,14 +20,12 @@ class RgBehold {
   }
   set image2(img) {
     this._image2 = img
-    this.trigger('image')
   }
 
   get mode() {
     return this._mode || 'swipe'
   }
   set mode(mode) {
-    this.trigger('mode')
     this._mode = mode
   }
 }

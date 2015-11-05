@@ -53,7 +53,7 @@ describe('rg-alerts', function() {
   it('can be dismissed', function() {
     $('rg-alerts .alert:nth-child(3)').find('.close').click()
     $('rg-alerts .alert').length.should.equal(4)
-    $('rg-alerts .alert:visible').length.should.equal(3)
+    $('rg-alerts .alert.isvisible').length.should.equal(3)
   })
 
   it('can not be dismissed if set', function() {
@@ -68,7 +68,7 @@ describe('rg-alerts', function() {
   it('disappears after timer runs down', function(done) {
     setTimeout(function() {
       $('rg-alerts .alert').length.should.equal(4)
-      $('rg-alerts .alert:visible').length.should.equal(2)
+      $('rg-alerts .alert.isvisible').length.should.equal(2)
       done()
     }, seconds)
   })

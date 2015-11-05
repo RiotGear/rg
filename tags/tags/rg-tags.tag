@@ -40,6 +40,7 @@
 		this.handleKeys = e => {
 			if ([13, 38, 40].indexOf(e.keyCode) > -1 && !this.RgTags.isvisible) {
 				e.preventDefault()
+				this.filter()
 				this.toggle()
 				return true
 			}
@@ -101,6 +102,7 @@
 			}
 			if (e) tag = e.item
 			if (tag.text.length > 0) this.RgTags.addTag(tag)
+			this.filterfield.value = ''
 		}
 
 		this.removeTag = e => {
@@ -109,16 +111,9 @@
 
 		this.on('mount', () => {
 			this.RgTags = opts.tags || new RgTags(opts)
-			this.RgTags.on('visibility change filter remove', () => {
+			this.RgTags.on('update', () => {
 				if (this.RgTags.isvisible) this.filter()
 				this.update()
-			})
-			this.RgTags.on('add', item => {
-				this.filterfield.value = ''
-				this.update()
-			})
-			this.RgTags.on('value', () => {
-				this.filterfield.value = this.RgTags.value
 			})
 			document.addEventListener('click', handleClickOutside)
 			document.addEventListener('focus', handleClickOutside, true)

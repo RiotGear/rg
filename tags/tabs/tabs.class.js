@@ -1,7 +1,7 @@
-class RgTabs {
+class RgTabs extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     if (rg.isUndefined(opts)) opts = {}
     this._tabs = opts.tabs
     this._onopen = opts.onopen
@@ -13,7 +13,6 @@ class RgTabs {
   }
   set onopen(onopen) {
     if (rg.isFunction(onopen)) this._onopen = onopen
-    this.trigger('settings')
   }
 
   get tabs() {
@@ -32,7 +31,6 @@ class RgTabs {
   }
   set tabs(tabs) {
     this._tabs = tabs
-    this.trigger('change')
   }
 
   select(tab) {
@@ -42,7 +40,6 @@ class RgTabs {
       })
       if (this.onopen) this.onopen(tab)
       tab.active = true
-      this.trigger('select', tab)
     }
   }
 }

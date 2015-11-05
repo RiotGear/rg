@@ -21,7 +21,7 @@
 					 onclick="{ toggle }"
 					 oninput="{ filter }">
 
-		<div class="dropdown { visible: RgSelect.isvisible } { empty: RgSelect.filtereditems.length == 0 }">
+		<div class="dropdown { isvisible: RgSelect.isvisible } { empty: RgSelect.filtereditems.length == 0 }">
 			<div class="filter" if="{ RgSelect.hasfilter && !RgSelect.autocomplete }">
 				<input type="text"
 							 name="filterfield"
@@ -45,6 +45,7 @@
 		const handleClickOutside = e => {
 			if (!this.root.contains(e.target)) {
 				this.RgSelect.close()
+				this.update()
 			}
 		}
 
@@ -107,7 +108,7 @@
 
 		this.on('mount', () => {
 			this.RgSelect = opts.select || new RgSelect(opts)
-			this.RgSelect.on('visibility change filter', () => {
+			this.RgSelect.on('update', () => {
 				if (this.RgSelect.isvisible) this.filter()
 				this.update()
 			})
@@ -160,7 +161,7 @@
 			z-index: 10;
 		}
 
-		.dropdown.visible {
+		.dropdown.isvisible {
 			display: block;
 		}
 

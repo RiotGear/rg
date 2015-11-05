@@ -1,7 +1,7 @@
-class RgInclude {
+class RgInclude extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     if (rg.isUndefined(opts)) opts = {}
     this._unsafe = opts.unsafe
     this._url = opts.url
@@ -12,7 +12,6 @@ class RgInclude {
   }
   set unsafe(unsafe) {
     this._unsafe = unsafe
-    this.trigger('change')
   }
 
   get url() {
@@ -21,7 +20,6 @@ class RgInclude {
   set url(url) {
     if (this.url != url) {
       this._url = url
-      this.trigger('change')
     }
   }
 

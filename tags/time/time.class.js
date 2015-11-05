@@ -15,7 +15,6 @@ class RgTime extends RgSelect {
   }
   set min(min) {
     this._min = min
-    this.trigger('change')
   }
 
   get max() {
@@ -24,7 +23,6 @@ class RgTime extends RgSelect {
   }
   set max(max) {
     this._max = max
-    this.trigger('change')
   }
 
   get time() {
@@ -33,7 +31,6 @@ class RgTime extends RgSelect {
   }
   set time(time) {
     this._time = time
-    this.trigger('change')
   }
 
   get step() {
@@ -41,7 +38,6 @@ class RgTime extends RgSelect {
   }
   set step(step) {
     this._step = step
-    this.trigger('change')
   }
 
   get ampm() {
@@ -49,6 +45,5 @@ class RgTime extends RgSelect {
   }
   set ampm(ampm) {
     this._ampm = ampm
-    this.trigger('change')
   }
 }

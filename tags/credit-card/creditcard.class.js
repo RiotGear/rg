@@ -1,7 +1,7 @@
-class RgCreditCard {
+class RgCreditCard extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     if (rg.isUndefined(opts)) opts = {}
     this._placeholder = opts.placeholder
     this._cardnumber = opts.cardnumber
@@ -11,7 +11,6 @@ class RgCreditCard {
     const res = rg.creditcard.validate(this.cardnumber)
     this.valid = res.valid
     this.icon = this.valid ? res.card_type.name : ''
-    this.trigger('validate')
   }
 
   get cardnumber() {
@@ -19,7 +18,6 @@ class RgCreditCard {
   }
   set cardnumber(num) {
     this._cardnumber = num
-    this.trigger('change')
   }
 
   get valid() {

@@ -13,7 +13,7 @@
 	<script>
 		this.on('mount', () => {
 			this.RgToggle = opts.toggle || new RgToggle()
-			this.RgToggle.on('checked', () => {
+			this.RgToggle.on('update', () => {
 				this.update()
 			})
 			this.update()

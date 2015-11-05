@@ -17,7 +17,7 @@
 
 		this.on('mount', () => {
 			this.RgToasts = opts.toasts || new RgToasts(opts)
-			this.RgToasts.on('visibility change', () => {
+			this.RgToasts.on('update', () => {
 				this.update()
 			})
 			this.update()

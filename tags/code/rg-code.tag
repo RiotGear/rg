@@ -12,7 +12,6 @@
 			editor.getSession().setUseSoftTabs(this.RgCode.softtabs)
 			editor.getSession().setUseWrapMode(this.RgCode.wordwrap)
 			editor.setReadOnly(this.RgCode.readonly)
-			this.update()
 		}
 
 		this.on('mount', () => {
@@ -20,24 +19,26 @@
 			editor.$blockScrolling = Infinity
 
 			this.RgCode = opts.editor || new RgCode(opts)
-			this.RgCode.on('settings', () => {
-				setupEditor()
+			this.RgCode.on('update', () => {
+				this.update()
 			})
-			this.RgCode.on('change url', () => {
+			this.on('update', () => {
+				setupEditor()
 				if (this.RgCode.code != editor.getValue())
-					editor.setValue(this.RgCode.code, -1)
+					editor.setValue(this.RgCode.code, 1)
 			})
 			if (this.RgCode.url) {
 				rg.xhr('get', this.RgCode.url, resp => {
 					this.RgCode.code = resp
 				})
 			}
-			editor.setValue(this.RgCode.code)
+			editor.setValue(this.RgCode.code, 1)
 			editor.getSession().on('change', e => {
 				this.RgCode.code = editor.getValue()
 				if (this.RgCode.onchange) this.RgCode.onchange(editor.getValue())
 			})
 			setupEditor()
+			this.update()
 		})
 
 	</script>

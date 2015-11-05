@@ -1,7 +1,7 @@
-class RgUnsplash {
+class RgUnsplash extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     if (rg.isUndefined(opts)) opts = {}
     this._width = opts.width
     this._height = opts.height

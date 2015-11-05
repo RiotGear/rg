@@ -10,7 +10,7 @@
 	<script>
 		this.on('mount', () => {
 			this.RgLoading = opts.loading || new RgLoading(opts)
-			this.RgLoading.on('visibility', () => {
+			this.RgLoading.on('update', () => {
 				this.update()
 			})
 			this.update()

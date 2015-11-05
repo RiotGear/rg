@@ -27,6 +27,7 @@ describe('rg-placeholdit', function() {
     placeholdit.textsize = 50
     placeholdit.text = 'JPEG'
     placeholdit.format = 'jpg'
+    placeholdit.update()
     $('rg-placeholdit img').attr('src').should.equal('https://placeholdit.imgix.net/~text?bg=1fadc5&txtclr=4df&txt=JPEG&txtsize=50&w=200&h=100&fm=jpg')
   })
 

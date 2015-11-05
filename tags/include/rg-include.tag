@@ -5,7 +5,7 @@
 	<script>
 		this.on('mount', () => {
 			this.RgInclude = opts.include || new RgInclude(opts)
-			this.RgInclude.on('change', () => {
+			this.RgInclude.on('update', () => {
 				this.RgInclude.fetch()
 			})
 			this.RgInclude.on('fetch', content => {

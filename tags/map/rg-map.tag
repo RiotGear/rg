@@ -14,7 +14,7 @@
 				let script = document.createElement('script')
 				script.setAttribute('id', 'gmap_script')
 				script.type = 'text/javascript'
-				script.src = 'https://maps.googleapis.com/maps/api/js?sensor=false&callback=rg.map.initialize'
+				script.src = 'https://maps.googleapis.com/maps/api/js?callback=rg.map.initialize'
 				document.body.appendChild(script)
 			}
 		})

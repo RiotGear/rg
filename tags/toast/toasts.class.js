@@ -1,7 +1,7 @@
-class RgToasts {
+class RgToasts extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     if (rg.isUndefined(opts)) opts = {}
     this._toasts = opts.toasts
     this._position = opts.position
@@ -18,7 +18,7 @@ class RgToasts {
             toast.timer = window.setTimeout(() => {
               toast.isvisible = false
               if (rg.isFunction(toast.onclose)) toast.onclose()
-              this.trigger('change')
+              this.update()
             }, rg.toNumber(toast.timeout) || 6000)
           }
           toast.startTimer()
@@ -32,7 +32,6 @@ class RgToasts {
   }
   set toasts(toasts) {
     this._toasts = toasts
-    this.trigger('change')
   }
 
   get position() {
@@ -40,7 +39,6 @@ class RgToasts {
   }
   set position(position) {
     this._position = position
-    this.trigger('change')
   }
 
   get isvisible() {
@@ -48,11 +46,9 @@ class RgToasts {
   }
   set isvisible(isvisible) {
     this._isvisible = isvisible
-    this.trigger('visibility')
   }
 
   add(toast) {
     this.toasts.push(toast)
-    this.trigger('add')
   }
 }

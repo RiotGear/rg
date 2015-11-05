@@ -51,12 +51,12 @@ describe('rg-select', function() {
   })
 
   it('clicking on field opens/closes dropdown and calls onopen/onclose', function() {
-    $('rg-select .dropdown').is(':visible').should.be.false
+    $('rg-select .dropdown').is('.isvisible').should.be.false
     $('rg-select .field').click()
-    $('rg-select .dropdown').is(':visible').should.be.true
+    $('rg-select .dropdown').is('.isvisible').should.be.true
     spyOnOpen.should.have.been.calledOnce
     $('rg-select .field').click()
-    $('rg-select .dropdown').is(':visible').should.be.false
+    $('rg-select .dropdown').is('.isvisible').should.be.false
     spyOnClose.should.have.been.calledOnce
   })
 
@@ -89,7 +89,7 @@ describe('rg-select', function() {
     var e = jQuery.Event('keydown')
     e.keyCode = 13
     $('rg-select .field').trigger(e)
-    $('rg-select .dropdown').is(':visible').should.be.true
+    $('rg-select .dropdown').is('.isvisible').should.be.true
     spyOnOpen.should.have.been.calledOnce
   })
 
@@ -97,7 +97,7 @@ describe('rg-select', function() {
     var e = jQuery.Event('keydown')
     e.keyCode = 40
     $('rg-select .field').trigger(e)
-    $('rg-select .dropdown').is(':visible').should.be.true
+    $('rg-select .dropdown').is('.isvisible').should.be.true
     spyOnOpen.should.have.been.calledOnce
   })
 
@@ -105,7 +105,7 @@ describe('rg-select', function() {
     var e = jQuery.Event('keydown')
     e.keyCode = 38
     $('rg-select .field').trigger(e)
-    $('rg-select .dropdown').is(':visible').should.be.true
+    $('rg-select .dropdown').is('.isvisible').should.be.true
     spyOnOpen.should.have.been.calledOnce
   })
 })

@@ -10,7 +10,7 @@
 	<script>
 		this.on('mount', function() {
 			this.RgAlerts = opts.alerts || new RgAlerts(opts)
-			this.RgAlerts.on('add dismiss', () => {
+			this.RgAlerts.on('update', () => {
 				this.update()
 			})
 			this.update()

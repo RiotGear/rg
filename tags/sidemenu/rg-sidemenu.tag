@@ -19,7 +19,7 @@
 	<script>
 		this.on('mount', () => {
 			this.RgSidemenu = opts.sidemenu || new RgSidemenu(opts)
-			this.RgSidemenu.on('change visibility', () => {
+			this.RgSidemenu.on('update', () => {
 				this.update()
 			})
 			this.update()

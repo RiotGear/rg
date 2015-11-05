@@ -1,7 +1,7 @@
-class RgDate {
+class RgDate extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     if (rg.isUndefined(opts)) opts = {}
     this._isvisible = opts.isvisible
     this._date = opts.date
@@ -42,7 +42,6 @@ class RgDate {
     this._date = date
     if (rg.isFunction(this._onselect)) this._onselect(this.date)
     this._isvisible = false
-    this.trigger('change', this.date)
   }
 
   get dateFormatted() {
@@ -127,40 +126,37 @@ class RgDate {
   open() {
     this._isvisible = true
     if (rg.isFunction(this._onopen)) this._onopen()
-    this.trigger('visibility')
   }
 
   close() {
     if (this.isvisible) {
       this._isvisible = false
       if (rg.isFunction(this._onclose)) this._onclose()
-      this.trigger('visibility')
     }
   }
 
   setToday() {
-    this._date = moment()
-    if (rg.isFunction(this._onselect)) this._onselect(this.date)
-    this.trigger('today', this.date)
+    this.select(moment())
   }
 
   prevYear() {
     this._date = this.date.subtract(1, 'year')
-    this.trigger('build', this.date)
   }
 
   nextYear() {
     this._date = this.date.add(1, 'year')
-    this.trigger('build', this.date)
   }
 
   prevMonth() {
     this._date = this.date.subtract(1, 'month')
-    this.trigger('build', this.date)
   }
 
   nextMonth() {
     this._date = this.date.add(1, 'month')
-    this.trigger('build', this.date)
+  }
+
+  select(date) {
+    this._date = date
+    if (rg.isFunction(this._onselect)) this._onselect(this.date)
   }
 }

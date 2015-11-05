@@ -1,7 +1,7 @@
-class RgLoading {
+class RgLoading extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     if (rg.isUndefined(opts)) opts = {}
     this._isvisible = opts.isvisible
   }
@@ -11,6 +11,5 @@ class RgLoading {
   }
   set isvisible(isvisible) {
     this._isvisible = isvisible
-    this.trigger('visibility')
   }
 }

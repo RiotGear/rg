@@ -1,7 +1,7 @@
-class RgSelect {
+class RgSelect extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     if (rg.isUndefined(opts)) opts = {}
     this._isvisible = opts.isvisible
     this._autocomplete = opts.autocomplete
@@ -22,7 +22,6 @@ class RgSelect {
   }
   set isvisible(isvisible) {
     this._isvisible = isvisible
-    this.trigger('visibility')
   }
 
   get autocomplete() {
@@ -30,7 +29,7 @@ class RgSelect {
   }
   set autocomplete(autocomplete) {
     this._autocomplete = autocomplete
-    this.trigger('change')
+
   }
 
   get filteron() {
@@ -38,7 +37,6 @@ class RgSelect {
   }
   set filteron(filteron) {
     this._filteron = filteron
-    this.trigger('change')
   }
 
   get placeholder() {
@@ -46,7 +44,6 @@ class RgSelect {
   }
   set placeholder(placeholder) {
     this._placeholder = placeholder
-    this.trigger('change')
   }
 
   get filterplaceholder() {
@@ -54,7 +51,6 @@ class RgSelect {
   }
   set filterplaceholder(filterplaceholder) {
     this._filterplaceholder = filterplaceholder
-    this.trigger('change')
   }
 
   get hasfilter() {
@@ -62,7 +58,6 @@ class RgSelect {
   }
   set hasfilter(hasfilter) {
     this._hasfilter = hasfilter
-    this.trigger('change')
   }
 
   get options() {
@@ -77,7 +72,6 @@ class RgSelect {
       if (item.selected) this.select(item)
     })
     this._options = options
-    this.trigger('change')
   }
 
   get filtereditems() {
@@ -87,7 +81,6 @@ class RgSelect {
   }
   set filtereditems(filtereditems) {
     this._filtereditems = filtereditems
-    this.trigger('change')
   }
 
   get onopen() {
@@ -150,7 +143,6 @@ class RgSelect {
         return true
     })
     if (this.onfilter) this.onfilter()
-    this.trigger('filter')
   }
 
   select(item) {

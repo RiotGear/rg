@@ -27,6 +27,7 @@ describe('rg-toggle', function() {
 
   it('has a checked checkbox', function() {
     toggle.checked = true
+    toggle.update()
     $('rg-toggle input[type=checkbox]').is(':checked').should.be.true
   })
 
@@ -37,6 +38,7 @@ describe('rg-toggle', function() {
 
   it('no ontoggle function', function() {
     toggle.ontoggle = null
+    toggle.update()
     $('rg-toggle input[type=checkbox]').click()
     spy.should.not.have.been.called
   })

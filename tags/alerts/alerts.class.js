@@ -1,7 +1,7 @@
-class RgAlerts {
+class RgAlerts extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     if (rg.isUndefined(opts)) opts = {}
     this.alerts = []
     if (!rg.isArray(opts.alerts)) return
@@ -17,23 +17,21 @@ class RgAlerts {
       alert.startTimer = () => {
         alert.timer = setTimeout(() => {
           this.dismiss(alert)
+          this.update()
         }, rg.toNumber(alert.timeout))
       }
       alert.startTimer()
     }
     this.alerts.push(alert)
-    this.trigger('add', alert)
   }
 
   dismiss(alert) {
     alert.isvisible = false
     if (rg.isFunction(alert.onclose)) alert.onclose(alert)
     clearTimeout(alert.timer)
-    this.trigger('dismiss', alert)
   }
 
   select(alert) {
     if (rg.isFunction(alert.onclick)) alert.onclick(alert)
-    this.trigger('onclick', alert)
   }
 }

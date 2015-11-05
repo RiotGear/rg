@@ -22,13 +22,13 @@ describe('rg-bubble', function() {
   describe('displays tooltip with correct text', function() {
     it('on click', function() {
       $('rg-bubble .content').trigger('click')
-      $('rg-bubble .bubble').is(':visible').should.be.true
+      $('rg-bubble .bubble').is('.isvisible').should.be.true
       $('rg-bubble .bubble').html().should.contain(bubble.content)
     })
 
     it('on mouse over', function() {
       $('rg-bubble .content').trigger('mouseover')
-      $('rg-bubble .bubble').is(':visible').should.be.true
+      $('rg-bubble .bubble').is('.isvisible').should.be.true
       $('rg-bubble .bubble').html().should.contain(bubble.content)
     })
   })

@@ -11,7 +11,6 @@ class RgTags extends RgSelect {
   }
   set value(val) {
     this._value = val
-    this.trigger('value')
   }
 
   get tags() {
@@ -25,19 +24,16 @@ class RgTags extends RgSelect {
       item.index = i
     })
     this._tags = tags
-    this.trigger('change')
   }
 
   addTag(tag) {
     tag.index = this.tags.length
     this.tags.push(tag)
     this.isvisible = false
-    this.trigger('add', tag)
   }
 
   removeTag(tag) {
     this.tags.splice(this.tags.indexOf(tag), 1)
     this.isvisible = false
-    this.trigger('remove', tag)
   }
 }

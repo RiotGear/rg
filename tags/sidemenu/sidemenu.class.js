@@ -1,7 +1,7 @@
-class RgSidemenu {
+class RgSidemenu extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     if (rg.isUndefined(opts)) opts = {}
     this._isvisible = opts.isvisible
     this._header = opts.header
@@ -16,7 +16,6 @@ class RgSidemenu {
   }
   set isvisible(isvisible) {
     this._isvisible = isvisible
-    this.trigger('visibility')
   }
 
   get header() {
@@ -24,7 +23,6 @@ class RgSidemenu {
   }
   set header(header) {
     this._header = header
-    this.trigger('change')
   }
 
   get items() {
@@ -34,7 +32,6 @@ class RgSidemenu {
   }
   set items(items) {
     this._items = items
-    this.trigger('change')
   }
 
   get onopen() {

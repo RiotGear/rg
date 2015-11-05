@@ -1,7 +1,7 @@
-class RgPhoneSim {
+class RgPhoneSim extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     if (rg.isUndefined(opts)) opts = {}
     this._url = opts.url
   }
@@ -11,6 +11,5 @@ class RgPhoneSim {
   }
   set url(url) {
     this._url = url
-    this.trigger('change')
   }
 }

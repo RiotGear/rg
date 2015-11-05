@@ -1,7 +1,7 @@
-class RgContextMenu {
+class RgContextMenu extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     if (rg.isUndefined(opts)) opts = {}
     this.name = opts.name
     this._isvisible = opts.isvisible
@@ -21,7 +21,6 @@ class RgContextMenu {
   }
   set items(items) {
     this._items = items
-    this.trigger('items')
   }
 
   get onopen() {
@@ -30,7 +29,6 @@ class RgContextMenu {
   }
   set onopen(onopen) {
     if (rg.isFunction(onopen)) this._onopen = onopen
-    this.trigger('settings')
   }
 
   get onclose() {
@@ -39,7 +37,6 @@ class RgContextMenu {
   }
   set onclose(onclose) {
     if (rg.isFunction(onclose)) this._onclose = onclose
-    this.trigger('settings')
   }
 
   get isvisible() {
@@ -47,7 +44,6 @@ class RgContextMenu {
   }
   set isvisible(isvisible) {
     this._isvisible = rg.toBoolean(isvisible)
-    this.trigger('visibility')
   }
 
   add(item) {
@@ -56,14 +52,12 @@ class RgContextMenu {
     if (rg.isUndefined(item.inactive)) item.inactive = false
     if (!rg.isFunction(item.onclick)) item.onclick = null
     this._items.push(item)
-    this.trigger('add', item)
   }
 
   select(item) {
     if (!item.inactive) {
       if (rg.isFunction(item.onclick)) item.onclick(item)
       this.isvisible = false
-      this.trigger('onclick', item)
     }
   }
 }

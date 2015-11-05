@@ -1,7 +1,7 @@
-class RgMarkdown {
+class RgMarkdown extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     if (rg.isUndefined(opts)) opts = {}
     if (commonmark) {
       this.reader = new commonmark.Parser()
@@ -15,7 +15,6 @@ class RgMarkdown {
   }
   set url(url) {
     this._url = url
-    this.trigger('change')
   }
 
   parse(md) {

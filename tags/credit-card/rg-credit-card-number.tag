@@ -13,13 +13,13 @@
 
 		this.on('mount', () => {
 			this.RgCreditCard = opts.card || new RgCreditCard(opts)
-			this.RgCreditCard.on('change', () => {
-				setUI()
-			})
-			this.RgCreditCard.on('validate', () => {
+			this.RgCreditCard.on('update', () => {
 				this.update()
 			})
-			setUI()
+			this.on('update', () => {
+				setUI()
+			})
+			this.update()
 		})
 
 		this.validate = () => {

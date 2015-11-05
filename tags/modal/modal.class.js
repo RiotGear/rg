@@ -1,7 +1,7 @@
-class RgModal {
+class RgModal extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     this._isvisible = opts.isvisible
     this._dismissable = opts.dismissable
     this._ghost = opts.ghost
@@ -17,7 +17,6 @@ class RgModal {
   }
   set dismissable(dismissable) {
     this._dismissable = dismissable
-    this.trigger('change')
   }
 
   get ghost() {
@@ -25,7 +24,6 @@ class RgModal {
   }
   set ghost(ghost) {
     this._ghost = ghost
-    this.trigger('change')
   }
 
   get heading() {
@@ -33,7 +31,6 @@ class RgModal {
   }
   set heading(heading) {
     this._heading = heading
-    this.trigger('change')
   }
 
   get buttons() {
@@ -42,7 +39,6 @@ class RgModal {
   }
   set buttons(buttons) {
     this._buttons = buttons
-    this.trigger('change')
   }
 
   get onopen() {
@@ -68,6 +64,5 @@ class RgModal {
     this._isvisible = isvisible
     if (this.isvisible && this.onopen) this.onopen()
     if (!this.isvisible && this.onclose) this.onclose()
-    this.trigger('visibility')
   }
 }

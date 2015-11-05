@@ -5,7 +5,7 @@
 	<script>
 		this.on('mount', () => {
 			this.RgMarkdown = opts.markdown || new RgMarkdown(opts)
-			this.RgMarkdown.on('change', () => {
+			this.RgMarkdown.on('update', () => {
 				this.RgMarkdown.fetch()
 			})
 			this.RgMarkdown.on('fetch', md => {

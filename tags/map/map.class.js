@@ -1,7 +1,7 @@
-class RgMap {
+class RgMap extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     this._options = opts
   }
 

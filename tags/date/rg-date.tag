@@ -56,6 +56,7 @@
 	<script>
 		const handleClickOutside = e => {
 			if (!this.root.contains(e.target)) this.RgDate.close()
+			this.update()
 		}
 
 		const dayObj = dayDate => {
@@ -91,13 +92,14 @@
 				const bufferDate = moment(end).add(i, 'days')
 				this.endBuffer.push(dayObj(bufferDate))
 			}
-
-			this.update()
 		}
 
 		this.on('mount', () => {
 			this.RgDate = opts.date || new RgDate(opts)
-			this.RgDate.on('visibility change today build', () => {
+			this.RgDate.on('update', () => {
+				this.update()
+			})
+			this.on('update', () => {
 				buildCalendar()
 			})
 			document.addEventListener('click', handleClickOutside)
@@ -133,7 +135,7 @@
 		}
 
 		this.select = e => {
-			this.RgDate.date = e.item.day.date
+			this.RgDate.select(e.item.day.date)
 		}
 
 	</script>

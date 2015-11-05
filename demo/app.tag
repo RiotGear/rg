@@ -130,7 +130,7 @@
 
   <h2>Toast</h2>
   <div class="demo">
-    <rg-toast toasts="{ toasts }"></rg-toast>
+    <rg-toasts toasts="{ toasts }"></rg-toasts>
     <button onclick="{ changeToasts }">Change toasts</button>
   </div>
 
@@ -157,7 +157,7 @@
         type: 'danger',
         content: 'Danger! Something bad happened.',
         dismissable: true,
-        timeout: 4000
+        timeout: 2000
       }, {
         type: 'warning',
         content: 'Warning! Something sort of bad happened.',
@@ -180,6 +180,14 @@
         }
       })
     }
+
+    setTimeout(() => {
+      this.alerts.add({
+        type: 'information',
+        content: 'Test alert'
+      })
+      this.alerts.update()
+    }, 3000)
 
     /*
      * BEHOLD
@@ -260,16 +268,15 @@
      * DATE
      */
     this.date = new RgDate({
-      date: moment('14-01-1982', 'DD-MM-YYYY')
+      date: moment('14-01-1982', 'DD-MM-YYYY'),
+      onselect: () => {
+        this.update()
+      }
     })
 
     this.changeDate = () => {
       this.date.date = moment()
     }
-
-    this.date.on('change', () => {
-      this.update()
-    })
 
     /*
      * INCLUDE
@@ -279,9 +286,11 @@
     })
     this.unsafe = () => {
       this.include.unsafe = true
+      this.include.fetch()
     }
     this.changeIncludeFile = () => {
       this.include.url = 'inc2.html'
+      this.include.fetch()
     }
 
     /*
@@ -469,6 +478,9 @@
         text: 'Ireland'
       }, {
         text: 'Wales'
+      }],
+      tags: [{
+        text: 'Russia'
       }]
     })
 

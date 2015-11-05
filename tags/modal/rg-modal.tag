@@ -1,6 +1,6 @@
 <rg-modal>
 
-	<div class="overlay { visible: RgModal.isvisible, ghost: RgModal.ghost, dismissable: RgModal.dismissable }" onclick="{ overlayClose }"></div>
+	<div class="overlay { visible: RgModal.isvisible, ghost: RgModal.ghost, dismissable: RgModal.dismissable }" onclick="{ close }"></div>
 	<div class="modal { visible: RgModal.isvisible, ghost: RgModal.ghost, dismissable: RgModal.dismissable }">
 		<header class="header">
 			<button if="{ RgModal.dismissable }" type="button" class="close" aria-label="Close" onclick="{ close }">
@@ -24,18 +24,14 @@
 	<script>
 		this.on('mount', () => {
 			this.RgModal = opts.modal || new RgModal(opts)
-			this.RgModal.on('visibility change', () => {
+			this.RgModal.on('update', () => {
 				this.update()
 			})
 			this.update()
 		})
 
 		this.close = () => {
-			this.RgModal.isvisible = false
-		}
-
-		this.overlayClose = () => {
-			if (this.RgModal.dismissable) this.close()
+			if (this.RgModal.dismissable) this.RgModal.isvisible = false
 		}
 	</script>
 

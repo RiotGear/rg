@@ -1,7 +1,7 @@
-class RgCode {
+class RgCode extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     if (rg.isUndefined(opts)) opts = {}
     this._url = opts.url
     this._code = opts.code
@@ -19,7 +19,6 @@ class RgCode {
   }
   set url(url) {
     this._url = url
-    this.trigger('url')
   }
 
   get code() {
@@ -27,7 +26,6 @@ class RgCode {
   }
   set code(code) {
     this._code = code
-    this.trigger('change')
   }
 
   get onchange() {
@@ -36,7 +34,6 @@ class RgCode {
   }
   set onchange(onchange) {
     if (rg.isFunction(onchange)) this._onchange = onchange
-    this.trigger('settings')
   }
 
   get theme() {
@@ -44,7 +41,6 @@ class RgCode {
   }
   set theme(theme) {
     this._theme = theme
-    this.trigger('settings')
   }
 
   get mode() {
@@ -52,7 +48,6 @@ class RgCode {
   }
   set mode(mode) {
     this._mode = mode
-    this.trigger('settings')
   }
 
   get tabsize() {
@@ -60,7 +55,6 @@ class RgCode {
   }
   set tabsize(tabsize) {
     this._tabsize = tabsize
-    this.trigger('settings')
   }
 
   get softtabs() {
@@ -68,7 +62,6 @@ class RgCode {
   }
   set softtabs(softtabs) {
     this._softtabs = softtabs
-    this.trigger('settings')
   }
 
   get wordwrap() {
@@ -76,7 +69,6 @@ class RgCode {
   }
   set wordwrap(wordwrap) {
     this._wordwrap = wordwrap
-    this.trigger('settings')
   }
 
   get readonly() {
@@ -84,6 +76,5 @@ class RgCode {
   }
   set readonly(readonly) {
     this._readonly = readonly
-    this.trigger('settings')
   }
 }

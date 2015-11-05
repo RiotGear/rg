@@ -1,7 +1,7 @@
-class RgPlaceholdit {
+class RgPlaceholdit extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     if (rg.isUndefined(opts)) opts = {}
     this._width = opts.width
     this._height = opts.height
@@ -17,7 +17,6 @@ class RgPlaceholdit {
   }
   set width(width) {
     this._width = width
-    this.trigger('change')
   }
 
   get height() {
@@ -25,7 +24,6 @@ class RgPlaceholdit {
   }
   set height(height) {
     this._height = height
-    this.trigger('change')
   }
 
   get background() {
@@ -33,7 +31,6 @@ class RgPlaceholdit {
   }
   set background(background) {
     this._background = background
-    this.trigger('change')
   }
 
   get color() {
@@ -41,7 +38,6 @@ class RgPlaceholdit {
   }
   set color(color) {
     this._color = color
-    this.trigger('change')
   }
 
   get text() {
@@ -49,7 +45,6 @@ class RgPlaceholdit {
   }
   set text(text) {
     this._text = text
-    this.trigger('change')
   }
 
   get textsize() {
@@ -57,7 +52,6 @@ class RgPlaceholdit {
   }
   set textsize(textsize) {
     this._textsize = textsize
-    this.trigger('change')
   }
 
   get format() {
@@ -65,6 +59,5 @@ class RgPlaceholdit {
   }
   set format(format) {
     this._format = format
-    this.trigger('change')
   }
 }

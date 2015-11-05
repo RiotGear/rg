@@ -1,7 +1,7 @@
-class RgBubble {
+class RgBubble extends RgTag {
 
   constructor(opts) {
-    riot.observable(this)
+    super()
     if (rg.isUndefined(opts)) opts = {}
     this._isvisible = opts.isvisible
     this._content = opts.content
@@ -12,7 +12,6 @@ class RgBubble {
   }
   set isvisible(isvisible) {
     this._isvisible = isvisible
-    this.trigger('visibility')
   }
 
   get content() {
@@ -20,7 +19,6 @@ class RgBubble {
   }
   set content(content) {
     this._content = content
-    this.trigger('content')
   }
 
   showBubble() {
@@ -31,6 +29,7 @@ class RgBubble {
   hideBubble() {
     this._timer = setTimeout(() => {
       this.isvisible = false
+      this.update()
     }, 1000)
   }
 

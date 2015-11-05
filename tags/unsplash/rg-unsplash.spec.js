@@ -25,11 +25,12 @@ describe('rg-unsplash', function() {
   it('compiles the correct src with all options', function() {
     unsplash.width = 200
     unsplash.height = 100
-    unsplash.greyscale = "true"
-    unsplash.random = "true"
-    unsplash.blur = "true"
-    unsplash.image = "491"
-    unsplash.gravity = "north"
+    unsplash.greyscale = 'true'
+    unsplash.random = 'true'
+    unsplash.blur = 'true'
+    unsplash.image = '491'
+    unsplash.gravity = 'north'
+    unsplash.update()
     $('rg-unsplash img').attr('src').should.equal('https://unsplash.it/g/200/100/?random&blur&image=491&gravity=north')
   })
 
@@ -37,19 +38,21 @@ describe('rg-unsplash', function() {
     unsplash.width = 200
     unsplash.height = 100
     unsplash.grayscale = false
-    unsplash.random = "true"
-    unsplash.blur = "true"
-    unsplash.image = "491"
-    unsplash.gravity = "north"
+    unsplash.random = 'true'
+    unsplash.blur = 'true'
+    unsplash.image = '491'
+    unsplash.gravity = 'north'
+    unsplash.update()
     $('rg-unsplash img').attr('src').should.equal('https://unsplash.it/200/100/?random&blur&image=491&gravity=north')
   })
 
   it('defaults width and height', function() {
-    unsplash.greyscale = "true"
-    unsplash.random = "true"
-    unsplash.blur = "true"
-    unsplash.image = "491"
-    unsplash.gravity = "north"
+    unsplash.greyscale = 'true'
+    unsplash.random = 'true'
+    unsplash.blur = 'true'
+    unsplash.image = '491'
+    unsplash.gravity = 'north'
+    unsplash.update()
     $('rg-unsplash img').attr('src').should.equal('https://unsplash.it/g/450/250/?random&blur&image=491&gravity=north')
   })
 })

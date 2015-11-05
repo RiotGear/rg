@@ -277,13 +277,32 @@ IN THE SOFTWARE.
   rg.map = map;
 })();
 
-var RgAlerts = (function () {
+var RgTag = (function () {
+  function RgTag() {
+    _classCallCheck(this, RgTag);
+
+    riot.observable(this);
+  }
+
+  _createClass(RgTag, [{
+    key: 'update',
+    value: function update() {
+      this.trigger('update');
+    }
+  }]);
+
+  return RgTag;
+})();
+
+var RgAlerts = (function (_RgTag) {
+  _inherits(RgAlerts, _RgTag);
+
   function RgAlerts(opts) {
     var _this3 = this;
 
     _classCallCheck(this, RgAlerts);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgAlerts.prototype), 'constructor', this).call(this);
     if (rg.isUndefined(opts)) opts = {};
     this.alerts = [];
     if (!rg.isArray(opts.alerts)) return;
@@ -303,12 +322,12 @@ var RgAlerts = (function () {
         alert.startTimer = function () {
           alert.timer = setTimeout(function () {
             _this4.dismiss(alert);
+            _this4.update();
           }, rg.toNumber(alert.timeout));
         };
         alert.startTimer();
       }
       this.alerts.push(alert);
-      this.trigger('add', alert);
     }
   }, {
     key: 'dismiss',
@@ -316,24 +335,24 @@ var RgAlerts = (function () {
       alert.isvisible = false;
       if (rg.isFunction(alert.onclose)) alert.onclose(alert);
       clearTimeout(alert.timer);
-      this.trigger('dismiss', alert);
     }
   }, {
     key: 'select',
     value: function select(alert) {
       if (rg.isFunction(alert.onclick)) alert.onclick(alert);
-      this.trigger('onclick', alert);
     }
   }]);
 
   return RgAlerts;
-})();
+})(RgTag);
 
-var RgBehold = (function () {
+var RgBehold = (function (_RgTag2) {
+  _inherits(RgBehold, _RgTag2);
+
   function RgBehold(opts) {
     _classCallCheck(this, RgBehold);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgBehold.prototype), 'constructor', this).call(this);
     if (rg.isUndefined(opts)) opts = {};
     this._image1 = opts.image1;
     this._image2 = opts.image2;
@@ -347,7 +366,6 @@ var RgBehold = (function () {
     },
     set: function set(img) {
       this._image1 = img;
-      this.trigger('image');
     }
   }, {
     key: 'image2',
@@ -356,7 +374,6 @@ var RgBehold = (function () {
     },
     set: function set(img) {
       this._image2 = img;
-      this.trigger('image');
     }
   }, {
     key: 'mode',
@@ -364,19 +381,20 @@ var RgBehold = (function () {
       return this._mode || 'swipe';
     },
     set: function set(mode) {
-      this.trigger('mode');
       this._mode = mode;
     }
   }]);
 
   return RgBehold;
-})();
+})(RgTag);
 
-var RgBubble = (function () {
+var RgBubble = (function (_RgTag3) {
+  _inherits(RgBubble, _RgTag3);
+
   function RgBubble(opts) {
     _classCallCheck(this, RgBubble);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgBubble.prototype), 'constructor', this).call(this);
     if (rg.isUndefined(opts)) opts = {};
     this._isvisible = opts.isvisible;
     this._content = opts.content;
@@ -395,6 +413,7 @@ var RgBubble = (function () {
 
       this._timer = setTimeout(function () {
         _this5.isvisible = false;
+        _this5.update();
       }, 1000);
     }
   }, {
@@ -409,7 +428,6 @@ var RgBubble = (function () {
     },
     set: function set(isvisible) {
       this._isvisible = isvisible;
-      this.trigger('visibility');
     }
   }, {
     key: 'content',
@@ -418,18 +436,19 @@ var RgBubble = (function () {
     },
     set: function set(content) {
       this._content = content;
-      this.trigger('content');
     }
   }]);
 
   return RgBubble;
-})();
+})(RgTag);
 
-var RgCode = (function () {
+var RgCode = (function (_RgTag4) {
+  _inherits(RgCode, _RgTag4);
+
   function RgCode(opts) {
     _classCallCheck(this, RgCode);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgCode.prototype), 'constructor', this).call(this);
     if (rg.isUndefined(opts)) opts = {};
     this._url = opts.url;
     this._code = opts.code;
@@ -449,7 +468,6 @@ var RgCode = (function () {
     },
     set: function set(url) {
       this._url = url;
-      this.trigger('url');
     }
   }, {
     key: 'code',
@@ -458,7 +476,6 @@ var RgCode = (function () {
     },
     set: function set(code) {
       this._code = code;
-      this.trigger('change');
     }
   }, {
     key: 'onchange',
@@ -468,7 +485,6 @@ var RgCode = (function () {
     },
     set: function set(onchange) {
       if (rg.isFunction(onchange)) this._onchange = onchange;
-      this.trigger('settings');
     }
   }, {
     key: 'theme',
@@ -477,7 +493,6 @@ var RgCode = (function () {
     },
     set: function set(theme) {
       this._theme = theme;
-      this.trigger('settings');
     }
   }, {
     key: 'mode',
@@ -486,7 +501,6 @@ var RgCode = (function () {
     },
     set: function set(mode) {
       this._mode = mode;
-      this.trigger('settings');
     }
   }, {
     key: 'tabsize',
@@ -495,7 +509,6 @@ var RgCode = (function () {
     },
     set: function set(tabsize) {
       this._tabsize = tabsize;
-      this.trigger('settings');
     }
   }, {
     key: 'softtabs',
@@ -504,7 +517,6 @@ var RgCode = (function () {
     },
     set: function set(softtabs) {
       this._softtabs = softtabs;
-      this.trigger('settings');
     }
   }, {
     key: 'wordwrap',
@@ -513,7 +525,6 @@ var RgCode = (function () {
     },
     set: function set(wordwrap) {
       this._wordwrap = wordwrap;
-      this.trigger('settings');
     }
   }, {
     key: 'readonly',
@@ -522,20 +533,21 @@ var RgCode = (function () {
     },
     set: function set(readonly) {
       this._readonly = readonly;
-      this.trigger('settings');
     }
   }]);
 
   return RgCode;
-})();
+})(RgTag);
 
-var RgContextMenu = (function () {
+var RgContextMenu = (function (_RgTag5) {
+  _inherits(RgContextMenu, _RgTag5);
+
   function RgContextMenu(opts) {
     var _this6 = this;
 
     _classCallCheck(this, RgContextMenu);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgContextMenu.prototype), 'constructor', this).call(this);
     if (rg.isUndefined(opts)) opts = {};
     this.name = opts.name;
     this._isvisible = opts.isvisible;
@@ -556,7 +568,6 @@ var RgContextMenu = (function () {
       if (rg.isUndefined(item.inactive)) item.inactive = false;
       if (!rg.isFunction(item.onclick)) item.onclick = null;
       this._items.push(item);
-      this.trigger('add', item);
     }
   }, {
     key: 'select',
@@ -564,7 +575,6 @@ var RgContextMenu = (function () {
       if (!item.inactive) {
         if (rg.isFunction(item.onclick)) item.onclick(item);
         this.isvisible = false;
-        this.trigger('onclick', item);
       }
     }
   }, {
@@ -576,7 +586,6 @@ var RgContextMenu = (function () {
     },
     set: function set(items) {
       this._items = items;
-      this.trigger('items');
     }
   }, {
     key: 'onopen',
@@ -586,7 +595,6 @@ var RgContextMenu = (function () {
     },
     set: function set(onopen) {
       if (rg.isFunction(onopen)) this._onopen = onopen;
-      this.trigger('settings');
     }
   }, {
     key: 'onclose',
@@ -596,7 +604,6 @@ var RgContextMenu = (function () {
     },
     set: function set(onclose) {
       if (rg.isFunction(onclose)) this._onclose = onclose;
-      this.trigger('settings');
     }
   }, {
     key: 'isvisible',
@@ -605,18 +612,19 @@ var RgContextMenu = (function () {
     },
     set: function set(isvisible) {
       this._isvisible = rg.toBoolean(isvisible);
-      this.trigger('visibility');
     }
   }]);
 
   return RgContextMenu;
-})();
+})(RgTag);
 
-var RgCreditCard = (function () {
+var RgCreditCard = (function (_RgTag6) {
+  _inherits(RgCreditCard, _RgTag6);
+
   function RgCreditCard(opts) {
     _classCallCheck(this, RgCreditCard);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgCreditCard.prototype), 'constructor', this).call(this);
     if (rg.isUndefined(opts)) opts = {};
     this._placeholder = opts.placeholder;
     this._cardnumber = opts.cardnumber;
@@ -628,7 +636,6 @@ var RgCreditCard = (function () {
       var res = rg.creditcard.validate(this.cardnumber);
       this.valid = res.valid;
       this.icon = this.valid ? res.card_type.name : '';
-      this.trigger('validate');
     }
   }, {
     key: 'cardnumber',
@@ -637,7 +644,6 @@ var RgCreditCard = (function () {
     },
     set: function set(num) {
       this._cardnumber = num;
-      this.trigger('change');
     }
   }, {
     key: 'valid',
@@ -658,13 +664,15 @@ var RgCreditCard = (function () {
   }]);
 
   return RgCreditCard;
-})();
+})(RgTag);
 
-var RgDate = (function () {
+var RgDate = (function (_RgTag7) {
+  _inherits(RgDate, _RgTag7);
+
   function RgDate(opts) {
     _classCallCheck(this, RgDate);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgDate.prototype), 'constructor', this).call(this);
     if (rg.isUndefined(opts)) opts = {};
     this._isvisible = opts.isvisible;
     this._date = opts.date;
@@ -696,7 +704,6 @@ var RgDate = (function () {
     value: function open() {
       this._isvisible = true;
       if (rg.isFunction(this._onopen)) this._onopen();
-      this.trigger('visibility');
     }
   }, {
     key: 'close',
@@ -704,39 +711,38 @@ var RgDate = (function () {
       if (this.isvisible) {
         this._isvisible = false;
         if (rg.isFunction(this._onclose)) this._onclose();
-        this.trigger('visibility');
       }
     }
   }, {
     key: 'setToday',
     value: function setToday() {
-      this._date = moment();
-      if (rg.isFunction(this._onselect)) this._onselect(this.date);
-      this.trigger('today', this.date);
+      this.select(moment());
     }
   }, {
     key: 'prevYear',
     value: function prevYear() {
       this._date = this.date.subtract(1, 'year');
-      this.trigger('build', this.date);
     }
   }, {
     key: 'nextYear',
     value: function nextYear() {
       this._date = this.date.add(1, 'year');
-      this.trigger('build', this.date);
     }
   }, {
     key: 'prevMonth',
     value: function prevMonth() {
       this._date = this.date.subtract(1, 'month');
-      this.trigger('build', this.date);
     }
   }, {
     key: 'nextMonth',
     value: function nextMonth() {
       this._date = this.date.add(1, 'month');
-      this.trigger('build', this.date);
+    }
+  }, {
+    key: 'select',
+    value: function select(date) {
+      this._date = date;
+      if (rg.isFunction(this._onselect)) this._onselect(this.date);
     }
   }, {
     key: 'date',
@@ -747,7 +753,6 @@ var RgDate = (function () {
       this._date = date;
       if (rg.isFunction(this._onselect)) this._onselect(this.date);
       this._isvisible = false;
-      this.trigger('change', this.date);
     }
   }, {
     key: 'dateFormatted',
@@ -844,13 +849,15 @@ var RgDate = (function () {
   }]);
 
   return RgDate;
-})();
+})(RgTag);
 
-var RgInclude = (function () {
+var RgInclude = (function (_RgTag8) {
+  _inherits(RgInclude, _RgTag8);
+
   function RgInclude(opts) {
     _classCallCheck(this, RgInclude);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgInclude.prototype), 'constructor', this).call(this);
     if (rg.isUndefined(opts)) opts = {};
     this._unsafe = opts.unsafe;
     this._url = opts.url;
@@ -872,7 +879,6 @@ var RgInclude = (function () {
     },
     set: function set(unsafe) {
       this._unsafe = unsafe;
-      this.trigger('change');
     }
   }, {
     key: 'url',
@@ -882,19 +888,20 @@ var RgInclude = (function () {
     set: function set(url) {
       if (this.url != url) {
         this._url = url;
-        this.trigger('change');
       }
     }
   }]);
 
   return RgInclude;
-})();
+})(RgTag);
 
-var RgLoading = (function () {
+var RgLoading = (function (_RgTag9) {
+  _inherits(RgLoading, _RgTag9);
+
   function RgLoading(opts) {
     _classCallCheck(this, RgLoading);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgLoading.prototype), 'constructor', this).call(this);
     if (rg.isUndefined(opts)) opts = {};
     this._isvisible = opts.isvisible;
   }
@@ -906,18 +913,19 @@ var RgLoading = (function () {
     },
     set: function set(isvisible) {
       this._isvisible = isvisible;
-      this.trigger('visibility');
     }
   }]);
 
   return RgLoading;
-})();
+})(RgTag);
 
-var RgMap = (function () {
+var RgMap = (function (_RgTag10) {
+  _inherits(RgMap, _RgTag10);
+
   function RgMap(opts) {
     _classCallCheck(this, RgMap);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgMap.prototype), 'constructor', this).call(this);
     this._options = opts;
   }
 
@@ -939,13 +947,15 @@ var RgMap = (function () {
   }]);
 
   return RgMap;
-})();
+})(RgTag);
 
-var RgMarkdown = (function () {
+var RgMarkdown = (function (_RgTag11) {
+  _inherits(RgMarkdown, _RgTag11);
+
   function RgMarkdown(opts) {
     _classCallCheck(this, RgMarkdown);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgMarkdown.prototype), 'constructor', this).call(this);
     if (rg.isUndefined(opts)) opts = {};
     if (commonmark) {
       this.reader = new commonmark.Parser();
@@ -977,18 +987,19 @@ var RgMarkdown = (function () {
     },
     set: function set(url) {
       this._url = url;
-      this.trigger('change');
     }
   }]);
 
   return RgMarkdown;
-})();
+})(RgTag);
 
-var RgModal = (function () {
+var RgModal = (function (_RgTag12) {
+  _inherits(RgModal, _RgTag12);
+
   function RgModal(opts) {
     _classCallCheck(this, RgModal);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgModal.prototype), 'constructor', this).call(this);
     this._isvisible = opts.isvisible;
     this._dismissable = opts.dismissable;
     this._ghost = opts.ghost;
@@ -1006,7 +1017,6 @@ var RgModal = (function () {
     },
     set: function set(dismissable) {
       this._dismissable = dismissable;
-      this.trigger('change');
     }
   }, {
     key: 'ghost',
@@ -1015,7 +1025,6 @@ var RgModal = (function () {
     },
     set: function set(ghost) {
       this._ghost = ghost;
-      this.trigger('change');
     }
   }, {
     key: 'heading',
@@ -1024,7 +1033,6 @@ var RgModal = (function () {
     },
     set: function set(heading) {
       this._heading = heading;
-      this.trigger('change');
     }
   }, {
     key: 'buttons',
@@ -1034,7 +1042,6 @@ var RgModal = (function () {
     },
     set: function set(buttons) {
       this._buttons = buttons;
-      this.trigger('change');
     }
   }, {
     key: 'onopen',
@@ -1063,18 +1070,19 @@ var RgModal = (function () {
       this._isvisible = isvisible;
       if (this.isvisible && this.onopen) this.onopen();
       if (!this.isvisible && this.onclose) this.onclose();
-      this.trigger('visibility');
     }
   }]);
 
   return RgModal;
-})();
+})(RgTag);
 
-var RgPhoneSim = (function () {
+var RgPhoneSim = (function (_RgTag13) {
+  _inherits(RgPhoneSim, _RgTag13);
+
   function RgPhoneSim(opts) {
     _classCallCheck(this, RgPhoneSim);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgPhoneSim.prototype), 'constructor', this).call(this);
     if (rg.isUndefined(opts)) opts = {};
     this._url = opts.url;
   }
@@ -1086,18 +1094,19 @@ var RgPhoneSim = (function () {
     },
     set: function set(url) {
       this._url = url;
-      this.trigger('change');
     }
   }]);
 
   return RgPhoneSim;
-})();
+})(RgTag);
 
-var RgPlaceholdit = (function () {
+var RgPlaceholdit = (function (_RgTag14) {
+  _inherits(RgPlaceholdit, _RgTag14);
+
   function RgPlaceholdit(opts) {
     _classCallCheck(this, RgPlaceholdit);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgPlaceholdit.prototype), 'constructor', this).call(this);
     if (rg.isUndefined(opts)) opts = {};
     this._width = opts.width;
     this._height = opts.height;
@@ -1115,7 +1124,6 @@ var RgPlaceholdit = (function () {
     },
     set: function set(width) {
       this._width = width;
-      this.trigger('change');
     }
   }, {
     key: 'height',
@@ -1124,7 +1132,6 @@ var RgPlaceholdit = (function () {
     },
     set: function set(height) {
       this._height = height;
-      this.trigger('change');
     }
   }, {
     key: 'background',
@@ -1133,7 +1140,6 @@ var RgPlaceholdit = (function () {
     },
     set: function set(background) {
       this._background = background;
-      this.trigger('change');
     }
   }, {
     key: 'color',
@@ -1142,7 +1148,6 @@ var RgPlaceholdit = (function () {
     },
     set: function set(color) {
       this._color = color;
-      this.trigger('change');
     }
   }, {
     key: 'text',
@@ -1151,7 +1156,6 @@ var RgPlaceholdit = (function () {
     },
     set: function set(text) {
       this._text = text;
-      this.trigger('change');
     }
   }, {
     key: 'textsize',
@@ -1160,7 +1164,6 @@ var RgPlaceholdit = (function () {
     },
     set: function set(textsize) {
       this._textsize = textsize;
-      this.trigger('change');
     }
   }, {
     key: 'format',
@@ -1169,18 +1172,19 @@ var RgPlaceholdit = (function () {
     },
     set: function set(format) {
       this._format = format;
-      this.trigger('change');
     }
   }]);
 
   return RgPlaceholdit;
-})();
+})(RgTag);
 
-var RgSelect = (function () {
+var RgSelect = (function (_RgTag15) {
+  _inherits(RgSelect, _RgTag15);
+
   function RgSelect(opts) {
     _classCallCheck(this, RgSelect);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgSelect.prototype), 'constructor', this).call(this);
     if (rg.isUndefined(opts)) opts = {};
     this._isvisible = opts.isvisible;
     this._autocomplete = opts.autocomplete;
@@ -1226,7 +1230,6 @@ var RgSelect = (function () {
         if (text.length == 0 || f.toString().toLowerCase().indexOf(text.toString().toLowerCase()) > -1) return true;
       });
       if (this.onfilter) this.onfilter();
-      this.trigger('filter');
     }
   }, {
     key: 'select',
@@ -1247,7 +1250,6 @@ var RgSelect = (function () {
     },
     set: function set(isvisible) {
       this._isvisible = isvisible;
-      this.trigger('visibility');
     }
   }, {
     key: 'autocomplete',
@@ -1256,7 +1258,6 @@ var RgSelect = (function () {
     },
     set: function set(autocomplete) {
       this._autocomplete = autocomplete;
-      this.trigger('change');
     }
   }, {
     key: 'filteron',
@@ -1265,7 +1266,6 @@ var RgSelect = (function () {
     },
     set: function set(filteron) {
       this._filteron = filteron;
-      this.trigger('change');
     }
   }, {
     key: 'placeholder',
@@ -1274,7 +1274,6 @@ var RgSelect = (function () {
     },
     set: function set(placeholder) {
       this._placeholder = placeholder;
-      this.trigger('change');
     }
   }, {
     key: 'filterplaceholder',
@@ -1283,7 +1282,6 @@ var RgSelect = (function () {
     },
     set: function set(filterplaceholder) {
       this._filterplaceholder = filterplaceholder;
-      this.trigger('change');
     }
   }, {
     key: 'hasfilter',
@@ -1292,7 +1290,6 @@ var RgSelect = (function () {
     },
     set: function set(hasfilter) {
       this._hasfilter = hasfilter;
-      this.trigger('change');
     }
   }, {
     key: 'options',
@@ -1310,7 +1307,6 @@ var RgSelect = (function () {
         if (item.selected) _this10.select(item);
       });
       this._options = options;
-      this.trigger('change');
     }
   }, {
     key: 'filtereditems',
@@ -1321,7 +1317,6 @@ var RgSelect = (function () {
     },
     set: function set(filtereditems) {
       this._filtereditems = filtereditems;
-      this.trigger('change');
     }
   }, {
     key: 'onopen',
@@ -1362,13 +1357,15 @@ var RgSelect = (function () {
   }]);
 
   return RgSelect;
-})();
+})(RgTag);
 
-var RgSidemenu = (function () {
+var RgSidemenu = (function (_RgTag16) {
+  _inherits(RgSidemenu, _RgTag16);
+
   function RgSidemenu(opts) {
     _classCallCheck(this, RgSidemenu);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgSidemenu.prototype), 'constructor', this).call(this);
     if (rg.isUndefined(opts)) opts = {};
     this._isvisible = opts.isvisible;
     this._header = opts.header;
@@ -1413,7 +1410,6 @@ var RgSidemenu = (function () {
     },
     set: function set(isvisible) {
       this._isvisible = isvisible;
-      this.trigger('visibility');
     }
   }, {
     key: 'header',
@@ -1422,7 +1418,6 @@ var RgSidemenu = (function () {
     },
     set: function set(header) {
       this._header = header;
-      this.trigger('change');
     }
   }, {
     key: 'items',
@@ -1433,7 +1428,6 @@ var RgSidemenu = (function () {
     },
     set: function set(items) {
       this._items = items;
-      this.trigger('change');
     }
   }, {
     key: 'onopen',
@@ -1465,13 +1459,15 @@ var RgSidemenu = (function () {
   }]);
 
   return RgSidemenu;
-})();
+})(RgTag);
 
-var RgTabs = (function () {
+var RgTabs = (function (_RgTag17) {
+  _inherits(RgTabs, _RgTag17);
+
   function RgTabs(opts) {
     _classCallCheck(this, RgTabs);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgTabs.prototype), 'constructor', this).call(this);
     if (rg.isUndefined(opts)) opts = {};
     this._tabs = opts.tabs;
     this._onopen = opts.onopen;
@@ -1486,7 +1482,6 @@ var RgTabs = (function () {
         });
         if (this.onopen) this.onopen(tab);
         tab.active = true;
-        this.trigger('select', tab);
       }
     }
   }, {
@@ -1497,7 +1492,6 @@ var RgTabs = (function () {
     },
     set: function set(onopen) {
       if (rg.isFunction(onopen)) this._onopen = onopen;
-      this.trigger('settings');
     }
   }, {
     key: 'tabs',
@@ -1525,12 +1519,11 @@ var RgTabs = (function () {
     },
     set: function set(tabs) {
       this._tabs = tabs;
-      this.trigger('change');
     }
   }]);
 
   return RgTabs;
-})();
+})(RgTag);
 
 var RgTags = (function (_RgSelect) {
   _inherits(RgTags, _RgSelect);
@@ -1549,14 +1542,12 @@ var RgTags = (function (_RgSelect) {
       tag.index = this.tags.length;
       this.tags.push(tag);
       this.isvisible = false;
-      this.trigger('add', tag);
     }
   }, {
     key: 'removeTag',
     value: function removeTag(tag) {
       this.tags.splice(this.tags.indexOf(tag), 1);
       this.isvisible = false;
-      this.trigger('remove', tag);
     }
   }, {
     key: 'value',
@@ -1565,7 +1556,6 @@ var RgTags = (function (_RgSelect) {
     },
     set: function set(val) {
       this._value = val;
-      this.trigger('value');
     }
   }, {
     key: 'tags',
@@ -1580,7 +1570,6 @@ var RgTags = (function (_RgSelect) {
         item.index = i;
       });
       this._tags = tags;
-      this.trigger('change');
     }
   }]);
 
@@ -1609,7 +1598,6 @@ var RgTime = (function (_RgSelect2) {
     },
     set: function set(min) {
       this._min = min;
-      this.trigger('change');
     }
   }, {
     key: 'max',
@@ -1619,7 +1607,6 @@ var RgTime = (function (_RgSelect2) {
     },
     set: function set(max) {
       this._max = max;
-      this.trigger('change');
     }
   }, {
     key: 'time',
@@ -1629,7 +1616,6 @@ var RgTime = (function (_RgSelect2) {
     },
     set: function set(time) {
       this._time = time;
-      this.trigger('change');
     }
   }, {
     key: 'step',
@@ -1638,7 +1624,6 @@ var RgTime = (function (_RgSelect2) {
     },
     set: function set(step) {
       this._step = step;
-      this.trigger('change');
     }
   }, {
     key: 'ampm',
@@ -1647,18 +1632,19 @@ var RgTime = (function (_RgSelect2) {
     },
     set: function set(ampm) {
       this._ampm = ampm;
-      this.trigger('change');
     }
   }]);
 
   return RgTime;
 })(RgSelect);
 
-var RgToasts = (function () {
+var RgToasts = (function (_RgTag18) {
+  _inherits(RgToasts, _RgTag18);
+
   function RgToasts(opts) {
     _classCallCheck(this, RgToasts);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgToasts.prototype), 'constructor', this).call(this);
     if (rg.isUndefined(opts)) opts = {};
     this._toasts = opts.toasts;
     this._position = opts.position;
@@ -1669,7 +1655,6 @@ var RgToasts = (function () {
     key: 'add',
     value: function add(toast) {
       this.toasts.push(toast);
-      this.trigger('add');
     }
   }, {
     key: 'toasts',
@@ -1685,7 +1670,7 @@ var RgToasts = (function () {
               toast.timer = window.setTimeout(function () {
                 toast.isvisible = false;
                 if (rg.isFunction(toast.onclose)) toast.onclose();
-                _this12.trigger('change');
+                _this12.update();
               }, rg.toNumber(toast.timeout) || 6000);
             };
             toast.startTimer();
@@ -1701,7 +1686,6 @@ var RgToasts = (function () {
     },
     set: function set(toasts) {
       this._toasts = toasts;
-      this.trigger('change');
     }
   }, {
     key: 'position',
@@ -1710,7 +1694,6 @@ var RgToasts = (function () {
     },
     set: function set(position) {
       this._position = position;
-      this.trigger('change');
     }
   }, {
     key: 'isvisible',
@@ -1719,18 +1702,19 @@ var RgToasts = (function () {
     },
     set: function set(isvisible) {
       this._isvisible = isvisible;
-      this.trigger('visibility');
     }
   }]);
 
   return RgToasts;
-})();
+})(RgTag);
 
-var RgToggle = (function () {
+var RgToggle = (function (_RgTag19) {
+  _inherits(RgToggle, _RgTag19);
+
   function RgToggle(opts) {
     _classCallCheck(this, RgToggle);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgToggle.prototype), 'constructor', this).call(this);
     if (rg.isUndefined(opts)) opts = {};
     this._checked = opts.checked;
     this._ontoggle = opts.ontoggle;
@@ -1749,7 +1733,6 @@ var RgToggle = (function () {
     },
     set: function set(checked) {
       this._checked = checked;
-      this.trigger('checked');
     }
   }, {
     key: 'ontoggle',
@@ -1763,13 +1746,15 @@ var RgToggle = (function () {
   }]);
 
   return RgToggle;
-})();
+})(RgTag);
 
-var RgUnsplash = (function () {
+var RgUnsplash = (function (_RgTag20) {
+  _inherits(RgUnsplash, _RgTag20);
+
   function RgUnsplash(opts) {
     _classCallCheck(this, RgUnsplash);
 
-    riot.observable(this);
+    _get(Object.getPrototypeOf(RgUnsplash.prototype), 'constructor', this).call(this);
     if (rg.isUndefined(opts)) opts = {};
     this._width = opts.width;
     this._height = opts.height;
@@ -1854,7 +1839,7 @@ var RgUnsplash = (function () {
   }]);
 
   return RgUnsplash;
-})();
+})(RgTag);
 
 riot.tag('rg-alerts', '<div each="{ RgAlerts.alerts }" class="alert { type } { isvisible: isvisible }" onclick="{ select }"> <a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }"> <span aria-hidden="true">&times;</span> </a> <rg-raw content="{ content }"></rg-raw> </div>', 'rg-alerts, [riot-tag="rg-alerts"]{ font-size: 0.9em; position: relative; top: 0; right: 0; left: 0; width: 100%; } rg-alerts .alert, [riot-tag="rg-alerts"] .alert{ display: none; position: relative; margin-bottom: 15px; padding: 15px 35px 15px 15px; } rg-alerts .isvisible, [riot-tag="rg-alerts"] .isvisible{ display: block; } rg-alerts .close, [riot-tag="rg-alerts"] .close{ position: absolute; top: 50%; right: 20px; line-height: 12px; font-size: 1.1em; border: 0; background-color: transparent; color: rgba(0, 0, 0, 0.5); cursor: pointer; outline: none; transform: translate3d(0, -50%, 0); } rg-alerts .danger, [riot-tag="rg-alerts"] .danger{ color: #8f1d2e; background-color: #ffced8; } rg-alerts .information, [riot-tag="rg-alerts"] .information{ color: #31708f; background-color: #d9edf7; } rg-alerts .success, [riot-tag="rg-alerts"] .success{ color: #2d8f40; background-color: #ccf7d4; } rg-alerts .warning, [riot-tag="rg-alerts"] .warning{ color: #c06329; background-color: #f7dfd0; }', function (opts) {
   var _this2 = this;
@@ -1863,7 +1848,7 @@ riot.tag('rg-alerts', '<div each="{ RgAlerts.alerts }" class="alert { type } { i
     var _this = this;
 
     this.RgAlerts = opts.alerts || new RgAlerts(opts);
-    this.RgAlerts.on('add dismiss', function () {
+    this.RgAlerts.on('update', function () {
       _this.update();
     });
     this.update();
@@ -1925,20 +1910,23 @@ riot.tag('rg-behold', '<div class="container"> <div class="controls"> <div class
 
   this.on('mount', function () {
     _this2.RgBehold = opts.behold || new RgBehold(opts);
-    _this2.RgBehold.on('mode', function () {
-      _this2.diff.value = 0;
-      _this2.updateDiff();
+    _this2.RgBehold.on('update', function () {
+      _this2.update();
     });
-    _this2.RgBehold.on('image', function () {
+    _this2.on('update', function () {
       viewer();
     });
-    viewer();
+    _this2.update();
   });
 
   this.swipeMode = function () {
+    _this2.diff.value = 0;
+    _this2.updateDiff();
     _this2.RgBehold.mode = 'swipe';
   };
   this.fadeMode = function () {
+    _this2.diff.value = 0;
+    _this2.updateDiff();
     _this2.RgBehold.mode = 'fade';
   };
 
@@ -1953,7 +1941,7 @@ riot.tag('rg-behold', '<div class="container"> <div class="controls"> <div class
         fallbackImg.style.clip = 'rect(auto, auto, auto, ' + fallbackImg.clientWidth * _this2.diff.value + 'px)';
       }
     }
-    _this2.update();
+    // this.update()
   };
 });
 
@@ -1962,7 +1950,7 @@ riot.tag('rg-bubble', '<div class="context"> <div class="bubble { isvisible: RgB
 
   this.on('mount', function () {
     _this.RgBubble = opts.bubble || new RgBubble(opts);
-    _this.RgBubble.on('content visibility', function () {
+    _this.RgBubble.on('update', function () {
       _this.update();
     });
     _this.update();
@@ -1993,7 +1981,6 @@ riot.tag('rg-code', '<div class="editor"></div>', 'rg-code .editor, [riot-tag="r
     editor.getSession().setUseSoftTabs(_this.RgCode.softtabs);
     editor.getSession().setUseWrapMode(_this.RgCode.wordwrap);
     editor.setReadOnly(_this.RgCode.readonly);
-    _this.update();
   };
 
   this.on('mount', function () {
@@ -2001,23 +1988,25 @@ riot.tag('rg-code', '<div class="editor"></div>', 'rg-code .editor, [riot-tag="r
     editor.$blockScrolling = Infinity;
 
     _this.RgCode = opts.editor || new RgCode(opts);
-    _this.RgCode.on('settings', function () {
-      setupEditor();
+    _this.RgCode.on('update', function () {
+      _this.update();
     });
-    _this.RgCode.on('change url', function () {
-      if (_this.RgCode.code != editor.getValue()) editor.setValue(_this.RgCode.code, -1);
+    _this.on('update', function () {
+      setupEditor();
+      if (_this.RgCode.code != editor.getValue()) editor.setValue(_this.RgCode.code, 1);
     });
     if (_this.RgCode.url) {
       rg.xhr('get', _this.RgCode.url, function (resp) {
         _this.RgCode.code = resp;
       });
     }
-    editor.setValue(_this.RgCode.code);
+    editor.setValue(_this.RgCode.code, 1);
     editor.getSession().on('change', function (e) {
       _this.RgCode.code = editor.getValue();
       if (_this.RgCode.onchange) _this.RgCode.onchange(editor.getValue());
     });
     setupEditor();
+    _this.update();
   });
 });
 
@@ -2056,7 +2045,7 @@ riot.tag('rg-context-menu', '<div class="menu { isvisible: RgContextMenu.isvisib
 
   this.on('mount', function () {
     _this.RgContextMenu = opts.menu || new RgContextMenu(opts);
-    _this.RgContextMenu.on('items add visibility', function () {
+    _this.RgContextMenu.on('update', function () {
       _this.update();
     });
     document.addEventListener('click', handleClickOutside);
@@ -2064,6 +2053,7 @@ riot.tag('rg-context-menu', '<div class="menu { isvisible: RgContextMenu.isvisib
     for (var i = 0, target; target = targets[i]; i++) {
       if (target.attributes['rg-context-menu'].value == _this.RgContextMenu.name) target.addEventListener('contextmenu', openMenu);else target.addEventListener('contextmenu', _this.closeMenu);
     }
+    _this.update();
   });
 
   this.on('unmount', function () {
@@ -2094,13 +2084,13 @@ riot.tag('rg-credit-card-number', '<input type="text" name="cardnumber" class="f
 
   this.on('mount', function () {
     _this.RgCreditCard = opts.card || new RgCreditCard(opts);
-    _this.RgCreditCard.on('change', function () {
-      setUI();
-    });
-    _this.RgCreditCard.on('validate', function () {
+    _this.RgCreditCard.on('update', function () {
       _this.update();
     });
-    setUI();
+    _this.on('update', function () {
+      setUI();
+    });
+    _this.update();
   });
 
   this.validate = function () {
@@ -2114,6 +2104,7 @@ riot.tag('rg-date', '<div class="container { open: RgDate.isvisible }"> <input t
 
   var handleClickOutside = function handleClickOutside(e) {
     if (!_this.root.contains(e.target)) _this.RgDate.close();
+    _this.update();
   };
 
   var dayObj = function dayObj(dayDate) {
@@ -2149,13 +2140,14 @@ riot.tag('rg-date', '<div class="container { open: RgDate.isvisible }"> <input t
       var bufferDate = moment(end).add(i, 'days');
       _this.endBuffer.push(dayObj(bufferDate));
     }
-
-    _this.update();
   };
 
   this.on('mount', function () {
     _this.RgDate = opts.date || new RgDate(opts);
-    _this.RgDate.on('visibility change today build', function () {
+    _this.RgDate.on('update', function () {
+      _this.update();
+    });
+    _this.on('update', function () {
       buildCalendar();
     });
     document.addEventListener('click', handleClickOutside);
@@ -2191,7 +2183,7 @@ riot.tag('rg-date', '<div class="container { open: RgDate.isvisible }"> <input t
   };
 
   this.select = function (e) {
-    _this.RgDate.date = e.item.day.date;
+    _this.RgDate.select(e.item.day.date);
   };
 });
 
@@ -2212,7 +2204,7 @@ riot.tag('rg-include', '{{ responseText }}', function (opts) {
 
   this.on('mount', function () {
     _this.RgInclude = opts.include || new RgInclude(opts);
-    _this.RgInclude.on('change', function () {
+    _this.RgInclude.on('update', function () {
       _this.RgInclude.fetch();
     });
     _this.RgInclude.on('fetch', function (content) {
@@ -2228,7 +2220,7 @@ riot.tag('rg-loading', '<div class="loading { visible: RgLoading.isvisible }"> <
 
   this.on('mount', function () {
     _this.RgLoading = opts.loading || new RgLoading(opts);
-    _this.RgLoading.on('visibility', function () {
+    _this.RgLoading.on('update', function () {
       _this.update();
     });
     _this.update();
@@ -2249,7 +2241,7 @@ riot.tag('rg-map', '<div class="rg-map"></div>', 'rg-map .rg-map, [riot-tag="rg-
       var script = document.createElement('script');
       script.setAttribute('id', 'gmap_script');
       script.type = 'text/javascript';
-      script.src = 'https://maps.googleapis.com/maps/api/js?sensor=false&callback=rg.map.initialize';
+      script.src = 'https://maps.googleapis.com/maps/api/js?callback=rg.map.initialize';
       document.body.appendChild(script);
     }
   });
@@ -2260,7 +2252,7 @@ riot.tag('rg-markdown', '<div class="markdown"></div>', function (opts) {
 
   this.on('mount', function () {
     _this.RgMarkdown = opts.markdown || new RgMarkdown(opts);
-    _this.RgMarkdown.on('change', function () {
+    _this.RgMarkdown.on('update', function () {
       _this.RgMarkdown.fetch();
     });
     _this.RgMarkdown.on('fetch', function (md) {
@@ -2274,23 +2266,19 @@ riot.tag('rg-markdown', '<div class="markdown"></div>', function (opts) {
   });
 });
 
-riot.tag('rg-modal', '<div class="overlay { visible: RgModal.isvisible, ghost: RgModal.ghost, dismissable: RgModal.dismissable }" onclick="{ overlayClose }"></div> <div class="modal { visible: RgModal.isvisible, ghost: RgModal.ghost, dismissable: RgModal.dismissable }"> <header class="header"> <button if="{ RgModal.dismissable }" type="button" class="close" aria-label="Close" onclick="{ close }"> <span aria-hidden="true">&times;</span> </button> <h3 class="heading"><rg-raw content="{ RgModal.heading }"></rg-raw></h3> </header> <div class="body"> <yield></yield> </div> <footer class="footer"> <button class="button" each="{ RgModal.buttons }" type="button" onclick="{ action }" riot-style="{ style }"> <rg-raw content="{ content }"></rg-raw> </button> <div class="clear"></div> </footer> </div>', 'rg-modal .overlay, [riot-tag="rg-modal"] .overlay{ display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 50; } rg-modal .overlay.dismissable, [riot-tag="rg-modal"] .overlay.dismissable{ cursor: pointer; } rg-modal .modal, [riot-tag="rg-modal"] .modal{ display: none; position: absolute; width: 95%; max-width: 500px; font-size: 1.1em; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0); background-color: white; color: #252519; z-index: 101; } rg-modal .modal.ghost, [riot-tag="rg-modal"] .modal.ghost{ background-color: transparent; color: white; } rg-modal .visible, [riot-tag="rg-modal"] .visible{ display: block; } rg-modal .header, [riot-tag="rg-modal"] .header{ position: relative; text-align: center; } rg-modal .heading, [riot-tag="rg-modal"] .heading{ padding: 20px 20px 0 20px; margin: 0; font-size: 1.2em; } rg-modal .modal.ghost .heading, [riot-tag="rg-modal"] .modal.ghost .heading{ color: white; } rg-modal .close, [riot-tag="rg-modal"] .close{ position: absolute; top: 5px; right: 10px; padding: 0; font-size: 1.2em; border: 0; background-color: transparent; color: #000; cursor: pointer; outline: none; } rg-modal .modal.ghost .close, [riot-tag="rg-modal"] .modal.ghost .close{ color: white; } rg-modal .body, [riot-tag="rg-modal"] .body{ padding: 20px; } rg-modal .footer, [riot-tag="rg-modal"] .footer{ padding: 0 20px 20px 20px; } rg-modal .button, [riot-tag="rg-modal"] .button{ float: right; padding: 10px; margin: 0 5px 0 0; border: none; font-size: 0.9em; text-transform: uppercase; cursor: pointer; outline: none; background-color: white; } rg-modal .modal.ghost .button, [riot-tag="rg-modal"] .modal.ghost .button{ color: white; background-color: transparent; } rg-modal .clear, [riot-tag="rg-modal"] .clear{ clear: both; }', function (opts) {
+riot.tag('rg-modal', '<div class="overlay { visible: RgModal.isvisible, ghost: RgModal.ghost, dismissable: RgModal.dismissable }" onclick="{ close }"></div> <div class="modal { visible: RgModal.isvisible, ghost: RgModal.ghost, dismissable: RgModal.dismissable }"> <header class="header"> <button if="{ RgModal.dismissable }" type="button" class="close" aria-label="Close" onclick="{ close }"> <span aria-hidden="true">&times;</span> </button> <h3 class="heading"><rg-raw content="{ RgModal.heading }"></rg-raw></h3> </header> <div class="body"> <yield></yield> </div> <footer class="footer"> <button class="button" each="{ RgModal.buttons }" type="button" onclick="{ action }" riot-style="{ style }"> <rg-raw content="{ content }"></rg-raw> </button> <div class="clear"></div> </footer> </div>', 'rg-modal .overlay, [riot-tag="rg-modal"] .overlay{ display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 50; } rg-modal .overlay.dismissable, [riot-tag="rg-modal"] .overlay.dismissable{ cursor: pointer; } rg-modal .modal, [riot-tag="rg-modal"] .modal{ display: none; position: absolute; width: 95%; max-width: 500px; font-size: 1.1em; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0); background-color: white; color: #252519; z-index: 101; } rg-modal .modal.ghost, [riot-tag="rg-modal"] .modal.ghost{ background-color: transparent; color: white; } rg-modal .visible, [riot-tag="rg-modal"] .visible{ display: block; } rg-modal .header, [riot-tag="rg-modal"] .header{ position: relative; text-align: center; } rg-modal .heading, [riot-tag="rg-modal"] .heading{ padding: 20px 20px 0 20px; margin: 0; font-size: 1.2em; } rg-modal .modal.ghost .heading, [riot-tag="rg-modal"] .modal.ghost .heading{ color: white; } rg-modal .close, [riot-tag="rg-modal"] .close{ position: absolute; top: 5px; right: 10px; padding: 0; font-size: 1.2em; border: 0; background-color: transparent; color: #000; cursor: pointer; outline: none; } rg-modal .modal.ghost .close, [riot-tag="rg-modal"] .modal.ghost .close{ color: white; } rg-modal .body, [riot-tag="rg-modal"] .body{ padding: 20px; } rg-modal .footer, [riot-tag="rg-modal"] .footer{ padding: 0 20px 20px 20px; } rg-modal .button, [riot-tag="rg-modal"] .button{ float: right; padding: 10px; margin: 0 5px 0 0; border: none; font-size: 0.9em; text-transform: uppercase; cursor: pointer; outline: none; background-color: white; } rg-modal .modal.ghost .button, [riot-tag="rg-modal"] .modal.ghost .button{ color: white; background-color: transparent; } rg-modal .clear, [riot-tag="rg-modal"] .clear{ clear: both; }', function (opts) {
   var _this = this;
 
   this.on('mount', function () {
     _this.RgModal = opts.modal || new RgModal(opts);
-    _this.RgModal.on('visibility change', function () {
+    _this.RgModal.on('update', function () {
       _this.update();
     });
     _this.update();
   });
 
   this.close = function () {
-    _this.RgModal.isvisible = false;
-  };
-
-  this.overlayClose = function () {
-    if (_this.RgModal.dismissable) _this.close();
+    if (_this.RgModal.dismissable) _this.RgModal.isvisible = false;
   };
 });
 
@@ -2299,7 +2287,7 @@ riot.tag('rg-phone-sim', '<div class="emulator"> <iframe class="screen" riot-src
 
   this.on('mount', function () {
     _this.RgPhoneSim = opts.phonesim || new RgPhoneSim(opts);
-    _this.RgPhoneSim.on('change', function () {
+    _this.RgPhoneSim.on('update', function () {
       _this.update();
     });
     _this.update();
@@ -2311,7 +2299,7 @@ riot.tag('rg-placeholdit', '<img riot-src="https://placeholdit.imgix.net/~text?b
 
   this.on('mount', function () {
     _this.RgPlaceholdit = opts.placeholdit || new RgPlaceholdit(opts);
-    _this.RgPlaceholdit.on('change', function () {
+    _this.RgPlaceholdit.on('update', function () {
       _this.update();
     });
     _this.update();
@@ -2324,13 +2312,14 @@ riot.tag('rg-raw', '<span></span>', function (opts) {
   });
 });
 
-riot.tag('rg-select', '<div class="container { visible: RgSelect.isvisible }" riot-style="width: { width }"> <input if="{ !RgSelect.autocomplete }" type="text" name="selectfield" class="field { visible: RgSelect.isvisible }" value="{ fieldText }" placeholder="{ RgSelect.placeholder }" onkeydown="{ handleKeys }" onclick="{ toggle }" readonly> <input if="{ RgSelect.autocomplete }" type="text" name="autocompletefield" class="field { visible: RgSelect.isvisible }" value="{ fieldText }" placeholder="{ RgSelect.placeholder }" onkeydown="{ handleKeys }" onclick="{ toggle }" oninput="{ filter }"> <div class="dropdown { visible: RgSelect.isvisible } { empty: RgSelect.filtereditems.length == 0 }"> <div class="filter" if="{ RgSelect.hasfilter && !RgSelect.autocomplete }"> <input type="text" name="filterfield" class="filter-box" placeholder="{ RgSelect.filterplaceholder || \'Filter\' }" onkeydown="{ handleKeys }" oninput="{ filter }"> </div> <ul class="list { empty: RgSelect.filtereditems.length == 0 }"> <li each="{ RgSelect.filtereditems }" onclick="{ parent.select }" class="item { selected: selected, disabled: disabled, active: active }"> { text } </li> </ul> </div> </div>', 'rg-select .container, [riot-tag="rg-select"] .container{ position: relative; display: inline-block; cursor: pointer; } rg-select .field, [riot-tag="rg-select"] .field{ width: 100%; padding: 10px; border: 1px solid #D3D3D3; box-sizing: border-box; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 1em; line-height: normal; outline: 0; } rg-select .dropdown, [riot-tag="rg-select"] .dropdown{ display: none; position: absolute; width: 100%; background-color: white; border-bottom: 1px solid #D3D3D3; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; max-height: 280px; z-index: 10; } rg-select .dropdown.visible, [riot-tag="rg-select"] .dropdown.visible{ display: block; } rg-select .dropdown.empty, [riot-tag="rg-select"] .dropdown.empty{ border-bottom: 0; } rg-select .filter-box, [riot-tag="rg-select"] .filter-box{ width: 100%; padding: 10px; font-size: 0.9em; border: 0; border-left: 1px solid #D3D3D3; border-right: 1px solid #D3D3D3; border-bottom: 1px solid #E8E8E8; outline: none; color: #555; box-sizing: border-box; } rg-select .list, [riot-tag="rg-select"] .list,rg-select .item, [riot-tag="rg-select"] .item{ list-style: none; padding: 0; margin: 0; } rg-select .list.empty, [riot-tag="rg-select"] .list.empty{ display: none; } rg-select .item, [riot-tag="rg-select"] .item{ padding: 10px; border-left: 1px solid #D3D3D3; border-right: 1px solid #D3D3D3; border-top: 1px solid #E8E8E8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-select .item:first-child, [riot-tag="rg-select"] .item:first-child{ border-top: 0; } rg-select .selected, [riot-tag="rg-select"] .selected{ font-weight: bold; background-color: #f8f8f8; } rg-select .item:hover, [riot-tag="rg-select"] .item:hover{ background-color: #f3f3f3; } rg-select .item.active, [riot-tag="rg-select"] .item.active,rg-select .item:hover.active, [riot-tag="rg-select"] .item:hover.active{ background-color: #ededed; }', function (opts) {
+riot.tag('rg-select', '<div class="container { visible: RgSelect.isvisible }" riot-style="width: { width }"> <input if="{ !RgSelect.autocomplete }" type="text" name="selectfield" class="field { visible: RgSelect.isvisible }" value="{ fieldText }" placeholder="{ RgSelect.placeholder }" onkeydown="{ handleKeys }" onclick="{ toggle }" readonly> <input if="{ RgSelect.autocomplete }" type="text" name="autocompletefield" class="field { visible: RgSelect.isvisible }" value="{ fieldText }" placeholder="{ RgSelect.placeholder }" onkeydown="{ handleKeys }" onclick="{ toggle }" oninput="{ filter }"> <div class="dropdown { isvisible: RgSelect.isvisible } { empty: RgSelect.filtereditems.length == 0 }"> <div class="filter" if="{ RgSelect.hasfilter && !RgSelect.autocomplete }"> <input type="text" name="filterfield" class="filter-box" placeholder="{ RgSelect.filterplaceholder || \'Filter\' }" onkeydown="{ handleKeys }" oninput="{ filter }"> </div> <ul class="list { empty: RgSelect.filtereditems.length == 0 }"> <li each="{ RgSelect.filtereditems }" onclick="{ parent.select }" class="item { selected: selected, disabled: disabled, active: active }"> { text } </li> </ul> </div> </div>', 'rg-select .container, [riot-tag="rg-select"] .container{ position: relative; display: inline-block; cursor: pointer; } rg-select .field, [riot-tag="rg-select"] .field{ width: 100%; padding: 10px; border: 1px solid #D3D3D3; box-sizing: border-box; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 1em; line-height: normal; outline: 0; } rg-select .dropdown, [riot-tag="rg-select"] .dropdown{ display: none; position: absolute; width: 100%; background-color: white; border-bottom: 1px solid #D3D3D3; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; max-height: 280px; z-index: 10; } rg-select .dropdown.isvisible, [riot-tag="rg-select"] .dropdown.isvisible{ display: block; } rg-select .dropdown.empty, [riot-tag="rg-select"] .dropdown.empty{ border-bottom: 0; } rg-select .filter-box, [riot-tag="rg-select"] .filter-box{ width: 100%; padding: 10px; font-size: 0.9em; border: 0; border-left: 1px solid #D3D3D3; border-right: 1px solid #D3D3D3; border-bottom: 1px solid #E8E8E8; outline: none; color: #555; box-sizing: border-box; } rg-select .list, [riot-tag="rg-select"] .list,rg-select .item, [riot-tag="rg-select"] .item{ list-style: none; padding: 0; margin: 0; } rg-select .list.empty, [riot-tag="rg-select"] .list.empty{ display: none; } rg-select .item, [riot-tag="rg-select"] .item{ padding: 10px; border-left: 1px solid #D3D3D3; border-right: 1px solid #D3D3D3; border-top: 1px solid #E8E8E8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } rg-select .item:first-child, [riot-tag="rg-select"] .item:first-child{ border-top: 0; } rg-select .selected, [riot-tag="rg-select"] .selected{ font-weight: bold; background-color: #f8f8f8; } rg-select .item:hover, [riot-tag="rg-select"] .item:hover{ background-color: #f3f3f3; } rg-select .item.active, [riot-tag="rg-select"] .item.active,rg-select .item:hover.active, [riot-tag="rg-select"] .item:hover.active{ background-color: #ededed; }', function (opts) {
   var _this = this;
 
   /* istanbul ignore next */
   var handleClickOutside = function handleClickOutside(e) {
     if (!_this.root.contains(e.target)) {
       _this.RgSelect.close();
+      _this.update();
     }
   };
 
@@ -2387,7 +2376,7 @@ riot.tag('rg-select', '<div class="container { visible: RgSelect.isvisible }" ri
 
   this.on('mount', function () {
     _this.RgSelect = opts.select || new RgSelect(opts);
-    _this.RgSelect.on('visibility change filter', function () {
+    _this.RgSelect.on('update', function () {
       if (_this.RgSelect.isvisible) _this.filter();
       _this.update();
     });
@@ -2412,7 +2401,7 @@ riot.tag('rg-sidemenu', '<div class="overlay { visible: RgSidemenu.isvisible }" 
 
   this.on('mount', function () {
     _this.RgSidemenu = opts.sidemenu || new RgSidemenu(opts);
-    _this.RgSidemenu.on('change visibility', function () {
+    _this.RgSidemenu.on('update', function () {
       _this.update();
     });
     _this.update();
@@ -2432,7 +2421,7 @@ riot.tag('rg-tabs', '<div class="headers"> <div each="{ RgTabs.tabs }" class="he
 
   this.on('mount', function () {
     _this.RgTabs = opts.tabs || new RgTabs(opts);
-    _this.RgTabs.on('settings add select change', function () {
+    _this.RgTabs.on('update', function () {
       _this.update();
     });
     _this.update();
@@ -2456,6 +2445,7 @@ riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="ta
   this.handleKeys = function (e) {
     if ([13, 38, 40].indexOf(e.keyCode) > -1 && !_this.RgTags.isvisible) {
       e.preventDefault();
+      _this.filter();
       _this.toggle();
       return true;
     }
@@ -2511,6 +2501,7 @@ riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="ta
     };
     if (e) tag = e.item;
     if (tag.text.length > 0) _this.RgTags.addTag(tag);
+    _this.filterfield.value = '';
   };
 
   this.removeTag = function (e) {
@@ -2519,16 +2510,9 @@ riot.tag('rg-tags', '<div class="container"> <span class="tags"> <span class="ta
 
   this.on('mount', function () {
     _this.RgTags = opts.tags || new RgTags(opts);
-    _this.RgTags.on('visibility change filter remove', function () {
+    _this.RgTags.on('update', function () {
       if (_this.RgTags.isvisible) _this.filter();
       _this.update();
-    });
-    _this.RgTags.on('add', function (item) {
-      _this.filterfield.value = '';
-      _this.update();
-    });
-    _this.RgTags.on('value', function () {
-      _this.filterfield.value = _this.RgTags.value;
     });
     document.addEventListener('click', handleClickOutside);
     document.addEventListener('focus', handleClickOutside, true);
@@ -2608,7 +2592,7 @@ riot.tag('rg-time', '<rg-select select="{ RgTime }"></rg-select>', function (opt
 
   this.on('mount', function () {
     _this.RgTime = opts.time || new RgTime(opts);
-    _this.RgTime.on('change', function () {
+    _this.RgTime.on('update', function () {
       build();
       _this.update();
     });
@@ -2630,7 +2614,7 @@ riot.tag('rg-toasts', '<div class="toasts { RgToasts.position } { isvisible: RgT
 
   this.on('mount', function () {
     _this.RgToasts = opts.toasts || new RgToasts(opts);
-    _this.RgToasts.on('visibility change', function () {
+    _this.RgToasts.on('update', function () {
       _this.update();
     });
     _this.update();
@@ -2642,7 +2626,7 @@ riot.tag('rg-toggle', '<div class="wrapper"> <label class="toggle"> <input type=
 
   this.on('mount', function () {
     _this.RgToggle = opts.toggle || new RgToggle();
-    _this.RgToggle.on('checked', function () {
+    _this.RgToggle.on('update', function () {
       _this.update();
     });
     _this.update();
@@ -2658,14 +2642,16 @@ riot.tag('rg-unsplash', '<img riot-src="https://unsplash.it/{ greyscale }{ RgUns
 
   this.on('mount', function () {
     _this.RgUnsplash = opts.unsplash || new RgUnsplash();
-    _this.RgUnsplash.on('change', function () {
+    _this.RgUnsplash.on('update', function () {
+      _this.update();
+    });
+    _this.on('update', function () {
       _this.options = '';
       if (_this.RgUnsplash.greyscale) _this.greyscale = 'g/';
       if (_this.RgUnsplash.random) _this.options += 'random&';
       if (_this.RgUnsplash.blur) _this.options += 'blur&';
       if (_this.RgUnsplash.image) _this.options += 'image=' + _this.RgUnsplash.image + '&';
       if (rg.isDefined(_this.RgUnsplash.gravity)) _this.options += 'gravity=' + _this.RgUnsplash.gravity;
-      _this.update();
     });
     _this.update();
   });
