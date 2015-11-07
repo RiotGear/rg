@@ -22,7 +22,6 @@ describe('rg-include', function() {
 
   it('handles unsafe', function(done) {
     setTimeout(function () {
-      tag.root.innerHTML.should.equal('NOT FOUND')
       tag.responseText.should.equal('NOT FOUND')
       done()
     }, 1000)

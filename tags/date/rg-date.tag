@@ -25,25 +25,13 @@
 				<span class="day-name" each="{ day in RgDate.dayNames }">{ day }</span>
 			</div>
 			<div class="grid grid-wrap">
-				<div each="{ day in startBuffer }" onclick="{ select }" class="date {
-							in: day.inMonth,
-							selected: day.selected,
-							today: day.today
-						}">
+				<div each="{ day in startBuffer }" onclick="{ select }" class="date { in: day.inMonth, selected: day.selected, today: day.today }">
 					{ day.date.format(this.RgDate.dayFormat) }
 				</div>
-				<div each="{ day in days }" onclick="{ select }" class="date {
-							in: day.inMonth,
-							selected: day.selected,
-							today: day.today
-						}">
+				<div each="{ day in days }" onclick="{ select }" class="date { in: day.inMonth, selected: day.selected, today: day.today }">
 					{ day.date.format(this.RgDate.dayFormat) }
 				</div>
-				<div each="{ day in endBuffer }" onclick="{ select }" class="date {
-							in: day.inMonth,
-							selected: day.selected,
-							today: day.today
-						}">
+				<div each="{ day in endBuffer }" onclick="{ select }" class="date { in: day.inMonth, selected: day.selected, today: day.today }">
 					{ day.date.format(this.RgDate.dayFormat) }
 				</div>
 			</div>

@@ -1,6 +1,8 @@
 <rg-include>
 
-	{{ responseText }}
+	<div>
+		{ responseText }
+	</div>
 
 	<script>
 		this.on('mount', () => {

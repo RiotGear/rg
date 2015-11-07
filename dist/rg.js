@@ -2200,7 +2200,7 @@ riot.tag('rg-ga', '', function (opts) {
   ga('send', 'pageview');
 });
 
-riot.tag('rg-include', '{{ responseText }}', function (opts) {
+riot.tag('rg-include', '<div> { responseText } </div>', function (opts) {
   var _this = this;
 
   this.on('mount', function () {
