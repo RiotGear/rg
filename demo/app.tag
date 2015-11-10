@@ -43,6 +43,12 @@
     <button onclick="{ changeDate }">Change date</button>
   </div>
 
+  <h2>Drawer</h2>
+  <div class="demo no-overflow">
+    <rg-drawer drawer="{ drawer }"></rg-drawer>
+    <button onclick="{ openDrawer }">Open draw</button>
+  </div>
+
   <h2>GA</h2>
   <div class="demo">
     Google Analytics tag is on this page. Look at Network tab in Developer Tools
@@ -276,6 +282,26 @@
 
     this.changeDate = () => {
       this.date.date = moment()
+    }
+
+    /*
+     * DRAWER
+     */
+		this.drawer = new RgDrawer({
+			header: 'Drawer',
+			isvisible: true,
+      position: 'bottom',
+			onselect: () => {
+				this.drawer.isvisible = false
+			},
+			items: [{
+				content: 'Item 1'
+			}, {
+				content: 'Item 2'
+			}]
+		})
+    this.openDrawer = () => {
+      this.drawer.open()
     }
 
     /*

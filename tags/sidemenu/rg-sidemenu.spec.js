@@ -28,7 +28,7 @@ describe('rg-sidemenu', function() {
 
   it('has an overlay', function() {
     $('rg-sidemenu .overlay').is('.visible').should.be.true
-    $('rg-sidemenu .sidemenu').is('.visible').should.be.true
+    $('rg-sidemenu .drawer').is('.visible').should.be.true
   })
 
   it('header is set correctly', function() {
@@ -61,6 +61,6 @@ describe('rg-sidemenu', function() {
   it('clicking overlay calls onclose', function() {
     $('rg-sidemenu .overlay').click()
     $('rg-sidemenu .overlay').is('.visible').should.be.false
-    $('rg-sidemenu .sidemenu').is('.visible').should.be.false
+    $('rg-sidemenu .drawer').is('.visible').should.be.false
   })
 })
