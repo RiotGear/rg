@@ -36,6 +36,9 @@
 			border: 1px solid #D3D3D3;
 			box-sizing: border-box;
 			outline: none;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
 		}
 
 		.card-no {

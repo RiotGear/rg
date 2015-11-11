@@ -146,6 +146,9 @@
 			font-size: 1em;
 			line-height: normal;
 			outline: 0;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
 		}
 
 		.dropdown {

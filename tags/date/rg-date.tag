@@ -142,6 +142,9 @@
 			cursor: pointer;
 			box-sizing: border-box;
 			outline: none;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
 		}
 
 		.calendar {
