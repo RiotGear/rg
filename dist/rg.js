@@ -1340,7 +1340,7 @@ var RgSelect = (function (_RgTag16) {
         if (rg.isUndefined(f)) return false;
         if (text.length == 0 || f.toString().toLowerCase().indexOf(text.toString().toLowerCase()) > -1) return true;
       });
-      if (this.onfilter) this.onfilter();
+      if (this.onfilter) this.onfilter(text);
     }
   }, {
     key: 'select',
