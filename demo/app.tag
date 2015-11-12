@@ -46,7 +46,7 @@
   <h2>Drawer</h2>
   <div class="demo no-overflow">
     <rg-drawer drawer="{ drawer }"></rg-drawer>
-    <button onclick="{ openDrawer }">Open draw</button>
+    <button onclick="{ openDrawer }">Open drawer</button>
   </div>
 
   <h2>GA</h2>
