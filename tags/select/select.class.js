@@ -142,7 +142,7 @@ class RgSelect extends RgTag {
                    .indexOf(text.toString().toLowerCase()) > -1)
         return true
     })
-    if (this.onfilter) this.onfilter()
+    if (this.onfilter) this.onfilter(text)
   }
 
   select(item) {
