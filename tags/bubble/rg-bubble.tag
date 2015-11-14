@@ -51,7 +51,7 @@
 			font-size: 0.9em;
 			line-height: 1;
 			white-space: nowrap;
-			opacity: 0;
+			display: none;
 		}
 
 		.isvisible {
