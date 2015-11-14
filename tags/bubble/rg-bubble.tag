@@ -56,7 +56,6 @@
 
 		.isvisible {
 			display: block;
-			opacity: 1;
 		}
 
 		.bubble:after {
