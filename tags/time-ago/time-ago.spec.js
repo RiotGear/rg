@@ -3,7 +3,7 @@ describe('rg-time-ago', function() {
 
   beforeEach(function() {
     $('body').append(`<rg-time-ago></rg-time-ago>`)
-    tag = riot.mount('rg-time', { timestamp: moment.format() })[0]
+    tag = riot.mount('rg-time-ago', { timestamp: moment.format() })[0]
   })
 
   afterEach(function() {
