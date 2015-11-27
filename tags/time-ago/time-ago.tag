@@ -1,5 +1,5 @@
 <rg-time-ago>
-    <span show={caption}>{ caption } ago</span>
+    <span show={caption}>{ caption }</span>
 
     <script>
         var self = this;
