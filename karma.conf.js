@@ -7,13 +7,11 @@ module.exports = function(config) {
       'node_modules/commonmark/dist/commonmark.min.js',
       'node_modules/moment/min/moment.min.js',
       'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js',
-      'lib/**/*',
       'tags/**/*',
       { pattern: 'demo/inc.html', watched: false, included: false, served: true, nocache: false }
     ],
     preprocessors: {
       '**/*.spec.js': ['babel'],
-      'lib/**/!(*spec).js': ['babel', 'coverage'],
       'tags/**/!(*spec).js': ['babel', 'coverage'],
       'tags/**/*.tag': ['riot', 'coverage']
     },

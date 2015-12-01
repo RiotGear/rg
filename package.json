@@ -1,19 +1,19 @@
 {
   "name": "riotgear",
-  "version": "2.1.3",
+  "version": "3.0.0",
   "description": "The open source component library for RiotJS",
   "main": "dist/rg.min.js",
   "files": [
     "dist"
   ],
   "scripts": {
-    "riot": "riot tags dist/rg.js --type es6",
-    "postriot": "riot demo --type es6",
-    "concat": "cat lib/rg.js lib/**/*.js tags/**/*.class.js dist/rg.js | babel --out-file dist/rg.js ",
-    "uglify": "uglifyjs --output dist/rg.min.js  --mangle -- dist/rg.js",
+    "tags": "for D in $(find tags -mindepth 1 -maxdepth 1 -type d) ; do rm -rf $D/dist ; riot $D $D/dist/$(basename $D).js --type es6 ; cat $D/*.js >> $D/dist/$(basename $D).js ; babel $D/dist --out-dir $D/dist ; done ;",
+    "posttags": "riot demo --type es6",
+    "uglify": "for D in $(find tags -mindepth 1 -maxdepth 1 -type d) ; do uglifyjs --mangle --compress --screw-ie8 --output $D/dist/$(basename $D).min.js $D/dist/$(basename $D).js ; done ;",
+    "concat": "",
     "test": "karma start",
-    "dev": "npm run riot && npm run concat && npm run uglify",
-    "build": "npm run dev && npm run test"
+    "dev": "npm run tags",
+    "build": "npm run dev && npm run uglify && npm run test"
   },
   "repository": {
     "type": "git",
