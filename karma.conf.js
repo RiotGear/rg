@@ -12,7 +12,7 @@ module.exports = function(config) {
     ],
     preprocessors: {
       '**/*.spec.js': ['babel'],
-      'tags/**/!(*spec).js': ['babel', 'coverage'],
+      'tags/**/*.class.js': ['babel', 'coverage'],
       'tags/**/*.tag': ['riot', 'coverage']
     },
     riotPreprocessor: {

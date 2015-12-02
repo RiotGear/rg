@@ -9,11 +9,11 @@
   "scripts": {
     "tags": "for D in $(find tags -mindepth 1 -maxdepth 1 -type d) ; do rm -rf $D/dist ; riot $D $D/dist/$(basename $D).js --type es6 ; cat $D/*.js >> $D/dist/$(basename $D).js ; babel $D/dist --out-dir $D/dist ; done ;",
     "posttags": "riot demo --type es6",
-    "uglify": "for D in $(find tags -mindepth 1 -maxdepth 1 -type d) ; do uglifyjs --mangle --compress --screw-ie8 --output $D/dist/$(basename $D).min.js $D/dist/$(basename $D).js ; done ;",
-    "concat": "",
+    "dist": "rm -rf dist ; mkdir dist ; for D in $(find tags -mindepth 1 -maxdepth 1 -type d) ; do cat $D/dist/$(basename $D).js >> dist/rg.js ; done ;",
+    "uglify": "uglifyjs --mangle --compress --screw-ie8 --comment false --output dist/rg.min.js dist/rg.js",
     "test": "karma start",
-    "dev": "npm run tags",
-    "build": "npm run dev && npm run uglify && npm run test"
+    "dev": "npm run tags && npm run dist && npm run uglify",
+    "build": "npm run dev && npm run test"
   },
   "repository": {
     "type": "git",
