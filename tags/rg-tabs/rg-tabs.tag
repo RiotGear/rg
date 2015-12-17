@@ -17,7 +17,7 @@
 
 	<script>
 		this.on('mount', () => {
-			this.RgTabs = opts.tabs || new RgTabs(opts)
+			this.RgTabs = opts.tabs || new rg.Tabs(opts)
 			this.RgTabs.on('update', () => {
 				this.update()
 			})

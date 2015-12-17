@@ -3,7 +3,7 @@ describe('rg-tabs', function() {
   let spy = sinon.spy()
 
   beforeEach(function() {
-    tabs = new RgTabs({
+    tabs = new rg.Tabs({
       tabs: [{
         heading: 'Tab <em>one</em>',
         content: 'This is tab one'

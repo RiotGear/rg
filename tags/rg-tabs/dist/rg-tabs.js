@@ -8,7 +8,7 @@ riot.tag2('rg-tabs', '<div class="headers"> <div each="{RgTabs.tabs}" class="hea
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgTabs = opts.tabs || new RgTabs(opts);
+		_this.RgTabs = opts.tabs || new rg.Tabs(opts);
 		_this.RgTabs.on('update', function () {
 			_this.update();
 		});
@@ -19,60 +19,62 @@ riot.tag2('rg-tabs', '<div class="headers"> <div each="{RgTabs.tabs}" class="hea
 		_this.RgTabs.open(e.item);
 	};
 }, '{ }');
+;(function () {
+	if (!window.rg) window.rg = {};
+	window.rg.Tabs = (function () {
+		function Tabs(opts) {
+			_classCallCheck(this, Tabs);
 
-var RgTabs = (function () {
-	function RgTabs(opts) {
-		_classCallCheck(this, RgTabs);
-
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._tabs = opts.tabs;
-	}
-
-	_createClass(RgTabs, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._tabs = opts.tabs;
 		}
-	}, {
-		key: 'open',
-		value: function open(tab) {
-			if (!tab.disabled) {
-				this.tabs.forEach(function (tab) {
-					tab.active = false;
-				});
-				this.trigger('open', tab);
-				tab.active = true;
+
+		_createClass(Tabs, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
 			}
-		}
-	}, {
-		key: 'tabs',
-		get: function get() {
-			var _this2 = this;
-
-			if (Array.isArray(this._tabs)) {
-				var _ret = (function () {
-					var activeTab = false;
-					_this2._tabs.forEach(function (tab, i) {
-						tab.index = i;
-
-						if (activeTab) tab.active = false;
-						if (tab.active) activeTab = true;
+		}, {
+			key: 'open',
+			value: function open(tab) {
+				if (!tab.disabled) {
+					this.tabs.forEach(function (tab) {
+						tab.active = false;
 					});
-					return {
-						v: _this2._tabs
-					};
-				})();
-
-				if (typeof _ret === 'object') return _ret.v;
+					this.trigger('open', tab);
+					tab.active = true;
+				}
 			}
-			this._tabs = [];
-			return this._tabs;
-		},
-		set: function set(tabs) {
-			this._tabs = tabs;
-		}
-	}]);
+		}, {
+			key: 'tabs',
+			get: function get() {
+				var _this2 = this;
 
-	return RgTabs;
+				if (Array.isArray(this._tabs)) {
+					var _ret = (function () {
+						var activeTab = false;
+						_this2._tabs.forEach(function (tab, i) {
+							tab.index = i;
+
+							if (activeTab) tab.active = false;
+							if (tab.active) activeTab = true;
+						});
+						return {
+							v: _this2._tabs
+						};
+					})();
+
+					if (typeof _ret === 'object') return _ret.v;
+				}
+				this._tabs = [];
+				return this._tabs;
+			},
+			set: function set(tabs) {
+				this._tabs = tabs;
+			}
+		}]);
+
+		return Tabs;
+	})();
 })();

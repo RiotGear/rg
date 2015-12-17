@@ -521,7 +521,7 @@
 		/*
 		 * TABS
 		 */
-		this.tabs = new RgTabs({
+		this.tabs = new rg.Tabs({
 			tabs: [{
 				heading: 'Tab <em>one</em>',
 				content: 'This is tab one'

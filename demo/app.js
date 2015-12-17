@@ -280,27 +280,6 @@ this.changeToggle = function () {
 	_this.toggle.toggle();
 };
 
-this.tags = new RgTags({
-	value: 'Canada',
-	placeholder: 'Choose a country',
-	options: [{
-		text: 'England'
-	}, {
-		text: 'Scotland'
-	}, {
-		text: 'Ireland'
-	}, {
-		text: 'Wales'
-	}],
-	tags: [{
-		text: 'Russia'
-	}]
-}).on('add', function (tag) {
-	return console.log('add tag', tag);
-}).on('remove', function (tag) {
-	return console.log('remove tag', tag);
-});
-
 this.toasts = new RgToasts({
 	toasts: [{
 		content: 'Hey look at me!'
@@ -314,7 +293,7 @@ this.changeToasts = function () {
 	_this.toasts.position = 'bottomleft';
 };
 
-this.tabs = new RgTabs({
+this.tabs = new rg.Tabs({
 	tabs: [{
 		heading: 'Tab <em>one</em>',
 		content: 'This is tab one'
