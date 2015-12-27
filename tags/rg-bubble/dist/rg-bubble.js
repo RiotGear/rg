@@ -8,7 +8,7 @@ riot.tag2('rg-bubble', '<div class="context"> <div class="bubble {isvisible: RgB
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgBubble = opts.bubble || new RgBubble(opts);
+		_this.RgBubble = opts.bubble || new rg.Bubble(opts);
 		_this.RgBubble.on('update', function () {
 			_this.update();
 		});
@@ -27,60 +27,62 @@ riot.tag2('rg-bubble', '<div class="context"> <div class="bubble {isvisible: RgB
 		_this.RgBubble.toggleBubble();
 	};
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Bubble = (function () {
+		function RgBubble(opts) {
+			_classCallCheck(this, RgBubble);
 
-var RgBubble = (function () {
-	function RgBubble(opts) {
-		_classCallCheck(this, RgBubble);
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._isvisible = opts.isvisible;
+			this._content = opts.content;
+		}
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._isvisible = opts.isvisible;
-		this._content = opts.content;
-	}
+		_createClass(RgBubble, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'showBubble',
+			value: function showBubble() {
+				clearTimeout(this._timer);
+				this.isvisible = true;
+			}
+		}, {
+			key: 'hideBubble',
+			value: function hideBubble() {
+				var _this2 = this;
 
-	_createClass(RgBubble, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'showBubble',
-		value: function showBubble() {
-			clearTimeout(this._timer);
-			this.isvisible = true;
-		}
-	}, {
-		key: 'hideBubble',
-		value: function hideBubble() {
-			var _this2 = this;
+				this._timer = setTimeout(function () {
+					_this2.isvisible = false;
+					_this2.update();
+				}, 1000);
+			}
+		}, {
+			key: 'toggleBubble',
+			value: function toggleBubble() {
+				this.isvisible = !this.isvisible;
+			}
+		}, {
+			key: 'isvisible',
+			get: function get() {
+				return this._isvisible == 'true' || this._isvisible === true;
+			},
+			set: function set(isvisible) {
+				this._isvisible = isvisible;
+			}
+		}, {
+			key: 'content',
+			get: function get() {
+				return this._content || '';
+			},
+			set: function set(content) {
+				this._content = content;
+			}
+		}]);
 
-			this._timer = setTimeout(function () {
-				_this2.isvisible = false;
-				_this2.update();
-			}, 1000);
-		}
-	}, {
-		key: 'toggleBubble',
-		value: function toggleBubble() {
-			this.isvisible = !this.isvisible;
-		}
-	}, {
-		key: 'isvisible',
-		get: function get() {
-			return this._isvisible == 'true' || this._isvisible === true;
-		},
-		set: function set(isvisible) {
-			this._isvisible = isvisible;
-		}
-	}, {
-		key: 'content',
-		get: function get() {
-			return this._content || '';
-		},
-		set: function set(content) {
-			this._content = content;
-		}
-	}]);
-
-	return RgBubble;
+		return RgBubble;
+	})();
 })();

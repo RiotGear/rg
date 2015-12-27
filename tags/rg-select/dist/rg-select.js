@@ -67,7 +67,7 @@ riot.tag2('rg-select', '<div class="container {visible: RgSelect.isvisible}" rio
 	};
 
 	this.on('mount', function () {
-		_this.RgSelect = opts.select || new RgSelect(opts);
+		_this.RgSelect = opts.select || new rg.Select(opts);
 		_this.RgSelect.on('update', function () {
 			if (_this.RgSelect.isvisible) _this.filter();
 			_this.update();
@@ -162,7 +162,7 @@ riot.tag2('rg-tags', '<div class="container"> <span class="tags"> <span class="t
 	};
 
 	this.on('mount', function () {
-		_this.RgTags = opts.tags || new RgTags(opts);
+		_this.RgTags = opts.tags || new rg.Tags(opts);
 		_this.RgTags.on('update', function () {
 			if (_this.RgTags.isvisible) _this.filter();
 			_this.update();
@@ -242,7 +242,7 @@ riot.tag2('rg-time', '<rg-select select="{RgTime}"></rg-select>', '', '', functi
 	};
 
 	this.on('mount', function () {
-		_this.RgTime = opts.time || new RgTime(opts);
+		_this.RgTime = opts.time || new rg.Time(opts);
 		_this.RgTime.on('update', function () {
 			build();
 			_this.update();
@@ -251,261 +251,265 @@ riot.tag2('rg-time', '<rg-select select="{RgTime}"></rg-select>', '', '', functi
 		_this.update();
 	});
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Select = (function () {
+		function RgSelect(opts) {
+			_classCallCheck(this, RgSelect);
 
-var RgSelect = (function () {
-	function RgSelect(opts) {
-		_classCallCheck(this, RgSelect);
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._isvisible = opts.isvisible;
+			this._autocomplete = opts.autocomplete;
+			this._filteron = opts.filteron;
+			this._options = opts.options;
+			this._hasfilter = opts.hasfilter;
+			this._placeholder = opts.placeholder;
+			this._filterplaceholder = opts.filterplaceholder;
+			this._filtereditems = opts.filtereditems;
+		}
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._isvisible = opts.isvisible;
-		this._autocomplete = opts.autocomplete;
-		this._filteron = opts.filteron;
-		this._options = opts.options;
-		this._hasfilter = opts.hasfilter;
-		this._placeholder = opts.placeholder;
-		this._filterplaceholder = opts.filterplaceholder;
-		this._filtereditems = opts.filtereditems;
-	}
+		_createClass(RgSelect, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'open',
+			value: function open() {
+				if (!this.isvisible) this.trigger('open');
+				this.isvisible = true;
+			}
+		}, {
+			key: 'close',
+			value: function close() {
+				if (this.isvisible) this.trigger('close');
+				this.isvisible = false;
+			}
+		}, {
+			key: 'toggle',
+			value: function toggle() {
+				this.isvisible = !this.isvisible;
+				if (this.isvisible) this.trigger('open');else if (!this.isvisible) this.trigger('close');
+			}
+		}, {
+			key: 'filter',
+			value: function filter(text) {
+				var _this2 = this;
 
-	_createClass(RgSelect, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'open',
-		value: function open() {
-			if (!this.isvisible) this.trigger('open');
-			this.isvisible = true;
-		}
-	}, {
-		key: 'close',
-		value: function close() {
-			if (this.isvisible) this.trigger('close');
-			this.isvisible = false;
-		}
-	}, {
-		key: 'toggle',
-		value: function toggle() {
-			this.isvisible = !this.isvisible;
-			if (this.isvisible) this.trigger('open');else if (!this.isvisible) this.trigger('close');
-		}
-	}, {
-		key: 'filter',
-		value: function filter(text) {
-			var _this2 = this;
+				this.filtereditems = this.options.filter(function (item) {
+					item.active = false;
+					var f = item[_this2.filteron];
+					if (typeof f === 'undefined') return false;
+					if (text.length == 0 || f.toString().toLowerCase().indexOf(text.toString().toLowerCase()) > -1) return true;
+				});
+				this.trigger('filter', text);
+			}
+		}, {
+			key: 'select',
+			value: function select(item) {
+				this.options.forEach(function (i) {
+					return i.selected = false;
+				});
+				item.selected = true;
+				this.isvisible = false;
+				if (this.autocomplete) this.filter(item[this.filteron]);
+				this.trigger('select', item);
+			}
+		}, {
+			key: 'isvisible',
+			get: function get() {
+				return this._isvisible == 'true' || this._isvisible === true;
+			},
+			set: function set(isvisible) {
+				this._isvisible = isvisible;
+			}
+		}, {
+			key: 'autocomplete',
+			get: function get() {
+				return this._autocomplete == 'true' || this._autocomplete === true;
+			},
+			set: function set(autocomplete) {
+				this._autocomplete = autocomplete;
+			}
+		}, {
+			key: 'filteron',
+			get: function get() {
+				return this._filteron || 'text';
+			},
+			set: function set(filteron) {
+				this._filteron = filteron;
+			}
+		}, {
+			key: 'placeholder',
+			get: function get() {
+				return this._placeholder;
+			},
+			set: function set(placeholder) {
+				this._placeholder = placeholder;
+			}
+		}, {
+			key: 'filterplaceholder',
+			get: function get() {
+				return this._filterplaceholder;
+			},
+			set: function set(filterplaceholder) {
+				this._filterplaceholder = filterplaceholder;
+			}
+		}, {
+			key: 'hasfilter',
+			get: function get() {
+				return this._hasfilter == 'true' || this._hasfilter === true;
+			},
+			set: function set(hasfilter) {
+				this._hasfilter = hasfilter;
+			}
+		}, {
+			key: 'options',
+			get: function get() {
+				if (Array.isArray(this._options)) return this._options;
+				this._options = [];
+				return this._options;
+			},
+			set: function set(options) {
+				var _this3 = this;
 
-			this.filtereditems = this.options.filter(function (item) {
-				item.active = false;
-				var f = item[_this2.filteron];
-				if (typeof f === 'undefined') return false;
-				if (text.length == 0 || f.toString().toLowerCase().indexOf(text.toString().toLowerCase()) > -1) return true;
-			});
-			this.trigger('filter', text);
-		}
-	}, {
-		key: 'select',
-		value: function select(item) {
-			this.options.forEach(function (i) {
-				return i.selected = false;
-			});
-			item.selected = true;
-			this.isvisible = false;
-			if (this.autocomplete) this.filter(item[this.filteron]);
-			this.trigger('select', item);
-		}
-	}, {
-		key: 'isvisible',
-		get: function get() {
-			return this._isvisible == 'true' || this._isvisible === true;
-		},
-		set: function set(isvisible) {
-			this._isvisible = isvisible;
-		}
-	}, {
-		key: 'autocomplete',
-		get: function get() {
-			return this._autocomplete == 'true' || this._autocomplete === true;
-		},
-		set: function set(autocomplete) {
-			this._autocomplete = autocomplete;
-		}
-	}, {
-		key: 'filteron',
-		get: function get() {
-			return this._filteron || 'text';
-		},
-		set: function set(filteron) {
-			this._filteron = filteron;
-		}
-	}, {
-		key: 'placeholder',
-		get: function get() {
-			return this._placeholder;
-		},
-		set: function set(placeholder) {
-			this._placeholder = placeholder;
-		}
-	}, {
-		key: 'filterplaceholder',
-		get: function get() {
-			return this._filterplaceholder;
-		},
-		set: function set(filterplaceholder) {
-			this._filterplaceholder = filterplaceholder;
-		}
-	}, {
-		key: 'hasfilter',
-		get: function get() {
-			return this._hasfilter == 'true' || this._hasfilter === true;
-		},
-		set: function set(hasfilter) {
-			this._hasfilter = hasfilter;
-		}
-	}, {
-		key: 'options',
-		get: function get() {
-			if (Array.isArray(this._options)) return this._options;
-			this._options = [];
-			return this._options;
-		},
-		set: function set(options) {
-			var _this3 = this;
+				if (!Array.isArray(options)) options = [];
+				options.forEach(function (item, i) {
+					item.id = item.id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
+					if (item.selected) _this3.select(item);
+				});
+				this._options = options;
+			}
+		}, {
+			key: 'filtereditems',
+			get: function get() {
+				if (Array.isArray(this._filtereditems)) return this._filtereditems;
+				this._filtereditems = [];
+				return this._filtereditems;
+			},
+			set: function set(filtereditems) {
+				this._filtereditems = filtereditems;
+			}
+		}]);
 
-			if (!Array.isArray(options)) options = [];
-			options.forEach(function (item, i) {
-				item.id = item.id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
-				if (item.selected) _this3.select(item);
-			});
-			this._options = options;
-		}
-	}, {
-		key: 'filtereditems',
-		get: function get() {
-			if (Array.isArray(this._filtereditems)) return this._filtereditems;
-			this._filtereditems = [];
-			return this._filtereditems;
-		},
-		set: function set(filtereditems) {
-			this._filtereditems = filtereditems;
-		}
-	}]);
+		return RgSelect;
+	})();
+})();(function () {
+	window.rg = window.rg || {};
+	rg.Tags = (function (_rg$Select) {
+		_inherits(RgTags, _rg$Select);
 
-	return RgSelect;
+		function RgTags(opts) {
+			_classCallCheck(this, RgTags);
+
+			_get(Object.getPrototypeOf(RgTags.prototype), 'constructor', this).call(this, opts);
+			this._tags = opts.tags;
+			this._value = opts.value;
+		}
+
+		_createClass(RgTags, [{
+			key: 'addTag',
+			value: function addTag(tag) {
+				tag.id = tag.id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
+				this.tags.push(tag);
+				this.isvisible = false;
+				this.trigger('add', this.tags[this.tags.length - 1]);
+			}
+		}, {
+			key: 'removeTag',
+			value: function removeTag(tag) {
+				this.tags.splice(this.tags.indexOf(tag), 1);
+				this.isvisible = false;
+				this.trigger('remove', tag);
+			}
+		}, {
+			key: 'value',
+			get: function get() {
+				return this._value || '';
+			},
+			set: function set(val) {
+				this._value = val;
+			}
+		}, {
+			key: 'tags',
+			get: function get() {
+				if (Array.isArray(this._tags)) return this._tags;
+				this._tags = [];
+				return this._tags;
+			},
+			set: function set(tags) {
+				if (!Array.isArray(tags)) tags = [];
+				tags.forEach(function (item, i) {
+					item.id = item.id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
+				});
+				this._tags = tags;
+			}
+		}]);
+
+		return RgTags;
+	})(rg.Select);
+})();(function () {
+	window.rg = window.rg || {};
+	rg.Time = (function (_rg$Select2) {
+		_inherits(RgTime, _rg$Select2);
+
+		function RgTime(opts) {
+			_classCallCheck(this, RgTime);
+
+			_get(Object.getPrototypeOf(RgTime.prototype), 'constructor', this).call(this, opts);
+			this._min = opts.min;
+			this._max = opts.max;
+			this._time = opts.time;
+			this._step = opts.step;
+			this._ampm = opts.ampm;
+		}
+
+		_createClass(RgTime, [{
+			key: 'min',
+			get: function get() {
+				if (this._min) return this._min.split(':');
+				return this._min;
+			},
+			set: function set(min) {
+				this._min = min;
+			}
+		}, {
+			key: 'max',
+			get: function get() {
+				if (this._max) return this._max.split(':');
+				return this._max;
+			},
+			set: function set(max) {
+				this._max = max;
+			}
+		}, {
+			key: 'time',
+			get: function get() {
+				if (toString.call(this._time) === '[object Date]') return this._time;
+				return new Date();
+			},
+			set: function set(time) {
+				this._time = time;
+			}
+		}, {
+			key: 'step',
+			get: function get() {
+				return this._step || 1;
+			},
+			set: function set(step) {
+				this._step = step;
+			}
+		}, {
+			key: 'ampm',
+			get: function get() {
+				return this._ampm == 'true' || this._ampm === true;
+			},
+			set: function set(ampm) {
+				this._ampm = ampm;
+			}
+		}]);
+
+		return RgTime;
+	})(rg.Select);
 })();
-
-var RgTags = (function (_RgSelect) {
-	_inherits(RgTags, _RgSelect);
-
-	function RgTags(opts) {
-		_classCallCheck(this, RgTags);
-
-		_get(Object.getPrototypeOf(RgTags.prototype), 'constructor', this).call(this, opts);
-		this._tags = opts.tags;
-		this._value = opts.value;
-	}
-
-	_createClass(RgTags, [{
-		key: 'addTag',
-		value: function addTag(tag) {
-			tag.id = tag.id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
-			this.tags.push(tag);
-			this.isvisible = false;
-			this.trigger('add', this.tags[this.tags.length - 1]);
-		}
-	}, {
-		key: 'removeTag',
-		value: function removeTag(tag) {
-			this.tags.splice(this.tags.indexOf(tag), 1);
-			this.isvisible = false;
-			this.trigger('remove', tag);
-		}
-	}, {
-		key: 'value',
-		get: function get() {
-			return this._value || '';
-		},
-		set: function set(val) {
-			this._value = val;
-		}
-	}, {
-		key: 'tags',
-		get: function get() {
-			if (Array.isArray(this._tags)) return this._tags;
-			this._tags = [];
-			return this._tags;
-		},
-		set: function set(tags) {
-			if (!Array.isArray(tags)) tags = [];
-			tags.forEach(function (item, i) {
-				item.id = item.id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
-			});
-			this._tags = tags;
-		}
-	}]);
-
-	return RgTags;
-})(RgSelect);
-
-var RgTime = (function (_RgSelect2) {
-	_inherits(RgTime, _RgSelect2);
-
-	function RgTime(opts) {
-		_classCallCheck(this, RgTime);
-
-		_get(Object.getPrototypeOf(RgTime.prototype), 'constructor', this).call(this, opts);
-		this._min = opts.min;
-		this._max = opts.max;
-		this._time = opts.time;
-		this._step = opts.step;
-		this._ampm = opts.ampm;
-	}
-
-	_createClass(RgTime, [{
-		key: 'min',
-		get: function get() {
-			if (this._min) return this._min.split(':');
-			return this._min;
-		},
-		set: function set(min) {
-			this._min = min;
-		}
-	}, {
-		key: 'max',
-		get: function get() {
-			if (this._max) return this._max.split(':');
-			return this._max;
-		},
-		set: function set(max) {
-			this._max = max;
-		}
-	}, {
-		key: 'time',
-		get: function get() {
-			if (toString.call(this._time) === '[object Date]') return this._time;
-			return new Date();
-		},
-		set: function set(time) {
-			this._time = time;
-		}
-	}, {
-		key: 'step',
-		get: function get() {
-			return this._step || 1;
-		},
-		set: function set(step) {
-			this._step = step;
-		}
-	}, {
-		key: 'ampm',
-		get: function get() {
-			return this._ampm == 'true' || this._ampm === true;
-		},
-		set: function set(ampm) {
-			this._ampm = ampm;
-		}
-	}]);
-
-	return RgTime;
-})(RgSelect);

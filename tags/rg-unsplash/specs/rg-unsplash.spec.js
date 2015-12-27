@@ -2,7 +2,7 @@ describe('rg-unsplash', function() {
   let tag, unsplash
 
   beforeEach(function() {
-    unsplash = new RgUnsplash()
+    unsplash = new rg.Unsplash()
     $('body').append('<rg-unsplash></rg-unsplash>')
     tag = riot.mount('rg-unsplash', {
       unsplash

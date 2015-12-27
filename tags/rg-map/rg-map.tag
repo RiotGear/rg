@@ -4,17 +4,17 @@
 
 	<script>
 		this.on('mount', () => {
-			this.RgMap = opts.map || new RgMap(opts)
+			this.RgMap = opts.map || new rg.Map(opts)
 			/* istanbul ignore next */
-			rg.map.on('initialize', () => {
-				rg.map.obj = new google.maps.Map(this.root.querySelector('.rg-map'), this.RgMap.options)
-			});
+			rg.gmap.on('initialize', () => {
+				this.RgMap.obj = new google.maps.Map(this.root.querySelector('.rg-map'), this.RgMap.options)
+			})
 
 			if (!document.getElementById('gmap_script')) {
 				let script = document.createElement('script')
 				script.setAttribute('id', 'gmap_script')
 				script.type = 'text/javascript'
-				script.src = 'https://maps.googleapis.com/maps/api/js?callback=rg.map.initialize'
+				script.src = 'https://maps.googleapis.com/maps/api/js?callback=rg.gmap.initialize'
 				document.body.appendChild(script)
 			}
 		})

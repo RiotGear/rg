@@ -4,7 +4,7 @@ describe('rg-toast', function () {
 	beforeEach(function () {
 		onClickSpy = sinon.spy()
 		onCloseSpy = sinon.spy()
-		toasts = new RgToasts({
+		toasts = new rg.Toasts({
 			position: 'bottomleft',
 			toasts: [{
 				content: 'Auto disappear',
@@ -66,7 +66,7 @@ describe('rg-toast no position', function () {
 	let tag, toasts
 
 	beforeEach(function () {
-		toasts = new RgToasts({
+		toasts = new rg.Toasts({
 			toasts: [{
 				content: 'Auto disappear',
 				timeout: 500
@@ -95,7 +95,7 @@ describe('rg-toast no events', function () {
 	let tag, onClickSpy, onCloseSpy, toasts
 
 	beforeEach(function () {
-		toasts = new RgToasts({
+		toasts = new rg.Toasts({
 			toasts: [{
 				content: 'Auto disappear',
 				timeout: 500

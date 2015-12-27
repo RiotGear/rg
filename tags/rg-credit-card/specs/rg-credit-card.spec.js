@@ -8,7 +8,7 @@ describe('rg-credit-card-number', function () {
 		cardNoVisa = '4000 0000 0000 0002'
 		cardNoMaestro = '5018 0000 0009'
 		placeholder = '0123 4567 8910 1112'
-		creditcard = new RgCreditCard({
+		creditcard = new rg.CreditCard({
 			placeholder: placeholder,
 			cardnumber: cardNoVisa
 		})

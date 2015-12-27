@@ -8,7 +8,7 @@ riot.tag2('rg-toggle', '<div class="wrapper"> <label class="toggle"> <input type
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgToggle = opts.toggle || new RgToggle();
+		_this.RgToggle = opts.toggle || new rg.Toggle();
 		_this.RgToggle.on('update', function () {
 			_this.update();
 		});
@@ -19,36 +19,38 @@ riot.tag2('rg-toggle', '<div class="wrapper"> <label class="toggle"> <input type
 		_this.RgToggle.toggle();
 	};
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Toggle = (function () {
+		function RgToggle(opts) {
+			_classCallCheck(this, RgToggle);
 
-var RgToggle = (function () {
-	function RgToggle(opts) {
-		_classCallCheck(this, RgToggle);
-
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._checked = opts.checked;
-	}
-
-	_createClass(RgToggle, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._checked = opts.checked;
 		}
-	}, {
-		key: 'toggle',
-		value: function toggle() {
-			this.checked = !this.checked;
-			this.trigger('toggle', this.checked);
-		}
-	}, {
-		key: 'checked',
-		get: function get() {
-			return this._checked == 'true' || this._checked === true;
-		},
-		set: function set(checked) {
-			this._checked = checked;
-		}
-	}]);
 
-	return RgToggle;
+		_createClass(RgToggle, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'toggle',
+			value: function toggle() {
+				this.checked = !this.checked;
+				this.trigger('toggle', this.checked);
+			}
+		}, {
+			key: 'checked',
+			get: function get() {
+				return this._checked == 'true' || this._checked === true;
+			},
+			set: function set(checked) {
+				this._checked = checked;
+			}
+		}]);
+
+		return RgToggle;
+	})();
 })();

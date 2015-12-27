@@ -12,7 +12,7 @@
 		}
 
 		this.on('mount', () => {
-			this.RgCreditCard = opts.card || new RgCreditCard(opts)
+			this.RgCreditCard = opts.card || new rg.CreditCard(opts)
 			this.RgCreditCard.on('update', () => {
 				this.update()
 			})

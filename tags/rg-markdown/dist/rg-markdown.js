@@ -8,7 +8,7 @@ riot.tag2('rg-markdown', '<div class="markdown"></div>', '', '', function (opts)
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgMarkdown = opts.markdown || new RgMarkdown(opts);
+		_this.RgMarkdown = opts.markdown || new rg.Markdown(opts);
 		_this.RgMarkdown.on('update', function () {
 			_this.RgMarkdown.fetch();
 		});
@@ -22,53 +22,55 @@ riot.tag2('rg-markdown', '<div class="markdown"></div>', '', '', function (opts)
 		_this.RgMarkdown.fetch();
 	});
 });
+;(function () {
+	window.rg = window.rg || {};
+	rg.Markdown = (function () {
+		function RgMarkdown(opts) {
+			_classCallCheck(this, RgMarkdown);
 
-var RgMarkdown = (function () {
-	function RgMarkdown(opts) {
-		_classCallCheck(this, RgMarkdown);
+			riot.observable(this);
+			if (!opts) opts = {};
+			if (commonmark) {
+				this.reader = new commonmark.Parser();
+				this.writer = new commonmark.HtmlRenderer();
+			}
+			this._url = opts.url;
+		}
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		if (commonmark) {
-			this.reader = new commonmark.Parser();
-			this.writer = new commonmark.HtmlRenderer();
-		}
-		this._url = opts.url;
-	}
+		_createClass(RgMarkdown, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'parse',
+			value: function parse(md) {
+				var parsed = this.reader.parse(md);
+				this.trigger('parse', this.writer.render(parsed));
+				return this.writer.render(parsed);
+			}
+		}, {
+			key: 'fetch',
+			value: function fetch() {
+				var _this2 = this;
 
-	_createClass(RgMarkdown, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'parse',
-		value: function parse(md) {
-			var parsed = this.reader.parse(md);
-			this.trigger('parse', this.writer.render(parsed));
-			return this.writer.render(parsed);
-		}
-	}, {
-		key: 'fetch',
-		value: function fetch() {
-			var _this2 = this;
+				var req = new XMLHttpRequest();
+				req.onload = function (resp) {
+					_this2.trigger('fetch', req.responseText);
+				};
+				req.open('get', this.url, true);
+				req.send();
+			}
+		}, {
+			key: 'url',
+			get: function get() {
+				return this._url || '';
+			},
+			set: function set(url) {
+				this._url = url;
+			}
+		}]);
 
-			var req = new XMLHttpRequest();
-			req.onload = function (resp) {
-				_this2.trigger('fetch', req.responseText);
-			};
-			req.open('get', this.url, true);
-			req.send();
-		}
-	}, {
-		key: 'url',
-		get: function get() {
-			return this._url || '';
-		},
-		set: function set(url) {
-			this._url = url;
-		}
-	}]);
-
-	return RgMarkdown;
+		return RgMarkdown;
+	})();
 })();

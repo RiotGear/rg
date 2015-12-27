@@ -55,7 +55,7 @@
 		}
 
 		this.on('mount', () => {
-			this.RgBehold = opts.behold || new RgBehold(opts)
+			this.RgBehold = opts.behold || new rg.Behold(opts)
 			this.RgBehold.on('update', () => {
 				this.update()
 			})

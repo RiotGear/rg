@@ -8,7 +8,7 @@ riot.tag2('rg-include', '<div> {responseText} </div>', '', '', function (opts) {
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgInclude = opts.include || new RgInclude(opts);
+		_this.RgInclude = opts.include || new rg.Include(opts);
 		_this.RgInclude.on('update', function () {
 			_this.RgInclude.fetch();
 		});
@@ -19,53 +19,55 @@ riot.tag2('rg-include', '<div> {responseText} </div>', '', '', function (opts) {
 		_this.RgInclude.fetch();
 	});
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Include = (function () {
+		function RgInclude(opts) {
+			_classCallCheck(this, RgInclude);
 
-var RgInclude = (function () {
-	function RgInclude(opts) {
-		_classCallCheck(this, RgInclude);
-
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._unsafe = opts.unsafe;
-		this._url = opts.url;
-	}
-
-	_createClass(RgInclude, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._unsafe = opts.unsafe;
+			this._url = opts.url;
 		}
-	}, {
-		key: 'fetch',
-		value: function fetch() {
-			var _this2 = this;
 
-			var req = new XMLHttpRequest();
-			req.onload = function (resp) {
-				_this2.trigger('fetch', req.responseText);
-			};
-			req.open('get', this.url, true);
-			req.send();
-		}
-	}, {
-		key: 'unsafe',
-		get: function get() {
-			return this._unsafe == 'true' || this._unsafe === true;
-		},
-		set: function set(unsafe) {
-			this._unsafe = unsafe;
-		}
-	}, {
-		key: 'url',
-		get: function get() {
-			return this._url || '';
-		},
-		set: function set(url) {
-			if (this.url != url) {
-				this._url = url;
+		_createClass(RgInclude, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
 			}
-		}
-	}]);
+		}, {
+			key: 'fetch',
+			value: function fetch() {
+				var _this2 = this;
 
-	return RgInclude;
+				var req = new XMLHttpRequest();
+				req.onload = function (resp) {
+					_this2.trigger('fetch', req.responseText);
+				};
+				req.open('get', this.url, true);
+				req.send();
+			}
+		}, {
+			key: 'unsafe',
+			get: function get() {
+				return this._unsafe == 'true' || this._unsafe === true;
+			},
+			set: function set(unsafe) {
+				this._unsafe = unsafe;
+			}
+		}, {
+			key: 'url',
+			get: function get() {
+				return this._url || '';
+			},
+			set: function set(url) {
+				if (this.url != url) {
+					this._url = url;
+				}
+			}
+		}]);
+
+		return RgInclude;
+	})();
 })();

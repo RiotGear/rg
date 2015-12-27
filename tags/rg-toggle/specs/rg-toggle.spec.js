@@ -3,7 +3,7 @@ describe('rg-toggle', function() {
 
   beforeEach(function() {
     spy = sinon.spy()
-    toggle = new RgToggle({
+    toggle = new rg.Toggle({
       checked: false
     }).on('toggle', spy)
     $('body').append('<rg-toggle></rg-toggle>')

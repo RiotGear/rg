@@ -1,7 +1,7 @@
 riot.tag2('app', '<rg-context-menu menu="{contextMenu}"></rg-context-menu> <h2>Alert</h2> <div class="demo"> <rg-alerts alerts="{alerts}"></rg-alerts> <button onclick="{addAlert}">Add alert</button> </div> <h2>Behold</h2> <div class="demo"> <rg-behold behold="{behold}"></rg-behold> <button onclick="{changeBeholdMode}">Change mode</button> <button onclick="{changeBeholdImages}">Change image</button> </div> <h2>Bubble</h2> <div class="demo"> <rg-bubble bubble="{bubble}">Hover over me</rg-bubble> <button onclick="{updateBubbleContent}">Change bubble</button> </div> <h2>Code</h2> <div class="demo"> <rg-code editor="{editorSettings}"></rg-code> </div> <button onclick="{changeCode}">Change code</button> <h2>Context Menu</h2> <div class="demo" rg-context-menu="myMenu"> Right click here. </div> <h2>Credit Card</h2> <div class="demo"> <rg-credit-card-number card="{creditcard}"></rg-credit-card-number> <button onclick="{changeCardNumber}">Change Card Number</button> </div> <h2>Date</h2> <div class="demo"> <rg-date date="{date}"></rg-date> {date.date} <button onclick="{changeDate}">Change date</button> </div> <h2>Drawer</h2> <div class="demo no-overflow"> <rg-drawer drawer="{drawer}"></rg-drawer> <button onclick="{openDrawer}">Open drawer</button> </div> <h2>GA</h2> <div class="demo"> Google Analytics tag is on this page. Look at Network tab in Developer Tools <rg-ga property="UA-36978977-5"></rg-ga> </div> <h2>Include</h2> <div class="demo"> <div> <rg-include include="{include}"></rg-include> </div> <button onclick="{unsafe}">Make unsafe</button> <button onclick="{changeIncludeFile}">Change content</button> </div> <h2>Loading</h2> <div class="demo"> <rg-loading loading="{loading}"> Please wait... </rg-loading> </div> <button onclick="{toggleLoading}">Toggle loading</button> <h2>Map</h2> <div class="demo"> <rg-map map="{map}"></rg-map> </div> <h2>Markdown</h2> <div class="demo"> <rg-markdown markdown="{markdown}"></rg-markdown> <button onclick="{changeMarkdown}">Change content</button> </div> <h2>Modal</h2> <div class="demo"> <rg-modal modal="{modal}"> Well hello there! </rg-modal> </div> <button onclick="{toggleModal}">Toggle modal</button> <button onclick="{toggleModalType}">Toggle type</button> <button onclick="{toggleModalDismissable}">Toggle dismissable</button> <h2>Phone Sim</h2> <div class="demo"> <rg-phone-sim phonesim="{phonesim}"></rg-phone-sim> <button onclick="{changePhoneSimURL}">Change URL</button> </div> <h2>Placehold.it</h2> <div class="demo"> <rg-placeholdit placeholdit="{placeholdit}"></rg-placeholdit> </div> <button onclick="{changePlacholdIt}">Change image</button> <h2>Select</h2> <div class="demo"> <rg-select select="{select}"></rg-select> <button onclick="{toggleAutocomplete}">Toggle autocomplete</button> </div> <h2>Tabs</h2> <div class="demo"> <rg-tabs tabs="{tabs}"></rg-tabs> </div> <button onclick="{changeTabContent}">Change tab</button> <h2>Tags</h2> <div class="demo"> <rg-tags tags="{tags}"></rg-tags> </div> <h2>Time</h2> <div class="demo"> <rg-time time="{time}"></rg-time> <button onclick="{changeTime}">Change time</button> </div> <h2>Toast</h2> <div class="demo"> <rg-toasts toasts="{toasts}"></rg-toasts> <button onclick="{changeToasts}">Change toasts</button> </div> <h2>Toggle</h2> <div class="demo"> <rg-toggle toggle="{toggle}"></rg-toggle> <button onclick="{changeToggle}">Change toggle</button> </div> <h2>Unsplash</h2> <div class="demo"> <rg-unsplash unsplash="{unsplash}"></rg-unsplash> </div> <button onclick="{changeUnsplash}">Change image</button> <h3>>> END</h3>', '', '', function(opts) {
 var _this = this;
 
-this.alerts = new RgAlerts({
+this.alerts = new rg.Alerts({
 	alerts: [{
 		type: 'danger',
 		content: 'Danger! Something bad happened.',
@@ -38,7 +38,7 @@ setTimeout(function () {
 	_this.alerts.update();
 }, 3000);
 
-this.behold = new RgBehold({
+this.behold = new rg.Behold({
 	image1: 'img/first.jpg',
 	image2: 'img/second.jpg'
 });
@@ -51,7 +51,7 @@ this.changeBeholdImages = function () {
 	_this.behold.image1 = 'img/third.jpg';
 };
 
-this.bubble = new RgBubble({
+this.bubble = new rg.Bubble({
 	content: '<strong>Ping</strong>'
 });
 
@@ -59,7 +59,7 @@ this.updateBubbleContent = function () {
 	_this.bubble.content = '<em>Pong!</em>';
 };
 
-this.editorSettings = new RgCode({
+this.editorSettings = new rg.Code({
 	code: '<h2>Hello world!</h2>'
 }).on('change', function (code) {
 	return console.log(code);
@@ -70,7 +70,7 @@ this.changeCode = function () {
 	_this.editorSettings.mode = 'javascript';
 };
 
-this.contextMenu = new RgContextMenu({
+this.contextMenu = new rg.ContextMenu({
 	name: 'myMenu',
 	items: [{
 		content: '<em>Add another item</em>'
@@ -89,7 +89,7 @@ this.addMenuItem = function () {
 	});
 };
 
-this.creditcard = new RgCreditCard({
+this.creditcard = new rg.CreditCard({
 	placeholder: 'Long number on front',
 	cardnumber: '4000 0000 0000 0002'
 }).on('validate', function (valid) {
@@ -100,7 +100,7 @@ this.changeCardNumber = function () {
 	_this.creditcard.cardnumber = 5105105105105100;
 };
 
-this.date = new RgDate({
+this.date = new rg.Date({
 	date: moment('14-01-1982', 'DD-MM-YYYY')
 }).on('select', function (date) {
 	return console.log(date);
@@ -110,7 +110,7 @@ this.changeDate = function () {
 	_this.date.date = moment();
 };
 
-this.drawer = new RgDrawer({
+this.drawer = new rg.Drawer({
 	header: 'Drawer',
 	isvisible: true,
 	position: 'bottom',
@@ -131,7 +131,7 @@ this.openDrawer = function () {
 	_this.drawer.open();
 };
 
-this.include = new RgInclude({
+this.include = new rg.Include({
 	url: 'inc.html'
 });
 this.unsafe = function () {
@@ -143,23 +143,23 @@ this.changeIncludeFile = function () {
 	_this.include.fetch();
 };
 
-this.loading = new RgLoading({
+this.loading = new rg.Loading({
 	isvisible: true
 });
 this.toggleLoading = function () {
 	_this.loading.isvisible = !_this.loading.isvisible;
 };
 
-this.markdown = new RgMarkdown({
+this.markdown = new rg.Markdown({
 	url: 'inc.md'
 });
 this.changeMarkdown = function () {
 	_this.markdown.parse('### Hello RiotGear!');
 };
 
-this.map = new RgMap();
+this.map = new rg.Map();
 
-this.modal = new RgModal({
+this.modal = new rg.Modal({
 	isvisible: true,
 	heading: 'Modal heading',
 	buttons: [{
@@ -183,14 +183,14 @@ this.toggleModalDismissable = function () {
 	_this.modal.dismissable = !_this.modal.dismissable;
 };
 
-this.phonesim = new RgPhoneSim({
+this.phonesim = new rg.PhoneSim({
 	url: 'http://riotgear.js.org/'
 });
 this.changePhoneSimURL = function () {
 	_this.phonesim.url = 'http://riotjs.com';
 };
 
-this.placeholdit = new RgPlaceholdit();
+this.placeholdit = new rg.Placeholdit();
 this.changePlacholdIt = function () {
 	_this.placeholdit.width = 200;
 	_this.placeholdit.height = 100;
@@ -201,7 +201,7 @@ this.changePlacholdIt = function () {
 	_this.placeholdit.format = 'jpg';
 };
 
-this.select = new RgSelect({
+this.select = new rg.Select({
 	autocomplete: false,
 	placeholder: 'Please select a card',
 	hasfilter: true,
@@ -248,7 +248,7 @@ this.toggleAutocomplete = function () {
 	_this.select.update();
 };
 
-this.unsplash = new RgUnsplash();
+this.unsplash = new rg.Unsplash();
 this.changeUnsplash = function () {
 	_this.unsplash.width = 200;
 	_this.unsplash.height = 100;
@@ -259,7 +259,7 @@ this.changeUnsplash = function () {
 	_this.unsplash.gravity = "north";
 };
 
-this.time = new RgTime({
+this.time = new rg.Time({
 	ampm: true,
 	step: 15,
 	min: '00:00',
@@ -270,7 +270,7 @@ this.changeTime = function () {
 	_this.time.placeholder = 'Select a time';
 };
 
-this.toggle = new RgToggle({
+this.toggle = new rg.Toggle({
 	checked: true
 }).on('toggle', function (checked) {
 	return console.log('checked', checked);
@@ -280,7 +280,28 @@ this.changeToggle = function () {
 	_this.toggle.toggle();
 };
 
-this.toasts = new RgToasts({
+this.tags = new rg.Tags({
+	value: 'Canada',
+	placeholder: 'Choose a country',
+	options: [{
+		text: 'England'
+	}, {
+		text: 'Scotland'
+	}, {
+		text: 'Ireland'
+	}, {
+		text: 'Wales'
+	}],
+	tags: [{
+		text: 'Russia'
+	}]
+}).on('add', function (tag) {
+	return console.log('add tag', tag);
+}).on('remove', function (tag) {
+	return console.log('remove tag', tag);
+});
+
+this.toasts = new rg.Toasts({
 	toasts: [{
 		content: 'Hey look at me!'
 	}]
@@ -308,7 +329,7 @@ this.tabs = new rg.Tabs({
 	}, {
 		heading: 'Tab three',
 		content: 'This is tab three content',
-		include: new RgInclude({
+		include: new rg.Include({
 			url: 'tab.html',
 			unsafe: true
 		})

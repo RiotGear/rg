@@ -17,7 +17,7 @@ describe('rg-tabs', function() {
       }, {
         heading: 'Tab three',
         content: 'This is tab three content',
-        include: new RgInclude({
+        include: new rg.Include({
           url: 'tab.html',
           unsafe: true
         })

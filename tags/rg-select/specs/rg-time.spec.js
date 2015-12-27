@@ -3,7 +3,7 @@ describe('rg-time', function() {
   let spy = sinon.spy()
 
   beforeEach(function() {
-    time = new RgTime({
+    time = new rg.Time({
       ampm: true,
       step: 15,
       min: "00:00",

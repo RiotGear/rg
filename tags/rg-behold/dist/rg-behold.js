@@ -48,7 +48,7 @@ riot.tag2('rg-behold', '<div class="container"> <div class="controls"> <div clas
 	};
 
 	this.on('mount', function () {
-		_this2.RgBehold = opts.behold || new RgBehold(opts);
+		_this2.RgBehold = opts.behold || new rg.Behold(opts);
 		_this2.RgBehold.on('update', function () {
 			_this2.update();
 		});
@@ -82,48 +82,50 @@ riot.tag2('rg-behold', '<div class="container"> <div class="controls"> <div clas
 		}
 	};
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Behold = (function () {
+		function RgBehold(opts) {
+			_classCallCheck(this, RgBehold);
 
-var RgBehold = (function () {
-	function RgBehold(opts) {
-		_classCallCheck(this, RgBehold);
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._image1 = opts.image1;
+			this._image2 = opts.image2;
+			this._mode = opts.mode;
+		}
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._image1 = opts.image1;
-		this._image2 = opts.image2;
-		this._mode = opts.mode;
-	}
+		_createClass(RgBehold, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'image1',
+			get: function get() {
+				return this._image1;
+			},
+			set: function set(img) {
+				this._image1 = img;
+			}
+		}, {
+			key: 'image2',
+			get: function get() {
+				return this._image2;
+			},
+			set: function set(img) {
+				this._image2 = img;
+			}
+		}, {
+			key: 'mode',
+			get: function get() {
+				return this._mode || 'swipe';
+			},
+			set: function set(mode) {
+				this._mode = mode;
+			}
+		}]);
 
-	_createClass(RgBehold, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'image1',
-		get: function get() {
-			return this._image1;
-		},
-		set: function set(img) {
-			this._image1 = img;
-		}
-	}, {
-		key: 'image2',
-		get: function get() {
-			return this._image2;
-		},
-		set: function set(img) {
-			this._image2 = img;
-		}
-	}, {
-		key: 'mode',
-		get: function get() {
-			return this._mode || 'swipe';
-		},
-		set: function set(mode) {
-			this._mode = mode;
-		}
-	}]);
-
-	return RgBehold;
+		return RgBehold;
+	})();
 })();

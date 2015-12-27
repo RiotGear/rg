@@ -20,8 +20,8 @@ riot.tag2('rg-tabs', '<div class="headers"> <div each="{RgTabs.tabs}" class="hea
 	};
 }, '{ }');
 ;(function () {
-	if (!window.rg) window.rg = {};
-	window.rg.Tabs = (function () {
+	window.rg = window.rg || {};
+	rg.Tabs = (function () {
 		function Tabs(opts) {
 			_classCallCheck(this, Tabs);
 

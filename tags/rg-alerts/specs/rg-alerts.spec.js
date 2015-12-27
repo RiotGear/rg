@@ -5,7 +5,7 @@ describe('rg-alerts', function () {
 	beforeEach(function () {
 		oncloseSpy = sinon.spy()
 		$('body').append('<rg-alerts></rg-alerts>')
-		let alerts = new RgAlerts({
+		let alerts = new rg.Alerts({
 			alerts: [{
 				type: 'danger',
 				content: 'Danger! Something bad happened.',

@@ -6,7 +6,7 @@
 
 	<script>
 	this.on('mount', () => {
-		this.RgPhoneSim = opts.phonesim || new RgPhoneSim(opts)
+		this.RgPhoneSim = opts.phonesim || new rg.PhoneSim(opts)
 		this.RgPhoneSim.on('update', () => {
 			this.update()
 		})

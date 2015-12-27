@@ -1,35 +1,36 @@
-class RgMap {
+;(() => {
+	window.rg = window.rg || {}
+	const gmap = {
+		initialize: () => {
+			gmap.trigger('initialize')
+		}
+	}
+	riot.observable(gmap)
+	window.rg.gmap = gmap
 
-	constructor(opts) {
-		riot.observable(this)
-		this._options = opts
-		const map = {
-			initialize: () => {
-				map.trigger('initialize')
-			}
+	rg.Map = class RgMap {
+
+		constructor(opts) {
+			riot.observable(this)
+			this._options = opts
 		}
 
-		riot.observable(map)
-
-		if (!window.rg) window.rg = {}
-		rg.map = map
-	}
-
-	update() {
-		this.trigger('update')
-	}
-
-	get options() {
-		if (this._options) {
-			this._options = {
-				center: {
-					lat: 53.806,
-					lng: -1.535
-				},
-				zoom: 7
-			}
+		update() {
+			this.trigger('update')
 		}
 
-		return this._options
+		get options() {
+			if (!this._options) {
+				this._options = {
+					center: {
+						lat: 53.806,
+						lng: -1.535
+					},
+					zoom: 7
+				}
+			}
+
+			return this._options
+		}
 	}
-}
+})()

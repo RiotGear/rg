@@ -3,7 +3,7 @@ describe('rg-code', function() {
 
   beforeEach(function() {
     spy = sinon.spy()
-    editor = new RgCode({
+    editor = new rg.Code({
       code: '<h2>Hello world!</h2>',
       theme: 'monokai',
       mode: 'javascript',

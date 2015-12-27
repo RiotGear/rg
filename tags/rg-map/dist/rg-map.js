@@ -8,61 +8,61 @@ riot.tag2('rg-map', '<div class="rg-map"></div>', 'rg-map .rg-map,[riot-tag="rg-
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgMap = opts.map || new RgMap(opts);
+		_this.RgMap = opts.map || new rg.Map(opts);
 
-		rg.map.on('initialize', function () {
-			rg.map.obj = new google.maps.Map(_this.root.querySelector('.rg-map'), _this.RgMap.options);
+		rg.gmap.on('initialize', function () {
+			_this.RgMap.obj = new google.maps.Map(_this.root.querySelector('.rg-map'), _this.RgMap.options);
 		});
 
 		if (!document.getElementById('gmap_script')) {
 			var script = document.createElement('script');
 			script.setAttribute('id', 'gmap_script');
 			script.type = 'text/javascript';
-			script.src = 'https://maps.googleapis.com/maps/api/js?callback=rg.map.initialize';
+			script.src = 'https://maps.googleapis.com/maps/api/js?callback=rg.gmap.initialize';
 			document.body.appendChild(script);
 		}
 	});
 });
-
-var RgMap = (function () {
-	function RgMap(opts) {
-		_classCallCheck(this, RgMap);
-
-		riot.observable(this);
-		this._options = opts;
-		var map = {
-			initialize: function initialize() {
-				map.trigger('initialize');
-			}
-		};
-
-		riot.observable(map);
-
-		if (!window.rg) window.rg = {};
-		rg.map = map;
-	}
-
-	_createClass(RgMap, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
+;(function () {
+	window.rg = window.rg || {};
+	var gmap = {
+		initialize: function initialize() {
+			gmap.trigger('initialize');
 		}
-	}, {
-		key: 'options',
-		get: function get() {
-			if (this._options) {
-				this._options = {
-					center: {
-						lat: 53.806,
-						lng: -1.535
-					},
-					zoom: 7
-				};
-			}
+	};
+	riot.observable(gmap);
+	window.rg.gmap = gmap;
 
-			return this._options;
+	rg.Map = (function () {
+		function RgMap(opts) {
+			_classCallCheck(this, RgMap);
+
+			riot.observable(this);
+			this._options = opts;
 		}
-	}]);
 
-	return RgMap;
+		_createClass(RgMap, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'options',
+			get: function get() {
+				if (!this._options) {
+					this._options = {
+						center: {
+							lat: 53.806,
+							lng: -1.535
+						},
+						zoom: 7
+					};
+				}
+
+				return this._options;
+			}
+		}]);
+
+		return RgMap;
+	})();
 })();

@@ -12,7 +12,7 @@
 
 	<script>
 		this.on('mount', () => {
-			this.RgToggle = opts.toggle || new RgToggle()
+			this.RgToggle = opts.toggle || new rg.Toggle()
 			this.RgToggle.on('update', () => {
 				this.update()
 			})

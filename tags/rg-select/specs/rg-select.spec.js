@@ -6,7 +6,7 @@ describe('rg-select', function () {
 	let spyOnSelect = sinon.spy()
 
 	beforeEach(function () {
-		select = new RgSelect({
+		select = new rg.Select({
 			placeholder: 'Please select a card',
 			hasfilter: true,
 			filterplaceholder: 'Filter cards',
@@ -114,7 +114,7 @@ describe('rg-select no filter', function () {
 	let tag, select
 
 	beforeEach(function () {
-		select = new RgSelect({
+		select = new rg.Select({
 			placeholder: 'Please select a card',
 			hasfilter: false,
 			filterplaceholder: 'Filter cards',

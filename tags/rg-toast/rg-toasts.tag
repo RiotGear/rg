@@ -13,7 +13,7 @@
 		}
 
 		this.on('mount', () => {
-			this.RgToasts = opts.toasts || new RgToasts(opts)
+			this.RgToasts = opts.toasts || new rg.Toasts(opts)
 			this.RgToasts.on('update', () => {
 				this.update()
 			})

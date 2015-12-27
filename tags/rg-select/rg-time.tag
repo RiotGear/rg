@@ -51,7 +51,7 @@
 		}
 
 		this.on('mount', () => {
-			this.RgTime = opts.time || new RgTime(opts)
+			this.RgTime = opts.time || new rg.Time(opts)
 			this.RgTime.on('update', () => {
 				build()
 				this.update()

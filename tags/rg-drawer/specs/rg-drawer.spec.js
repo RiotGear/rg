@@ -5,7 +5,7 @@ describe('rg-drawer', function () {
 
 	beforeEach(function () {
 		$('body').append('<rg-drawer></rg-drawer>')
-		drawer = new RgDrawer({
+		drawer = new rg.Drawer({
 			header: 'Side Menu',
 			isvisible: true,
 			items: [{

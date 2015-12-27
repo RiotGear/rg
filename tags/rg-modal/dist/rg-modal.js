@@ -8,7 +8,7 @@ riot.tag2('rg-modal', '<div class="overlay {visible: RgModal.isvisible, ghost: R
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgModal = opts.modal || new RgModal(opts);
+		_this.RgModal = opts.modal || new rg.Modal(opts);
 		_this.RgModal.on('update', function () {
 			_this.update();
 		});
@@ -19,69 +19,71 @@ riot.tag2('rg-modal', '<div class="overlay {visible: RgModal.isvisible, ghost: R
 		if (_this.RgModal.dismissable) _this.RgModal.isvisible = false;
 	};
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Modal = (function () {
+		function RgModal(opts) {
+			_classCallCheck(this, RgModal);
 
-var RgModal = (function () {
-	function RgModal(opts) {
-		_classCallCheck(this, RgModal);
+			riot.observable(this);
+			this._isvisible = opts.isvisible;
+			this._dismissable = opts.dismissable;
+			this._ghost = opts.ghost;
+			this._heading = opts.heading;
+			this._buttons = opts.buttons;
+		}
 
-		riot.observable(this);
-		this._isvisible = opts.isvisible;
-		this._dismissable = opts.dismissable;
-		this._ghost = opts.ghost;
-		this._heading = opts.heading;
-		this._buttons = opts.buttons;
-	}
+		_createClass(RgModal, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'dismissable',
+			get: function get() {
+				if (typeof this._dismissable === 'undefined') this._dismissable = true;
+				return this._dismissable == 'true' || this._dismissable === true;
+			},
+			set: function set(dismissable) {
+				this._dismissable = dismissable;
+			}
+		}, {
+			key: 'ghost',
+			get: function get() {
+				return this._ghost == 'true' || this._ghost === true;
+			},
+			set: function set(ghost) {
+				this._ghost = ghost;
+			}
+		}, {
+			key: 'heading',
+			get: function get() {
+				return this._heading || '';
+			},
+			set: function set(heading) {
+				this._heading = heading;
+			}
+		}, {
+			key: 'buttons',
+			get: function get() {
+				if (Array.isArray(this._buttons)) return this._buttons;
+				return [];
+			},
+			set: function set(buttons) {
+				this._buttons = buttons;
+			}
+		}, {
+			key: 'isvisible',
+			get: function get() {
+				return this._isvisible == 'true' || this._isvisible === true;
+			},
+			set: function set(isvisible) {
+				this._isvisible = isvisible;
+				if (this.isvisible) this.trigger('open');
+				if (!this.isvisible) this.trigger('close');
+			}
+		}]);
 
-	_createClass(RgModal, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'dismissable',
-		get: function get() {
-			if (typeof this._dismissable === 'undefined') this._dismissable = true;
-			return this._dismissable == 'true' || this._dismissable === true;
-		},
-		set: function set(dismissable) {
-			this._dismissable = dismissable;
-		}
-	}, {
-		key: 'ghost',
-		get: function get() {
-			return this._ghost == 'true' || this._ghost === true;
-		},
-		set: function set(ghost) {
-			this._ghost = ghost;
-		}
-	}, {
-		key: 'heading',
-		get: function get() {
-			return this._heading || '';
-		},
-		set: function set(heading) {
-			this._heading = heading;
-		}
-	}, {
-		key: 'buttons',
-		get: function get() {
-			if (Array.isArray(this._buttons)) return this._buttons;
-			return [];
-		},
-		set: function set(buttons) {
-			this._buttons = buttons;
-		}
-	}, {
-		key: 'isvisible',
-		get: function get() {
-			return this._isvisible == 'true' || this._isvisible === true;
-		},
-		set: function set(isvisible) {
-			this._isvisible = isvisible;
-			if (this.isvisible) this.trigger('open');
-			if (!this.isvisible) this.trigger('close');
-		}
-	}]);
-
-	return RgModal;
+		return RgModal;
+	})();
 })();

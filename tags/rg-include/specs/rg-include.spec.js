@@ -2,7 +2,7 @@ describe('rg-include', function() {
   let tag, include
 
   beforeEach(function() {
-    include = new RgInclude({
+    include = new rg.Include({
       url: 'inc.html'
     })
 
@@ -32,7 +32,7 @@ describe('rg-include unsafe', function() {
   let tag, include
 
   beforeEach(function() {
-    include = new RgInclude({
+    include = new rg.Include({
       url: 'inc.html',
       unsafe: true
     })

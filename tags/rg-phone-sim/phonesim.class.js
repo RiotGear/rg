@@ -1,20 +1,23 @@
-class RgPhoneSim {
+;(() => {
+	window.rg = window.rg || {}
+	rg.PhoneSim = class RgPhoneSim {
 
-	constructor(opts) {
-		riot.observable(this)
-		if (!opts) opts = {}
-		this._url = opts.url
-	}
+		constructor(opts) {
+			riot.observable(this)
+			if (!opts) opts = {}
+			this._url = opts.url
+		}
 
-	update() {
-		this.trigger('update')
-	}
+		update() {
+			this.trigger('update')
+		}
 
-	get url() {
-		return this._url || ''
-	}
+		get url() {
+			return this._url || ''
+		}
 
-	set url(url) {
-		this._url = url
+		set url(url) {
+			this._url = url
+		}
 	}
-}
+})()

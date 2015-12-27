@@ -4,7 +4,7 @@
 
 	<script>
 		this.on('mount', () => {
-			this.RgUnsplash = opts.unsplash || new RgUnsplash()
+			this.RgUnsplash = opts.unsplash || new rg.Unsplash()
 			this.RgUnsplash.on('update', () => {
 				this.update()
 			})

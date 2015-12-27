@@ -2,7 +2,7 @@ describe('rg-placeholdit', function() {
   let tag, placeholdit
 
   beforeEach(function() {
-    placeholdit = new RgPlaceholdit()
+    placeholdit = new rg.Placeholdit()
     $('body').append('<rg-placeholdit></rg-placeholdit>')
     tag = riot.mount('rg-placeholdit', { placeholdit })[0]
   })

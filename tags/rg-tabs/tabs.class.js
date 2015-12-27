@@ -1,6 +1,6 @@
 ;(() => {
-	if (!window.rg) window.rg = {}
-	window.rg.Tabs = class Tabs {
+	window.rg = window.rg || {}
+	rg.Tabs = class Tabs {
 
 		constructor(opts) {
 			riot.observable(this)

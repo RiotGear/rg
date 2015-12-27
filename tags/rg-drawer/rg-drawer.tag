@@ -18,7 +18,7 @@
 
 	<script>
 		this.on('mount', () => {
-			this.RgDrawer = opts.drawer || new RgDrawer(opts)
+			this.RgDrawer = opts.drawer || new rg.Drawer(opts)
 			this.RgDrawer.on('update', () => {
 				this.update()
 			})

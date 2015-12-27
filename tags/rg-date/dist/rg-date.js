@@ -48,7 +48,7 @@ riot.tag2('rg-date', '<div class="container {open: RgDate.isvisible}"> <input ty
 	};
 
 	this.on('mount', function () {
-		_this.RgDate = opts.date || new RgDate(opts);
+		_this.RgDate = opts.date || new rg.Date(opts);
 		_this.RgDate.on('update', function () {
 			_this.update();
 		});
@@ -91,188 +91,190 @@ riot.tag2('rg-date', '<div class="container {open: RgDate.isvisible}"> <input ty
 		_this.RgDate.select(e.item.day.date);
 	};
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Date = (function () {
+		function RgDate(opts) {
+			_classCallCheck(this, RgDate);
 
-var RgDate = (function () {
-	function RgDate(opts) {
-		_classCallCheck(this, RgDate);
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._isvisible = opts.isvisible;
+			this._date = opts.date;
+			this._showYears = opts.showyears;
+			this._showMonths = opts.showmonths;
+			this._showToday = opts.showtoday;
+			this._format = opts.format;
+			this._yearFormat = opts.yearformat;
+			this._monthFormat = opts.monthformat;
+			this._weekFormat = opts.weekformat;
+			this._dayFormat = opts.dayformat;
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._isvisible = opts.isvisible;
-		this._date = opts.date;
-		this._showYears = opts.showyears;
-		this._showMonths = opts.showmonths;
-		this._showToday = opts.showtoday;
-		this._format = opts.format;
-		this._yearFormat = opts.yearformat;
-		this._monthFormat = opts.monthformat;
-		this._weekFormat = opts.weekformat;
-		this._dayFormat = opts.dayformat;
-
-		var temp = moment();
-		this.dayNames = [temp.day(0).format(this.weekFormat), temp.day(1).format(this.weekFormat), temp.day(2).format(this.weekFormat), temp.day(3).format(this.weekFormat), temp.day(4).format(this.weekFormat), temp.day(5).format(this.weekFormat), temp.day(6).format(this.weekFormat)];
-	}
-
-	_createClass(RgDate, [{
-		key: '_toMoment',
-		value: function _toMoment(date) {
-			if (!moment.isMoment(date)) date = moment(date);
-			if (date.isValid()) return date;
-			return moment();
+			var temp = moment();
+			this.dayNames = [temp.day(0).format(this.weekFormat), temp.day(1).format(this.weekFormat), temp.day(2).format(this.weekFormat), temp.day(3).format(this.weekFormat), temp.day(4).format(this.weekFormat), temp.day(5).format(this.weekFormat), temp.day(6).format(this.weekFormat)];
 		}
-	}, {
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'open',
-		value: function open() {
-			this._isvisible = true;
-			this.trigger('open');
-		}
-	}, {
-		key: 'close',
-		value: function close() {
-			if (this.isvisible) {
-				this._isvisible = false;
-				this.trigger('close');
+
+		_createClass(RgDate, [{
+			key: '_toMoment',
+			value: function _toMoment(date) {
+				if (!moment.isMoment(date)) date = moment(date);
+				if (date.isValid()) return date;
+				return moment();
 			}
-		}
-	}, {
-		key: 'setToday',
-		value: function setToday() {
-			this.select(moment());
-		}
-	}, {
-		key: 'prevYear',
-		value: function prevYear() {
-			this._date = this.date.subtract(1, 'year');
-		}
-	}, {
-		key: 'nextYear',
-		value: function nextYear() {
-			this._date = this.date.add(1, 'year');
-		}
-	}, {
-		key: 'prevMonth',
-		value: function prevMonth() {
-			this._date = this.date.subtract(1, 'month');
-		}
-	}, {
-		key: 'nextMonth',
-		value: function nextMonth() {
-			this._date = this.date.add(1, 'month');
-		}
-	}, {
-		key: 'select',
-		value: function select(date) {
-			this._date = date;
-			this.trigger('select', this.date);
-		}
-	}, {
-		key: 'date',
-		get: function get() {
-			return this._toMoment(this._date);
-		},
-		set: function set(date) {
-			this._date = date;
-			this._isvisible = false;
-			this.trigger('select', this.date);
-		}
-	}, {
-		key: 'dateFormatted',
-		get: function get() {
-			return this.date.format(this.format);
-		}
-	}, {
-		key: 'isvisible',
-		get: function get() {
-			return this._isvisible == 'true' || this._isvisible === true;
-		}
-	}, {
-		key: 'year',
-		get: function get() {
-			return this.date.format(this.yearFormat);
-		}
-	}, {
-		key: 'month',
-		get: function get() {
-			return this.date.format(this.monthFormat);
-		}
-	}, {
-		key: 'day',
-		get: function get() {
-			return this.date.format(this.dayFormat);
-		}
-	}, {
-		key: 'showYears',
-		get: function get() {
-			if (typeof this._showYears === 'undefined') return true;
-			return this._showYears == 'true' || this._showYears === true;
-		},
-		set: function set(show) {
-			this._showYears = show == 'true' || show === true;
-		}
-	}, {
-		key: 'showMonths',
-		get: function get() {
-			if (typeof this._showMonths === 'undefined') return true;
-			return this._showMonths == 'true' || this._showMonths === true;
-		},
-		set: function set(show) {
-			this._showMonths = show == 'true' || show === true;
-		}
-	}, {
-		key: 'showToday',
-		get: function get() {
-			if (typeof this._showToday === 'undefined') return true;
-			return this._showToday == 'true' || this._showToday === true;
-		},
-		set: function set(show) {
-			this._showToday = show == 'true' || show === true;
-		}
-	}, {
-		key: 'format',
-		get: function get() {
-			return this._format || 'LL';
-		},
-		set: function set(format) {
-			this._format = format;
-		}
-	}, {
-		key: 'yearFormat',
-		get: function get() {
-			return this._yearFormat || 'YYYY';
-		},
-		set: function set(yearFormat) {
-			this._yearFormat = yearFormat;
-		}
-	}, {
-		key: 'monthFormat',
-		get: function get() {
-			return this._monthFormat || 'MMMM';
-		},
-		set: function set(monthFormat) {
-			this._monthFormat = monthFormat;
-		}
-	}, {
-		key: 'weekFormat',
-		get: function get() {
-			return this._weekFormat || 'ddd';
-		},
-		set: function set(weekFormat) {
-			this._weekFormat = weekFormat;
-		}
-	}, {
-		key: 'dayFormat',
-		get: function get() {
-			return this._dayFormat || 'DD';
-		},
-		set: function set(dayFormat) {
-			this._dayFormat = dayFormat;
-		}
-	}]);
+		}, {
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'open',
+			value: function open() {
+				this._isvisible = true;
+				this.trigger('open');
+			}
+		}, {
+			key: 'close',
+			value: function close() {
+				if (this.isvisible) {
+					this._isvisible = false;
+					this.trigger('close');
+				}
+			}
+		}, {
+			key: 'setToday',
+			value: function setToday() {
+				this.select(moment());
+			}
+		}, {
+			key: 'prevYear',
+			value: function prevYear() {
+				this._date = this.date.subtract(1, 'year');
+			}
+		}, {
+			key: 'nextYear',
+			value: function nextYear() {
+				this._date = this.date.add(1, 'year');
+			}
+		}, {
+			key: 'prevMonth',
+			value: function prevMonth() {
+				this._date = this.date.subtract(1, 'month');
+			}
+		}, {
+			key: 'nextMonth',
+			value: function nextMonth() {
+				this._date = this.date.add(1, 'month');
+			}
+		}, {
+			key: 'select',
+			value: function select(date) {
+				this._date = date;
+				this.trigger('select', this.date);
+			}
+		}, {
+			key: 'date',
+			get: function get() {
+				return this._toMoment(this._date);
+			},
+			set: function set(date) {
+				this._date = date;
+				this._isvisible = false;
+				this.trigger('select', this.date);
+			}
+		}, {
+			key: 'dateFormatted',
+			get: function get() {
+				return this.date.format(this.format);
+			}
+		}, {
+			key: 'isvisible',
+			get: function get() {
+				return this._isvisible == 'true' || this._isvisible === true;
+			}
+		}, {
+			key: 'year',
+			get: function get() {
+				return this.date.format(this.yearFormat);
+			}
+		}, {
+			key: 'month',
+			get: function get() {
+				return this.date.format(this.monthFormat);
+			}
+		}, {
+			key: 'day',
+			get: function get() {
+				return this.date.format(this.dayFormat);
+			}
+		}, {
+			key: 'showYears',
+			get: function get() {
+				if (typeof this._showYears === 'undefined') return true;
+				return this._showYears == 'true' || this._showYears === true;
+			},
+			set: function set(show) {
+				this._showYears = show == 'true' || show === true;
+			}
+		}, {
+			key: 'showMonths',
+			get: function get() {
+				if (typeof this._showMonths === 'undefined') return true;
+				return this._showMonths == 'true' || this._showMonths === true;
+			},
+			set: function set(show) {
+				this._showMonths = show == 'true' || show === true;
+			}
+		}, {
+			key: 'showToday',
+			get: function get() {
+				if (typeof this._showToday === 'undefined') return true;
+				return this._showToday == 'true' || this._showToday === true;
+			},
+			set: function set(show) {
+				this._showToday = show == 'true' || show === true;
+			}
+		}, {
+			key: 'format',
+			get: function get() {
+				return this._format || 'LL';
+			},
+			set: function set(format) {
+				this._format = format;
+			}
+		}, {
+			key: 'yearFormat',
+			get: function get() {
+				return this._yearFormat || 'YYYY';
+			},
+			set: function set(yearFormat) {
+				this._yearFormat = yearFormat;
+			}
+		}, {
+			key: 'monthFormat',
+			get: function get() {
+				return this._monthFormat || 'MMMM';
+			},
+			set: function set(monthFormat) {
+				this._monthFormat = monthFormat;
+			}
+		}, {
+			key: 'weekFormat',
+			get: function get() {
+				return this._weekFormat || 'ddd';
+			},
+			set: function set(weekFormat) {
+				this._weekFormat = weekFormat;
+			}
+		}, {
+			key: 'dayFormat',
+			get: function get() {
+				return this._dayFormat || 'DD';
+			},
+			set: function set(dayFormat) {
+				this._dayFormat = dayFormat;
+			}
+		}]);
 
-	return RgDate;
+		return RgDate;
+	})();
 })();

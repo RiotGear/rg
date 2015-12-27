@@ -8,37 +8,39 @@ riot.tag2('rg-phone-sim', '<div class="emulator"> <iframe class="screen" riot-sr
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgPhoneSim = opts.phonesim || new RgPhoneSim(opts);
+		_this.RgPhoneSim = opts.phonesim || new rg.PhoneSim(opts);
 		_this.RgPhoneSim.on('update', function () {
 			_this.update();
 		});
 		_this.update();
 	});
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.PhoneSim = (function () {
+		function RgPhoneSim(opts) {
+			_classCallCheck(this, RgPhoneSim);
 
-var RgPhoneSim = (function () {
-	function RgPhoneSim(opts) {
-		_classCallCheck(this, RgPhoneSim);
-
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._url = opts.url;
-	}
-
-	_createClass(RgPhoneSim, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._url = opts.url;
 		}
-	}, {
-		key: 'url',
-		get: function get() {
-			return this._url || '';
-		},
-		set: function set(url) {
-			this._url = url;
-		}
-	}]);
 
-	return RgPhoneSim;
+		_createClass(RgPhoneSim, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'url',
+			get: function get() {
+				return this._url || '';
+			},
+			set: function set(url) {
+				this._url = url;
+			}
+		}]);
+
+		return RgPhoneSim;
+	})();
 })();

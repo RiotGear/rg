@@ -10,7 +10,7 @@ riot.tag2('rg-alerts', '<div each="{RgAlerts.alerts}" class="alert {type} {isvis
 	this.on('mount', function () {
 		var _this = this;
 
-		this.RgAlerts = opts.alerts || new RgAlerts(opts);
+		this.RgAlerts = opts.alerts || new rg.Alerts(opts);
 		this.RgAlerts.on('update', function () {
 			_this.update();
 		});
@@ -27,62 +27,64 @@ riot.tag2('rg-alerts', '<div each="{RgAlerts.alerts}" class="alert {type} {isvis
 		_this2.RgAlerts.select(alert);
 	};
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Alerts = (function () {
+		function RgAlerts(opts) {
+			var _this3 = this;
 
-var RgAlerts = (function () {
-	function RgAlerts(opts) {
-		var _this3 = this;
+			_classCallCheck(this, RgAlerts);
 
-		_classCallCheck(this, RgAlerts);
-
-		riot.observable(this);
-		if (!opts) opts = {};
-		this.alerts = [];
-		if (!Array.isArray(opts.alerts)) return;
-		opts.alerts.forEach(function (alert) {
-			_this3.add(alert);
-		});
-	}
-
-	_createClass(RgAlerts, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
+			riot.observable(this);
+			if (!opts) opts = {};
+			this.alerts = [];
+			if (!Array.isArray(opts.alerts)) return;
+			opts.alerts.forEach(function (alert) {
+				_this3.add(alert);
+			});
 		}
-	}, {
-		key: 'add',
-		value: function add(alert) {
-			var _this4 = this;
 
-			alert._id = alert._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
-			if (typeof alert.isvisible === 'undefined') alert.isvisible = true;
-			if (alert.timeout) {
-				alert.startTimer = function () {
-					alert.timer = setTimeout(function () {
-						_this4.dismiss(alert);
-						_this4.update();
-					}, alert.timeout);
-				};
-				alert.startTimer();
+		_createClass(RgAlerts, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
 			}
-			this.alerts.push(alert);
-			this.trigger('add', alert);
-		}
-	}, {
-		key: 'dismiss',
-		value: function dismiss(alert) {
-			alert.isvisible = false;
-			clearTimeout(alert.timer);
-			this.trigger('dismiss', alert);
-		}
-	}, {
-		key: 'select',
-		value: function select(alert) {
-			if (alert.onclick) alert.onclick(alert);
-			this.trigger('select', alert);
-		}
-	}]);
+		}, {
+			key: 'add',
+			value: function add(alert) {
+				var _this4 = this;
 
-	return RgAlerts;
+				alert._id = alert._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
+				if (typeof alert.isvisible === 'undefined') alert.isvisible = true;
+				if (alert.timeout) {
+					alert.startTimer = function () {
+						alert.timer = setTimeout(function () {
+							_this4.dismiss(alert);
+							_this4.update();
+						}, alert.timeout);
+					};
+					alert.startTimer();
+				}
+				this.alerts.push(alert);
+				this.trigger('add', alert);
+			}
+		}, {
+			key: 'dismiss',
+			value: function dismiss(alert) {
+				alert.isvisible = false;
+				clearTimeout(alert.timer);
+				this.trigger('dismiss', alert);
+			}
+		}, {
+			key: 'select',
+			value: function select(alert) {
+				if (alert.onclick) alert.onclick(alert);
+				this.trigger('select', alert);
+			}
+		}]);
+
+		return RgAlerts;
+	})();
 })();'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -133,7 +135,7 @@ riot.tag2('rg-behold', '<div class="container"> <div class="controls"> <div clas
 	};
 
 	this.on('mount', function () {
-		_this2.RgBehold = opts.behold || new RgBehold(opts);
+		_this2.RgBehold = opts.behold || new rg.Behold(opts);
 		_this2.RgBehold.on('update', function () {
 			_this2.update();
 		});
@@ -167,50 +169,52 @@ riot.tag2('rg-behold', '<div class="container"> <div class="controls"> <div clas
 		}
 	};
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Behold = (function () {
+		function RgBehold(opts) {
+			_classCallCheck(this, RgBehold);
 
-var RgBehold = (function () {
-	function RgBehold(opts) {
-		_classCallCheck(this, RgBehold);
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._image1 = opts.image1;
+			this._image2 = opts.image2;
+			this._mode = opts.mode;
+		}
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._image1 = opts.image1;
-		this._image2 = opts.image2;
-		this._mode = opts.mode;
-	}
+		_createClass(RgBehold, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'image1',
+			get: function get() {
+				return this._image1;
+			},
+			set: function set(img) {
+				this._image1 = img;
+			}
+		}, {
+			key: 'image2',
+			get: function get() {
+				return this._image2;
+			},
+			set: function set(img) {
+				this._image2 = img;
+			}
+		}, {
+			key: 'mode',
+			get: function get() {
+				return this._mode || 'swipe';
+			},
+			set: function set(mode) {
+				this._mode = mode;
+			}
+		}]);
 
-	_createClass(RgBehold, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'image1',
-		get: function get() {
-			return this._image1;
-		},
-		set: function set(img) {
-			this._image1 = img;
-		}
-	}, {
-		key: 'image2',
-		get: function get() {
-			return this._image2;
-		},
-		set: function set(img) {
-			this._image2 = img;
-		}
-	}, {
-		key: 'mode',
-		get: function get() {
-			return this._mode || 'swipe';
-		},
-		set: function set(mode) {
-			this._mode = mode;
-		}
-	}]);
-
-	return RgBehold;
+		return RgBehold;
+	})();
 })();'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -221,7 +225,7 @@ riot.tag2('rg-bubble', '<div class="context"> <div class="bubble {isvisible: RgB
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgBubble = opts.bubble || new RgBubble(opts);
+		_this.RgBubble = opts.bubble || new rg.Bubble(opts);
 		_this.RgBubble.on('update', function () {
 			_this.update();
 		});
@@ -240,62 +244,64 @@ riot.tag2('rg-bubble', '<div class="context"> <div class="bubble {isvisible: RgB
 		_this.RgBubble.toggleBubble();
 	};
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Bubble = (function () {
+		function RgBubble(opts) {
+			_classCallCheck(this, RgBubble);
 
-var RgBubble = (function () {
-	function RgBubble(opts) {
-		_classCallCheck(this, RgBubble);
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._isvisible = opts.isvisible;
+			this._content = opts.content;
+		}
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._isvisible = opts.isvisible;
-		this._content = opts.content;
-	}
+		_createClass(RgBubble, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'showBubble',
+			value: function showBubble() {
+				clearTimeout(this._timer);
+				this.isvisible = true;
+			}
+		}, {
+			key: 'hideBubble',
+			value: function hideBubble() {
+				var _this2 = this;
 
-	_createClass(RgBubble, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'showBubble',
-		value: function showBubble() {
-			clearTimeout(this._timer);
-			this.isvisible = true;
-		}
-	}, {
-		key: 'hideBubble',
-		value: function hideBubble() {
-			var _this2 = this;
+				this._timer = setTimeout(function () {
+					_this2.isvisible = false;
+					_this2.update();
+				}, 1000);
+			}
+		}, {
+			key: 'toggleBubble',
+			value: function toggleBubble() {
+				this.isvisible = !this.isvisible;
+			}
+		}, {
+			key: 'isvisible',
+			get: function get() {
+				return this._isvisible == 'true' || this._isvisible === true;
+			},
+			set: function set(isvisible) {
+				this._isvisible = isvisible;
+			}
+		}, {
+			key: 'content',
+			get: function get() {
+				return this._content || '';
+			},
+			set: function set(content) {
+				this._content = content;
+			}
+		}]);
 
-			this._timer = setTimeout(function () {
-				_this2.isvisible = false;
-				_this2.update();
-			}, 1000);
-		}
-	}, {
-		key: 'toggleBubble',
-		value: function toggleBubble() {
-			this.isvisible = !this.isvisible;
-		}
-	}, {
-		key: 'isvisible',
-		get: function get() {
-			return this._isvisible == 'true' || this._isvisible === true;
-		},
-		set: function set(isvisible) {
-			this._isvisible = isvisible;
-		}
-	}, {
-		key: 'content',
-		get: function get() {
-			return this._content || '';
-		},
-		set: function set(content) {
-			this._content = content;
-		}
-	}]);
-
-	return RgBubble;
+		return RgBubble;
+	})();
 })();'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -320,7 +326,7 @@ riot.tag2('rg-code', '<div class="editor"></div>', 'rg-code .editor,[riot-tag="r
 		editor = ace.edit(_this.root.querySelector('.editor'));
 		editor.$blockScrolling = Infinity;
 
-		_this.RgCode = opts.editor || new RgCode(opts);
+		_this.RgCode = opts.editor || new rg.Code(opts);
 		_this.RgCode.on('update', function () {
 			_this.update();
 		});
@@ -347,96 +353,98 @@ riot.tag2('rg-code', '<div class="editor"></div>', 'rg-code .editor,[riot-tag="r
 		_this.update();
 	});
 });
+;(function () {
+	window.rg = window.rg || {};
+	rg.Code = (function () {
+		function RgCode(opts) {
+			_classCallCheck(this, RgCode);
 
-var RgCode = (function () {
-	function RgCode(opts) {
-		_classCallCheck(this, RgCode);
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._url = opts.url;
+			this._code = opts.code;
+			this._theme = opts.theme;
+			this._mode = opts.mode;
+			this._tabsize = opts.tabsize;
+			this._softtabs = opts.softtabs;
+			this._wordwrap = opts.wordwrap;
+			this._readonly = opts.readonly;
+		}
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._url = opts.url;
-		this._code = opts.code;
-		this._theme = opts.theme;
-		this._mode = opts.mode;
-		this._tabsize = opts.tabsize;
-		this._softtabs = opts.softtabs;
-		this._wordwrap = opts.wordwrap;
-		this._readonly = opts.readonly;
-	}
+		_createClass(RgCode, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'url',
+			get: function get() {
+				return this._url;
+			},
+			set: function set(url) {
+				this._url = url;
+			}
+		}, {
+			key: 'code',
+			get: function get() {
+				return this._code || '';
+			},
+			set: function set(code) {
+				this._code = code;
+				this.trigger('change', code);
+			}
+		}, {
+			key: 'theme',
+			get: function get() {
+				return this._theme || 'monokai';
+			},
+			set: function set(theme) {
+				this._theme = theme;
+			}
+		}, {
+			key: 'mode',
+			get: function get() {
+				return this._mode || 'html';
+			},
+			set: function set(mode) {
+				this._mode = mode;
+			}
+		}, {
+			key: 'tabsize',
+			get: function get() {
+				return this._tabsize || 2;
+			},
+			set: function set(tabsize) {
+				this._tabsize = tabsize;
+			}
+		}, {
+			key: 'softtabs',
+			get: function get() {
+				return this._softtabs == 'true' || this._softtabs === true;
+			},
+			set: function set(softtabs) {
+				this._softtabs = softtabs;
+			}
+		}, {
+			key: 'wordwrap',
+			get: function get() {
+				return this._wordwrap == 'true' || this._wordwrap === true;
+			},
+			set: function set(wordwrap) {
+				this._wordwrap = wordwrap;
+			}
+		}, {
+			key: 'readonly',
+			get: function get() {
+				return this._readonly == 'true' || this._readonly === true;
+			},
+			set: function set(readonly) {
+				this._readonly = readonly;
+			}
+		}]);
 
-	_createClass(RgCode, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'url',
-		get: function get() {
-			return this._url;
-		},
-		set: function set(url) {
-			this._url = url;
-		}
-	}, {
-		key: 'code',
-		get: function get() {
-			return this._code || '';
-		},
-		set: function set(code) {
-			this._code = code;
-			this.trigger('change', code);
-		}
-	}, {
-		key: 'theme',
-		get: function get() {
-			return this._theme || 'monokai';
-		},
-		set: function set(theme) {
-			this._theme = theme;
-		}
-	}, {
-		key: 'mode',
-		get: function get() {
-			return this._mode || 'html';
-		},
-		set: function set(mode) {
-			this._mode = mode;
-		}
-	}, {
-		key: 'tabsize',
-		get: function get() {
-			return this._tabsize || 2;
-		},
-		set: function set(tabsize) {
-			this._tabsize = tabsize;
-		}
-	}, {
-		key: 'softtabs',
-		get: function get() {
-			return this._softtabs == 'true' || this._softtabs === true;
-		},
-		set: function set(softtabs) {
-			this._softtabs = softtabs;
-		}
-	}, {
-		key: 'wordwrap',
-		get: function get() {
-			return this._wordwrap == 'true' || this._wordwrap === true;
-		},
-		set: function set(wordwrap) {
-			this._wordwrap = wordwrap;
-		}
-	}, {
-		key: 'readonly',
-		get: function get() {
-			return this._readonly == 'true' || this._readonly === true;
-		},
-		set: function set(readonly) {
-			this._readonly = readonly;
-		}
-	}]);
-
-	return RgCode;
+		return RgCode;
+	})();
 })();'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -475,7 +483,7 @@ riot.tag2('rg-context-menu', '<div class="menu {isvisible: RgContextMenu.isvisib
 	};
 
 	this.on('mount', function () {
-		_this.RgContextMenu = opts.menu || new RgContextMenu(opts);
+		_this.RgContextMenu = opts.menu || new rg.ContextMenu(opts);
 		_this.RgContextMenu.on('update', function () {
 			_this.update();
 		});
@@ -504,64 +512,66 @@ riot.tag2('rg-context-menu', '<div class="menu {isvisible: RgContextMenu.isvisib
 		_this.RgContextMenu.select(item);
 	};
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.ContextMenu = (function () {
+		function RgContextMenu(opts) {
+			_classCallCheck(this, RgContextMenu);
 
-var RgContextMenu = (function () {
-	function RgContextMenu(opts) {
-		_classCallCheck(this, RgContextMenu);
+			riot.observable(this);
+			if (!opts) opts = {};
+			this.name = opts.name;
+			this._isvisible = opts.isvisible;
+			this._items = opts.items;
+		}
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		this.name = opts.name;
-		this._isvisible = opts.isvisible;
-		this._items = opts.items;
-	}
-
-	_createClass(RgContextMenu, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'open',
-		value: function open() {
-			this.trigger('open');
-			this.isvisible = true;
-		}
-	}, {
-		key: 'close',
-		value: function close() {
-			this.trigger('close');
-			this.isvisible = false;
-		}
-	}, {
-		key: 'select',
-		value: function select(item) {
-			if (!item.inactive) {
-				this.trigger('select', item);
+		_createClass(RgContextMenu, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'open',
+			value: function open() {
+				this.trigger('open');
+				this.isvisible = true;
+			}
+		}, {
+			key: 'close',
+			value: function close() {
+				this.trigger('close');
 				this.isvisible = false;
 			}
-		}
-	}, {
-		key: 'items',
-		get: function get() {
-			if (Array.isArray(this._items)) return this._items;
-			this._items = [];
-			return this._items;
-		},
-		set: function set(items) {
-			this._items = items;
-		}
-	}, {
-		key: 'isvisible',
-		get: function get() {
-			return this._isvisible == 'true' || this._isvisible === true;
-		},
-		set: function set(isvisible) {
-			this._isvisible = isvisible == 'true' || isvisible === true;
-		}
-	}]);
+		}, {
+			key: 'select',
+			value: function select(item) {
+				if (!item.inactive) {
+					this.trigger('select', item);
+					this.isvisible = false;
+				}
+			}
+		}, {
+			key: 'items',
+			get: function get() {
+				if (Array.isArray(this._items)) return this._items;
+				this._items = [];
+				return this._items;
+			},
+			set: function set(items) {
+				this._items = items;
+			}
+		}, {
+			key: 'isvisible',
+			get: function get() {
+				return this._isvisible == 'true' || this._isvisible === true;
+			},
+			set: function set(isvisible) {
+				this._isvisible = isvisible == 'true' || isvisible === true;
+			}
+		}]);
 
-	return RgContextMenu;
+		return RgContextMenu;
+	})();
 })();'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -577,7 +587,7 @@ riot.tag2('rg-credit-card-number', '<input type="text" name="cardnumber" class="
 	};
 
 	this.on('mount', function () {
-		_this.RgCreditCard = opts.card || new RgCreditCard(opts);
+		_this.RgCreditCard = opts.card || new rg.CreditCard(opts);
 		_this.RgCreditCard.on('update', function () {
 			_this.update();
 		});
@@ -592,223 +602,226 @@ riot.tag2('rg-credit-card-number', '<input type="text" name="cardnumber" class="
 		_this.RgCreditCard.validate();
 	};
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.CreditCard = (function () {
+		function RgCreditCard(opts) {
+			_classCallCheck(this, RgCreditCard);
 
-var RgCreditCard = (function () {
-	function RgCreditCard(opts) {
-		_classCallCheck(this, RgCreditCard);
-
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._placeholder = opts.placeholder;
-		this._cardnumber = opts.cardnumber;
-	}
-
-	_createClass(RgCreditCard, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._placeholder = opts.placeholder;
+			this._cardnumber = opts.cardnumber;
 		}
-	}, {
-		key: 'validateCreditCard',
-		value: function validateCreditCard(input) {
-			var __indexOf = [].indexOf || function (item) {
-				for (var i = 0, l = this.length; i < l; i++) {
-					if (i in this && this[i] === item) return i;
-				}return -1;
-			};
-			var card, card_type, card_types, get_card_type, is_valid_length, is_valid_luhn, normalize, validate, validate_number, _i, _len, _ref;
-			card_types = [{
-				name: 'amex',
-				icon: 'images/amex.png',
-				pattern: /^3[47]/,
-				valid_length: [15]
-			}, {
-				name: 'diners_club',
-				icon: 'images/diners_club.png',
-				pattern: /^30[0-5]/,
-				valid_length: [14]
-			}, {
-				name: 'diners_club',
-				icon: 'images/diners_club.png',
-				pattern: /^36/,
-				valid_length: [14]
-			}, {
-				name: 'jcb',
-				icon: 'images/jcb.png',
-				pattern: /^35(2[89]|[3-8][0-9])/,
-				valid_length: [16]
-			}, {
-				name: 'laser',
-				pattern: /^(6304|670[69]|6771)/,
-				valid_length: [16, 17, 18, 19]
-			}, {
-				name: 'visa_electron',
-				pattern: /^(4026|417500|4508|4844|491(3|7))/,
-				valid_length: [16]
-			}, {
-				name: 'visa',
-				icon: 'images/visa.png',
-				pattern: /^4/,
-				valid_length: [16]
-			}, {
-				name: 'mastercard',
-				icon: 'images/mastercard.png',
-				pattern: /^5[1-5]/,
-				valid_length: [16]
-			}, {
-				name: 'maestro',
-				pattern: /^(5018|5020|5038|6304|6759|676[1-3])/,
-				valid_length: [12, 13, 14, 15, 16, 17, 18, 19]
-			}, {
-				name: 'discover',
-				icon: 'images/discover.png',
-				pattern: /^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)/,
-				valid_length: [16]
-			}];
 
-			var options = {};
-
-			if (options.accept == null) {
-				options.accept = (function () {
-					var _i, _len, _results;
-					_results = [];
-					for (_i = 0, _len = card_types.length; _i < _len; _i++) {
-						card = card_types[_i];
-						_results.push(card.name);
-					}
-					return _results;
-				})();
+		_createClass(RgCreditCard, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
 			}
-			_ref = options.accept;
-			for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-				card_type = _ref[_i];
-				if (__indexOf.call((function () {
-					var _j, _len1, _results;
-					_results = [];
-					for (_j = 0, _len1 = card_types.length; _j < _len1; _j++) {
-						card = card_types[_j];
-						_results.push(card.name);
+		}, {
+			key: 'validateCreditCard',
+			value: function validateCreditCard(input) {
+				var __indexOf = [].indexOf || function (item) {
+					for (var i = 0, l = this.length; i < l; i++) {
+						if (i in this && this[i] === item) return i;
 					}
-					return _results;
-				})(), card_type) < 0) {
-					throw "Credit card type '" + card_type + "' is not supported";
+					return -1;
+				};
+				var card, card_type, card_types, get_card_type, is_valid_length, is_valid_luhn, normalize, validate, validate_number, _i, _len, _ref;
+				card_types = [{
+					name: 'amex',
+					icon: 'images/amex.png',
+					pattern: /^3[47]/,
+					valid_length: [15]
+				}, {
+					name: 'diners_club',
+					icon: 'images/diners_club.png',
+					pattern: /^30[0-5]/,
+					valid_length: [14]
+				}, {
+					name: 'diners_club',
+					icon: 'images/diners_club.png',
+					pattern: /^36/,
+					valid_length: [14]
+				}, {
+					name: 'jcb',
+					icon: 'images/jcb.png',
+					pattern: /^35(2[89]|[3-8][0-9])/,
+					valid_length: [16]
+				}, {
+					name: 'laser',
+					pattern: /^(6304|670[69]|6771)/,
+					valid_length: [16, 17, 18, 19]
+				}, {
+					name: 'visa_electron',
+					pattern: /^(4026|417500|4508|4844|491(3|7))/,
+					valid_length: [16]
+				}, {
+					name: 'visa',
+					icon: 'images/visa.png',
+					pattern: /^4/,
+					valid_length: [16]
+				}, {
+					name: 'mastercard',
+					icon: 'images/mastercard.png',
+					pattern: /^5[1-5]/,
+					valid_length: [16]
+				}, {
+					name: 'maestro',
+					pattern: /^(5018|5020|5038|6304|6759|676[1-3])/,
+					valid_length: [12, 13, 14, 15, 16, 17, 18, 19]
+				}, {
+					name: 'discover',
+					icon: 'images/discover.png',
+					pattern: /^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)/,
+					valid_length: [16]
+				}];
+
+				var options = {};
+
+				if (options.accept == null) {
+					options.accept = (function () {
+						var _i, _len, _results;
+						_results = [];
+						for (_i = 0, _len = card_types.length; _i < _len; _i++) {
+							card = card_types[_i];
+							_results.push(card.name);
+						}
+						return _results;
+					})();
 				}
-			}
+				_ref = options.accept;
+				for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+					card_type = _ref[_i];
+					if (__indexOf.call((function () {
+						var _j, _len1, _results;
+						_results = [];
+						for (_j = 0, _len1 = card_types.length; _j < _len1; _j++) {
+							card = card_types[_j];
+							_results.push(card.name);
+						}
+						return _results;
+					})(), card_type) < 0) {
+						throw "Credit card type '" + card_type + "' is not supported";
+					}
+				}
 
-			get_card_type = function (number) {
-				var _j, _len1, _ref1;
-				_ref1 = (function () {
-					var _k, _len1, _ref1, _results;
-					_results = [];
-					for (_k = 0, _len1 = card_types.length; _k < _len1; _k++) {
-						card = card_types[_k];
-						if ((_ref1 = card.name, __indexOf.call(options.accept, _ref1) >= 0)) {
-							_results.push(card);
+				get_card_type = function (number) {
+					var _j, _len1, _ref1;
+					_ref1 = (function () {
+						var _k, _len1, _ref1, _results;
+						_results = [];
+						for (_k = 0, _len1 = card_types.length; _k < _len1; _k++) {
+							card = card_types[_k];
+							if ((_ref1 = card.name, __indexOf.call(options.accept, _ref1) >= 0)) {
+								_results.push(card);
+							}
+						}
+						return _results;
+					})();
+					for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+						card_type = _ref1[_j];
+						if (number.match(card_type.pattern)) {
+							return card_type;
 						}
 					}
-					return _results;
-				})();
-				for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-					card_type = _ref1[_j];
-					if (number.match(card_type.pattern)) {
-						return card_type;
-					}
-				}
-				return null;
-			};
+					return null;
+				};
 
-			is_valid_luhn = function (number) {
-				var digit, n, sum, _j, _len1, _ref1;
-				sum = 0;
-				_ref1 = number.split('').reverse();
-				for (n = _j = 0, _len1 = _ref1.length; _j < _len1; n = ++_j) {
-					digit = _ref1[n];
-					digit = +digit;
-					if (n % 2) {
-						digit *= 2;
-						if (digit < 10) {
-							sum += digit;
+				is_valid_luhn = function (number) {
+					var digit, n, sum, _j, _len1, _ref1;
+					sum = 0;
+					_ref1 = number.split('').reverse();
+					for (n = _j = 0, _len1 = _ref1.length; _j < _len1; n = ++_j) {
+						digit = _ref1[n];
+						digit = +digit;
+						if (n % 2) {
+							digit *= 2;
+							if (digit < 10) {
+								sum += digit;
+							} else {
+								sum += digit - 9;
+							}
 						} else {
-							sum += digit - 9;
+							sum += digit;
 						}
-					} else {
-						sum += digit;
 					}
-				}
-				return sum % 10 === 0;
-			};
+					return sum % 10 === 0;
+				};
 
-			is_valid_length = function (number, card_type) {
-				var _ref1;
-				return _ref1 = number.length, __indexOf.call(card_type.valid_length, _ref1) >= 0;
-			};
+				is_valid_length = function (number, card_type) {
+					var _ref1;
+					return _ref1 = number.length, __indexOf.call(card_type.valid_length, _ref1) >= 0;
+				};
 
-			validate_number = (function (_this) {
-				return function (number) {
-					var length_valid, luhn_valid;
-					card_type = get_card_type(number);
-					luhn_valid = false;
-					length_valid = false;
-					if (card_type != null) {
-						luhn_valid = is_valid_luhn(number);
-						length_valid = is_valid_length(number, card_type);
-					}
-					return {
-						card_type: card_type,
-						valid: luhn_valid && length_valid,
-						luhn_valid: luhn_valid,
-						length_valid: length_valid
+				validate_number = (function (_this) {
+					return function (number) {
+						var length_valid, luhn_valid;
+						card_type = get_card_type(number);
+						luhn_valid = false;
+						length_valid = false;
+						if (card_type != null) {
+							luhn_valid = is_valid_luhn(number);
+							length_valid = is_valid_length(number, card_type);
+						}
+						return {
+							card_type: card_type,
+							valid: luhn_valid && length_valid,
+							luhn_valid: luhn_valid,
+							length_valid: length_valid
+						};
 					};
+				})(this);
+
+				normalize = function (number) {
+					return number.replace(/[ -]/g, '');
 				};
-			})(this);
 
-			normalize = function (number) {
-				return number.replace(/[ -]/g, '');
-			};
+				validate = (function (_this) {
+					return function () {
+						return validate_number(normalize(input));
+					};
+				})(this);
 
-			validate = (function (_this) {
-				return function () {
-					return validate_number(normalize(input));
-				};
-			})(this);
+				return validate(input);
+			}
+		}, {
+			key: 'validate',
+			value: function validate() {
+				var res = this.validateCreditCard(this.cardnumber);
+				this.valid = res.valid;
+				this.icon = this.valid ? res.card_type.name : '';
+				this.trigger('validate', this.valid);
+			}
+		}, {
+			key: 'cardnumber',
+			get: function get() {
+				return (this._cardnumber || '').toString();
+			},
+			set: function set(num) {
+				this._cardnumber = num;
+			}
+		}, {
+			key: 'valid',
+			get: function get() {
+				return this._valid == 'true' || this._valid === true;
+			},
+			set: function set(valid) {
+				this._valid = valid == 'true' || valid === true;
+			}
+		}, {
+			key: 'placeholder',
+			get: function get() {
+				return this._placeholder || 'Card no.';
+			},
+			set: function set(text) {
+				this._placeholder = text;
+			}
+		}]);
 
-			return validate(input);
-		}
-	}, {
-		key: 'validate',
-		value: function validate() {
-			var res = this.validateCreditCard(this.cardnumber);
-			this.valid = res.valid;
-			this.icon = this.valid ? res.card_type.name : '';
-			this.trigger('validate', this.valid);
-		}
-	}, {
-		key: 'cardnumber',
-		get: function get() {
-			return (this._cardnumber || '').toString();
-		},
-		set: function set(num) {
-			this._cardnumber = num;
-		}
-	}, {
-		key: 'valid',
-		get: function get() {
-			return this._valid == 'true' || this._valid === true;
-		},
-		set: function set(valid) {
-			this._valid = valid == 'true' || valid === true;
-		}
-	}, {
-		key: 'placeholder',
-		get: function get() {
-			return this._placeholder || 'Card no.';
-		},
-		set: function set(text) {
-			this._placeholder = text;
-		}
-	}]);
-
-	return RgCreditCard;
+		return RgCreditCard;
+	})();
 })();'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -859,7 +872,7 @@ riot.tag2('rg-date', '<div class="container {open: RgDate.isvisible}"> <input ty
 	};
 
 	this.on('mount', function () {
-		_this.RgDate = opts.date || new RgDate(opts);
+		_this.RgDate = opts.date || new rg.Date(opts);
 		_this.RgDate.on('update', function () {
 			_this.update();
 		});
@@ -902,190 +915,192 @@ riot.tag2('rg-date', '<div class="container {open: RgDate.isvisible}"> <input ty
 		_this.RgDate.select(e.item.day.date);
 	};
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Date = (function () {
+		function RgDate(opts) {
+			_classCallCheck(this, RgDate);
 
-var RgDate = (function () {
-	function RgDate(opts) {
-		_classCallCheck(this, RgDate);
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._isvisible = opts.isvisible;
+			this._date = opts.date;
+			this._showYears = opts.showyears;
+			this._showMonths = opts.showmonths;
+			this._showToday = opts.showtoday;
+			this._format = opts.format;
+			this._yearFormat = opts.yearformat;
+			this._monthFormat = opts.monthformat;
+			this._weekFormat = opts.weekformat;
+			this._dayFormat = opts.dayformat;
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._isvisible = opts.isvisible;
-		this._date = opts.date;
-		this._showYears = opts.showyears;
-		this._showMonths = opts.showmonths;
-		this._showToday = opts.showtoday;
-		this._format = opts.format;
-		this._yearFormat = opts.yearformat;
-		this._monthFormat = opts.monthformat;
-		this._weekFormat = opts.weekformat;
-		this._dayFormat = opts.dayformat;
-
-		var temp = moment();
-		this.dayNames = [temp.day(0).format(this.weekFormat), temp.day(1).format(this.weekFormat), temp.day(2).format(this.weekFormat), temp.day(3).format(this.weekFormat), temp.day(4).format(this.weekFormat), temp.day(5).format(this.weekFormat), temp.day(6).format(this.weekFormat)];
-	}
-
-	_createClass(RgDate, [{
-		key: '_toMoment',
-		value: function _toMoment(date) {
-			if (!moment.isMoment(date)) date = moment(date);
-			if (date.isValid()) return date;
-			return moment();
+			var temp = moment();
+			this.dayNames = [temp.day(0).format(this.weekFormat), temp.day(1).format(this.weekFormat), temp.day(2).format(this.weekFormat), temp.day(3).format(this.weekFormat), temp.day(4).format(this.weekFormat), temp.day(5).format(this.weekFormat), temp.day(6).format(this.weekFormat)];
 		}
-	}, {
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'open',
-		value: function open() {
-			this._isvisible = true;
-			this.trigger('open');
-		}
-	}, {
-		key: 'close',
-		value: function close() {
-			if (this.isvisible) {
-				this._isvisible = false;
-				this.trigger('close');
+
+		_createClass(RgDate, [{
+			key: '_toMoment',
+			value: function _toMoment(date) {
+				if (!moment.isMoment(date)) date = moment(date);
+				if (date.isValid()) return date;
+				return moment();
 			}
-		}
-	}, {
-		key: 'setToday',
-		value: function setToday() {
-			this.select(moment());
-		}
-	}, {
-		key: 'prevYear',
-		value: function prevYear() {
-			this._date = this.date.subtract(1, 'year');
-		}
-	}, {
-		key: 'nextYear',
-		value: function nextYear() {
-			this._date = this.date.add(1, 'year');
-		}
-	}, {
-		key: 'prevMonth',
-		value: function prevMonth() {
-			this._date = this.date.subtract(1, 'month');
-		}
-	}, {
-		key: 'nextMonth',
-		value: function nextMonth() {
-			this._date = this.date.add(1, 'month');
-		}
-	}, {
-		key: 'select',
-		value: function select(date) {
-			this._date = date;
-			this.trigger('select', this.date);
-		}
-	}, {
-		key: 'date',
-		get: function get() {
-			return this._toMoment(this._date);
-		},
-		set: function set(date) {
-			this._date = date;
-			this._isvisible = false;
-			this.trigger('select', this.date);
-		}
-	}, {
-		key: 'dateFormatted',
-		get: function get() {
-			return this.date.format(this.format);
-		}
-	}, {
-		key: 'isvisible',
-		get: function get() {
-			return this._isvisible == 'true' || this._isvisible === true;
-		}
-	}, {
-		key: 'year',
-		get: function get() {
-			return this.date.format(this.yearFormat);
-		}
-	}, {
-		key: 'month',
-		get: function get() {
-			return this.date.format(this.monthFormat);
-		}
-	}, {
-		key: 'day',
-		get: function get() {
-			return this.date.format(this.dayFormat);
-		}
-	}, {
-		key: 'showYears',
-		get: function get() {
-			if (typeof this._showYears === 'undefined') return true;
-			return this._showYears == 'true' || this._showYears === true;
-		},
-		set: function set(show) {
-			this._showYears = show == 'true' || show === true;
-		}
-	}, {
-		key: 'showMonths',
-		get: function get() {
-			if (typeof this._showMonths === 'undefined') return true;
-			return this._showMonths == 'true' || this._showMonths === true;
-		},
-		set: function set(show) {
-			this._showMonths = show == 'true' || show === true;
-		}
-	}, {
-		key: 'showToday',
-		get: function get() {
-			if (typeof this._showToday === 'undefined') return true;
-			return this._showToday == 'true' || this._showToday === true;
-		},
-		set: function set(show) {
-			this._showToday = show == 'true' || show === true;
-		}
-	}, {
-		key: 'format',
-		get: function get() {
-			return this._format || 'LL';
-		},
-		set: function set(format) {
-			this._format = format;
-		}
-	}, {
-		key: 'yearFormat',
-		get: function get() {
-			return this._yearFormat || 'YYYY';
-		},
-		set: function set(yearFormat) {
-			this._yearFormat = yearFormat;
-		}
-	}, {
-		key: 'monthFormat',
-		get: function get() {
-			return this._monthFormat || 'MMMM';
-		},
-		set: function set(monthFormat) {
-			this._monthFormat = monthFormat;
-		}
-	}, {
-		key: 'weekFormat',
-		get: function get() {
-			return this._weekFormat || 'ddd';
-		},
-		set: function set(weekFormat) {
-			this._weekFormat = weekFormat;
-		}
-	}, {
-		key: 'dayFormat',
-		get: function get() {
-			return this._dayFormat || 'DD';
-		},
-		set: function set(dayFormat) {
-			this._dayFormat = dayFormat;
-		}
-	}]);
+		}, {
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'open',
+			value: function open() {
+				this._isvisible = true;
+				this.trigger('open');
+			}
+		}, {
+			key: 'close',
+			value: function close() {
+				if (this.isvisible) {
+					this._isvisible = false;
+					this.trigger('close');
+				}
+			}
+		}, {
+			key: 'setToday',
+			value: function setToday() {
+				this.select(moment());
+			}
+		}, {
+			key: 'prevYear',
+			value: function prevYear() {
+				this._date = this.date.subtract(1, 'year');
+			}
+		}, {
+			key: 'nextYear',
+			value: function nextYear() {
+				this._date = this.date.add(1, 'year');
+			}
+		}, {
+			key: 'prevMonth',
+			value: function prevMonth() {
+				this._date = this.date.subtract(1, 'month');
+			}
+		}, {
+			key: 'nextMonth',
+			value: function nextMonth() {
+				this._date = this.date.add(1, 'month');
+			}
+		}, {
+			key: 'select',
+			value: function select(date) {
+				this._date = date;
+				this.trigger('select', this.date);
+			}
+		}, {
+			key: 'date',
+			get: function get() {
+				return this._toMoment(this._date);
+			},
+			set: function set(date) {
+				this._date = date;
+				this._isvisible = false;
+				this.trigger('select', this.date);
+			}
+		}, {
+			key: 'dateFormatted',
+			get: function get() {
+				return this.date.format(this.format);
+			}
+		}, {
+			key: 'isvisible',
+			get: function get() {
+				return this._isvisible == 'true' || this._isvisible === true;
+			}
+		}, {
+			key: 'year',
+			get: function get() {
+				return this.date.format(this.yearFormat);
+			}
+		}, {
+			key: 'month',
+			get: function get() {
+				return this.date.format(this.monthFormat);
+			}
+		}, {
+			key: 'day',
+			get: function get() {
+				return this.date.format(this.dayFormat);
+			}
+		}, {
+			key: 'showYears',
+			get: function get() {
+				if (typeof this._showYears === 'undefined') return true;
+				return this._showYears == 'true' || this._showYears === true;
+			},
+			set: function set(show) {
+				this._showYears = show == 'true' || show === true;
+			}
+		}, {
+			key: 'showMonths',
+			get: function get() {
+				if (typeof this._showMonths === 'undefined') return true;
+				return this._showMonths == 'true' || this._showMonths === true;
+			},
+			set: function set(show) {
+				this._showMonths = show == 'true' || show === true;
+			}
+		}, {
+			key: 'showToday',
+			get: function get() {
+				if (typeof this._showToday === 'undefined') return true;
+				return this._showToday == 'true' || this._showToday === true;
+			},
+			set: function set(show) {
+				this._showToday = show == 'true' || show === true;
+			}
+		}, {
+			key: 'format',
+			get: function get() {
+				return this._format || 'LL';
+			},
+			set: function set(format) {
+				this._format = format;
+			}
+		}, {
+			key: 'yearFormat',
+			get: function get() {
+				return this._yearFormat || 'YYYY';
+			},
+			set: function set(yearFormat) {
+				this._yearFormat = yearFormat;
+			}
+		}, {
+			key: 'monthFormat',
+			get: function get() {
+				return this._monthFormat || 'MMMM';
+			},
+			set: function set(monthFormat) {
+				this._monthFormat = monthFormat;
+			}
+		}, {
+			key: 'weekFormat',
+			get: function get() {
+				return this._weekFormat || 'ddd';
+			},
+			set: function set(weekFormat) {
+				this._weekFormat = weekFormat;
+			}
+		}, {
+			key: 'dayFormat',
+			get: function get() {
+				return this._dayFormat || 'DD';
+			},
+			set: function set(dayFormat) {
+				this._dayFormat = dayFormat;
+			}
+		}]);
 
-	return RgDate;
+		return RgDate;
+	})();
 })();'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1096,7 +1111,7 @@ riot.tag2('rg-drawer', '<div class="overlay {visible: RgDrawer.isvisible}" oncli
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgDrawer = opts.drawer || new RgDrawer(opts);
+		_this.RgDrawer = opts.drawer || new rg.Drawer(opts);
 		_this.RgDrawer.on('update', function () {
 			_this.update();
 		});
@@ -1111,88 +1126,90 @@ riot.tag2('rg-drawer', '<div class="overlay {visible: RgDrawer.isvisible}" oncli
 		_this.RgDrawer.select(e.item);
 	};
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Drawer = (function () {
+		function RgDrawer(opts) {
+			_classCallCheck(this, RgDrawer);
 
-var RgDrawer = (function () {
-	function RgDrawer(opts) {
-		_classCallCheck(this, RgDrawer);
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._isvisible = opts.isvisible;
+			this._header = opts.header;
+			this._items = opts.items;
+			this._position = opts.position;
+		}
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._isvisible = opts.isvisible;
-		this._header = opts.header;
-		this._items = opts.items;
-		this._position = opts.position;
-	}
+		_createClass(RgDrawer, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'open',
+			value: function open() {
+				this.trigger('open');
+				this.isvisible = true;
+			}
+		}, {
+			key: 'close',
+			value: function close() {
+				this.trigger('close');
+				this.isvisible = false;
+			}
+		}, {
+			key: 'toggle',
+			value: function toggle() {
+				this.isvisible = !this.isvisible;
+				if (this.isvisible) this.trigger('open');else if (!this.isvisible) this.trigger('close');
+			}
+		}, {
+			key: 'select',
+			value: function select(item) {
+				this.items.forEach(function (item) {
+					return item.active = false;
+				});
+				item.active = true;
+				this.trigger('select', item);
+			}
+		}, {
+			key: 'isvisible',
+			get: function get() {
+				return this._isvisible == 'true' || this._isvisible === true;
+			},
+			set: function set(isvisible) {
+				this._isvisible = isvisible == 'true' || isvisible === true;
+			}
+		}, {
+			key: 'header',
+			get: function get() {
+				return this._header;
+			},
+			set: function set(header) {
+				this._header = header;
+			}
+		}, {
+			key: 'items',
+			get: function get() {
+				if (Array.isArray(this._items)) return this._items;
+				this._items = [];
+				return this._items;
+			},
+			set: function set(items) {
+				this._items = items;
+			}
+		}, {
+			key: 'position',
+			get: function get() {
+				return this._position || 'bottom';
+			},
+			set: function set(position) {
+				this._position = position;
+			}
+		}]);
 
-	_createClass(RgDrawer, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'open',
-		value: function open() {
-			this.trigger('open');
-			this.isvisible = true;
-		}
-	}, {
-		key: 'close',
-		value: function close() {
-			this.trigger('close');
-			this.isvisible = false;
-		}
-	}, {
-		key: 'toggle',
-		value: function toggle() {
-			this.isvisible = !this.isvisible;
-			if (this.isvisible) this.trigger('open');else if (!this.isvisible) this.trigger('close');
-		}
-	}, {
-		key: 'select',
-		value: function select(item) {
-			this.items.forEach(function (item) {
-				return item.active = false;
-			});
-			item.active = true;
-			this.trigger('select', item);
-		}
-	}, {
-		key: 'isvisible',
-		get: function get() {
-			return this._isvisible == 'true' || this._isvisible === true;
-		},
-		set: function set(isvisible) {
-			this._isvisible = isvisible == 'true' || isvisible === true;
-		}
-	}, {
-		key: 'header',
-		get: function get() {
-			return this._header;
-		},
-		set: function set(header) {
-			this._header = header;
-		}
-	}, {
-		key: 'items',
-		get: function get() {
-			if (Array.isArray(this._items)) return this._items;
-			this._items = [];
-			return this._items;
-		},
-		set: function set(items) {
-			this._items = items;
-		}
-	}, {
-		key: 'position',
-		get: function get() {
-			return this._position || 'bottom';
-		},
-		set: function set(position) {
-			this._position = position;
-		}
-	}]);
-
-	return RgDrawer;
+		return RgDrawer;
+	})();
 })();'use strict';
 
 riot.tag2('rg-ga', '', '', '', function (opts) {
@@ -1215,7 +1232,7 @@ riot.tag2('rg-include', '<div> {responseText} </div>', '', '', function (opts) {
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgInclude = opts.include || new RgInclude(opts);
+		_this.RgInclude = opts.include || new rg.Include(opts);
 		_this.RgInclude.on('update', function () {
 			_this.RgInclude.fetch();
 		});
@@ -1226,55 +1243,57 @@ riot.tag2('rg-include', '<div> {responseText} </div>', '', '', function (opts) {
 		_this.RgInclude.fetch();
 	});
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Include = (function () {
+		function RgInclude(opts) {
+			_classCallCheck(this, RgInclude);
 
-var RgInclude = (function () {
-	function RgInclude(opts) {
-		_classCallCheck(this, RgInclude);
-
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._unsafe = opts.unsafe;
-		this._url = opts.url;
-	}
-
-	_createClass(RgInclude, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._unsafe = opts.unsafe;
+			this._url = opts.url;
 		}
-	}, {
-		key: 'fetch',
-		value: function fetch() {
-			var _this2 = this;
 
-			var req = new XMLHttpRequest();
-			req.onload = function (resp) {
-				_this2.trigger('fetch', req.responseText);
-			};
-			req.open('get', this.url, true);
-			req.send();
-		}
-	}, {
-		key: 'unsafe',
-		get: function get() {
-			return this._unsafe == 'true' || this._unsafe === true;
-		},
-		set: function set(unsafe) {
-			this._unsafe = unsafe;
-		}
-	}, {
-		key: 'url',
-		get: function get() {
-			return this._url || '';
-		},
-		set: function set(url) {
-			if (this.url != url) {
-				this._url = url;
+		_createClass(RgInclude, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
 			}
-		}
-	}]);
+		}, {
+			key: 'fetch',
+			value: function fetch() {
+				var _this2 = this;
 
-	return RgInclude;
+				var req = new XMLHttpRequest();
+				req.onload = function (resp) {
+					_this2.trigger('fetch', req.responseText);
+				};
+				req.open('get', this.url, true);
+				req.send();
+			}
+		}, {
+			key: 'unsafe',
+			get: function get() {
+				return this._unsafe == 'true' || this._unsafe === true;
+			},
+			set: function set(unsafe) {
+				this._unsafe = unsafe;
+			}
+		}, {
+			key: 'url',
+			get: function get() {
+				return this._url || '';
+			},
+			set: function set(url) {
+				if (this.url != url) {
+					this._url = url;
+				}
+			}
+		}]);
+
+		return RgInclude;
+	})();
 })();'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1285,39 +1304,41 @@ riot.tag2('rg-loading', '<div class="loading {visible: RgLoading.isvisible}"> <d
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgLoading = opts.loading || new RgLoading(opts);
+		_this.RgLoading = opts.loading || new rg.Loading(opts);
 		_this.RgLoading.on('update', function () {
 			_this.update();
 		});
 		_this.update();
 	});
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Loading = (function () {
+		function RgLoading(opts) {
+			_classCallCheck(this, RgLoading);
 
-var RgLoading = (function () {
-	function RgLoading(opts) {
-		_classCallCheck(this, RgLoading);
-
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._isvisible = opts.isvisible;
-	}
-
-	_createClass(RgLoading, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._isvisible = opts.isvisible;
 		}
-	}, {
-		key: 'isvisible',
-		get: function get() {
-			return this._isvisible == 'true' || this._isvisible === true;
-		},
-		set: function set(isvisible) {
-			this._isvisible = isvisible;
-		}
-	}]);
 
-	return RgLoading;
+		_createClass(RgLoading, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'isvisible',
+			get: function get() {
+				return this._isvisible == 'true' || this._isvisible === true;
+			},
+			set: function set(isvisible) {
+				this._isvisible = isvisible;
+			}
+		}]);
+
+		return RgLoading;
+	})();
 })();'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1328,63 +1349,63 @@ riot.tag2('rg-map', '<div class="rg-map"></div>', 'rg-map .rg-map,[riot-tag="rg-
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgMap = opts.map || new RgMap(opts);
+		_this.RgMap = opts.map || new rg.Map(opts);
 
-		rg.map.on('initialize', function () {
-			rg.map.obj = new google.maps.Map(_this.root.querySelector('.rg-map'), _this.RgMap.options);
+		rg.gmap.on('initialize', function () {
+			_this.RgMap.obj = new google.maps.Map(_this.root.querySelector('.rg-map'), _this.RgMap.options);
 		});
 
 		if (!document.getElementById('gmap_script')) {
 			var script = document.createElement('script');
 			script.setAttribute('id', 'gmap_script');
 			script.type = 'text/javascript';
-			script.src = 'https://maps.googleapis.com/maps/api/js?callback=rg.map.initialize';
+			script.src = 'https://maps.googleapis.com/maps/api/js?callback=rg.gmap.initialize';
 			document.body.appendChild(script);
 		}
 	});
 });
-
-var RgMap = (function () {
-	function RgMap(opts) {
-		_classCallCheck(this, RgMap);
-
-		riot.observable(this);
-		this._options = opts;
-		var map = {
-			initialize: function initialize() {
-				map.trigger('initialize');
-			}
-		};
-
-		riot.observable(map);
-
-		if (!window.rg) window.rg = {};
-		rg.map = map;
-	}
-
-	_createClass(RgMap, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
+;(function () {
+	window.rg = window.rg || {};
+	var gmap = {
+		initialize: function initialize() {
+			gmap.trigger('initialize');
 		}
-	}, {
-		key: 'options',
-		get: function get() {
-			if (this._options) {
-				this._options = {
-					center: {
-						lat: 53.806,
-						lng: -1.535
-					},
-					zoom: 7
-				};
-			}
+	};
+	riot.observable(gmap);
+	window.rg.gmap = gmap;
 
-			return this._options;
+	rg.Map = (function () {
+		function RgMap(opts) {
+			_classCallCheck(this, RgMap);
+
+			riot.observable(this);
+			this._options = opts;
 		}
-	}]);
 
-	return RgMap;
+		_createClass(RgMap, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'options',
+			get: function get() {
+				if (!this._options) {
+					this._options = {
+						center: {
+							lat: 53.806,
+							lng: -1.535
+						},
+						zoom: 7
+					};
+				}
+
+				return this._options;
+			}
+		}]);
+
+		return RgMap;
+	})();
 })();'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1395,7 +1416,7 @@ riot.tag2('rg-markdown', '<div class="markdown"></div>', '', '', function (opts)
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgMarkdown = opts.markdown || new RgMarkdown(opts);
+		_this.RgMarkdown = opts.markdown || new rg.Markdown(opts);
 		_this.RgMarkdown.on('update', function () {
 			_this.RgMarkdown.fetch();
 		});
@@ -1409,55 +1430,57 @@ riot.tag2('rg-markdown', '<div class="markdown"></div>', '', '', function (opts)
 		_this.RgMarkdown.fetch();
 	});
 });
+;(function () {
+	window.rg = window.rg || {};
+	rg.Markdown = (function () {
+		function RgMarkdown(opts) {
+			_classCallCheck(this, RgMarkdown);
 
-var RgMarkdown = (function () {
-	function RgMarkdown(opts) {
-		_classCallCheck(this, RgMarkdown);
+			riot.observable(this);
+			if (!opts) opts = {};
+			if (commonmark) {
+				this.reader = new commonmark.Parser();
+				this.writer = new commonmark.HtmlRenderer();
+			}
+			this._url = opts.url;
+		}
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		if (commonmark) {
-			this.reader = new commonmark.Parser();
-			this.writer = new commonmark.HtmlRenderer();
-		}
-		this._url = opts.url;
-	}
+		_createClass(RgMarkdown, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'parse',
+			value: function parse(md) {
+				var parsed = this.reader.parse(md);
+				this.trigger('parse', this.writer.render(parsed));
+				return this.writer.render(parsed);
+			}
+		}, {
+			key: 'fetch',
+			value: function fetch() {
+				var _this2 = this;
 
-	_createClass(RgMarkdown, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'parse',
-		value: function parse(md) {
-			var parsed = this.reader.parse(md);
-			this.trigger('parse', this.writer.render(parsed));
-			return this.writer.render(parsed);
-		}
-	}, {
-		key: 'fetch',
-		value: function fetch() {
-			var _this2 = this;
+				var req = new XMLHttpRequest();
+				req.onload = function (resp) {
+					_this2.trigger('fetch', req.responseText);
+				};
+				req.open('get', this.url, true);
+				req.send();
+			}
+		}, {
+			key: 'url',
+			get: function get() {
+				return this._url || '';
+			},
+			set: function set(url) {
+				this._url = url;
+			}
+		}]);
 
-			var req = new XMLHttpRequest();
-			req.onload = function (resp) {
-				_this2.trigger('fetch', req.responseText);
-			};
-			req.open('get', this.url, true);
-			req.send();
-		}
-	}, {
-		key: 'url',
-		get: function get() {
-			return this._url || '';
-		},
-		set: function set(url) {
-			this._url = url;
-		}
-	}]);
-
-	return RgMarkdown;
+		return RgMarkdown;
+	})();
 })();'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1468,7 +1491,7 @@ riot.tag2('rg-modal', '<div class="overlay {visible: RgModal.isvisible, ghost: R
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgModal = opts.modal || new RgModal(opts);
+		_this.RgModal = opts.modal || new rg.Modal(opts);
 		_this.RgModal.on('update', function () {
 			_this.update();
 		});
@@ -1479,71 +1502,73 @@ riot.tag2('rg-modal', '<div class="overlay {visible: RgModal.isvisible, ghost: R
 		if (_this.RgModal.dismissable) _this.RgModal.isvisible = false;
 	};
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Modal = (function () {
+		function RgModal(opts) {
+			_classCallCheck(this, RgModal);
 
-var RgModal = (function () {
-	function RgModal(opts) {
-		_classCallCheck(this, RgModal);
+			riot.observable(this);
+			this._isvisible = opts.isvisible;
+			this._dismissable = opts.dismissable;
+			this._ghost = opts.ghost;
+			this._heading = opts.heading;
+			this._buttons = opts.buttons;
+		}
 
-		riot.observable(this);
-		this._isvisible = opts.isvisible;
-		this._dismissable = opts.dismissable;
-		this._ghost = opts.ghost;
-		this._heading = opts.heading;
-		this._buttons = opts.buttons;
-	}
+		_createClass(RgModal, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'dismissable',
+			get: function get() {
+				if (typeof this._dismissable === 'undefined') this._dismissable = true;
+				return this._dismissable == 'true' || this._dismissable === true;
+			},
+			set: function set(dismissable) {
+				this._dismissable = dismissable;
+			}
+		}, {
+			key: 'ghost',
+			get: function get() {
+				return this._ghost == 'true' || this._ghost === true;
+			},
+			set: function set(ghost) {
+				this._ghost = ghost;
+			}
+		}, {
+			key: 'heading',
+			get: function get() {
+				return this._heading || '';
+			},
+			set: function set(heading) {
+				this._heading = heading;
+			}
+		}, {
+			key: 'buttons',
+			get: function get() {
+				if (Array.isArray(this._buttons)) return this._buttons;
+				return [];
+			},
+			set: function set(buttons) {
+				this._buttons = buttons;
+			}
+		}, {
+			key: 'isvisible',
+			get: function get() {
+				return this._isvisible == 'true' || this._isvisible === true;
+			},
+			set: function set(isvisible) {
+				this._isvisible = isvisible;
+				if (this.isvisible) this.trigger('open');
+				if (!this.isvisible) this.trigger('close');
+			}
+		}]);
 
-	_createClass(RgModal, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'dismissable',
-		get: function get() {
-			if (typeof this._dismissable === 'undefined') this._dismissable = true;
-			return this._dismissable == 'true' || this._dismissable === true;
-		},
-		set: function set(dismissable) {
-			this._dismissable = dismissable;
-		}
-	}, {
-		key: 'ghost',
-		get: function get() {
-			return this._ghost == 'true' || this._ghost === true;
-		},
-		set: function set(ghost) {
-			this._ghost = ghost;
-		}
-	}, {
-		key: 'heading',
-		get: function get() {
-			return this._heading || '';
-		},
-		set: function set(heading) {
-			this._heading = heading;
-		}
-	}, {
-		key: 'buttons',
-		get: function get() {
-			if (Array.isArray(this._buttons)) return this._buttons;
-			return [];
-		},
-		set: function set(buttons) {
-			this._buttons = buttons;
-		}
-	}, {
-		key: 'isvisible',
-		get: function get() {
-			return this._isvisible == 'true' || this._isvisible === true;
-		},
-		set: function set(isvisible) {
-			this._isvisible = isvisible;
-			if (this.isvisible) this.trigger('open');
-			if (!this.isvisible) this.trigger('close');
-		}
-	}]);
-
-	return RgModal;
+		return RgModal;
+	})();
 })();'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1554,39 +1579,41 @@ riot.tag2('rg-phone-sim', '<div class="emulator"> <iframe class="screen" riot-sr
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgPhoneSim = opts.phonesim || new RgPhoneSim(opts);
+		_this.RgPhoneSim = opts.phonesim || new rg.PhoneSim(opts);
 		_this.RgPhoneSim.on('update', function () {
 			_this.update();
 		});
 		_this.update();
 	});
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.PhoneSim = (function () {
+		function RgPhoneSim(opts) {
+			_classCallCheck(this, RgPhoneSim);
 
-var RgPhoneSim = (function () {
-	function RgPhoneSim(opts) {
-		_classCallCheck(this, RgPhoneSim);
-
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._url = opts.url;
-	}
-
-	_createClass(RgPhoneSim, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._url = opts.url;
 		}
-	}, {
-		key: 'url',
-		get: function get() {
-			return this._url || '';
-		},
-		set: function set(url) {
-			this._url = url;
-		}
-	}]);
 
-	return RgPhoneSim;
+		_createClass(RgPhoneSim, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'url',
+			get: function get() {
+				return this._url || '';
+			},
+			set: function set(url) {
+				this._url = url;
+			}
+		}]);
+
+		return RgPhoneSim;
+	})();
 })();'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1597,93 +1624,95 @@ riot.tag2('rg-placeholdit', '<img riot-src="https://placeholdit.imgix.net/~text?
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgPlaceholdit = opts.placeholdit || new RgPlaceholdit(opts);
+		_this.RgPlaceholdit = opts.placeholdit || new rg.Placeholdit(opts);
 		_this.RgPlaceholdit.on('update', function () {
 			_this.update();
 		});
 		_this.update();
 	});
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Placeholdit = (function () {
+		function RgPlaceholdit(opts) {
+			_classCallCheck(this, RgPlaceholdit);
 
-var RgPlaceholdit = (function () {
-	function RgPlaceholdit(opts) {
-		_classCallCheck(this, RgPlaceholdit);
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._width = opts.width;
+			this._height = opts.height;
+			this._background = opts.background;
+			this._color = opts.color;
+			this._text = opts.text;
+			this._textsize = opts.textsize;
+			this._format = opts.format;
+		}
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._width = opts.width;
-		this._height = opts.height;
-		this._background = opts.background;
-		this._color = opts.color;
-		this._text = opts.text;
-		this._textsize = opts.textsize;
-		this._format = opts.format;
-	}
+		_createClass(RgPlaceholdit, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'width',
+			get: function get() {
+				return this._width || 450;
+			},
+			set: function set(width) {
+				this._width = width;
+			}
+		}, {
+			key: 'height',
+			get: function get() {
+				return this._height || 250;
+			},
+			set: function set(height) {
+				this._height = height;
+			}
+		}, {
+			key: 'background',
+			get: function get() {
+				return this._background || 'f01e52';
+			},
+			set: function set(background) {
+				this._background = background;
+			}
+		}, {
+			key: 'color',
+			get: function get() {
+				return this._color || 'fff';
+			},
+			set: function set(color) {
+				this._color = color;
+			}
+		}, {
+			key: 'text',
+			get: function get() {
+				return this._text || this.width + ' x ' + this.height;
+			},
+			set: function set(text) {
+				this._text = text;
+			}
+		}, {
+			key: 'textsize',
+			get: function get() {
+				return this._textsize || 30;
+			},
+			set: function set(textsize) {
+				this._textsize = textsize;
+			}
+		}, {
+			key: 'format',
+			get: function get() {
+				return this._format || 'png';
+			},
+			set: function set(format) {
+				this._format = format;
+			}
+		}]);
 
-	_createClass(RgPlaceholdit, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'width',
-		get: function get() {
-			return this._width || 450;
-		},
-		set: function set(width) {
-			this._width = width;
-		}
-	}, {
-		key: 'height',
-		get: function get() {
-			return this._height || 250;
-		},
-		set: function set(height) {
-			this._height = height;
-		}
-	}, {
-		key: 'background',
-		get: function get() {
-			return this._background || 'f01e52';
-		},
-		set: function set(background) {
-			this._background = background;
-		}
-	}, {
-		key: 'color',
-		get: function get() {
-			return this._color || 'fff';
-		},
-		set: function set(color) {
-			this._color = color;
-		}
-	}, {
-		key: 'text',
-		get: function get() {
-			return this._text || this.width + ' x ' + this.height;
-		},
-		set: function set(text) {
-			this._text = text;
-		}
-	}, {
-		key: 'textsize',
-		get: function get() {
-			return this._textsize || 30;
-		},
-		set: function set(textsize) {
-			this._textsize = textsize;
-		}
-	}, {
-		key: 'format',
-		get: function get() {
-			return this._format || 'png';
-		},
-		set: function set(format) {
-			this._format = format;
-		}
-	}]);
-
-	return RgPlaceholdit;
+		return RgPlaceholdit;
+	})();
 })();'use strict';
 
 riot.tag2('rg-raw', '<span></span>', '', '', function (opts) {
@@ -1759,7 +1788,7 @@ riot.tag2('rg-select', '<div class="container {visible: RgSelect.isvisible}" rio
 	};
 
 	this.on('mount', function () {
-		_this.RgSelect = opts.select || new RgSelect(opts);
+		_this.RgSelect = opts.select || new rg.Select(opts);
 		_this.RgSelect.on('update', function () {
 			if (_this.RgSelect.isvisible) _this.filter();
 			_this.update();
@@ -1854,7 +1883,7 @@ riot.tag2('rg-tags', '<div class="container"> <span class="tags"> <span class="t
 	};
 
 	this.on('mount', function () {
-		_this.RgTags = opts.tags || new RgTags(opts);
+		_this.RgTags = opts.tags || new rg.Tags(opts);
 		_this.RgTags.on('update', function () {
 			if (_this.RgTags.isvisible) _this.filter();
 			_this.update();
@@ -1934,7 +1963,7 @@ riot.tag2('rg-time', '<rg-select select="{RgTime}"></rg-select>', '', '', functi
 	};
 
 	this.on('mount', function () {
-		_this.RgTime = opts.time || new RgTime(opts);
+		_this.RgTime = opts.time || new rg.Time(opts);
 		_this.RgTime.on('update', function () {
 			build();
 			_this.update();
@@ -1943,264 +1972,268 @@ riot.tag2('rg-time', '<rg-select select="{RgTime}"></rg-select>', '', '', functi
 		_this.update();
 	});
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Select = (function () {
+		function RgSelect(opts) {
+			_classCallCheck(this, RgSelect);
 
-var RgSelect = (function () {
-	function RgSelect(opts) {
-		_classCallCheck(this, RgSelect);
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._isvisible = opts.isvisible;
+			this._autocomplete = opts.autocomplete;
+			this._filteron = opts.filteron;
+			this._options = opts.options;
+			this._hasfilter = opts.hasfilter;
+			this._placeholder = opts.placeholder;
+			this._filterplaceholder = opts.filterplaceholder;
+			this._filtereditems = opts.filtereditems;
+		}
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._isvisible = opts.isvisible;
-		this._autocomplete = opts.autocomplete;
-		this._filteron = opts.filteron;
-		this._options = opts.options;
-		this._hasfilter = opts.hasfilter;
-		this._placeholder = opts.placeholder;
-		this._filterplaceholder = opts.filterplaceholder;
-		this._filtereditems = opts.filtereditems;
-	}
+		_createClass(RgSelect, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'open',
+			value: function open() {
+				if (!this.isvisible) this.trigger('open');
+				this.isvisible = true;
+			}
+		}, {
+			key: 'close',
+			value: function close() {
+				if (this.isvisible) this.trigger('close');
+				this.isvisible = false;
+			}
+		}, {
+			key: 'toggle',
+			value: function toggle() {
+				this.isvisible = !this.isvisible;
+				if (this.isvisible) this.trigger('open');else if (!this.isvisible) this.trigger('close');
+			}
+		}, {
+			key: 'filter',
+			value: function filter(text) {
+				var _this2 = this;
 
-	_createClass(RgSelect, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'open',
-		value: function open() {
-			if (!this.isvisible) this.trigger('open');
-			this.isvisible = true;
-		}
-	}, {
-		key: 'close',
-		value: function close() {
-			if (this.isvisible) this.trigger('close');
-			this.isvisible = false;
-		}
-	}, {
-		key: 'toggle',
-		value: function toggle() {
-			this.isvisible = !this.isvisible;
-			if (this.isvisible) this.trigger('open');else if (!this.isvisible) this.trigger('close');
-		}
-	}, {
-		key: 'filter',
-		value: function filter(text) {
-			var _this2 = this;
+				this.filtereditems = this.options.filter(function (item) {
+					item.active = false;
+					var f = item[_this2.filteron];
+					if (typeof f === 'undefined') return false;
+					if (text.length == 0 || f.toString().toLowerCase().indexOf(text.toString().toLowerCase()) > -1) return true;
+				});
+				this.trigger('filter', text);
+			}
+		}, {
+			key: 'select',
+			value: function select(item) {
+				this.options.forEach(function (i) {
+					return i.selected = false;
+				});
+				item.selected = true;
+				this.isvisible = false;
+				if (this.autocomplete) this.filter(item[this.filteron]);
+				this.trigger('select', item);
+			}
+		}, {
+			key: 'isvisible',
+			get: function get() {
+				return this._isvisible == 'true' || this._isvisible === true;
+			},
+			set: function set(isvisible) {
+				this._isvisible = isvisible;
+			}
+		}, {
+			key: 'autocomplete',
+			get: function get() {
+				return this._autocomplete == 'true' || this._autocomplete === true;
+			},
+			set: function set(autocomplete) {
+				this._autocomplete = autocomplete;
+			}
+		}, {
+			key: 'filteron',
+			get: function get() {
+				return this._filteron || 'text';
+			},
+			set: function set(filteron) {
+				this._filteron = filteron;
+			}
+		}, {
+			key: 'placeholder',
+			get: function get() {
+				return this._placeholder;
+			},
+			set: function set(placeholder) {
+				this._placeholder = placeholder;
+			}
+		}, {
+			key: 'filterplaceholder',
+			get: function get() {
+				return this._filterplaceholder;
+			},
+			set: function set(filterplaceholder) {
+				this._filterplaceholder = filterplaceholder;
+			}
+		}, {
+			key: 'hasfilter',
+			get: function get() {
+				return this._hasfilter == 'true' || this._hasfilter === true;
+			},
+			set: function set(hasfilter) {
+				this._hasfilter = hasfilter;
+			}
+		}, {
+			key: 'options',
+			get: function get() {
+				if (Array.isArray(this._options)) return this._options;
+				this._options = [];
+				return this._options;
+			},
+			set: function set(options) {
+				var _this3 = this;
 
-			this.filtereditems = this.options.filter(function (item) {
-				item.active = false;
-				var f = item[_this2.filteron];
-				if (typeof f === 'undefined') return false;
-				if (text.length == 0 || f.toString().toLowerCase().indexOf(text.toString().toLowerCase()) > -1) return true;
-			});
-			this.trigger('filter', text);
-		}
-	}, {
-		key: 'select',
-		value: function select(item) {
-			this.options.forEach(function (i) {
-				return i.selected = false;
-			});
-			item.selected = true;
-			this.isvisible = false;
-			if (this.autocomplete) this.filter(item[this.filteron]);
-			this.trigger('select', item);
-		}
-	}, {
-		key: 'isvisible',
-		get: function get() {
-			return this._isvisible == 'true' || this._isvisible === true;
-		},
-		set: function set(isvisible) {
-			this._isvisible = isvisible;
-		}
-	}, {
-		key: 'autocomplete',
-		get: function get() {
-			return this._autocomplete == 'true' || this._autocomplete === true;
-		},
-		set: function set(autocomplete) {
-			this._autocomplete = autocomplete;
-		}
-	}, {
-		key: 'filteron',
-		get: function get() {
-			return this._filteron || 'text';
-		},
-		set: function set(filteron) {
-			this._filteron = filteron;
-		}
-	}, {
-		key: 'placeholder',
-		get: function get() {
-			return this._placeholder;
-		},
-		set: function set(placeholder) {
-			this._placeholder = placeholder;
-		}
-	}, {
-		key: 'filterplaceholder',
-		get: function get() {
-			return this._filterplaceholder;
-		},
-		set: function set(filterplaceholder) {
-			this._filterplaceholder = filterplaceholder;
-		}
-	}, {
-		key: 'hasfilter',
-		get: function get() {
-			return this._hasfilter == 'true' || this._hasfilter === true;
-		},
-		set: function set(hasfilter) {
-			this._hasfilter = hasfilter;
-		}
-	}, {
-		key: 'options',
-		get: function get() {
-			if (Array.isArray(this._options)) return this._options;
-			this._options = [];
-			return this._options;
-		},
-		set: function set(options) {
-			var _this3 = this;
+				if (!Array.isArray(options)) options = [];
+				options.forEach(function (item, i) {
+					item.id = item.id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
+					if (item.selected) _this3.select(item);
+				});
+				this._options = options;
+			}
+		}, {
+			key: 'filtereditems',
+			get: function get() {
+				if (Array.isArray(this._filtereditems)) return this._filtereditems;
+				this._filtereditems = [];
+				return this._filtereditems;
+			},
+			set: function set(filtereditems) {
+				this._filtereditems = filtereditems;
+			}
+		}]);
 
-			if (!Array.isArray(options)) options = [];
-			options.forEach(function (item, i) {
-				item.id = item.id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
-				if (item.selected) _this3.select(item);
-			});
-			this._options = options;
-		}
-	}, {
-		key: 'filtereditems',
-		get: function get() {
-			if (Array.isArray(this._filtereditems)) return this._filtereditems;
-			this._filtereditems = [];
-			return this._filtereditems;
-		},
-		set: function set(filtereditems) {
-			this._filtereditems = filtereditems;
-		}
-	}]);
+		return RgSelect;
+	})();
+})();(function () {
+	window.rg = window.rg || {};
+	rg.Tags = (function (_rg$Select) {
+		_inherits(RgTags, _rg$Select);
 
-	return RgSelect;
-})();
+		function RgTags(opts) {
+			_classCallCheck(this, RgTags);
 
-var RgTags = (function (_RgSelect) {
-	_inherits(RgTags, _RgSelect);
-
-	function RgTags(opts) {
-		_classCallCheck(this, RgTags);
-
-		_get(Object.getPrototypeOf(RgTags.prototype), 'constructor', this).call(this, opts);
-		this._tags = opts.tags;
-		this._value = opts.value;
-	}
-
-	_createClass(RgTags, [{
-		key: 'addTag',
-		value: function addTag(tag) {
-			tag.id = tag.id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
-			this.tags.push(tag);
-			this.isvisible = false;
-			this.trigger('add', this.tags[this.tags.length - 1]);
+			_get(Object.getPrototypeOf(RgTags.prototype), 'constructor', this).call(this, opts);
+			this._tags = opts.tags;
+			this._value = opts.value;
 		}
-	}, {
-		key: 'removeTag',
-		value: function removeTag(tag) {
-			this.tags.splice(this.tags.indexOf(tag), 1);
-			this.isvisible = false;
-			this.trigger('remove', tag);
-		}
-	}, {
-		key: 'value',
-		get: function get() {
-			return this._value || '';
-		},
-		set: function set(val) {
-			this._value = val;
-		}
-	}, {
-		key: 'tags',
-		get: function get() {
-			if (Array.isArray(this._tags)) return this._tags;
-			this._tags = [];
-			return this._tags;
-		},
-		set: function set(tags) {
-			if (!Array.isArray(tags)) tags = [];
-			tags.forEach(function (item, i) {
-				item.id = item.id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
-			});
-			this._tags = tags;
-		}
-	}]);
 
-	return RgTags;
-})(RgSelect);
+		_createClass(RgTags, [{
+			key: 'addTag',
+			value: function addTag(tag) {
+				tag.id = tag.id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
+				this.tags.push(tag);
+				this.isvisible = false;
+				this.trigger('add', this.tags[this.tags.length - 1]);
+			}
+		}, {
+			key: 'removeTag',
+			value: function removeTag(tag) {
+				this.tags.splice(this.tags.indexOf(tag), 1);
+				this.isvisible = false;
+				this.trigger('remove', tag);
+			}
+		}, {
+			key: 'value',
+			get: function get() {
+				return this._value || '';
+			},
+			set: function set(val) {
+				this._value = val;
+			}
+		}, {
+			key: 'tags',
+			get: function get() {
+				if (Array.isArray(this._tags)) return this._tags;
+				this._tags = [];
+				return this._tags;
+			},
+			set: function set(tags) {
+				if (!Array.isArray(tags)) tags = [];
+				tags.forEach(function (item, i) {
+					item.id = item.id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
+				});
+				this._tags = tags;
+			}
+		}]);
 
-var RgTime = (function (_RgSelect2) {
-	_inherits(RgTime, _RgSelect2);
+		return RgTags;
+	})(rg.Select);
+})();(function () {
+	window.rg = window.rg || {};
+	rg.Time = (function (_rg$Select2) {
+		_inherits(RgTime, _rg$Select2);
 
-	function RgTime(opts) {
-		_classCallCheck(this, RgTime);
+		function RgTime(opts) {
+			_classCallCheck(this, RgTime);
 
-		_get(Object.getPrototypeOf(RgTime.prototype), 'constructor', this).call(this, opts);
-		this._min = opts.min;
-		this._max = opts.max;
-		this._time = opts.time;
-		this._step = opts.step;
-		this._ampm = opts.ampm;
-	}
+			_get(Object.getPrototypeOf(RgTime.prototype), 'constructor', this).call(this, opts);
+			this._min = opts.min;
+			this._max = opts.max;
+			this._time = opts.time;
+			this._step = opts.step;
+			this._ampm = opts.ampm;
+		}
 
-	_createClass(RgTime, [{
-		key: 'min',
-		get: function get() {
-			if (this._min) return this._min.split(':');
-			return this._min;
-		},
-		set: function set(min) {
-			this._min = min;
-		}
-	}, {
-		key: 'max',
-		get: function get() {
-			if (this._max) return this._max.split(':');
-			return this._max;
-		},
-		set: function set(max) {
-			this._max = max;
-		}
-	}, {
-		key: 'time',
-		get: function get() {
-			if (toString.call(this._time) === '[object Date]') return this._time;
-			return new Date();
-		},
-		set: function set(time) {
-			this._time = time;
-		}
-	}, {
-		key: 'step',
-		get: function get() {
-			return this._step || 1;
-		},
-		set: function set(step) {
-			this._step = step;
-		}
-	}, {
-		key: 'ampm',
-		get: function get() {
-			return this._ampm == 'true' || this._ampm === true;
-		},
-		set: function set(ampm) {
-			this._ampm = ampm;
-		}
-	}]);
+		_createClass(RgTime, [{
+			key: 'min',
+			get: function get() {
+				if (this._min) return this._min.split(':');
+				return this._min;
+			},
+			set: function set(min) {
+				this._min = min;
+			}
+		}, {
+			key: 'max',
+			get: function get() {
+				if (this._max) return this._max.split(':');
+				return this._max;
+			},
+			set: function set(max) {
+				this._max = max;
+			}
+		}, {
+			key: 'time',
+			get: function get() {
+				if (toString.call(this._time) === '[object Date]') return this._time;
+				return new Date();
+			},
+			set: function set(time) {
+				this._time = time;
+			}
+		}, {
+			key: 'step',
+			get: function get() {
+				return this._step || 1;
+			},
+			set: function set(step) {
+				this._step = step;
+			}
+		}, {
+			key: 'ampm',
+			get: function get() {
+				return this._ampm == 'true' || this._ampm === true;
+			},
+			set: function set(ampm) {
+				this._ampm = ampm;
+			}
+		}]);
 
-	return RgTime;
-})(RgSelect);'use strict';
+		return RgTime;
+	})(rg.Select);
+})();'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -2222,8 +2255,8 @@ riot.tag2('rg-tabs', '<div class="headers"> <div each="{RgTabs.tabs}" class="hea
 	};
 }, '{ }');
 ;(function () {
-	if (!window.rg) window.rg = {};
-	window.rg.Tabs = (function () {
+	window.rg = window.rg || {};
+	rg.Tabs = (function () {
 		function Tabs(opts) {
 			_classCallCheck(this, Tabs);
 
@@ -2294,99 +2327,101 @@ riot.tag2('rg-toasts', '<div class="toasts {RgToasts.position} {isvisible: RgToa
 	};
 
 	this.on('mount', function () {
-		_this.RgToasts = opts.toasts || new RgToasts(opts);
+		_this.RgToasts = opts.toasts || new rg.Toasts(opts);
 		_this.RgToasts.on('update', function () {
 			_this.update();
 		});
 		_this.update();
 	});
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Toasts = (function () {
+		function RgToasts(opts) {
+			_classCallCheck(this, RgToasts);
 
-var RgToasts = (function () {
-	function RgToasts(opts) {
-		_classCallCheck(this, RgToasts);
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._uid = 1;
+			this._toasts = opts.toasts;
+			this._position = opts.position;
+			this._isvisible = opts.isvisible;
+		}
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._uid = 1;
-		this._toasts = opts.toasts;
-		this._position = opts.position;
-		this._isvisible = opts.isvisible;
-	}
-
-	_createClass(RgToasts, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'uid',
-		value: function uid() {
-			return this._uid++;
-		}
-	}, {
-		key: 'add',
-		value: function add(toast) {
-			this.toasts.push(toast);
-			this.trigger('add', toast);
-		}
-	}, {
-		key: 'select',
-		value: function select(toast) {
-			window.clearTimeout(toast.timer);
-			toast.isvisible = false;
-			this.trigger('select', toast);
-		}
-	}, {
-		key: 'toasts',
-		get: function get() {
-			var _this2 = this;
-
-			if (Array.isArray(this._toasts)) {
-				this._toasts.forEach(function (toast) {
-					if (typeof toast.isvisible == 'undefined') toast.isvisible = true;
-					toast.id = toast.id || _this2.uid();
-					if (!toast.timer && !toast.sticky) {
-						toast.startTimer = function () {
-							toast.timer = window.setTimeout(function () {
-								toast.isvisible = false;
-								_this2.trigger('close', toast);
-								_this2.update();
-							}, toast.timeout || 6000);
-						};
-						toast.startTimer();
-					}
-				});
-				this.isvisible = this._toasts.filter(function (toast) {
-					return toast.isvisible;
-				}).length > 0;
-				return this._toasts;
+		_createClass(RgToasts, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
 			}
-			this._toats = [];
-			return this._toasts;
-		},
-		set: function set(toasts) {
-			this._toasts = toasts;
-		}
-	}, {
-		key: 'position',
-		get: function get() {
-			return this._position || 'topright';
-		},
-		set: function set(position) {
-			this._position = position;
-		}
-	}, {
-		key: 'isvisible',
-		get: function get() {
-			return this._isvisible == 'true' || this._isvisible === true;
-		},
-		set: function set(isvisible) {
-			this._isvisible = isvisible;
-		}
-	}]);
+		}, {
+			key: 'uid',
+			value: function uid() {
+				return this._uid++;
+			}
+		}, {
+			key: 'add',
+			value: function add(toast) {
+				this.toasts.push(toast);
+				this.trigger('add', toast);
+			}
+		}, {
+			key: 'select',
+			value: function select(toast) {
+				window.clearTimeout(toast.timer);
+				toast.isvisible = false;
+				this.trigger('select', toast);
+			}
+		}, {
+			key: 'toasts',
+			get: function get() {
+				var _this2 = this;
 
-	return RgToasts;
+				if (Array.isArray(this._toasts)) {
+					this._toasts.forEach(function (toast) {
+						if (typeof toast.isvisible == 'undefined') toast.isvisible = true;
+						toast.id = toast.id || _this2.uid();
+						if (!toast.timer && !toast.sticky) {
+							toast.startTimer = function () {
+								toast.timer = window.setTimeout(function () {
+									toast.isvisible = false;
+									_this2.trigger('close', toast);
+									_this2.update();
+								}, toast.timeout || 6000);
+							};
+							toast.startTimer();
+						}
+					});
+					this.isvisible = this._toasts.filter(function (toast) {
+						return toast.isvisible;
+					}).length > 0;
+					return this._toasts;
+				}
+				this._toats = [];
+				return this._toasts;
+			},
+			set: function set(toasts) {
+				this._toasts = toasts;
+			}
+		}, {
+			key: 'position',
+			get: function get() {
+				return this._position || 'topright';
+			},
+			set: function set(position) {
+				this._position = position;
+			}
+		}, {
+			key: 'isvisible',
+			get: function get() {
+				return this._isvisible == 'true' || this._isvisible === true;
+			},
+			set: function set(isvisible) {
+				this._isvisible = isvisible;
+			}
+		}]);
+
+		return RgToasts;
+	})();
 })();'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -2397,7 +2432,7 @@ riot.tag2('rg-toggle', '<div class="wrapper"> <label class="toggle"> <input type
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgToggle = opts.toggle || new RgToggle();
+		_this.RgToggle = opts.toggle || new rg.Toggle();
 		_this.RgToggle.on('update', function () {
 			_this.update();
 		});
@@ -2408,38 +2443,40 @@ riot.tag2('rg-toggle', '<div class="wrapper"> <label class="toggle"> <input type
 		_this.RgToggle.toggle();
 	};
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Toggle = (function () {
+		function RgToggle(opts) {
+			_classCallCheck(this, RgToggle);
 
-var RgToggle = (function () {
-	function RgToggle(opts) {
-		_classCallCheck(this, RgToggle);
-
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._checked = opts.checked;
-	}
-
-	_createClass(RgToggle, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._checked = opts.checked;
 		}
-	}, {
-		key: 'toggle',
-		value: function toggle() {
-			this.checked = !this.checked;
-			this.trigger('toggle', this.checked);
-		}
-	}, {
-		key: 'checked',
-		get: function get() {
-			return this._checked == 'true' || this._checked === true;
-		},
-		set: function set(checked) {
-			this._checked = checked;
-		}
-	}]);
 
-	return RgToggle;
+		_createClass(RgToggle, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'toggle',
+			value: function toggle() {
+				this.checked = !this.checked;
+				this.trigger('toggle', this.checked);
+			}
+		}, {
+			key: 'checked',
+			get: function get() {
+				return this._checked == 'true' || this._checked === true;
+			},
+			set: function set(checked) {
+				this._checked = checked;
+			}
+		}]);
+
+		return RgToggle;
+	})();
 })();'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -2450,7 +2487,7 @@ riot.tag2('rg-unsplash', '<img riot-src="https://unsplash.it/{greyscale}{RgUnspl
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgUnsplash = opts.unsplash || new RgUnsplash();
+		_this.RgUnsplash = opts.unsplash || new rg.Unsplash();
 		_this.RgUnsplash.on('update', function () {
 			_this.update();
 		});
@@ -2465,99 +2502,101 @@ riot.tag2('rg-unsplash', '<img riot-src="https://unsplash.it/{greyscale}{RgUnspl
 		_this.update();
 	});
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Unsplash = (function () {
+		function RgUnsplash(opts) {
+			_classCallCheck(this, RgUnsplash);
 
-var RgUnsplash = (function () {
-	function RgUnsplash(opts) {
-		_classCallCheck(this, RgUnsplash);
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._width = opts.width;
+			this._height = opts.height;
+			this._greyscale = opts.greyscale || opts.grayscale;
+			this._random = opts.random;
+			this._blur = opts.blur;
+			this._image = opts.image;
+			this._gravity = opts.gravity;
+		}
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._width = opts.width;
-		this._height = opts.height;
-		this._greyscale = opts.greyscale || opts.grayscale;
-		this._random = opts.random;
-		this._blur = opts.blur;
-		this._image = opts.image;
-		this._gravity = opts.gravity;
-	}
+		_createClass(RgUnsplash, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'width',
+			get: function get() {
+				return this._width || 450;
+			},
+			set: function set(width) {
+				this._width = width;
+				this.trigger('change');
+			}
+		}, {
+			key: 'height',
+			get: function get() {
+				return this._height || 250;
+			},
+			set: function set(height) {
+				this._height = height;
+				this.trigger('change');
+			}
+		}, {
+			key: 'greyscale',
+			get: function get() {
+				return this._greyscale == 'true' || this._greyscale === true;
+			},
+			set: function set(greyscale) {
+				this._greyscale = greyscale;
+				this.trigger('change');
+			}
+		}, {
+			key: 'grayscale',
+			get: function get() {
+				return this.greyscale;
+			},
+			set: function set(grayscale) {
+				this.greyscale = grayscale;
+			}
+		}, {
+			key: 'random',
+			get: function get() {
+				return this._random == 'true' || this._random === true;
+			},
+			set: function set(random) {
+				this._random = random;
+				this.trigger('change');
+			}
+		}, {
+			key: 'blur',
+			get: function get() {
+				return this._blur == 'true' || this._blur === true;
+			},
+			set: function set(blur) {
+				this._blur = blur;
+				this.trigger('change');
+			}
+		}, {
+			key: 'image',
+			get: function get() {
+				return this._image;
+			},
+			set: function set(image) {
+				this._image = image;
+				this.trigger('change');
+			}
+		}, {
+			key: 'gravity',
+			get: function get() {
+				return this._gravity;
+			},
+			set: function set(gravity) {
+				this._gravity = gravity;
+				this.trigger('change');
+			}
+		}]);
 
-	_createClass(RgUnsplash, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'width',
-		get: function get() {
-			return this._width || 450;
-		},
-		set: function set(width) {
-			this._width = width;
-			this.trigger('change');
-		}
-	}, {
-		key: 'height',
-		get: function get() {
-			return this._height || 250;
-		},
-		set: function set(height) {
-			this._height = height;
-			this.trigger('change');
-		}
-	}, {
-		key: 'greyscale',
-		get: function get() {
-			return this._greyscale == 'true' || this._greyscale === true;
-		},
-		set: function set(greyscale) {
-			this._greyscale = greyscale;
-			this.trigger('change');
-		}
-	}, {
-		key: 'grayscale',
-		get: function get() {
-			return this.greyscale;
-		},
-		set: function set(grayscale) {
-			this.greyscale = grayscale;
-		}
-	}, {
-		key: 'random',
-		get: function get() {
-			return this._random == 'true' || this._random === true;
-		},
-		set: function set(random) {
-			this._random = random;
-			this.trigger('change');
-		}
-	}, {
-		key: 'blur',
-		get: function get() {
-			return this._blur == 'true' || this._blur === true;
-		},
-		set: function set(blur) {
-			this._blur = blur;
-			this.trigger('change');
-		}
-	}, {
-		key: 'image',
-		get: function get() {
-			return this._image;
-		},
-		set: function set(image) {
-			this._image = image;
-			this.trigger('change');
-		}
-	}, {
-		key: 'gravity',
-		get: function get() {
-			return this._gravity;
-		},
-		set: function set(gravity) {
-			this._gravity = gravity;
-			this.trigger('change');
-		}
-	}]);
-
-	return RgUnsplash;
+		return RgUnsplash;
+	})();
 })();

@@ -3,7 +3,7 @@ describe('rg-markdown', function() {
   let spy = sinon.spy()
 
   beforeEach(function() {
-    markdown = new RgMarkdown()
+    markdown = new rg.Markdown()
     $('body').append('<rg-markdown></rg-markdown>')
     tag = riot.mount('rg-markdown', {
       markdown

@@ -83,7 +83,7 @@
 		}
 
 		this.on('mount', () => {
-			this.RgDate = opts.date || new RgDate(opts)
+			this.RgDate = opts.date || new rg.Date(opts)
 			this.RgDate.on('update', () => {
 				this.update()
 			})

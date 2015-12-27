@@ -1,33 +1,33 @@
 <rg-tags>
 
-	<div class="container">
-		<span class="tags">
-			<span class="tag" each="{ tag in RgTags.tags }" onclick="{ parent.removeTag }">
-				{ tag.text }
-				<span class="close">&times;</span>
+		<div class="container">
+			<span class="tags">
+				<span class="tag" each="{ tag in RgTags.tags }" onclick="{ parent.removeTag }">
+					{ tag.text }
+					<span class="close">&times;</span>
+				</span>
 			</span>
-		</span>
 
-		<div class="field-container { isvisible: RgTags.isvisible }">
-			<input type="text"
-						 class="field"
-						 name="filterfield"
-						 placeholder="{ RgTags.placeholder }"
-						 onkeydown="{ handleKeys }"
-						 oninput="{ filter }"
-						 onfocus="{ toggle }">
+			<div class="field-container { isvisible: RgTags.isvisible }">
+				<input type="text"
+							 class="field"
+							 name="filterfield"
+							 placeholder="{ RgTags.placeholder }"
+							 onkeydown="{ handleKeys }"
+							 oninput="{ filter }"
+							 onfocus="{ toggle }">
 
-			<div class="dropdown { isvisible: RgTags.isvisible }">
-				<ul class="list">
-					<li each="{ RgTags.filtereditems }"
-							onclick="{ parent.addTag }"
-							class="item { disabled: disabled, active: active }">
-						{ text }
-					</li>
-				</ul>
+				<div class="dropdown { isvisible: RgTags.isvisible }">
+					<ul class="list">
+						<li each="{ RgTags.filtereditems }"
+								onclick="{ parent.addTag }"
+								class="item { disabled: disabled, active: active }">
+							{ text }
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
-	</div>
 
 	<script>
 		/* istanbul ignore next */
@@ -111,7 +111,7 @@
 		}
 
 		this.on('mount', () => {
-			this.RgTags = opts.tags || new RgTags(opts)
+			this.RgTags = opts.tags || new rg.Tags(opts)
 			this.RgTags.on('update', () => {
 				if (this.RgTags.isvisible) this.filter()
 				this.update()

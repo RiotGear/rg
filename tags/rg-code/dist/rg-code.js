@@ -22,7 +22,7 @@ riot.tag2('rg-code', '<div class="editor"></div>', 'rg-code .editor,[riot-tag="r
 		editor = ace.edit(_this.root.querySelector('.editor'));
 		editor.$blockScrolling = Infinity;
 
-		_this.RgCode = opts.editor || new RgCode(opts);
+		_this.RgCode = opts.editor || new rg.Code(opts);
 		_this.RgCode.on('update', function () {
 			_this.update();
 		});
@@ -49,94 +49,96 @@ riot.tag2('rg-code', '<div class="editor"></div>', 'rg-code .editor,[riot-tag="r
 		_this.update();
 	});
 });
+;(function () {
+	window.rg = window.rg || {};
+	rg.Code = (function () {
+		function RgCode(opts) {
+			_classCallCheck(this, RgCode);
 
-var RgCode = (function () {
-	function RgCode(opts) {
-		_classCallCheck(this, RgCode);
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._url = opts.url;
+			this._code = opts.code;
+			this._theme = opts.theme;
+			this._mode = opts.mode;
+			this._tabsize = opts.tabsize;
+			this._softtabs = opts.softtabs;
+			this._wordwrap = opts.wordwrap;
+			this._readonly = opts.readonly;
+		}
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._url = opts.url;
-		this._code = opts.code;
-		this._theme = opts.theme;
-		this._mode = opts.mode;
-		this._tabsize = opts.tabsize;
-		this._softtabs = opts.softtabs;
-		this._wordwrap = opts.wordwrap;
-		this._readonly = opts.readonly;
-	}
+		_createClass(RgCode, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'url',
+			get: function get() {
+				return this._url;
+			},
+			set: function set(url) {
+				this._url = url;
+			}
+		}, {
+			key: 'code',
+			get: function get() {
+				return this._code || '';
+			},
+			set: function set(code) {
+				this._code = code;
+				this.trigger('change', code);
+			}
+		}, {
+			key: 'theme',
+			get: function get() {
+				return this._theme || 'monokai';
+			},
+			set: function set(theme) {
+				this._theme = theme;
+			}
+		}, {
+			key: 'mode',
+			get: function get() {
+				return this._mode || 'html';
+			},
+			set: function set(mode) {
+				this._mode = mode;
+			}
+		}, {
+			key: 'tabsize',
+			get: function get() {
+				return this._tabsize || 2;
+			},
+			set: function set(tabsize) {
+				this._tabsize = tabsize;
+			}
+		}, {
+			key: 'softtabs',
+			get: function get() {
+				return this._softtabs == 'true' || this._softtabs === true;
+			},
+			set: function set(softtabs) {
+				this._softtabs = softtabs;
+			}
+		}, {
+			key: 'wordwrap',
+			get: function get() {
+				return this._wordwrap == 'true' || this._wordwrap === true;
+			},
+			set: function set(wordwrap) {
+				this._wordwrap = wordwrap;
+			}
+		}, {
+			key: 'readonly',
+			get: function get() {
+				return this._readonly == 'true' || this._readonly === true;
+			},
+			set: function set(readonly) {
+				this._readonly = readonly;
+			}
+		}]);
 
-	_createClass(RgCode, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'url',
-		get: function get() {
-			return this._url;
-		},
-		set: function set(url) {
-			this._url = url;
-		}
-	}, {
-		key: 'code',
-		get: function get() {
-			return this._code || '';
-		},
-		set: function set(code) {
-			this._code = code;
-			this.trigger('change', code);
-		}
-	}, {
-		key: 'theme',
-		get: function get() {
-			return this._theme || 'monokai';
-		},
-		set: function set(theme) {
-			this._theme = theme;
-		}
-	}, {
-		key: 'mode',
-		get: function get() {
-			return this._mode || 'html';
-		},
-		set: function set(mode) {
-			this._mode = mode;
-		}
-	}, {
-		key: 'tabsize',
-		get: function get() {
-			return this._tabsize || 2;
-		},
-		set: function set(tabsize) {
-			this._tabsize = tabsize;
-		}
-	}, {
-		key: 'softtabs',
-		get: function get() {
-			return this._softtabs == 'true' || this._softtabs === true;
-		},
-		set: function set(softtabs) {
-			this._softtabs = softtabs;
-		}
-	}, {
-		key: 'wordwrap',
-		get: function get() {
-			return this._wordwrap == 'true' || this._wordwrap === true;
-		},
-		set: function set(wordwrap) {
-			this._wordwrap = wordwrap;
-		}
-	}, {
-		key: 'readonly',
-		get: function get() {
-			return this._readonly == 'true' || this._readonly === true;
-		},
-		set: function set(readonly) {
-			this._readonly = readonly;
-		}
-	}]);
-
-	return RgCode;
+		return RgCode;
+	})();
 })();

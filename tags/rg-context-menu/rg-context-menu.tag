@@ -42,7 +42,7 @@
 		}
 
 		this.on('mount', () => {
-			this.RgContextMenu = opts.menu || new RgContextMenu(opts)
+			this.RgContextMenu = opts.menu || new rg.ContextMenu(opts)
 			this.RgContextMenu.on('update', () => {
 				this.update()
 			})

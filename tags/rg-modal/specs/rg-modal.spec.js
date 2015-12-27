@@ -2,7 +2,7 @@ describe('rg-modal', function() {
   let tag
   let spyOnClose = sinon.spy()
   let spyOnClick = sinon.spy()
-  let modal = new RgModal({
+  let modal = new rg.Modal({
     heading: 'Modal heading',
     isvisible: true,
     ghost: true,

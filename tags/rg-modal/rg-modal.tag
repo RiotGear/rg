@@ -23,7 +23,7 @@
 
 	<script>
 		this.on('mount', () => {
-			this.RgModal = opts.modal || new RgModal(opts)
+			this.RgModal = opts.modal || new rg.Modal(opts)
 			this.RgModal.on('update', () => {
 				this.update()
 			})

@@ -107,7 +107,7 @@
 		}
 
 		this.on('mount', () => {
-			this.RgSelect = opts.select || new RgSelect(opts)
+			this.RgSelect = opts.select || new rg.Select(opts)
 			this.RgSelect.on('update', () => {
 				if (this.RgSelect.isvisible) this.filter()
 				this.update()

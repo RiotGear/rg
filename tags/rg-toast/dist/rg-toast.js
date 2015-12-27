@@ -13,97 +13,99 @@ riot.tag2('rg-toasts', '<div class="toasts {RgToasts.position} {isvisible: RgToa
 	};
 
 	this.on('mount', function () {
-		_this.RgToasts = opts.toasts || new RgToasts(opts);
+		_this.RgToasts = opts.toasts || new rg.Toasts(opts);
 		_this.RgToasts.on('update', function () {
 			_this.update();
 		});
 		_this.update();
 	});
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Toasts = (function () {
+		function RgToasts(opts) {
+			_classCallCheck(this, RgToasts);
 
-var RgToasts = (function () {
-	function RgToasts(opts) {
-		_classCallCheck(this, RgToasts);
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._uid = 1;
+			this._toasts = opts.toasts;
+			this._position = opts.position;
+			this._isvisible = opts.isvisible;
+		}
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._uid = 1;
-		this._toasts = opts.toasts;
-		this._position = opts.position;
-		this._isvisible = opts.isvisible;
-	}
-
-	_createClass(RgToasts, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'uid',
-		value: function uid() {
-			return this._uid++;
-		}
-	}, {
-		key: 'add',
-		value: function add(toast) {
-			this.toasts.push(toast);
-			this.trigger('add', toast);
-		}
-	}, {
-		key: 'select',
-		value: function select(toast) {
-			window.clearTimeout(toast.timer);
-			toast.isvisible = false;
-			this.trigger('select', toast);
-		}
-	}, {
-		key: 'toasts',
-		get: function get() {
-			var _this2 = this;
-
-			if (Array.isArray(this._toasts)) {
-				this._toasts.forEach(function (toast) {
-					if (typeof toast.isvisible == 'undefined') toast.isvisible = true;
-					toast.id = toast.id || _this2.uid();
-					if (!toast.timer && !toast.sticky) {
-						toast.startTimer = function () {
-							toast.timer = window.setTimeout(function () {
-								toast.isvisible = false;
-								_this2.trigger('close', toast);
-								_this2.update();
-							}, toast.timeout || 6000);
-						};
-						toast.startTimer();
-					}
-				});
-				this.isvisible = this._toasts.filter(function (toast) {
-					return toast.isvisible;
-				}).length > 0;
-				return this._toasts;
+		_createClass(RgToasts, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
 			}
-			this._toats = [];
-			return this._toasts;
-		},
-		set: function set(toasts) {
-			this._toasts = toasts;
-		}
-	}, {
-		key: 'position',
-		get: function get() {
-			return this._position || 'topright';
-		},
-		set: function set(position) {
-			this._position = position;
-		}
-	}, {
-		key: 'isvisible',
-		get: function get() {
-			return this._isvisible == 'true' || this._isvisible === true;
-		},
-		set: function set(isvisible) {
-			this._isvisible = isvisible;
-		}
-	}]);
+		}, {
+			key: 'uid',
+			value: function uid() {
+				return this._uid++;
+			}
+		}, {
+			key: 'add',
+			value: function add(toast) {
+				this.toasts.push(toast);
+				this.trigger('add', toast);
+			}
+		}, {
+			key: 'select',
+			value: function select(toast) {
+				window.clearTimeout(toast.timer);
+				toast.isvisible = false;
+				this.trigger('select', toast);
+			}
+		}, {
+			key: 'toasts',
+			get: function get() {
+				var _this2 = this;
 
-	return RgToasts;
+				if (Array.isArray(this._toasts)) {
+					this._toasts.forEach(function (toast) {
+						if (typeof toast.isvisible == 'undefined') toast.isvisible = true;
+						toast.id = toast.id || _this2.uid();
+						if (!toast.timer && !toast.sticky) {
+							toast.startTimer = function () {
+								toast.timer = window.setTimeout(function () {
+									toast.isvisible = false;
+									_this2.trigger('close', toast);
+									_this2.update();
+								}, toast.timeout || 6000);
+							};
+							toast.startTimer();
+						}
+					});
+					this.isvisible = this._toasts.filter(function (toast) {
+						return toast.isvisible;
+					}).length > 0;
+					return this._toasts;
+				}
+				this._toats = [];
+				return this._toasts;
+			},
+			set: function set(toasts) {
+				this._toasts = toasts;
+			}
+		}, {
+			key: 'position',
+			get: function get() {
+				return this._position || 'topright';
+			},
+			set: function set(position) {
+				this._position = position;
+			}
+		}, {
+			key: 'isvisible',
+			get: function get() {
+				return this._isvisible == 'true' || this._isvisible === true;
+			},
+			set: function set(isvisible) {
+				this._isvisible = isvisible;
+			}
+		}]);
+
+		return RgToasts;
+	})();
 })();

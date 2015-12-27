@@ -8,7 +8,7 @@ riot.tag2('rg-drawer', '<div class="overlay {visible: RgDrawer.isvisible}" oncli
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgDrawer = opts.drawer || new RgDrawer(opts);
+		_this.RgDrawer = opts.drawer || new rg.Drawer(opts);
 		_this.RgDrawer.on('update', function () {
 			_this.update();
 		});
@@ -23,86 +23,88 @@ riot.tag2('rg-drawer', '<div class="overlay {visible: RgDrawer.isvisible}" oncli
 		_this.RgDrawer.select(e.item);
 	};
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Drawer = (function () {
+		function RgDrawer(opts) {
+			_classCallCheck(this, RgDrawer);
 
-var RgDrawer = (function () {
-	function RgDrawer(opts) {
-		_classCallCheck(this, RgDrawer);
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._isvisible = opts.isvisible;
+			this._header = opts.header;
+			this._items = opts.items;
+			this._position = opts.position;
+		}
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._isvisible = opts.isvisible;
-		this._header = opts.header;
-		this._items = opts.items;
-		this._position = opts.position;
-	}
+		_createClass(RgDrawer, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'open',
+			value: function open() {
+				this.trigger('open');
+				this.isvisible = true;
+			}
+		}, {
+			key: 'close',
+			value: function close() {
+				this.trigger('close');
+				this.isvisible = false;
+			}
+		}, {
+			key: 'toggle',
+			value: function toggle() {
+				this.isvisible = !this.isvisible;
+				if (this.isvisible) this.trigger('open');else if (!this.isvisible) this.trigger('close');
+			}
+		}, {
+			key: 'select',
+			value: function select(item) {
+				this.items.forEach(function (item) {
+					return item.active = false;
+				});
+				item.active = true;
+				this.trigger('select', item);
+			}
+		}, {
+			key: 'isvisible',
+			get: function get() {
+				return this._isvisible == 'true' || this._isvisible === true;
+			},
+			set: function set(isvisible) {
+				this._isvisible = isvisible == 'true' || isvisible === true;
+			}
+		}, {
+			key: 'header',
+			get: function get() {
+				return this._header;
+			},
+			set: function set(header) {
+				this._header = header;
+			}
+		}, {
+			key: 'items',
+			get: function get() {
+				if (Array.isArray(this._items)) return this._items;
+				this._items = [];
+				return this._items;
+			},
+			set: function set(items) {
+				this._items = items;
+			}
+		}, {
+			key: 'position',
+			get: function get() {
+				return this._position || 'bottom';
+			},
+			set: function set(position) {
+				this._position = position;
+			}
+		}]);
 
-	_createClass(RgDrawer, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'open',
-		value: function open() {
-			this.trigger('open');
-			this.isvisible = true;
-		}
-	}, {
-		key: 'close',
-		value: function close() {
-			this.trigger('close');
-			this.isvisible = false;
-		}
-	}, {
-		key: 'toggle',
-		value: function toggle() {
-			this.isvisible = !this.isvisible;
-			if (this.isvisible) this.trigger('open');else if (!this.isvisible) this.trigger('close');
-		}
-	}, {
-		key: 'select',
-		value: function select(item) {
-			this.items.forEach(function (item) {
-				return item.active = false;
-			});
-			item.active = true;
-			this.trigger('select', item);
-		}
-	}, {
-		key: 'isvisible',
-		get: function get() {
-			return this._isvisible == 'true' || this._isvisible === true;
-		},
-		set: function set(isvisible) {
-			this._isvisible = isvisible == 'true' || isvisible === true;
-		}
-	}, {
-		key: 'header',
-		get: function get() {
-			return this._header;
-		},
-		set: function set(header) {
-			this._header = header;
-		}
-	}, {
-		key: 'items',
-		get: function get() {
-			if (Array.isArray(this._items)) return this._items;
-			this._items = [];
-			return this._items;
-		},
-		set: function set(items) {
-			this._items = items;
-		}
-	}, {
-		key: 'position',
-		get: function get() {
-			return this._position || 'bottom';
-		},
-		set: function set(position) {
-			this._position = position;
-		}
-	}]);
-
-	return RgDrawer;
+		return RgDrawer;
+	})();
 })();

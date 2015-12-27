@@ -3,7 +3,7 @@ describe('rg-bubble', function() {
 
   beforeEach(function() {
     $('body').append('<rg-bubble></rg-bubble>')
-    bubble = new RgBubble({
+    bubble = new rg.Bubble({
       content: '<strong>Ping</strong>'
     })
     tag = riot.mount('rg-bubble', {

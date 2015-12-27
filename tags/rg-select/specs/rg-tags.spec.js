@@ -2,7 +2,7 @@ describe('rg-tags', function() {
   let tag, tags
 
   beforeEach(function() {
-    tags = new RgTags({
+    tags = new rg.Tags({
       value: 'Canada',
       placeholder: 'Enter a country name',
       options: [{

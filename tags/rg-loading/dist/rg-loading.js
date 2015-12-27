@@ -8,37 +8,39 @@ riot.tag2('rg-loading', '<div class="loading {visible: RgLoading.isvisible}"> <d
 	var _this = this;
 
 	this.on('mount', function () {
-		_this.RgLoading = opts.loading || new RgLoading(opts);
+		_this.RgLoading = opts.loading || new rg.Loading(opts);
 		_this.RgLoading.on('update', function () {
 			_this.update();
 		});
 		_this.update();
 	});
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Loading = (function () {
+		function RgLoading(opts) {
+			_classCallCheck(this, RgLoading);
 
-var RgLoading = (function () {
-	function RgLoading(opts) {
-		_classCallCheck(this, RgLoading);
-
-		riot.observable(this);
-		if (!opts) opts = {};
-		this._isvisible = opts.isvisible;
-	}
-
-	_createClass(RgLoading, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
+			riot.observable(this);
+			if (!opts) opts = {};
+			this._isvisible = opts.isvisible;
 		}
-	}, {
-		key: 'isvisible',
-		get: function get() {
-			return this._isvisible == 'true' || this._isvisible === true;
-		},
-		set: function set(isvisible) {
-			this._isvisible = isvisible;
-		}
-	}]);
 
-	return RgLoading;
+		_createClass(RgLoading, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'isvisible',
+			get: function get() {
+				return this._isvisible == 'true' || this._isvisible === true;
+			},
+			set: function set(isvisible) {
+				this._isvisible = isvisible;
+			}
+		}]);
+
+		return RgLoading;
+	})();
 })();

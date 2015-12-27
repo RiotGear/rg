@@ -10,7 +10,7 @@ riot.tag2('rg-alerts', '<div each="{RgAlerts.alerts}" class="alert {type} {isvis
 	this.on('mount', function () {
 		var _this = this;
 
-		this.RgAlerts = opts.alerts || new RgAlerts(opts);
+		this.RgAlerts = opts.alerts || new rg.Alerts(opts);
 		this.RgAlerts.on('update', function () {
 			_this.update();
 		});
@@ -27,60 +27,62 @@ riot.tag2('rg-alerts', '<div each="{RgAlerts.alerts}" class="alert {type} {isvis
 		_this2.RgAlerts.select(alert);
 	};
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.Alerts = (function () {
+		function RgAlerts(opts) {
+			var _this3 = this;
 
-var RgAlerts = (function () {
-	function RgAlerts(opts) {
-		var _this3 = this;
+			_classCallCheck(this, RgAlerts);
 
-		_classCallCheck(this, RgAlerts);
-
-		riot.observable(this);
-		if (!opts) opts = {};
-		this.alerts = [];
-		if (!Array.isArray(opts.alerts)) return;
-		opts.alerts.forEach(function (alert) {
-			_this3.add(alert);
-		});
-	}
-
-	_createClass(RgAlerts, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
+			riot.observable(this);
+			if (!opts) opts = {};
+			this.alerts = [];
+			if (!Array.isArray(opts.alerts)) return;
+			opts.alerts.forEach(function (alert) {
+				_this3.add(alert);
+			});
 		}
-	}, {
-		key: 'add',
-		value: function add(alert) {
-			var _this4 = this;
 
-			alert._id = alert._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
-			if (typeof alert.isvisible === 'undefined') alert.isvisible = true;
-			if (alert.timeout) {
-				alert.startTimer = function () {
-					alert.timer = setTimeout(function () {
-						_this4.dismiss(alert);
-						_this4.update();
-					}, alert.timeout);
-				};
-				alert.startTimer();
+		_createClass(RgAlerts, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
 			}
-			this.alerts.push(alert);
-			this.trigger('add', alert);
-		}
-	}, {
-		key: 'dismiss',
-		value: function dismiss(alert) {
-			alert.isvisible = false;
-			clearTimeout(alert.timer);
-			this.trigger('dismiss', alert);
-		}
-	}, {
-		key: 'select',
-		value: function select(alert) {
-			if (alert.onclick) alert.onclick(alert);
-			this.trigger('select', alert);
-		}
-	}]);
+		}, {
+			key: 'add',
+			value: function add(alert) {
+				var _this4 = this;
 
-	return RgAlerts;
+				alert._id = alert._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
+				if (typeof alert.isvisible === 'undefined') alert.isvisible = true;
+				if (alert.timeout) {
+					alert.startTimer = function () {
+						alert.timer = setTimeout(function () {
+							_this4.dismiss(alert);
+							_this4.update();
+						}, alert.timeout);
+					};
+					alert.startTimer();
+				}
+				this.alerts.push(alert);
+				this.trigger('add', alert);
+			}
+		}, {
+			key: 'dismiss',
+			value: function dismiss(alert) {
+				alert.isvisible = false;
+				clearTimeout(alert.timer);
+				this.trigger('dismiss', alert);
+			}
+		}, {
+			key: 'select',
+			value: function select(alert) {
+				if (alert.onclick) alert.onclick(alert);
+				this.trigger('select', alert);
+			}
+		}]);
+
+		return RgAlerts;
+	})();
 })();

@@ -175,7 +175,7 @@
 		/*
 		 * ALERTS
 		 */
-		this.alerts = new RgAlerts({
+		this.alerts = new rg.Alerts({
 			alerts: [{
 				type: 'danger',
 				content: 'Danger! Something bad happened.',
@@ -215,7 +215,7 @@
 		/*
 		 * BEHOLD
 		 */
-		this.behold = new RgBehold({
+		this.behold = new rg.Behold({
 			image1: 'img/first.jpg',
 			image2: 'img/second.jpg'
 		})
@@ -231,7 +231,7 @@
 		/*
 		 * BUBBLE
 		 */
-		this.bubble = new RgBubble({
+		this.bubble = new rg.Bubble({
 			content: '<strong>Ping</strong>'
 		})
 
@@ -242,7 +242,7 @@
 		/*
 		 * CODE
 		 */
-		this.editorSettings = new RgCode({
+		this.editorSettings = new rg.Code({
 			code: '<h2>Hello world!</h2>'
 		}).on('change', code => console.log(code))
 
@@ -254,7 +254,7 @@
 		/*
 		 * CONTEXT MENU
 		 */
-		this.contextMenu = new RgContextMenu({
+		this.contextMenu = new rg.ContextMenu({
 			name: 'myMenu',
 			items: [{
 				content: '<em>Add another item</em>'
@@ -272,7 +272,7 @@
 		/*
 		 * CREDIT CARD NUMBER
 		 */
-		this.creditcard = new RgCreditCard({
+		this.creditcard = new rg.CreditCard({
 			placeholder: 'Long number on front',
 			cardnumber: '4000 0000 0000 0002'
 		}).on('validate', valid => console.log(valid))
@@ -284,7 +284,7 @@
 		/*
 		 * DATE
 		 */
-		this.date = new RgDate({
+		this.date = new rg.Date({
 			date: moment('14-01-1982', 'DD-MM-YYYY')
 		}).on('select', date => console.log(date))
 
@@ -295,7 +295,7 @@
 		/*
 		 * DRAWER
 		 */
-		this.drawer = new RgDrawer({
+		this.drawer = new rg.Drawer({
 			header: 'Drawer',
 			isvisible: true,
 			position: 'bottom',
@@ -319,7 +319,7 @@
 		/*
 		 * INCLUDE
 		 */
-		this.include = new RgInclude({
+		this.include = new rg.Include({
 			url: 'inc.html'
 		})
 		this.unsafe = () => {
@@ -334,7 +334,7 @@
 		/*
 		 * LOADING
 		 */
-		this.loading = new RgLoading({
+		this.loading = new rg.Loading({
 			isvisible: true
 		})
 		this.toggleLoading = () => {
@@ -344,7 +344,7 @@
 		/*
 		 * MARKDOWN
 		 */
-		this.markdown = new RgMarkdown({
+		this.markdown = new rg.Markdown({
 			url: 'inc.md'
 		})
 		this.changeMarkdown = () => {
@@ -354,12 +354,12 @@
 		/*
 		 * MAP
 		 */
-		this.map = new RgMap()
+		this.map = new rg.Map()
 
 		/*
 		 * MODAL
 		 */
-		this.modal = new RgModal({
+		this.modal = new rg.Modal({
 			isvisible: true,
 			heading: 'Modal heading',
 			buttons: [{
@@ -384,7 +384,7 @@
 		/*
 		 * PHONE SIM
 		 */
-		this.phonesim = new RgPhoneSim({
+		this.phonesim = new rg.PhoneSim({
 			url: 'http://riotgear.js.org/'
 		})
 		this.changePhoneSimURL = () => {
@@ -394,7 +394,7 @@
 		/*
 		 * PLACEHOLDIT
 		 */
-		this.placeholdit = new RgPlaceholdit()
+		this.placeholdit = new rg.Placeholdit()
 		this.changePlacholdIt = () => {
 			this.placeholdit.width = 200
 			this.placeholdit.height = 100
@@ -408,7 +408,7 @@
 		/*
 		 * SELECT
 		 */
-		this.select = new RgSelect({
+		this.select = new rg.Select({
 			autocomplete: false,
 			placeholder: 'Please select a card',
 			hasfilter: true,
@@ -445,7 +445,7 @@
 		/*
 		 * UNSPLASH
 		 */
-		this.unsplash = new RgUnsplash()
+		this.unsplash = new rg.Unsplash()
 		this.changeUnsplash = () => {
 			this.unsplash.width = 200
 			this.unsplash.height = 100
@@ -459,7 +459,7 @@
 		/*
 		 * TIME
 		 */
-		this.time = new RgTime({
+		this.time = new rg.Time({
 			ampm: true,
 			step: 15,
 			min: '00:00',
@@ -473,7 +473,7 @@
 		/*
 		 * TOGGLE
 		 */
-		this.toggle = new RgToggle({
+		this.toggle = new rg.Toggle({
 			checked: true
 		}).on('toggle', checked => console.log('checked', checked))
 
@@ -484,7 +484,7 @@
 		/*
 		 * TAGS
 		 */
-		this.tags = new RgTags({
+		this.tags = new rg.Tags({
 			value: 'Canada',
 			placeholder: 'Choose a country',
 			options: [{
@@ -505,7 +505,7 @@
 		/*
 		 * TOASTS
 		 */
-		this.toasts = new RgToasts({
+		this.toasts = new rg.Toasts({
 			toasts: [{
 				content: 'Hey look at me!'
 			}]
@@ -536,7 +536,7 @@
 			}, {
 				heading: 'Tab three',
 				content: 'This is tab three content',
-				include: new RgInclude({
+				include: new rg.Include({
 					url: 'tab.html',
 					unsafe: true
 				})

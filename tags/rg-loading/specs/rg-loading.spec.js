@@ -2,7 +2,7 @@ describe('rg-loading', function() {
   let tag, loading
 
   beforeEach(function() {
-    loading = new RgLoading({
+    loading = new rg.Loading({
       isvisible: true
     })
     $('body').append('<rg-loading>Please wait...</rg-loading>')

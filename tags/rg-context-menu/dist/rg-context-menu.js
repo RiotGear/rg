@@ -36,7 +36,7 @@ riot.tag2('rg-context-menu', '<div class="menu {isvisible: RgContextMenu.isvisib
 	};
 
 	this.on('mount', function () {
-		_this.RgContextMenu = opts.menu || new RgContextMenu(opts);
+		_this.RgContextMenu = opts.menu || new rg.ContextMenu(opts);
 		_this.RgContextMenu.on('update', function () {
 			_this.update();
 		});
@@ -65,62 +65,64 @@ riot.tag2('rg-context-menu', '<div class="menu {isvisible: RgContextMenu.isvisib
 		_this.RgContextMenu.select(item);
 	};
 }, '{ }');
+;(function () {
+	window.rg = window.rg || {};
+	rg.ContextMenu = (function () {
+		function RgContextMenu(opts) {
+			_classCallCheck(this, RgContextMenu);
 
-var RgContextMenu = (function () {
-	function RgContextMenu(opts) {
-		_classCallCheck(this, RgContextMenu);
+			riot.observable(this);
+			if (!opts) opts = {};
+			this.name = opts.name;
+			this._isvisible = opts.isvisible;
+			this._items = opts.items;
+		}
 
-		riot.observable(this);
-		if (!opts) opts = {};
-		this.name = opts.name;
-		this._isvisible = opts.isvisible;
-		this._items = opts.items;
-	}
-
-	_createClass(RgContextMenu, [{
-		key: 'update',
-		value: function update() {
-			this.trigger('update');
-		}
-	}, {
-		key: 'open',
-		value: function open() {
-			this.trigger('open');
-			this.isvisible = true;
-		}
-	}, {
-		key: 'close',
-		value: function close() {
-			this.trigger('close');
-			this.isvisible = false;
-		}
-	}, {
-		key: 'select',
-		value: function select(item) {
-			if (!item.inactive) {
-				this.trigger('select', item);
+		_createClass(RgContextMenu, [{
+			key: 'update',
+			value: function update() {
+				this.trigger('update');
+			}
+		}, {
+			key: 'open',
+			value: function open() {
+				this.trigger('open');
+				this.isvisible = true;
+			}
+		}, {
+			key: 'close',
+			value: function close() {
+				this.trigger('close');
 				this.isvisible = false;
 			}
-		}
-	}, {
-		key: 'items',
-		get: function get() {
-			if (Array.isArray(this._items)) return this._items;
-			this._items = [];
-			return this._items;
-		},
-		set: function set(items) {
-			this._items = items;
-		}
-	}, {
-		key: 'isvisible',
-		get: function get() {
-			return this._isvisible == 'true' || this._isvisible === true;
-		},
-		set: function set(isvisible) {
-			this._isvisible = isvisible == 'true' || isvisible === true;
-		}
-	}]);
+		}, {
+			key: 'select',
+			value: function select(item) {
+				if (!item.inactive) {
+					this.trigger('select', item);
+					this.isvisible = false;
+				}
+			}
+		}, {
+			key: 'items',
+			get: function get() {
+				if (Array.isArray(this._items)) return this._items;
+				this._items = [];
+				return this._items;
+			},
+			set: function set(items) {
+				this._items = items;
+			}
+		}, {
+			key: 'isvisible',
+			get: function get() {
+				return this._isvisible == 'true' || this._isvisible === true;
+			},
+			set: function set(isvisible) {
+				this._isvisible = isvisible == 'true' || isvisible === true;
+			}
+		}]);
 
-	return RgContextMenu;
+		return RgContextMenu;
+	})();
 })();
