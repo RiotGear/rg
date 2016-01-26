@@ -1,29 +1,40 @@
 <rg-alerts>
 
-	<div each="{ RgAlerts.alerts }" class="alert { type } { isvisible: isvisible }" onclick="{ select }">
+	<div each="{ opts.alerts }" class="alert { type } { isvisible: isvisible }" onclick="{ select }">
 		<a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }">
 			<span aria-hidden="true">&times;</span>
 		</a>
-		<rg-raw content="{ content }"></rg-raw>
+		{ content }
 	</div>
 
 	<script>
-		this.on('mount', function() {
-			this.RgAlerts = opts.alerts || new rg.Alerts(opts)
-			this.RgAlerts.on('update', () => {
-				this.update()
+		this.on('update', function() {
+			opts.alerts.forEach(alert => {
+				alert._id = alert._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36)
+				if (typeof alert.isvisible === 'undefined') alert.isvisible = true
+				if (alert.timeout) {
+					alert.startTimer = () => {
+						alert.timer = setTimeout(() => {
+							this.dismiss({item: alert})
+							this.update()
+						}, alert.timeout)
+					}
+					alert.startTimer()
+				}
 			})
-			this.update()
 		})
 
 		this.dismiss = e => {
 			const alert = e.item
-			this.RgAlerts.dismiss(alert)
+			alert.isvisible = false
+			clearTimeout(alert.timer)
+			this.trigger('dismiss', alert)
 		}
 
 		this.select = e => {
 			const alert = e.item
-			this.RgAlerts.select(alert)
+			if (alert.onclick) alert.onclick(alert)
+			this.trigger('select', alert)
 		}
 
 	</script>

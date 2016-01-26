@@ -7,12 +7,12 @@
     "dist"
   ],
   "scripts": {
-    "tags": "for D in $(find tags -mindepth 1 -maxdepth 1 -type d) ; do rm -rf $D/dist ; riot $D $D/dist/$(basename $D).js --type es6 ; cat $D/*.js >> $D/dist/$(basename $D).js ; babel $D/dist --out-dir $D/dist ; done ;",
-    "posttags": "riot demo --type es6",
-    "dist": "rm -rf dist ; mkdir dist ; for D in $(find tags -mindepth 1 -maxdepth 1 -type d) ; do cat $D/dist/$(basename $D).js >> dist/rg.js ; done ;",
-    "uglify": "uglifyjs --preamble '/*! RiotGear Tags | MIT License | github.com/riotgear */' --mangle --compress --screw-ie8 --comment false --output dist/rg.min.js dist/rg.js",
+    "preriot": "rm -rf dist",
+    "riot": "riot tags dist --type es6 ",
+    "postriot": "riot demo --type es6",
+    "uglify": "uglifyjs --preamble '/*!v3.0.0*/' --mangle --compress --screw-ie8 --comment false --output dist/rg.min.js dist/**/*",
     "test": "karma start",
-    "dev": "npm run tags && npm run dist && npm run uglify",
+    "dev": "npm run riot && npm run uglify",
     "build": "npm run dev && npm run test"
   },
   "repository": {
@@ -47,13 +47,13 @@
     "karma-mocha": "~0.2.0",
     "karma-mocha-reporter": "~1.1.1",
     "karma-phantomjs-launcher": "~0.2.1",
-    "karma-riot": "~1.0.1",
+    "karma-riot": "^1.0.1",
     "karma-sinon-chai": "~1.1.0",
     "mocha": "~2.3.2",
     "moment": "~2.10.6",
     "normalize.css": "~3.0.3",
     "phantomjs": "~1.9.18",
-    "riot": "~2.3.1",
+    "riot": "^2.3.13",
     "sinon": "~1.17.2",
     "uglify-js": "~2.5.0"
   }
