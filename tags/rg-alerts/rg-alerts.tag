@@ -4,7 +4,7 @@
 		<a class="close" aria-label="Close" onclick="{ parent.dismiss }" if="{ dismissable != false }">
 			<span aria-hidden="true">&times;</span>
 		</a>
-		{ content }
+		{ text }
 	</div>
 
 	<script>
