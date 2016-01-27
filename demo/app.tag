@@ -14,12 +14,12 @@
 		<button onclick="{ updateBubbleText }">Change bubble</button>
 	</div>
 
-	<!--<h2>Code</h2>-->
+	<h2>Code</h2>
 
-	<!--<div class="demo">-->
-		<!--<rg-code editor="{ editorSettings }"></rg-code>-->
-	<!--</div>-->
-	<!--<button onclick="{ changeCode }">Change code</button>-->
+	<div class="demo">
+		<rg-code editor="{ editorSettings }"></rg-code>
+	</div>
+	<button onclick="{ changeCode }">Change code</button>
 
 	<!--<h2>Context Menu</h2>-->
 
@@ -207,18 +207,18 @@
 		this.updateBubbleText = () => {
 			this.bubble = 'Pong!'
 		}
-//
-//		/*
-//		 * CODE
-//		 */
-//		this.editorSettings = new rg.Code({
-//			code: '<h2>Hello world!</h2>'
-//		}).on('change', code => console.log(code))
-//
-//		this.changeCode = () => {
-//			this.editorSettings.code = 'this.msg = "Hello RiotGear!";'
-//			this.editorSettings.mode = 'javascript'
-//		}
+
+		/*
+		 * CODE
+		 */
+		this.editorSettings = {
+			code: '<h2>Hello world!</h2>'
+		}
+
+		this.changeCode = () => {
+			this.editorSettings.code = 'this.msg = "Hello RiotGear!";'
+			this.editorSettings.mode = 'javascript'
+		}
 //
 //		/*
 //		 * CONTEXT MENU

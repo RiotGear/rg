@@ -3,7 +3,7 @@ describe('rg-code', function() {
 
   beforeEach(function() {
     spy = sinon.spy()
-    editor = new rg.Code({
+    editor = {
       code: '<h2>Hello world!</h2>',
       theme: 'monokai',
       mode: 'javascript',
@@ -12,7 +12,7 @@ describe('rg-code', function() {
       wordwrap: 'true',
       readonly: 'true',
       onchange: spy
-    })
+    }
     $('body').append('<rg-code></rg-code>')
     tag = riot.mount('rg-code', {
       editor
