@@ -7,20 +7,12 @@
 		<button onclick="{ addAlert }">Add alert</button>
 	</div>
 
-	<!--<h2>Behold</h2>-->
+	<h2>Bubble</h2>
 
-	<!--<div class="demo">-->
-		<!--<rg-behold behold="{ behold }"></rg-behold>-->
-		<!--<button onclick="{ changeBeholdMode }">Change mode</button>-->
-		<!--<button onclick="{ changeBeholdImages }">Change image</button>-->
-	<!--</div>-->
-
-	<!--<h2>Bubble</h2>-->
-
-	<!--<div class="demo">-->
-		<!--<rg-bubble bubble="{ bubble }">Hover over me</rg-bubble>-->
-		<!--<button onclick="{ updateBubbleContent }">Change bubble</button>-->
-	<!--</div>-->
+	<div class="demo">
+		<rg-bubble text="{ bubble }">Hover over me</rg-bubble>
+		<button onclick="{ updateBubbleText }">Change bubble</button>
+	</div>
 
 	<!--<h2>Code</h2>-->
 
@@ -177,25 +169,25 @@
 		 */
 		this.alerts = [{
 				type: 'danger',
-				content: 'Danger! Something bad happened.',
+				text: 'Danger! Something bad happened.',
 				dismissable: true,
 				timeout: 2000
 			}, {
 				type: 'warning',
-				content: 'Warning! Something sort of bad happened.',
+				text: 'Warning! Something sort of bad happened.',
 				dismissable: false
 			}, {
 				type: 'information',
-				content: 'Look! Something you should know about.'
+				text: 'Look! Something you should know about.'
 			}, {
 				type: 'success',
-				content: 'Success! Well done.'
+				text: 'Success! Well done.'
 			}];
 
 		this.addAlert = () => {
 			this.alerts.push({
 				type: 'danger',
-				content: 'Eeek! <strong>Boom!</strong> Look at the <a href="#">logs</a>'
+				text: 'Eeek! Something broke...'
 			})
 		}
 
@@ -207,32 +199,14 @@
 			this.update()
 		}, 3000)
 
-//		/*
-//		 * BEHOLD
-//		 */
-//		this.behold = new rg.Behold({
-//			image1: 'img/first.jpg',
-//			image2: 'img/second.jpg'
-//		})
-//
-//		this.changeBeholdMode = () => {
-//			this.behold.mode = 'fade'
-//		}
-//
-//		this.changeBeholdImages = () => {
-//			this.behold.image1 = 'img/third.jpg'
-//		}
-//
-//		/*
-//		 * BUBBLE
-//		 */
-//		this.bubble = new rg.Bubble({
-//			content: '<strong>Ping</strong>'
-//		})
-//
-//		this.updateBubbleContent = () => {
-//			this.bubble.content = '<em>Pong!</em>'
-//		}
+		/*
+		 * BUBBLE
+		 */
+		this.bubble = 'Ping'
+
+		this.updateBubbleText = () => {
+			this.bubble = 'Pong!'
+		}
 //
 //		/*
 //		 * CODE

@@ -11,8 +11,7 @@ module.exports = function(config) {
       { pattern: 'demo/inc.html', watched: false, included: false, served: true, nocache: false }
     ],
     preprocessors: {
-      '**/*.spec.js': ['babel'],
-      'tags/**/*.class.js': ['babel', 'coverage'],
+      'tags/**/*.spec.js': ['babel'],
       'tags/**/*.tag': ['riot', 'coverage']
     },
     riotPreprocessor: {

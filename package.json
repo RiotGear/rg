@@ -8,9 +8,9 @@
   ],
   "scripts": {
     "preriot": "rm -rf dist",
-    "riot": "riot tags dist --type es6 ",
+    "riot": "riot tags dist --type es6",
     "postriot": "riot demo --type es6",
-    "uglify": "uglifyjs --preamble '/*!v3.0.0*/' --mangle --compress --screw-ie8 --comment false --output dist/rg.min.js dist/**/*",
+    "uglify": "uglifyjs --preamble '/*!v3.0.0*/' --compress --screw-ie8 --comment false --output dist/rg.min.js dist/**/*",
     "test": "karma start",
     "dev": "npm run riot && npm run uglify",
     "build": "npm run dev && npm run test"
@@ -41,7 +41,7 @@
     "babel-core": "~5.8.34",
     "commonmark": "~0.22.0",
     "jquery": "~2.1.4",
-    "karma": "~0.13.15",
+    "karma": "~0.13.19",
     "karma-babel-preprocessor": "~5.2.2",
     "karma-coverage": "~0.5.2",
     "karma-mocha": "~0.2.0",

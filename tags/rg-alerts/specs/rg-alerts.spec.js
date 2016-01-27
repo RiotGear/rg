@@ -22,7 +22,6 @@ describe('rg-alerts', function () {
 				content: 'Success! Well done.',
 				timeout: seconds
 			}]
-		})
 
 		tag = riot.mount('rg-alerts', {
 			alerts
