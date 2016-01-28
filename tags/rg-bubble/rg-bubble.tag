@@ -25,7 +25,6 @@
 		this.toggleBubble = () => {
 			this.isvisible = !this.isvisible
 		}
-
 	</script>
 
 	<style scoped>

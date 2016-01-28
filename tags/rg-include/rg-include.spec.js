@@ -2,9 +2,9 @@ describe('rg-include', function() {
   let tag, include
 
   beforeEach(function() {
-    include = new rg.Include({
+    include = {
       url: 'inc.html'
-    })
+    }
 
     $('body').append('<rg-include></rg-include>')
     tag = riot.mount('rg-include', {
@@ -32,10 +32,10 @@ describe('rg-include unsafe', function() {
   let tag, include
 
   beforeEach(function() {
-    include = new rg.Include({
+    include = {
       url: 'inc.html',
       unsafe: true
-    })
+    }
 
     $('body').append('<rg-include></rg-include>')
     tag = riot.mount('rg-include', {

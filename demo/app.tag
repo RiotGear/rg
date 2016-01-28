@@ -56,15 +56,15 @@
 		<!--<rg-ga property="UA-36978977-5"></rg-ga>-->
 	<!--</div>-->
 
-	<!--<h2>Include</h2>-->
+	<h2>Include</h2>
 
-	<!--<div class="demo">-->
-		<!--<div>-->
-			<!--<rg-include include="{ include }"></rg-include>-->
-		<!--</div>-->
-		<!--<button onclick="{ unsafe }">Make unsafe</button>-->
-		<!--<button onclick="{ changeIncludeFile }">Change content</button>-->
-	<!--</div>-->
+	<div class="demo">
+		<div>
+			<rg-include include="{ include }"></rg-include>
+			<rg-include include="{ includeTwo }"></rg-include>
+			<rg-include include="{ includeThree }"></rg-include>
+		</div>
+	</div>
 
 	<!--<h2>Loading</h2>-->
 
@@ -191,13 +191,13 @@
 			})
 		}
 
-		setTimeout(() => {
-			this.alerts.push({
-				type: 'information',
-				content: 'Test alert'
-			})
-			this.update()
-		}, 3000)
+		// setTimeout(() => {
+		// 	this.alerts.push({
+		// 		type: 'information',
+		// 		text: 'Test alert'
+		// 	})
+		// 	this.update()
+		// }, 3000)
 
 		/*
 		 * BUBBLE
@@ -260,21 +260,21 @@
 		this.openDrawer = () => {
 			this.drawer.isvisible = true
 		}
-//
-//		/*
-//		 * INCLUDE
-//		 */
-//		this.include = new rg.Include({
-//			url: 'inc.html'
-//		})
-//		this.unsafe = () => {
-//			this.include.unsafe = true
-//			this.include.fetch()
-//		}
-//		this.changeIncludeFile = () => {
-//			this.include.url = 'inc2.html'
-//			this.include.fetch()
-//		}
+
+		/*
+		 * INCLUDE
+		 */
+		this.include = {
+			url: 'inc.html'
+		}
+		this.includeTwo = {
+			url: 'inc.html',
+			unsafe: true
+		}
+		this.includeThree = {
+			url: 'inc2.html',
+			unsafe: true
+		}
 //
 //		/*
 //		 * LOADING
