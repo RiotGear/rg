@@ -42,12 +42,12 @@
 		<!--<button onclick="{ changeDate }">Change date</button>-->
 	<!--</div>-->
 
-	<!--<h2>Drawer</h2>-->
+	<h2>Drawer</h2>
 
-	<!--<div class="demo no-overflow">-->
-		<!--<rg-drawer drawer="{ drawer }"></rg-drawer>-->
-		<!--<button onclick="{ openDrawer }">Open drawer</button>-->
-	<!--</div>-->
+	<div class="demo no-overflow">
+		<rg-drawer drawer="{ drawer }"></rg-drawer>
+		<button onclick="{ openDrawer }">Open drawer</button>
+	</div>
 
 	<!--<h2>GA</h2>-->
 
@@ -243,29 +243,23 @@
 //			this.date.date = moment()
 //		}
 //
-//		/*
-//		 * DRAWER
-//		 */
-//		this.drawer = new rg.Drawer({
-//			header: 'Drawer',
-//			isvisible: true,
-//			position: 'bottom',
-//			items: [{
-//				content: 'Item 1'
-//			}, {
-//				content: 'Item 2'
-//			}]
-//		}).on('select', item => {
-//			this.drawer.isvisible = false
-//			console.log(item)
-//		}).on('open', () => {
-//			console.log('drawer open')
-//		}).on('close', () => {
-//			console.log('drawer closed')
-//		})
-//		this.openDrawer = () => {
-//			this.drawer.open()
-//		}
+		/*
+		 * DRAWER
+		 */
+		this.drawer = {
+			header: 'Drawer',
+			isvisible: true,
+			position: 'bottom',
+			items: [{
+				text: 'Item 1'
+			}, {
+				text: 'Item 2'
+			}]
+		}
+
+		this.openDrawer = () => {
+			this.drawer.isvisible = true
+		}
 //
 //		/*
 //		 * INCLUDE

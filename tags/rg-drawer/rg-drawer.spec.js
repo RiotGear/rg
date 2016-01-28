@@ -5,17 +5,22 @@ describe('rg-drawer', function () {
 
 	beforeEach(function () {
 		$('body').append('<rg-drawer></rg-drawer>')
-		drawer = new rg.Drawer({
+		drawer = {
 			header: 'Side Menu',
 			isvisible: true,
 			items: [{
-				content: 'Item 1'
+				text: 'Item 1'
 			}, {
-				content: 'Item 2'
+				text: 'Item 2'
 			}]
-		}).on('select', onClickSpy)
+		}
+
+		tag = riot.mount('rg-drawer', {
+			drawer
+		})[0]
+
+		tag.on('select', onClickSpy)
 		.on('close', onCloseSpy)
-		tag = riot.mount('rg-drawer', drawer)[0]
 	})
 
 	afterEach(function () {

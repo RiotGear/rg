@@ -1,13 +1,13 @@
 <rg-drawer>
 
-	<div class="overlay { visible: RgDrawer.isvisible }" onclick="{ close }"></div>
+	<div class="overlay { visible: opts.drawer.isvisible }" onclick="{ close }"></div>
 
-	<div class="drawer { RgDrawer.position } { visible: RgDrawer.isvisible }">
-		<h4 class="header">{ RgDrawer.header }</h4>
+	<div class="drawer { opts.drawer.position || 'bottom' } { visible: opts.drawer.isvisible }">
+		<h4 class="header">{ opts.drawer.header }</h4>
 
 		<ul class="items">
-			<li class="item { active: active }" each="{ RgDrawer.items }" onclick="{ parent.select }">
-				<rg-raw content="{ content }"></rg-raw>
+			<li class="item { active: active }" each="{ opts.drawer.items }" onclick="{ parent.select }">
+				{ text }
 			</li>
 		</ul>
 
@@ -18,19 +18,18 @@
 
 	<script>
 		this.on('mount', () => {
-			this.RgDrawer = opts.drawer || new rg.Drawer(opts)
-			this.RgDrawer.on('update', () => {
-				this.update()
-			})
-			this.update()
+			if (!opts.drawer) opts.drawer = {}
 		})
 
 		this.close = () => {
-			this.RgDrawer.close()
+			opts.drawer.isvisible = false
+			this.trigger('close')
 		}
 
 		this.select = e => {
-			this.RgDrawer.select(e.item)
+			opts.drawer.items.forEach(item => item.active = false)
+			e.item.active = true
+			this.trigger('select', e.item)
 		}
 
 	</script>
