@@ -49,12 +49,12 @@
 		<button onclick="{ openDrawer }">Open drawer</button>
 	</div>
 
-	<!--<h2>GA</h2>-->
+	<!-- <h2>GA</h2> -->
 
-	<!--<div class="demo">-->
-		<!--Google Analytics tag is on this page. Look at Network tab in Developer Tools-->
-		<!--<rg-ga property="UA-36978977-5"></rg-ga>-->
-	<!--</div>-->
+	<!-- <div class="demo"> -->
+		<!-- Google Analytics tag is on this page. Look at Network tab in Developer Tools -->
+		<!-- <rg-ga property="UA-36978977-5"></rg-ga> -->
+	<!-- </div> -->
 
 	<h2>Include</h2>
 
@@ -97,12 +97,12 @@
 		<button onclick="{ changePhoneSimURL }">Change URL</button>
 	</div>
 
-	<!--<h2>Placehold.it</h2>-->
+	<h2>Placehold.it</h2>
 
-	<!--<div class="demo">-->
-		<!--<rg-placeholdit placeholdit="{ placeholdit }"></rg-placeholdit>-->
-	<!--</div>-->
-	<!--<button onclick="{ changePlacholdIt }">Change image</button>-->
+	<div class="demo">
+		<rg-placeholdit placeholdit="{ placeholdit }"></rg-placeholdit>
+	</div>
+	<button onclick="{ changePlacholdIt }">Change image</button>
 
 	<!--<h2>Select</h2>-->
 
@@ -311,20 +311,20 @@
 		this.changePhoneSimURL = () => {
 			this.phonesim = 'http://riotjs.com'
 		}
-//
-//		/*
-//		 * PLACEHOLDIT
-//		 */
-//		this.placeholdit = new rg.Placeholdit()
-//		this.changePlacholdIt = () => {
-//			this.placeholdit.width = 200
-//			this.placeholdit.height = 100
-//			this.placeholdit.background = '1fadc5'
-//			this.placeholdit.color = '4df'
-//			this.placeholdit.textsize = 50
-//			this.placeholdit.text = 'JPEG'
-//			this.placeholdit.format = 'jpg'
-//		}
+
+		/*
+		 * PLACEHOLDIT
+		 */
+		this.placeholdit = {}
+		this.changePlacholdIt = () => {
+			this.placeholdit.width = 200
+			this.placeholdit.height = 100
+			this.placeholdit.background = '1fadc5'
+			this.placeholdit.color = '4df'
+			this.placeholdit.textsize = 50
+			this.placeholdit.text = 'JPEG'
+			this.placeholdit.format = 'jpg'
+		}
 //
 //		/*
 //		 * SELECT
