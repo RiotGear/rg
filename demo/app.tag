@@ -90,12 +90,12 @@
 	<!--<button onclick="{ toggleModalType }">Toggle type</button>-->
 	<!--<button onclick="{ toggleModalDismissable }">Toggle dismissable</button>-->
 
-	<!--<h2>Phone Sim</h2>-->
+	<h2>Phone Sim</h2>
 
-	<!--<div class="demo">-->
-		<!--<rg-phone-sim phonesim="{ phonesim }"></rg-phone-sim>-->
-		<!--<button onclick="{ changePhoneSimURL }">Change URL</button>-->
-	<!--</div>-->
+	<div class="demo">
+		<rg-phone-sim url="{ phonesim }"></rg-phone-sim>
+		<button onclick="{ changePhoneSimURL }">Change URL</button>
+	</div>
 
 	<!--<h2>Placehold.it</h2>-->
 
@@ -301,16 +301,14 @@
 //		this.toggleModalDismissable = () => {
 //			this.modal.dismissable = !this.modal.dismissable
 //		}
-//
-//		/*
-//		 * PHONE SIM
-//		 */
-//		this.phonesim = new rg.PhoneSim({
-//			url: 'http://riotgear.js.org/'
-//		})
-//		this.changePhoneSimURL = () => {
-//			this.phonesim.url = 'http://riotjs.com'
-//		}
+
+		/*
+		 * PHONE SIM
+		 */
+		this.phonesim = 'http://riotgear.js.org/'
+		this.changePhoneSimURL = () => {
+			this.phonesim = 'http://riotjs.com'
+		}
 //
 //		/*
 //		 * PLACEHOLDIT
