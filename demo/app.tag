@@ -72,12 +72,12 @@
 		<rg-map map="{ map }"></rg-map>
 	</div>
 
-	<!--<h2>Markdown</h2>-->
+	<h2>Markdown</h2>
 
-	<!--<div class="demo">-->
-		<!--<rg-markdown markdown="{ markdown }"></rg-markdown>-->
-		<!--<button onclick="{ changeMarkdown }">Change content</button>-->
-	<!--</div>-->
+	<div class="demo">
+		<rg-markdown markdown="{ markdown }"></rg-markdown>
+		<button onclick="{ changeMarkdown }">Change content</button>
+	</div>
 
 	<!--<h2>Modal</h2>-->
 
@@ -267,15 +267,17 @@
 			unsafe: true
 		}
 
-//		/*
-//		 * MARKDOWN
-//		 */
-//		this.markdown = new rg.Markdown({
-//			url: 'inc.md'
-//		})
-//		this.changeMarkdown = () => {
-//			this.markdown.parse('### Hello RiotGear!')
-//		}
+		/*
+		 * MARKDOWN
+		 */
+		this.markdown = {
+			content: '**Some** content'
+		}
+		this.changeMarkdown = () => {
+			this.markdown = {
+				url: 'inc.md'
+			}
+		}
 //
 //		/*
 //		 * MODAL
