@@ -27,12 +27,12 @@
 		<!--Right click here.-->
 	<!--</div>-->
 
-	<!--<h2>Credit Card</h2>-->
+	<h2>Credit Card</h2>
 
-	<!--<div class="demo">-->
-		<!--<rg-credit-card-number card="{ creditcard }"></rg-credit-card-number>-->
-		<!--<button onclick="{ changeCardNumber }">Change Card Number</button>-->
-	<!--</div>-->
+	<div class="demo">
+		<rg-credit-card-number card="{ creditcard }"></rg-credit-card-number>
+		<button onclick="{ changeCardNumber }">Change Card Number</button>
+	</div>
 
 	<!--<h2>Date</h2>-->
 
@@ -219,36 +219,18 @@
 			this.editorSettings.code = 'this.msg = "Hello RiotGear!";'
 			this.editorSettings.mode = 'javascript'
 		}
-//
-//		/*
-//		 * CONTEXT MENU
-//		 */
-//		this.contextMenu = new rg.ContextMenu({
-//			name: 'myMenu',
-//			items: [{
-//				content: '<em>Add another item</em>'
-//			}]
-//		}).on('open', () => console.log('context menu opened'))
-//			.on('close', () => console.log('context menu closed'))
-//			.on('select', () => this.addMenuItem())
-//
-//		this.addMenuItem = () => {
-//			this.contextMenu.items.push({
-//				content: '<em>Add another item</em>'
-//			})
-//		}
-//
-//		/*
-//		 * CREDIT CARD NUMBER
-//		 */
-//		this.creditcard = new rg.CreditCard({
-//			placeholder: 'Long number on front',
-//			cardnumber: '4000 0000 0000 0002'
-//		}).on('validate', valid => console.log(valid))
-//
-//		this.changeCardNumber = () => {
-//			this.creditcard.cardnumber = 5105105105105100
-//		}
+
+		/*
+		 * CREDIT CARD NUMBER
+		 */
+		this.creditcard = {
+			placeholder: 'Long number on front',
+			cardnumber: '4000 0000 0000 0002'
+		}
+
+		this.changeCardNumber = () => {
+			this.creditcard.cardnumber = 5105105105105100
+		}
 //
 //		/*
 //		 * DATE

@@ -2,20 +2,20 @@
 // https://github.com/PawelDecowski/jquery-creditcardvalidator
 
 describe('rg-credit-card-number', function () {
-	let tag, cardNoVisa, cardNoMaestro, placeholder, creditcard
+	let tag, cardNoVisa, cardNoMaestro, placeholder, card
 
 	beforeEach(function () {
 		cardNoVisa = '4000 0000 0000 0002'
 		cardNoMaestro = '5018 0000 0009'
 		placeholder = '0123 4567 8910 1112'
-		creditcard = new rg.CreditCard({
+		card = {
 			placeholder: placeholder,
 			cardnumber: cardNoVisa
-		})
+		}
 
 		$('body').append('<rg-credit-card-number></rg-credit-card-number>')
 		tag = riot.mount('rg-credit-card-number', {
-			card: creditcard
+			card
 		})[0]
 	})
 
@@ -38,14 +38,12 @@ describe('rg-credit-card-number', function () {
 	})
 
 	it('sets validation result', function () {
-		creditcard.valid.should.be.true
-		creditcard.icon.should.equal('visa')
+		card.valid.should.be.true
 	})
 
 	it('sets validation result on input', function () {
 		$('rg-credit-card-number .card-no').val(cardNoMaestro).trigger('input')
-		creditcard.valid.should.be.true
-		creditcard.icon.should.equal('maestro')
+		card.valid.should.be.true
 	})
 
 	describe('sets validation css classes', function () {

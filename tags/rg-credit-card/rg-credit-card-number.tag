@@ -1,19 +1,24 @@
-;(() => {
-	window.rg = window.rg || {}
-	rg.CreditCard = class RgCreditCard {
+<rg-credit-card-number>
 
-		constructor(opts) {
-			riot.observable(this)
-			if (!opts) opts = {}
-			this._placeholder = opts.placeholder
-			this._cardnumber = opts.cardnumber
+	<input type="text" name="cardnumber" class="field card-no { icon } { valid: opts.card.valid }" oninput="{ validate }" placeholder="{ opts.card.placeholder }">
+
+	<script>
+		if (!opts.card) opts.card = { cardnumber: '' }
+
+		this.on('update', () => {
+			if (this.cardnumber.value != opts.card.cardnumber)
+				this.cardnumber.value = opts.card.cardnumber
+			this.validate()
+		})
+
+		this.validate = () => {
+			opts.card.cardnumber = this.cardnumber.value
+			const res = validateCreditCard(opts.card.cardnumber)
+			opts.card.valid = res.valid
+			this.icon = opts.card.valid ? res.card_type.name : ''
 		}
 
-		update() {
-			this.trigger('update')
-		}
-
-		validateCreditCard(input) {
+		function validateCreditCard(input) {
 			var __indexOf = [].indexOf || function (item) {
 					for (var i = 0, l = this.length; i < l; i++) {
 						if (i in this && this[i] === item) return i;
@@ -181,35 +186,51 @@
 			return validate(input);
 		}
 
-		validate() {
-			const res = this.validateCreditCard(this.cardnumber)
-			this.valid = res.valid
-			this.icon = this.valid ? res.card_type.name : ''
-			this.trigger('validate', this.valid)
+	</script>
+
+	<style scoped>
+		.field {
+			font-size: 1em;
+			padding: 10px;
+			border: 1px solid #D3D3D3;
+			box-sizing: border-box;
+			outline: none;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
 		}
 
-		get cardnumber() {
-			return (this._cardnumber || '').toString()
+		.card-no {
+			padding-right: 60px;
+			background-repeat: no-repeat;
+			background-position: right center;
+			background-size: 60px;
 		}
 
-		set cardnumber(num) {
-			this._cardnumber = num
+		.amex {
+			background-image: url(img/amex.png);
 		}
 
-		get valid() {
-			return (this._valid == 'true' || this._valid === true)
+		.diners_club {
+			background-image: url(img/diners_club.png);
 		}
 
-		set valid(valid) {
-			this._valid = (valid == 'true' || valid === true)
+		.discover {
+			background-image: url(img/discover.png);
 		}
 
-		get placeholder() {
-			return this._placeholder || 'Card no.'
+		.jcb {
+			background-image: url(img/jcb.png);
 		}
 
-		set placeholder(text) {
-			this._placeholder = text
+		.mastercard {
+			background-image: url(img/mastercard.png);
 		}
-	}
-})()
+
+		.visa {
+			background-image: url(img/visa.png);
+		}
+
+	</style>
+
+</rg-credit-card-number>

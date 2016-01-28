@@ -3,6 +3,8 @@
 	<div class="editor"></div>
 
 	<script>
+		if (!opts.editor) opts.editor = { code: '' }
+
 		let editor
 
 		const setupEditor = () => {
@@ -15,7 +17,6 @@
 		}
 
 		this.on('mount', () => {
-			if (!opts.editor) opts.editor = { code: '' }
 			editor = ace.edit(this.root.querySelector('.editor'))
 			editor.$blockScrolling = Infinity
 
