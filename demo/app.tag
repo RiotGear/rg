@@ -66,20 +66,11 @@
 		</div>
 	</div>
 
-	<!--<h2>Loading</h2>-->
+	<h2>Map</h2>
 
-	<!--<div class="demo">-->
-		<!--<rg-loading loading="{ loading }">-->
-			<!--Please wait...-->
-		<!--</rg-loading>-->
-	<!--</div>-->
-	<!--<button onclick="{ toggleLoading }">Toggle loading</button>-->
-
-	<!--<h2>Map</h2>-->
-
-	<!--<div class="demo">-->
-		<!--<rg-map map="{ map }"></rg-map>-->
-	<!--</div>-->
+	<div class="demo">
+		<rg-map map="{ map }"></rg-map>
+	</div>
 
 	<!--<h2>Markdown</h2>-->
 
@@ -275,17 +266,7 @@
 			url: 'inc2.html',
 			unsafe: true
 		}
-//
-//		/*
-//		 * LOADING
-//		 */
-//		this.loading = new rg.Loading({
-//			isvisible: true
-//		})
-//		this.toggleLoading = () => {
-//			this.loading.isvisible = !this.loading.isvisible
-//		}
-//
+
 //		/*
 //		 * MARKDOWN
 //		 */
@@ -295,11 +276,6 @@
 //		this.changeMarkdown = () => {
 //			this.markdown.parse('### Hello RiotGear!')
 //		}
-//
-//		/*
-//		 * MAP
-//		 */
-//		this.map = new rg.Map()
 //
 //		/*
 //		 * MODAL
