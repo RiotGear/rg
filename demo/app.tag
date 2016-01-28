@@ -147,10 +147,10 @@
 
 	<!--<h2>Unsplash</h2>-->
 
-	<!--<div class="demo">-->
-		<!--<rg-unsplash unsplash="{ unsplash }"></rg-unsplash>-->
-	<!--</div>-->
-	<!--<button onclick="{ changeUnsplash }">Change image</button>-->
+	<div class="demo">
+		<rg-unsplash unsplash="{ unsplash }"></rg-unsplash>
+	</div>
+	<button onclick="{ changeUnsplash }">Change image</button>
 
 	<h3>>> END</h3>
 
@@ -362,20 +362,20 @@
 //			this.select.autocomplete = !this.select.autocomplete
 //			this.select.update()
 //		}
-//
-//		/*
-//		 * UNSPLASH
-//		 */
-//		this.unsplash = new rg.Unsplash()
-//		this.changeUnsplash = () => {
-//			this.unsplash.width = 200
-//			this.unsplash.height = 100
-//			this.unsplash.greyscale = "true"
-//			this.unsplash.random = "true"
-//			this.unsplash.blur = "true"
-//			this.unsplash.image = "491"
-//			this.unsplash.gravity = "north"
-//		}
+
+		/*
+		 * UNSPLASH
+		 */
+		this.unsplash = {}
+		this.changeUnsplash = () => {
+			this.unsplash.width = 200
+			this.unsplash.height = 100
+			this.unsplash.greyscale = "true"
+			this.unsplash.random = "true"
+			this.unsplash.blur = "true"
+			this.unsplash.image = "491"
+			this.unsplash.gravity = "north"
+		}
 //
 //		/*
 //		 * TIME
