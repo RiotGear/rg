@@ -2,7 +2,7 @@
 
 	<div class="wrapper">
 		<label class="toggle">
-			<input type="checkbox" checked="{ RgToggle.checked }" onclick="{ toggle }">
+			<input type="checkbox" checked="{ opts.toggle.checked }" onclick="{ toggle }">
 
 			<div class="track">
 				<div class="handle"></div>
@@ -12,15 +12,12 @@
 
 	<script>
 		this.on('mount', () => {
-			this.RgToggle = opts.toggle || new rg.Toggle()
-			this.RgToggle.on('update', () => {
-				this.update()
-			})
-			this.update()
+			if (!opts.toggle) opts.toggle = { checked: false }
 		})
 
 		this.toggle = () => {
-			this.RgToggle.toggle()
+			opts.toggle.checked = !opts.toggle.checked
+			this.trigger('toggle', opts.toggle.checked)
 		}
 
 	</script>

@@ -3,13 +3,14 @@ describe('rg-toggle', function() {
 
   beforeEach(function() {
     spy = sinon.spy()
-    toggle = new rg.Toggle({
+    toggle = {
       checked: false
-    }).on('toggle', spy)
+    }
     $('body').append('<rg-toggle></rg-toggle>')
     tag = riot.mount('rg-toggle', {
       toggle
     })[0]
+    tag.on('toggle', spy)
   })
 
   afterEach(function() {
@@ -26,7 +27,7 @@ describe('rg-toggle', function() {
 
   it('has a checked checkbox', function() {
     toggle.checked = true
-    toggle.update()
+    riot.update()
     $('rg-toggle input[type=checkbox]').is(':checked').should.be.true
   })
 

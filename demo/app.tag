@@ -138,12 +138,12 @@
 		<!--<button onclick="{ changeToasts }">Change toasts</button>-->
 	<!--</div>-->
 
-	<!--<h2>Toggle</h2>-->
+	<h2>Toggle</h2>
 
-	<!--<div class="demo">-->
-		<!--<rg-toggle toggle="{ toggle }"></rg-toggle>-->
-		<!--<button onclick="{ changeToggle }">Change toggle</button>-->
-	<!--</div>-->
+	<div class="demo">
+		<rg-toggle toggle="{ toggle }"></rg-toggle>
+		<button onclick="{ changeToggle }">Change toggle</button>
+	</div>
 
 	<!--<h2>Unsplash</h2>-->
 
@@ -391,16 +391,16 @@
 //			this.time.placeholder = 'Select a time'
 //		}
 //
-//		/*
-//		 * TOGGLE
-//		 */
-//		this.toggle = new rg.Toggle({
-//			checked: true
-//		}).on('toggle', checked => console.log('checked', checked))
-//
-//		this.changeToggle = () => {
-//			this.toggle.toggle()
-//		}
+		/*
+		 * TOGGLE
+		 */
+		this.toggle = {
+			checked: true
+		}
+
+		this.changeToggle = () => {
+			this.toggle.checked = !this.toggle.checked
+		}
 //
 //		/*
 //		 * TAGS
