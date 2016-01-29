@@ -1,10 +1,10 @@
-riot.tag2('rg-tabs', '<div class="headers"> <div each="{opts.tabs.tabs}" class="header {active: active, disabled: disabled}" onclick="{parent.open}"> <div class="heading"> {heading} </div> </div> </div> <div each="{opts.tabs.tabs}" class="tab {active: active}"> <div if="{text}"> {text} </div> <div if="{include}"> {include.responseText} </div> </div>', 'rg-tabs .headers,[riot-tag="rg-tabs"] .headers { display: -webkit-flex; display: -ms-flexbox; display: flex; } rg-tabs .header,[riot-tag="rg-tabs"] .header { -webkit-flex: 1; -ms-flex: 1; flex: 1; box-sizing: border-box; text-align: center; cursor: pointer; box-shadow: 0 -1px 0 0 #000 inset; } rg-tabs .heading,[riot-tag="rg-tabs"] .heading { padding: 10px; margin: 0; } rg-tabs .header.active,[riot-tag="rg-tabs"] .header.active { background-color: #000; } rg-tabs .header.active .heading,[riot-tag="rg-tabs"] .header.active .heading { color: white; } rg-tabs .header.disabled .heading,[riot-tag="rg-tabs"] .header.disabled .heading { color: #888; } rg-tabs .tab,[riot-tag="rg-tabs"] .tab { display: none; padding: 10px; } rg-tabs .tab.active,[riot-tag="rg-tabs"] .tab.active { display: block; }', '', function(opts) {
+riot.tag2('rg-tabs', '<div class="tabs {\'tabs--\' + opts.tabs.type}"> <div class="tabs__headings"> <div each="{opts.tabs.tabs}" class="tab-heading {\'tab-heading--active\': active, \'tab-heading--disabled\': disabled}" onclick="{parent.open}"> {heading} </div> </div> <div each="{opts.tabs.tabs}" class="tabs__tab {\'tabs__tab--active\': active}"> <div if="{text}"> {text} </div> <div if="{include}"> {include.responseText} </div> </div> </div>', '', '', function(opts) {
 var _this = this;
 
 var fetch = function fetch(tab) {
 	var req = new XMLHttpRequest();
 	req.onload = function (resp) {
-		_this.root.querySelector('.tab.active').innerHTML = req.responseText;
+		_this.root.querySelector('.tabs__tab--active').innerHTML = req.responseText;
 	};
 	req.open('get', tab.include, true);
 	req.send();

@@ -32,34 +32,34 @@ describe('rg-drawer', function () {
 	})
 
 	it('has an overlay', function () {
-		$('rg-drawer .overlay').is('.visible').should.be.true
-		$('rg-drawer .drawer').is('.visible').should.be.true
+		$('rg-drawer .overlay').length.should.equal(1)
+		$('rg-drawer .drawer').is('.drawer--visible').should.be.true
 	})
 
 	it('header is set correctly', function () {
-		$('rg-drawer .header').text().should.contain('Side Menu')
+		$('rg-drawer .heading').text().should.contain('Side Menu')
 	})
 
 	it('has items', function () {
-		$('rg-drawer .item').length.should.equal(2)
-		$('rg-drawer .item:nth-child(1)').text().should.contain('Item 1')
-		$('rg-drawer .item:nth-child(2)').text().should.contain('Item 2')
+		$('rg-drawer .menu__item').length.should.equal(2)
+		$('rg-drawer .menu__item:nth-child(1)').text().should.contain('Item 1')
+		$('rg-drawer .menu__item:nth-child(2)').text().should.contain('Item 2')
 	})
 
 	it('clicking an item activates it', function () {
-		$('rg-drawer .item:nth-child(1)').is('.active').should.be.false
-		$('rg-drawer .item:nth-child(2)').is('.active').should.be.false
-		$('rg-drawer .item:nth-child(1)').click()
-		$('rg-drawer .item:nth-child(1)').is('.active').should.be.true
-		$('rg-drawer .item:nth-child(2)').is('.active').should.be.false
-		$('rg-drawer .item:nth-child(2)').click()
-		$('rg-drawer .item:nth-child(1)').is('.active').should.be.false
-		$('rg-drawer .item:nth-child(2)').is('.active').should.be.true
+		$('rg-drawer .menu__item:nth-child(1)').is('.menu__item--active').should.be.false
+		$('rg-drawer .menu__item:nth-child(2)').is('.menu__item--active').should.be.false
+		$('rg-drawer .menu__item:nth-child(1)').click()
+		$('rg-drawer .menu__item:nth-child(1)').is('.menu__item--active').should.be.true
+		$('rg-drawer .menu__item:nth-child(2)').is('.menu__item--active').should.be.false
+		$('rg-drawer .menu__item:nth-child(2)').click()
+		$('rg-drawer .menu__item:nth-child(1)').is('.menu__item--active').should.be.false
+		$('rg-drawer .menu__item:nth-child(2)').is('.menu__item--active').should.be.true
 	})
 
 	it('clicking overlay closes draw', function () {
 		$('rg-drawer .overlay').click()
-		$('rg-drawer .overlay').is('.visible').should.be.false
-		$('rg-drawer .drawer').is('.visible').should.be.false
+		$('rg-drawer .overlay').length.should.equal(0)
+		$('rg-drawer .drawer').is('.drawer--visible').should.be.false
 	})
 })

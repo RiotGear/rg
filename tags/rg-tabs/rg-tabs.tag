@@ -1,17 +1,17 @@
 <rg-tabs>
-	<div class="headers">
-		<div each="{ opts.tabs.tabs }" class="header { active: active, disabled: disabled }" onclick="{ parent.open }">
-			<div class="heading">
+	<div class="tabs { 'tabs--' + opts.tabs.type }">
+		<div class="tabs__headings">
+			<div each="{ opts.tabs.tabs }" class="tab-heading { 'tab-heading--active': active, 'tab-heading--disabled': disabled }" onclick="{ parent.open }">
 				{ heading }
 			</div>
 		</div>
-	</div>
-	<div each="{ opts.tabs.tabs }" class="tab { active: active }">
-		<div if="{ text }">
-			{ text }
-		</div>
-		<div if="{ include }">
-			{ include.responseText }
+		<div each="{ opts.tabs.tabs }" class="tabs__tab { 'tabs__tab--active': active }">
+			<div if="{ text }">
+				{ text }
+			</div>
+			<div if="{ include }">
+				{ include.responseText }
+			</div>
 		</div>
 	</div>
 
@@ -19,7 +19,7 @@
 		const fetch = (tab) => {
 			const req = new XMLHttpRequest()
 			req.onload = resp => {
-				this.root.querySelector('.tab.active').innerHTML = req.responseText
+				this.root.querySelector('.tabs__tab--active').innerHTML = req.responseText
 			}
 			req.open('get', tab.include, true)
 			req.send()
@@ -46,48 +46,4 @@
 
 	</script>
 
-	<style scoped>
-		.headers {
-			display: -webkit-flex;
-			display: -ms-flexbox;
-			display: flex;
-		}
-
-		.header {
-			-webkit-flex: 1;
-			-ms-flex: 1;
-			flex: 1;
-			box-sizing: border-box;
-			text-align: center;
-			cursor: pointer;
-			box-shadow: 0 -1px 0 0 #000 inset;
-		}
-
-		.heading {
-			padding: 10px;
-			margin: 0;
-		}
-
-		.header.active {
-			background-color: #000;
-		}
-
-		.header.active .heading {
-			color: white;
-		}
-
-		.header.disabled .heading {
-			color: #888;
-		}
-
-		.tab {
-			display: none;
-			padding: 10px;
-		}
-
-		.tab.active {
-			display: block;
-		}
-
-	</style>
 </rg-tabs>

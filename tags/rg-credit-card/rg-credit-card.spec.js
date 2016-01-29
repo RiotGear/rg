@@ -58,7 +58,7 @@ describe('rg-credit-card-number', function () {
 		it('for a valid number', function () {
 			const textbox = $('rg-credit-card-number .card-no')
 			textbox.val(cardNoVisa).trigger('input')
-			textbox.hasClass('valid').should.be.true
+			textbox.hasClass('field--success').should.be.true
 		})
 	})
 })

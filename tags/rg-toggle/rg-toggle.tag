@@ -1,18 +1,19 @@
 <rg-toggle>
 
-	<div class="wrapper">
-		<label class="toggle">
+	<div class="toggle { 'toggle--' + opts.toggle.type }">
+		<label class="toggle__wrapper">
 			<input type="checkbox" checked="{ opts.toggle.checked }" onclick="{ toggle }">
-
-			<div class="track">
-				<div class="handle"></div>
+			<div class="toggle__track">
+				<div class="toggle__handle"></div>
 			</div>
 		</label>
 	</div>
 
 	<script>
 		this.on('mount', () => {
-			if (!opts.toggle) opts.toggle = { checked: false }
+			if (!opts.toggle) opts.toggle = {
+				checked: false
+			}
 		})
 
 		this.toggle = () => {
@@ -22,57 +23,4 @@
 
 	</script>
 
-	<style scoped>
-		.wrapper {
-			width: 60px;
-			height: 20px;
-			margin: 0;
-			display: inline-block;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
-		}
-
-		.toggle {
-			position: absolute;
-			cursor: pointer;
-		}
-
-		input[type=checkbox] {
-			display: none;
-		}
-
-		.track {
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			width: 60px;
-			height: 20px;
-			padding: 2px;
-			background-color: #b6c0c7;
-			transition: background-color 0.1s linear;
-			box-sizing: border-box;
-		}
-
-		input[type=checkbox]:checked + .track {
-			background-color: #000;
-		}
-
-		.handle {
-			position: relative;
-			left: 0;
-			width: 50%;
-			height: 100%;
-			background-color: white;
-			transition: transform 0.1s linear;
-		}
-
-		input[type=checkbox]:checked + .track .handle {
-			transform: translate3d(100%, 0, 0);
-		}
-
-	</style>
 </rg-toggle>

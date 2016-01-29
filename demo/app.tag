@@ -3,14 +3,14 @@
 
 	<div class="demo">
 		<rg-alerts alerts="{ alerts }"></rg-alerts>
-		<button onclick="{ addAlert }">Add alert</button>
+		<button class="button" onclick="{ addAlert }">Add alert</button>
 	</div>
 
 	<h2>Bubble</h2>
 
 	<div class="demo">
 		<rg-bubble text="{ bubble }">Hover over me</rg-bubble>
-		<button onclick="{ updateBubbleText }">Change bubble</button>
+		<button class="button" onclick="{ updateBubbleText }">Change bubble</button>
 	</div>
 
 	<h2>Code</h2>
@@ -18,13 +18,13 @@
 	<div class="demo">
 		<rg-code editor="{ editorSettings }"></rg-code>
 	</div>
-	<button onclick="{ changeCode }">Change code</button>
+	<button class="button" onclick="{ changeCode }">Change code</button>
 
 	<h2>Credit Card</h2>
 
 	<div class="demo">
 		<rg-credit-card-number card="{ creditcard }"></rg-credit-card-number>
-		<button onclick="{ changeCardNumber }">Change Card Number</button>
+		<button class="button" onclick="{ changeCardNumber }">Change Card Number</button>
 	</div>
 
 	<!--<h2>Date</h2>-->
@@ -32,14 +32,14 @@
 	<!--<div class="demo">-->
 	<!--<rg-date date="{ date }"></rg-date>-->
 	<!--{ date.date }-->
-	<!--<button onclick="{ changeDate }">Change date</button>-->
+	<!--<button class="button" onclick="{ changeDate }">Change date</button>-->
 	<!--</div>-->
 
 	<h2>Drawer</h2>
 
 	<div class="demo no-overflow">
 		<rg-drawer drawer="{ drawer }"></rg-drawer>
-		<button onclick="{ openDrawer }">Open drawer</button>
+		<button class="button" onclick="{ openDrawer }">Open drawer</button>
 	</div>
 
 	<h2>GA</h2>
@@ -69,7 +69,7 @@
 
 	<div class="demo">
 		<rg-markdown markdown="{ markdown }"></rg-markdown>
-		<button onclick="{ changeMarkdown }">Change content</button>
+		<button class="button" onclick="{ changeMarkdown }">Change content</button>
 	</div>
 
 	<h2>Modal</h2>
@@ -79,15 +79,15 @@
 			Well hello there!
 		</rg-modal>
 	</div>
-	<button onclick="{ toggleModal }">Toggle modal</button>
-	<button onclick="{ toggleModalType }">Toggle type</button>
-	<button onclick="{ toggleModalDismissable }">Toggle dismissable</button>
+	<button class="button" onclick="{ toggleModal }">Toggle modal</button>
+	<button class="button" onclick="{ toggleModalType }">Toggle type</button>
+	<button class="button" onclick="{ toggleModalDismissable }">Toggle dismissable</button>
 
 	<h2>Phone Sim</h2>
 
 	<div class="demo">
 		<rg-phone-sim url="{ phonesim }"></rg-phone-sim>
-		<button onclick="{ changePhoneSimURL }">Change URL</button>
+		<button class="button" onclick="{ changePhoneSimURL }">Change URL</button>
 	</div>
 
 	<h2>Placehold.it</h2>
@@ -95,13 +95,13 @@
 	<div class="demo">
 		<rg-placeholdit placeholdit="{ placeholdit }"></rg-placeholdit>
 	</div>
-	<button onclick="{ changePlacholdIt }">Change image</button>
+	<button class="button" onclick="{ changePlacholdIt }">Change image</button>
 
 	<!--<h2>Select</h2>-->
 
 	<!--<div class="demo">-->
 	<!--<rg-select select="{ select }"></rg-select>-->
-	<!--<button onclick="{ toggleAutocomplete }">Toggle autocomplete</button>-->
+	<!--<button class="button" onclick="{ toggleAutocomplete }">Toggle autocomplete</button>-->
 	<!--</div>-->
 
 	<h2>Tabs</h2>
@@ -109,7 +109,7 @@
 	<div class="demo">
 		<rg-tabs tabs="{ tabs }"></rg-tabs>
 	</div>
-	<button onclick="{ changeTabContent }">Change tab</button>
+	<button class="button" onclick="{ changeTabContent }">Change tab</button>
 
 	<!--<h2>Tags</h2>-->
 
@@ -121,21 +121,22 @@
 
 	<!--<div class="demo">-->
 	<!--<rg-time time="{ time }"></rg-time>-->
-	<!--<button onclick="{ changeTime }">Change time</button>-->
+	<!--<button class="button" onclick="{ changeTime }">Change time</button>-->
 	<!--</div>-->
 
 	<h2>Toast</h2>
 
 	<div class="demo">
 		<rg-toasts toasts="{ toasts }"></rg-toasts>
-		<button onclick="{ changeToasts }">Change toasts</button>
+		<button class="button" onclick="{ changeToasts }">Change toasts</button>
 	</div>
 
 	<h2>Toggle</h2>
 
 	<div class="demo">
 		<rg-toggle toggle="{ toggle }"></rg-toggle>
-		<button onclick="{ changeToggle }">Change toggle</button>
+		<br><br>
+		<button class="button" onclick="{ changeToggle }">Change toggle</button>
 	</div>
 
 	<!--<h2>Unsplash</h2>-->
@@ -143,7 +144,7 @@
 	<div class="demo">
 		<rg-unsplash unsplash="{ unsplash }"></rg-unsplash>
 	</div>
-	<button onclick="{ changeUnsplash }">Change image</button>
+	<button class="button" onclick="{ changeUnsplash }">Change image</button>
 
 	<h3>>> END</h3>
 
@@ -280,7 +281,10 @@
 			heading: 'Modal heading',
 			buttons: [{
 				text: 'Ok',
-				style: 'background-color:#000;color:#fff',
+				action: () => this.modal.isvisible = false
+			}, {
+				text: 'Canel',
+				type: 'button--secondary',
 				action: () => this.modal.isvisible = false
 			}]
 		}
@@ -388,6 +392,7 @@
 			 * TOGGLE
 			 */
 		this.toggle = {
+			type: 'primary',
 			checked: true
 		}
 
@@ -420,7 +425,9 @@
 			 * TOASTS
 			 */
 		this.toasts = {
+			position: 'topright',
 			toasts: [{
+				type: 'primary',
 				text: 'Hey look at me!'
 			}]
 		}
@@ -436,6 +443,7 @@
 		 * TABS
 		 */
 		this.tabs = {
+			type: 'primary',
 			tabs: [{
 				heading: 'Tab one',
 				text: 'This is tab one'

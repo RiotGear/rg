@@ -36,40 +36,40 @@ describe('rg-tabs', function() {
   })
 
   it('has correct number of tabs', function() {
-    $('rg-tabs .tab').length.should.equal(4)
+    $('rg-tabs .tabs__tab').length.should.equal(4)
   })
 
   it('can preset tab as active', function() {
-    $('rg-tabs .header:nth-child(2)').is('.active').should.be.true
+    $('rg-tabs .tab-heading:nth-child(2)').is('.tab-heading--active').should.be.true
   })
 
   it('can disable tabs', function() {
-    $('rg-tabs .header:nth-child(3)').is('.disabled').should.be.true
+    $('rg-tabs .tab-heading:nth-child(3)').is('.tab-heading--disabled').should.be.true
   })
 
   it('heading renders text', function() {
-    $('rg-tabs .header:nth-child(2)').text().should.contain('Tab two')
-    $('rg-tabs .header:nth-child(3)').text().should.contain('Disabled tab')
-    $('rg-tabs .header:nth-child(4)').text().should.contain('Tab three')
+    $('rg-tabs .tab-heading:nth-child(2)').text().should.contain('Tab two')
+    $('rg-tabs .tab-heading:nth-child(3)').text().should.contain('Disabled tab')
+    $('rg-tabs .tab-heading:nth-child(4)').text().should.contain('Tab three')
   })
 
   it('clicking header actives tab', function() {
-    $('rg-tabs .header:nth-child(4)').click()
-    $('rg-tabs .header:nth-child(1)').is('.active').should.be.false
-    $('rg-tabs .header:nth-child(2)').is('.active').should.be.false
+    $('rg-tabs .tab-heading:nth-child(4)').click()
+    $('rg-tabs .tab-heading:nth-child(1)').is('.tab-heading--active').should.be.false
+    $('rg-tabs .tab-heading:nth-child(2)').is('.tab-heading--active').should.be.false
   })
 
   it('tab is body is rendered', function() {
-    $('rg-tabs .tab.active').html().should.contain('This is tab two')
+    $('rg-tabs .tabs__tab--active').html().should.contain('This is tab two')
   })
 
   it('clicking disabled tab does nothing', function() {
-    $('rg-tabs .header:nth-child(3)').click()
-    $('rg-tabs .header:nth-child(2)').is('.active').should.be.true
+    $('rg-tabs .tab-heading:nth-child(3)').click()
+    $('rg-tabs .tab-heading:nth-child(2)').is('.tab-heading--active').should.be.true
   })
 
   it('onopen callback is called on tab click', function() {
-    $('rg-tabs .header:nth-child(2)').click()
+    $('rg-tabs .tab-heading:nth-child(2)').click()
     spy.should.have.been.called
   })
 })
