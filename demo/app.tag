@@ -1,5 +1,4 @@
 <app>
-	<rg-context-menu menu="{ contextMenu }"></rg-context-menu>
 	<h2>Alert</h2>
 
 	<div class="demo">
@@ -20,12 +19,6 @@
 		<rg-code editor="{ editorSettings }"></rg-code>
 	</div>
 	<button onclick="{ changeCode }">Change code</button>
-
-	<!--<h2>Context Menu</h2>-->
-
-	<!--<div class="demo" rg-context-menu="myMenu">-->
-		<!--Right click here.-->
-	<!--</div>-->
 
 	<h2>Credit Card</h2>
 
@@ -111,12 +104,12 @@
 		<!--<button onclick="{ toggleAutocomplete }">Toggle autocomplete</button>-->
 	<!--</div>-->
 
-	<!--<h2>Tabs</h2>-->
+	<h2>Tabs</h2>
 
-	<!--<div class="demo">-->
-		<!--<rg-tabs tabs="{ tabs }"></rg-tabs>-->
-	<!--</div>-->
-	<!--<button onclick="{ changeTabContent }">Change tab</button>-->
+	<div class="demo">
+		<rg-tabs tabs="{ tabs }"></rg-tabs>
+	</div>
+	<button onclick="{ changeTabContent }">Change tab</button>
 
 	<!--<h2>Tags</h2>-->
 
@@ -438,36 +431,33 @@
 			})
 			this.toasts.position = 'bottomleft'
 		}
-//
-//		/*
-//		 * TABS
-//		 */
-//		this.tabs = new rg.Tabs({
-//			tabs: [{
-//				heading: 'Tab <em>one</em>',
-//				content: 'This is tab one'
-//			}, {
-//				heading: 'Tab two',
-//				content: 'This is tab two',
-//				active: true
-//			}, {
-//				heading: 'Disabled tab',
-//				content: 'This is disabled tab',
-//				disabled: true
-//			}, {
-//				heading: 'Tab three',
-//				content: 'This is tab three content',
-//				include: new rg.Include({
-//					url: 'tab.html',
-//					unsafe: true
-//				})
-//			}]
-//		}).on('open', tab => console.log(tag))
-//
-//		this.changeTabContent = () => {
-//			this.tabs.tabs[0].heading = 'take a look at tab three'
-//			this.tabs.tabs[3].include.url = 'inc.html'
-//		}
+
+		/*
+		 * TABS
+		 */
+		this.tabs = {
+			tabs: [{
+				heading: 'Tab one',
+				text: 'This is tab one'
+			}, {
+				heading: 'Tab two',
+				text: 'This is tab two',
+				active: true
+			}, {
+				heading: 'Disabled tab',
+				text: 'This is disabled tab',
+				disabled: true
+			}, {
+				heading: 'Tab three',
+				text: 'This is tab three content',
+				include: 'tab.html'
+			}]
+		}
+
+		this.changeTabContent = () => {
+			this.tabs.tabs[0].heading = 'take a look at tab three'
+			this.tabs.tabs[3].include = 'inc.html'
+		}
 
 	</script>
 </app>

@@ -3,30 +3,28 @@ describe('rg-tabs', function() {
   let spy = sinon.spy()
 
   beforeEach(function() {
-    tabs = new rg.Tabs({
+    tabs = {
       tabs: [{
-        heading: 'Tab <em>one</em>',
-        content: 'This is tab one'
+        heading: 'Tab one',
+        text: 'This is tab one'
       }, {
         heading: 'Tab two',
-        content: 'This is tab two',
+        text: 'This is tab two',
         active: true
       }, {
         heading: 'Disabled tab',
         disabled: true
       }, {
         heading: 'Tab three',
-        content: 'This is tab three content',
-        include: new rg.Include({
-          url: 'tab.html',
-          unsafe: true
-        })
+        text: 'This is tab three content',
+        include: 'tab.html'
       }]
-    }).on('open', spy)
+    }
     $('body').append('<rg-tabs></rg-tabs>')
     tag = riot.mount('rg-tabs', {
       tabs
     })[0]
+    tag.on('open', spy)
   })
 
   afterEach(function() {
@@ -53,10 +51,6 @@ describe('rg-tabs', function() {
     $('rg-tabs .header:nth-child(2)').text().should.contain('Tab two')
     $('rg-tabs .header:nth-child(3)').text().should.contain('Disabled tab')
     $('rg-tabs .header:nth-child(4)').text().should.contain('Tab three')
-  })
-
-  it('heading renders html', function() {
-    $('rg-tabs .header:nth-child(1)').html().should.contain('Tab <em>one</em>')
   })
 
   it('clicking header actives tab', function() {
