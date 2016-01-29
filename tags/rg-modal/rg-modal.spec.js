@@ -2,23 +2,24 @@ describe('rg-modal', function() {
   let tag
   let spyOnClose = sinon.spy()
   let spyOnClick = sinon.spy()
-  let modal = new rg.Modal({
+  let modal = {
     heading: 'Modal heading',
     isvisible: true,
     ghost: true,
     dismissable: false,
     buttons: [{
       action: spyOnClick,
-      content: 'Save'
+      text: 'Save'
     }, {
-      content: 'Cancel',
+      text: 'Cancel',
       style: 'color: cornflowerblue;'
     }]
-  }).on('close', spyOnClose)
+  }
 
   beforeEach(function() {
     $('body').append('<rg-modal>This is the <strong>body</strong></rg-modal>')
     tag = riot.mount('rg-modal', { modal })[0]
+    tag.on('close', spyOnClose)
   })
 
   afterEach(function() {
@@ -48,8 +49,8 @@ describe('rg-modal', function() {
 
   it('has a footer with two buttons', function() {
     $('rg-modal .footer button').length.should.equal(2)
-    $('rg-modal .footer button:nth-child(1)').text().should.contain(modal.buttons[0].content)
-    $('rg-modal .footer button:nth-child(2)').text().should.contain(modal.buttons[1].content)
+    $('rg-modal .footer button:nth-child(1)').text().should.contain(modal.buttons[0].text)
+    $('rg-modal .footer button:nth-child(2)').text().should.contain(modal.buttons[1].text)
   })
 
   it('buttons can be styled', function() {
@@ -65,7 +66,7 @@ describe('rg-modal', function() {
   it('click the close button calls the onclose callback', function() {
     spyOnClose.reset()
     modal.dismissable = true
-    modal.update()
+    riot.update()
     $('rg-modal .close').click()
     $('rg-modal .modal.isvisible').length.should.equal(0)
     spyOnClose.should.have.been.calledOnce

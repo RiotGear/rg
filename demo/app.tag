@@ -49,12 +49,12 @@
 		<button onclick="{ openDrawer }">Open drawer</button>
 	</div>
 
-	<!-- <h2>GA</h2> -->
+	<h2>GA</h2>
 
-	<!-- <div class="demo"> -->
-		<!-- Google Analytics tag is on this page. Look at Network tab in Developer Tools -->
-		<!-- <rg-ga property="UA-36978977-5"></rg-ga> -->
-	<!-- </div> -->
+	<div class="demo">
+		Google Analytics tag is on this page. Look at Network tab in Developer Tools
+		<rg-ga property="UA-36978977-5"></rg-ga>
+	</div>
 
 	<h2>Include</h2>
 
@@ -79,16 +79,16 @@
 		<button onclick="{ changeMarkdown }">Change content</button>
 	</div>
 
-	<!--<h2>Modal</h2>-->
+	<h2>Modal</h2>
 
-	<!--<div class="demo">-->
-		<!--<rg-modal modal="{ modal }">-->
-			<!--Well hello there!-->
-		<!--</rg-modal>-->
-	<!--</div>-->
-	<!--<button onclick="{ toggleModal }">Toggle modal</button>-->
-	<!--<button onclick="{ toggleModalType }">Toggle type</button>-->
-	<!--<button onclick="{ toggleModalDismissable }">Toggle dismissable</button>-->
+	<div class="demo">
+		<rg-modal modal="{ modal }">
+			Well hello there!
+		</rg-modal>
+	</div>
+	<button onclick="{ toggleModal }">Toggle modal</button>
+	<button onclick="{ toggleModalType }">Toggle type</button>
+	<button onclick="{ toggleModalDismissable }">Toggle dismissable</button>
 
 	<h2>Phone Sim</h2>
 
@@ -278,31 +278,31 @@
 				url: 'inc.md'
 			}
 		}
-//
-//		/*
-//		 * MODAL
-//		 */
-//		this.modal = new rg.Modal({
-//			isvisible: true,
-//			heading: 'Modal heading',
-//			buttons: [{
-//				content: '<em>Ok</em>',
-//				style: 'background-color:#000;color:#fff',
-//				action: () => this.modal.isvisible = false
-//			}]
-//		})
-//
-//		this.toggleModal = () => {
-//			this.modal.isvisible = !this.modal.isvisible
-//		}
-//
-//		this.toggleModalType = () => {
-//			this.modal.ghost = !this.modal.ghost
-//		}
-//
-//		this.toggleModalDismissable = () => {
-//			this.modal.dismissable = !this.modal.dismissable
-//		}
+
+		/*
+		 * MODAL
+		 */
+		this.modal = {
+			isvisible: true,
+			heading: 'Modal heading',
+			buttons: [{
+				text: 'Ok',
+				style: 'background-color:#000;color:#fff',
+				action: () => this.modal.isvisible = false
+			}]
+		}
+
+		this.toggleModal = () => {
+			this.modal.isvisible = !this.modal.isvisible
+		}
+
+		this.toggleModalType = () => {
+			this.modal.ghost = !this.modal.ghost
+		}
+
+		this.toggleModalDismissable = () => {
+			this.modal.dismissable = !this.modal.dismissable
+		}
 
 		/*
 		 * PHONE SIM

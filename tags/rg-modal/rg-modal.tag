@@ -1,12 +1,12 @@
 <rg-modal>
 
-	<div class="overlay { visible: RgModal.isvisible, ghost: RgModal.ghost, dismissable: RgModal.dismissable }" onclick="{ close }"></div>
-	<div class="modal { visible: RgModal.isvisible, ghost: RgModal.ghost, dismissable: RgModal.dismissable }">
+	<div class="overlay { visible: opts.modal.isvisible, ghost: opts.modal.ghost, dismissable: opts.modal.dismissable }" onclick="{ close }"></div>
+	<div class="modal { visible: opts.modal.isvisible, ghost: opts.modal.ghost, dismissable: opts.modal.dismissable }">
 		<header class="header">
-			<button if="{ RgModal.dismissable }" type="button" class="close" aria-label="Close" onclick="{ close }">
+			<button if="{ opts.modal.dismissable }" type="button" class="close" aria-label="Close" onclick="{ close }">
 				<span aria-hidden="true">&times;</span>
 			</button>
-			<h3 class="heading"><rg-raw content="{ RgModal.heading }"></rg-raw></h3>
+			<h3 class="heading">{ opts.modal.heading }</h3>
 		</header>
 
 		<div class="body">
@@ -14,8 +14,8 @@
 		</div>
 
 		<footer class="footer">
-			<button class="button" each="{ RgModal.buttons }" type="button" onclick="{ action }" style="{ style }">
-				<rg-raw content="{ content }"></rg-raw>
+			<button class="button" each="{ opts.modal.buttons }" type="button" onclick="{ action }" style="{ style }">
+				{ text }
 			</button>
 			<div class="clear"></div>
 		</footer>
@@ -23,15 +23,12 @@
 
 	<script>
 		this.on('mount', () => {
-			this.RgModal = opts.modal || new rg.Modal(opts)
-			this.RgModal.on('update', () => {
-				this.update()
-			})
-			this.update()
+			if (!opts.modal) opts.modal = {}
 		})
 
 		this.close = () => {
-			if (this.RgModal.dismissable) this.RgModal.isvisible = false
+			if (opts.modal.dismissable) opts.modal.isvisible = false
+			this.trigger('close')
 		}
 	</script>
 
