@@ -2,25 +2,25 @@ riot.tag2('app', '<h2>Alert</h2> <div class="demo"> <rg-alerts alerts="{alerts}"
 var _this = this;
 
 this.alerts = [{
-	type: 'danger',
-	text: 'Danger! Something bad happened.',
-	dismissable: true,
-	timeout: 2000
+	type: 'primary',
+	text: 'Look! Something you should know about.'
 }, {
-	type: 'warning',
+	type: 'secondary',
 	text: 'Warning! Something sort of bad happened.',
 	dismissable: false
 }, {
-	type: 'information',
-	text: 'Look! Something you should know about.'
-}, {
 	type: 'success',
 	text: 'Success! Well done.'
+}, {
+	type: 'error',
+	text: 'Error! Something bad happened.',
+	dismissable: true,
+	timeout: 2000
 }];
 
 this.addAlert = function () {
 	_this.alerts.push({
-		type: 'danger',
+		type: 'error',
 		text: 'Eeek! Something broke...'
 	});
 };

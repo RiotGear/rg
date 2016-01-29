@@ -30,9 +30,9 @@
 	<!--<h2>Date</h2>-->
 
 	<!--<div class="demo">-->
-		<!--<rg-date date="{ date }"></rg-date>-->
-		<!--{ date.date }-->
-		<!--<button onclick="{ changeDate }">Change date</button>-->
+	<!--<rg-date date="{ date }"></rg-date>-->
+	<!--{ date.date }-->
+	<!--<button onclick="{ changeDate }">Change date</button>-->
 	<!--</div>-->
 
 	<h2>Drawer</h2>
@@ -100,8 +100,8 @@
 	<!--<h2>Select</h2>-->
 
 	<!--<div class="demo">-->
-		<!--<rg-select select="{ select }"></rg-select>-->
-		<!--<button onclick="{ toggleAutocomplete }">Toggle autocomplete</button>-->
+	<!--<rg-select select="{ select }"></rg-select>-->
+	<!--<button onclick="{ toggleAutocomplete }">Toggle autocomplete</button>-->
 	<!--</div>-->
 
 	<h2>Tabs</h2>
@@ -114,14 +114,14 @@
 	<!--<h2>Tags</h2>-->
 
 	<!--<div class="demo">-->
-		<!--<rg-tags tags="{ tags }"></rg-tags>-->
+	<!--<rg-tags tags="{ tags }"></rg-tags>-->
 	<!--</div>-->
 
 	<!--<h2>Time</h2>-->
 
 	<!--<div class="demo">-->
-		<!--<rg-time time="{ time }"></rg-time>-->
-		<!--<button onclick="{ changeTime }">Change time</button>-->
+	<!--<rg-time time="{ time }"></rg-time>-->
+	<!--<button onclick="{ changeTime }">Change time</button>-->
 	<!--</div>-->
 
 	<h2>Toast</h2>
@@ -152,25 +152,25 @@
 		 * ALERTS
 		 */
 		this.alerts = [{
-				type: 'danger',
-				text: 'Danger! Something bad happened.',
-				dismissable: true,
-				timeout: 2000
-			}, {
-				type: 'warning',
-				text: 'Warning! Something sort of bad happened.',
-				dismissable: false
-			}, {
-				type: 'information',
-				text: 'Look! Something you should know about.'
-			}, {
-				type: 'success',
-				text: 'Success! Well done.'
-			}];
+			type: 'primary',
+			text: 'Look! Something you should know about.'
+		}, {
+			type: 'secondary',
+			text: 'Warning! Something sort of bad happened.',
+			dismissable: false
+		}, {
+			type: 'success',
+			text: 'Success! Well done.'
+		}, {
+			type: 'error',
+			text: 'Error! Something bad happened.',
+			dismissable: true,
+			timeout: 2000
+		}];
 
 		this.addAlert = () => {
 			this.alerts.push({
-				type: 'danger',
+				type: 'error',
 				text: 'Eeek! Something broke...'
 			})
 		}
@@ -213,23 +213,23 @@
 		}
 
 		this.changeCardNumber = () => {
-			this.creditcard.cardnumber = 5105105105105100
-		}
-//
-//		/*
-//		 * DATE
-//		 */
-//		this.date = new rg.Date({
-//			date: moment('14-01-1982', 'DD-MM-YYYY')
-//		}).on('select', date => console.log(date))
-//
-//		this.changeDate = () => {
-//			this.date.date = moment()
-//		}
-//
-		/*
-		 * DRAWER
-		 */
+				this.creditcard.cardnumber = 5105105105105100
+			}
+			//
+			//		/*
+			//		 * DATE
+			//		 */
+			//		this.date = new rg.Date({
+			//			date: moment('14-01-1982', 'DD-MM-YYYY')
+			//		}).on('select', date => console.log(date))
+			//
+			//		this.changeDate = () => {
+			//			this.date.date = moment()
+			//		}
+			//
+			/*
+			 * DRAWER
+			 */
 		this.drawer = {
 			header: 'Drawer',
 			isvisible: true,
@@ -310,115 +310,115 @@
 		 */
 		this.placeholdit = {}
 		this.changePlacholdIt = () => {
-			this.placeholdit.width = 200
-			this.placeholdit.height = 100
-			this.placeholdit.background = '1fadc5'
-			this.placeholdit.color = '4df'
-			this.placeholdit.textsize = 50
-			this.placeholdit.text = 'JPEG'
-			this.placeholdit.format = 'jpg'
-		}
-//
-//		/*
-//		 * SELECT
-//		 */
-//		this.select = new rg.Select({
-//			autocomplete: false,
-//			placeholder: 'Please select a card',
-//			hasfilter: true,
-//			filterplaceholder: 'Filter cards',
-//			filterfield: 'text',
-//			onopen: () => console.log('select opened'),
-//			onclose: () => console.log('select closed'),
-//			onfilter: () => console.log('select filtered'),
-//			onselect: item => console.log('select', item),
-//			options: [{
-//				id: 0,
-//				text: 'Visa'
-//			}, {
-//				id: 1,
-//				text: 'MasterCard',
-//				selected: true
-//			}, {
-//				id: 2,
-//				text: 'American Express'
-//			}, {
-//				id: 3,
-//				text: 'Discover'
-//			}]
-//		}).on('open', () => console.log('select opened'))
-//			.on('close', () => console.log('select closed'))
-//			.on('filter', () => console.log('select filtered'))
-//			.on('select', () => console.log('select', item))
-//
-//		this.toggleAutocomplete = () => {
-//			this.select.autocomplete = !this.select.autocomplete
-//			this.select.update()
-//		}
+				this.placeholdit.width = 200
+				this.placeholdit.height = 100
+				this.placeholdit.background = '1fadc5'
+				this.placeholdit.color = '4df'
+				this.placeholdit.textsize = 50
+				this.placeholdit.text = 'JPEG'
+				this.placeholdit.format = 'jpg'
+			}
+			//
+			//		/*
+			//		 * SELECT
+			//		 */
+			//		this.select = new rg.Select({
+			//			autocomplete: false,
+			//			placeholder: 'Please select a card',
+			//			hasfilter: true,
+			//			filterplaceholder: 'Filter cards',
+			//			filterfield: 'text',
+			//			onopen: () => console.log('select opened'),
+			//			onclose: () => console.log('select closed'),
+			//			onfilter: () => console.log('select filtered'),
+			//			onselect: item => console.log('select', item),
+			//			options: [{
+			//				id: 0,
+			//				text: 'Visa'
+			//			}, {
+			//				id: 1,
+			//				text: 'MasterCard',
+			//				selected: true
+			//			}, {
+			//				id: 2,
+			//				text: 'American Express'
+			//			}, {
+			//				id: 3,
+			//				text: 'Discover'
+			//			}]
+			//		}).on('open', () => console.log('select opened'))
+			//			.on('close', () => console.log('select closed'))
+			//			.on('filter', () => console.log('select filtered'))
+			//			.on('select', () => console.log('select', item))
+			//
+			//		this.toggleAutocomplete = () => {
+			//			this.select.autocomplete = !this.select.autocomplete
+			//			this.select.update()
+			//		}
 
 		/*
 		 * UNSPLASH
 		 */
 		this.unsplash = {}
 		this.changeUnsplash = () => {
-			this.unsplash.width = 200
-			this.unsplash.height = 100
-			this.unsplash.greyscale = "true"
-			this.unsplash.random = "true"
-			this.unsplash.blur = "true"
-			this.unsplash.image = "491"
-			this.unsplash.gravity = "north"
-		}
-//
-//		/*
-//		 * TIME
-//		 */
-//		this.time = new rg.Time({
-//			ampm: true,
-//			step: 15,
-//			min: '00:00',
-//			max: '23:59'
-//		})
-//
-//		this.changeTime = () => {
-//			this.time.placeholder = 'Select a time'
-//		}
-//
-		/*
-		 * TOGGLE
-		 */
+				this.unsplash.width = 200
+				this.unsplash.height = 100
+				this.unsplash.greyscale = "true"
+				this.unsplash.random = "true"
+				this.unsplash.blur = "true"
+				this.unsplash.image = "491"
+				this.unsplash.gravity = "north"
+			}
+			//
+			//		/*
+			//		 * TIME
+			//		 */
+			//		this.time = new rg.Time({
+			//			ampm: true,
+			//			step: 15,
+			//			min: '00:00',
+			//			max: '23:59'
+			//		})
+			//
+			//		this.changeTime = () => {
+			//			this.time.placeholder = 'Select a time'
+			//		}
+			//
+			/*
+			 * TOGGLE
+			 */
 		this.toggle = {
 			checked: true
 		}
 
 		this.changeToggle = () => {
-			this.toggle.checked = !this.toggle.checked
-		}
-//
-//		/*
-//		 * TAGS
-//		 */
-//		this.tags = new rg.Tags({
-//			value: 'Canada',
-//			placeholder: 'Choose a country',
-//			options: [{
-//				text: 'England'
-//			}, {
-//				text: 'Scotland'
-//			}, {
-//				text: 'Ireland'
-//			}, {
-//				text: 'Wales'
-//			}],
-//			tags: [{
-//				text: 'Russia'
-//			}]
-//		}).on('add', tag => console.log('add tag', tag))
-//			.on('remove', tag => console.log('remove tag', tag))
-//
-		/*
-		 * TOASTS
-		 */
+				this.toggle.checked = !this.toggle.checked
+			}
+			//
+			//		/*
+			//		 * TAGS
+			//		 */
+			//		this.tags = new rg.Tags({
+			//			value: 'Canada',
+			//			placeholder: 'Choose a country',
+			//			options: [{
+			//				text: 'England'
+			//			}, {
+			//				text: 'Scotland'
+			//			}, {
+			//				text: 'Ireland'
+			//			}, {
+			//				text: 'Wales'
+			//			}],
+			//			tags: [{
+			//				text: 'Russia'
+			//			}]
+			//		}).on('add', tag => console.log('add tag', tag))
+			//			.on('remove', tag => console.log('remove tag', tag))
+			//
+			/*
+			 * TOASTS
+			 */
 		this.toasts = {
 			toasts: [{
 				text: 'Hey look at me!'
