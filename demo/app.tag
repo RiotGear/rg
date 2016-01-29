@@ -131,12 +131,12 @@
 		<!--<button onclick="{ changeTime }">Change time</button>-->
 	<!--</div>-->
 
-	<!--<h2>Toast</h2>-->
+	<h2>Toast</h2>
 
-	<!--<div class="demo">-->
-		<!--<rg-toasts toasts="{ toasts }"></rg-toasts>-->
-		<!--<button onclick="{ changeToasts }">Change toasts</button>-->
-	<!--</div>-->
+	<div class="demo">
+		<rg-toasts toasts="{ toasts }"></rg-toasts>
+		<button onclick="{ changeToasts }">Change toasts</button>
+	</div>
 
 	<h2>Toggle</h2>
 
@@ -423,21 +423,21 @@
 //		}).on('add', tag => console.log('add tag', tag))
 //			.on('remove', tag => console.log('remove tag', tag))
 //
-//		/*
-//		 * TOASTS
-//		 */
-//		this.toasts = new rg.Toasts({
-//			toasts: [{
-//				content: 'Hey look at me!'
-//			}]
-//		})
-//
-//		this.changeToasts = () => {
-//			this.toasts.add({
-//				content: 'Me is a new toast'
-//			})
-//			this.toasts.position = 'bottomleft'
-//		}
+		/*
+		 * TOASTS
+		 */
+		this.toasts = {
+			toasts: [{
+				text: 'Hey look at me!'
+			}]
+		}
+
+		this.changeToasts = () => {
+			this.toasts.toasts.push({
+				text: 'Me is a new toast'
+			})
+			this.toasts.position = 'bottomleft'
+		}
 //
 //		/*
 //		 * TABS
