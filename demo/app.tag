@@ -27,13 +27,13 @@
 		<button class="button" onclick="{ changeCardNumber }">Change Card Number</button>
 	</div>
 
-	<!--<h2>Date</h2>-->
+	<h2>Date</h2>
 
-	<!--<div class="demo">-->
-	<!--<rg-date date="{ date }"></rg-date>-->
-	<!--{ date.date }-->
-	<!--<button class="button" onclick="{ changeDate }">Change date</button>-->
-	<!--</div>-->
+	<div class="demo">
+		<rg-date date="{ date }"></rg-date>
+		{ date.date }
+		<button class="button" onclick="{ changeDate }">Change date</button>
+	</div>
 
 	<h2>Drawer</h2>
 
@@ -135,11 +135,12 @@
 
 	<div class="demo">
 		<rg-toggle toggle="{ toggle }"></rg-toggle>
-		<br><br>
+		<br>
+		<br>
 		<button class="button" onclick="{ changeToggle }">Change toggle</button>
 	</div>
 
-	<!--<h2>Unsplash</h2>-->
+	<h2>Unsplash</h2>
 
 	<div class="demo">
 		<rg-unsplash unsplash="{ unsplash }"></rg-unsplash>
@@ -176,14 +177,6 @@
 			})
 		}
 
-		// setTimeout(() => {
-		// 	this.alerts.push({
-		// 		type: 'information',
-		// 		text: 'Test alert'
-		// 	})
-		// 	this.update()
-		// }, 3000)
-
 		/*
 		 * BUBBLE
 		 */
@@ -214,23 +207,23 @@
 		}
 
 		this.changeCardNumber = () => {
-				this.creditcard.cardnumber = 5105105105105100
-			}
-			//
-			//		/*
-			//		 * DATE
-			//		 */
-			//		this.date = new rg.Date({
-			//			date: moment('14-01-1982', 'DD-MM-YYYY')
-			//		}).on('select', date => console.log(date))
-			//
-			//		this.changeDate = () => {
-			//			this.date.date = moment()
-			//		}
-			//
-			/*
-			 * DRAWER
-			 */
+			this.creditcard.cardnumber = 5105105105105100
+		}
+
+		/*
+		 * DATE
+		 */
+		this.date = {
+			date: moment('14-01-1982', 'DD-MM-YYYY')
+		}
+
+		this.changeDate = () => {
+			this.date.date = moment()
+		}
+
+		/*
+		 * DRAWER
+		 */
 		this.drawer = {
 			header: 'Drawer',
 			isvisible: true,
@@ -281,10 +274,10 @@
 			heading: 'Modal heading',
 			buttons: [{
 				text: 'Ok',
+				type: 'primary',
 				action: () => this.modal.isvisible = false
 			}, {
 				text: 'Canel',
-				type: 'button--secondary',
 				action: () => this.modal.isvisible = false
 			}]
 		}
