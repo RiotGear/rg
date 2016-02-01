@@ -97,6 +97,7 @@
 
 		this.open = () => {
 			opts.date.isvisible = true
+			this.trigger('open')
 		}
 
 		this.close = () => {

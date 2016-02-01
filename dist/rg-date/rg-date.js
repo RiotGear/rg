@@ -69,6 +69,7 @@ this.on('unmount', function () {
 
 this.open = function () {
 	opts.date.isvisible = true;
+	_this.trigger('open');
 };
 
 this.close = function () {

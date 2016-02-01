@@ -97,12 +97,11 @@
 	</div>
 	<button class="button" onclick="{ changePlacholdIt }">Change image</button>
 
-	<!--<h2>Select</h2>-->
+	<h2>Select</h2>
 
-	<!--<div class="demo">-->
-	<!--<rg-select select="{ select }"></rg-select>-->
-	<!--<button class="button" onclick="{ toggleAutocomplete }">Toggle autocomplete</button>-->
-	<!--</div>-->
+	<div class="demo">
+		<rg-select select="{ select }"></rg-select>
+	</div>
 
 	<h2>Tabs</h2>
 
@@ -307,51 +306,35 @@
 		 */
 		this.placeholdit = {}
 		this.changePlacholdIt = () => {
-				this.placeholdit.width = 200
-				this.placeholdit.height = 100
-				this.placeholdit.background = '1fadc5'
-				this.placeholdit.color = '4df'
-				this.placeholdit.textsize = 50
-				this.placeholdit.text = 'JPEG'
-				this.placeholdit.format = 'jpg'
-			}
-			//
-			//		/*
-			//		 * SELECT
-			//		 */
-			//		this.select = new rg.Select({
-			//			autocomplete: false,
-			//			placeholder: 'Please select a card',
-			//			hasfilter: true,
-			//			filterplaceholder: 'Filter cards',
-			//			filterfield: 'text',
-			//			onopen: () => console.log('select opened'),
-			//			onclose: () => console.log('select closed'),
-			//			onfilter: () => console.log('select filtered'),
-			//			onselect: item => console.log('select', item),
-			//			options: [{
-			//				id: 0,
-			//				text: 'Visa'
-			//			}, {
-			//				id: 1,
-			//				text: 'MasterCard',
-			//				selected: true
-			//			}, {
-			//				id: 2,
-			//				text: 'American Express'
-			//			}, {
-			//				id: 3,
-			//				text: 'Discover'
-			//			}]
-			//		}).on('open', () => console.log('select opened'))
-			//			.on('close', () => console.log('select closed'))
-			//			.on('filter', () => console.log('select filtered'))
-			//			.on('select', () => console.log('select', item))
-			//
-			//		this.toggleAutocomplete = () => {
-			//			this.select.autocomplete = !this.select.autocomplete
-			//			this.select.update()
-			//		}
+			this.placeholdit.width = 200
+			this.placeholdit.height = 100
+			this.placeholdit.background = '1fadc5'
+			this.placeholdit.color = '4df'
+			this.placeholdit.textsize = 50
+			this.placeholdit.text = 'JPEG'
+			this.placeholdit.format = 'jpg'
+		}
+
+		/*
+		 * SELECT
+		 */
+		this.select = {
+			placeholder: 'Please select a card',
+			options: [{
+				id: 0,
+				text: 'Visa'
+			}, {
+				id: 1,
+				text: 'MasterCard',
+				selected: true
+			}, {
+				id: 2,
+				text: 'American Express'
+			}, {
+				id: 3,
+				text: 'Discover'
+			}]
+		}
 
 		/*
 		 * UNSPLASH
