@@ -1,4 +1,4 @@
-riot.tag2('rg-select', '<div class="container"> <input type="text" name="selectfield" class="field" value="{fieldText}" placeholder="{opts.select.placeholder}" onkeydown="{handleKeys}" onclick="{toggle}" readonly> <ul class="menu menu--high" if="{opts.select.isvisible}"> <li each="{opts.select.options}" onclick="{parent.select}" class="menu__item {\'menu__item--active\': selected, \'menu__item--disabled\': disabled, \'menu__item--hover\': active}"> {text} </li> </ul> </div>', 'rg-select .menu,[riot-tag="rg-select"] .menu { position: absolute; }', '', function(opts) {
+riot.tag2('rg-select', '<input type="text" name="selectfield" class="field" value="{fieldText}" placeholder="{opts.select.placeholder}" onkeydown="{handleKeys}" onclick="{toggle}" readonly> <ul class="menu menu--high" if="{opts.select.isvisible}"> <li each="{opts.select.options}" onclick="{parent.select}" class="menu__item {\'menu__item--active\': selected, \'menu__item--disabled\': disabled, \'menu__item--hover\': active}"> {text} </li> </ul>', 'rg-select .menu,[riot-tag="rg-select"] .menu { position: absolute; }', '', function(opts) {
 var _this = this;
 
 if (!opts.select) opts.select = { options: [] };
@@ -76,6 +76,7 @@ this.on('mount', function () {
 this.on('update', function () {
 	for (var i = 0; i < opts.select.options.length; i++) {
 		var item = opts.select.options[i];
+		item._id = item._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
 		if (item.selected) {
 			_this.selectfield.value = item.text;
 			break;

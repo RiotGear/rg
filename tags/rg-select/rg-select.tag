@@ -1,23 +1,21 @@
 <rg-select>
 
-	<div class="container">
-		<input type="text"
-					 name="selectfield"
-					 class="field"
-					 value="{ fieldText }"
-					 placeholder="{ opts.select.placeholder }"
-					 onkeydown="{ handleKeys }"
-					 onclick="{ toggle }"
-					 readonly>
+	<input type="text"
+				 name="selectfield"
+				 class="field"
+				 value="{ fieldText }"
+				 placeholder="{ opts.select.placeholder }"
+				 onkeydown="{ handleKeys }"
+				 onclick="{ toggle }"
+				 readonly>
 
-		<ul class="menu menu--high" if="{ opts.select.isvisible }">
-			<li each="{ opts.select.options }"
-			     onclick="{ parent.select }"
-					 class="menu__item { 'menu__item--active': selected, 'menu__item--disabled': disabled, 'menu__item--hover': active }">
-				{ text }
-			</li>
-		</ul>
-	</div>
+	<ul class="menu menu--high" if="{ opts.select.isvisible }">
+		<li each="{ opts.select.options }"
+		     onclick="{ parent.select }"
+				 class="menu__item { 'menu__item--active': selected, 'menu__item--disabled': disabled, 'menu__item--hover': active }">
+			{ text }
+		</li>
+	</ul>
 
 	<script>
 		/* istanbul ignore next */
@@ -104,6 +102,7 @@
 		this.on('update', () => {
 			for (let i = 0; i < opts.select.options.length; i++) {
 				let item = opts.select.options[i]
+				item._id = item._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36)
 				if (item.selected) {
 					this.selectfield.value = item.text
 					break

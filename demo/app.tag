@@ -110,18 +110,11 @@
 	</div>
 	<button class="button" onclick="{ changeTabContent }">Change tab</button>
 
-	<!--<h2>Tags</h2>-->
+	<h2>Tags</h2>
 
-	<!--<div class="demo">-->
-	<!--<rg-tags tags="{ tags }"></rg-tags>-->
-	<!--</div>-->
-
-	<!--<h2>Time</h2>-->
-
-	<!--<div class="demo">-->
-	<!--<rg-time time="{ time }"></rg-time>-->
-	<!--<button class="button" onclick="{ changeTime }">Change time</button>-->
-	<!--</div>-->
+	<div class="demo">
+		<rg-tags tags="{ tags }"></rg-tags>
+	</div>
 
 	<h2>Toast</h2>
 
@@ -341,65 +334,49 @@
 		 */
 		this.unsplash = {}
 		this.changeUnsplash = () => {
-				this.unsplash.width = 200
-				this.unsplash.height = 100
-				this.unsplash.greyscale = "true"
-				this.unsplash.random = "true"
-				this.unsplash.blur = "true"
-				this.unsplash.image = "491"
-				this.unsplash.gravity = "north"
-			}
-			//
-			//		/*
-			//		 * TIME
-			//		 */
-			//		this.time = new rg.Time({
-			//			ampm: true,
-			//			step: 15,
-			//			min: '00:00',
-			//			max: '23:59'
-			//		})
-			//
-			//		this.changeTime = () => {
-			//			this.time.placeholder = 'Select a time'
-			//		}
-			//
-			/*
-			 * TOGGLE
-			 */
+			this.unsplash.width = 200
+			this.unsplash.height = 100
+			this.unsplash.greyscale = "true"
+			this.unsplash.random = "true"
+			this.unsplash.blur = "true"
+			this.unsplash.image = "491"
+			this.unsplash.gravity = "north"
+		}
+
+		/*
+		 * TOGGLE
+		 */
 		this.toggle = {
 			type: 'primary',
 			checked: true
 		}
 
 		this.changeToggle = () => {
-				this.toggle.checked = !this.toggle.checked
-			}
-			//
-			//		/*
-			//		 * TAGS
-			//		 */
-			//		this.tags = new rg.Tags({
-			//			value: 'Canada',
-			//			placeholder: 'Choose a country',
-			//			options: [{
-			//				text: 'England'
-			//			}, {
-			//				text: 'Scotland'
-			//			}, {
-			//				text: 'Ireland'
-			//			}, {
-			//				text: 'Wales'
-			//			}],
-			//			tags: [{
-			//				text: 'Russia'
-			//			}]
-			//		}).on('add', tag => console.log('add tag', tag))
-			//			.on('remove', tag => console.log('remove tag', tag))
-			//
-			/*
-			 * TOASTS
-			 */
+			this.toggle.checked = !this.toggle.checked
+		}
+
+		/*
+		 * TAGS
+		 */
+		this.tags = {
+			placeholder: 'Choose a country',
+			options: [{
+				text: 'England'
+			}, {
+				text: 'Scotland'
+			}, {
+				text: 'Ireland'
+			}, {
+				text: 'Wales'
+			}],
+			tags: [{
+				text: 'Russia'
+			}]
+		}
+
+		/*
+		 * TOASTS
+		 */
 		this.toasts = {
 			position: 'topright',
 			toasts: [{
