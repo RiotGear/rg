@@ -20,9 +20,11 @@
 			const req = new XMLHttpRequest()
 			req.onload = resp => {
 				this.root.querySelector('.tabs__tab--active').innerHTML = req.responseText
+				this.trigger('loaded', tab)
 			}
 			req.open('get', tab.include, true)
 			req.send()
+			this.trigger('loading', tab)
 		}
 
 		this.open = e => {
@@ -40,7 +42,9 @@
 			if (!opts.tabs) opts.tabs = {}
 			if (!Array.isArray(opts.tabs.tabs)) return
 			opts.tabs.tabs.forEach(tab => {
-				if (!tab.disabled && tab.active && tab.include) fetch(tab)
+				if (!tab.disabled && tab.active && tab.include) {
+					fetch(tab)
+				}
 			})
 		})
 

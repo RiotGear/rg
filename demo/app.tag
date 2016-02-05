@@ -172,10 +172,10 @@
 		/*
 		 * BUBBLE
 		 */
-		this.bubble = 'Ping'
+		this.bubble = { text: 'Ping' }
 
 		this.updateBubbleText = () => {
-			this.bubble = 'Pong!'
+			this.bubble = { text: 'Pong!' }
 		}
 
 		/*
@@ -206,7 +206,7 @@
 		 * DATE
 		 */
 		this.date = {
-			date: moment('14-01-1982', 'DD-MM-YYYY')
+			date: moment()
 		}
 
 		this.changeDate = () => {
@@ -289,9 +289,11 @@
 		/*
 		 * PHONE SIM
 		 */
-		this.phonesim = 'http://riotgear.js.org/'
+		this.phonesim = {
+			url: 'http://riotgear.js.org/'
+		}
 		this.changePhoneSimURL = () => {
-			this.phonesim = 'http://riotjs.com'
+			this.phonesim.url = 'http://riotjs.com'
 		}
 
 		/*

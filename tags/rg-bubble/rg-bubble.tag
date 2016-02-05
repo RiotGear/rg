@@ -2,7 +2,7 @@
 
 	<div class="context">
 		<div class="bubble bubble--top" if="{ isvisible }">
-			{ opts.text }
+			{ opts.bubble.text }
 		</div>
 		<div class="content" onmouseover="{ showBubble }" onmouseout="{ hideBubble }" onclick="{ toggleBubble }">
 			<yield/>

@@ -3,8 +3,12 @@ describe('rg-bubble', function() {
   const text = 'This is a bubble'
 
   beforeEach(function() {
-    $('body').append(`<rg-bubble text="${text}"></rg-bubble>`)
-    tag = riot.mount('rg-bubble')[0]
+    $('body').append(`<rg-bubble></rg-bubble>`)
+    tag = riot.mount('rg-bubble', {
+      bubble: {
+        text
+      }
+    })[0]
   })
 
   afterEach(function () {

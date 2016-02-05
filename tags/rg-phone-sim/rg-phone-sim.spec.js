@@ -2,8 +2,12 @@ describe('rg-phone-sim', function() {
   let tag, phonesim
 
   beforeEach(function() {
-    $('body').append('<rg-phone-sim url="http://riotjs.com/"></rg-phone-sim>')
-    tag = riot.mount('rg-phone-sim')[0]
+    $('body').append('<rg-phone-sim></rg-phone-sim>')
+    tag = riot.mount('rg-phone-sim', {
+      phonesim: {
+        url: 'http://riotjs.com/'
+      }
+    })[0]
   })
 
   afterEach(function() {

@@ -1,4 +1,4 @@
-riot.tag2('rg-tags', '<div class="tags"> <span class="tags__container"> <button each="{opts.tags.tags}" onclick="{removeTag}" type="button" class="button button--primary tag"> {text} <span class="tag__close">×</span> </button> </span> <div class="tags__field-container"> <input type="text" name="selectfield" class="field" value="{fieldText}" placeholder="{opts.tags.placeholder}" onkeydown="{handleKeys}" onclick="{toggle}" readonly> <ul class="menu menu--high" if="{opts.tags.isvisible}"> <li each="{opts.tags.options}" onclick="{parent.select}" class="menu__item {\'menu__item--active\': selected, \'menu__item--disabled\': disabled, \'menu__item--hover\': active}"> {text} </li> </ul> </div> </div>', 'rg-tags .menu,[riot-tag="rg-tags"] .menu { position: absolute; }', '', function(opts) {
+riot.tag2('rg-tags', '<div class="tags"> <span class="tags__container"> <button each="{opts.tags.tags}" onclick="{removeTag}" type="button" class="button button--primary tag"> {text} <span class="tag__close">×</span> </button> </span> <div class="tags__field-container"> <input type="text" name="selectfield" class="field" placeholder="{opts.tags.placeholder}" onkeydown="{handleKeys}" onclick="{toggle}" readonly> <ul class="menu menu--high" if="{opts.tags.isvisible}"> <li each="{opts.tags.options}" onclick="{parent.select}" class="menu__item {\'menu__item--active\': selected, \'menu__item--disabled\': disabled, \'menu__item--hover\': active}"> {text} </li> </ul> </div> </div>', 'rg-tags .menu,[riot-tag="rg-tags"] .menu { position: absolute; }', '', function(opts) {
 var _this = this;
 
 if (!opts.tags) opts.tags = { options: [], tags: [] };
@@ -91,7 +91,6 @@ this.on('mount', function () {
 this.on('update', function () {
 	opts.tags.options.forEach(function (item) {
 		item._id = item._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
-		if (item.selected) _this.selectfield.value = item.text;
 	});
 	opts.tags.tags.forEach(function (tag) {
 		tag._id = tag._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);

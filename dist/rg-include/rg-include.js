@@ -6,9 +6,11 @@ var fetch = function fetch() {
 	req.onload = function (resp) {
 		if (opts.include.unsafe) _this.root.innerHTML = req.responseText;else _this.responseText = req.responseText;
 		_this.update();
+		_this.trigger('loaded');
 	};
 	req.open('get', opts.include.url, true);
 	req.send();
+	_this.trigger('loading');
 };
 
 this.on('mount', function () {

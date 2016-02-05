@@ -53,8 +53,9 @@ var buildCalendar = function buildCalendar() {
 };
 
 this.on('mount', function () {
-	if (!opts.date) opts.date = {};
-	opts.date = toMoment(opts.date);
+	if (!opts.date) opts.date = { date: moment() };
+	if (!opts.date.date) opts.date.date = moment();
+	opts.date.date = toMoment(opts.date.date);
 
 	_this.on('update', function () {
 		buildCalendar();

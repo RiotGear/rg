@@ -11,7 +11,6 @@
 			<input type="text"
 						 name="selectfield"
 						 class="field"
-						 value="{ fieldText }"
 						 placeholder="{ opts.tags.placeholder }"
 						 onkeydown="{ handleKeys }"
 						 onclick="{ toggle }"
@@ -127,7 +126,6 @@
 		this.on('update', () => {
 			opts.tags.options.forEach(item => {
 				item._id = item._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36)
-				if (item.selected) this.selectfield.value = item.text
 			})
 			opts.tags.tags.forEach(tag => {
 				tag._id = tag._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36)

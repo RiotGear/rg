@@ -4,7 +4,6 @@ var _this = this;
 this.on('update', function () {
 	if (!opts.alerts) return;
 	opts.alerts.forEach(function (alert) {
-		alert._id = alert._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
 		if (typeof alert.isvisible === 'undefined') alert.isvisible = true;
 		if (alert.timeout) {
 			alert.startTimer = function () {

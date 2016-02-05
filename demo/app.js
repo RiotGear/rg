@@ -25,10 +25,10 @@ this.addAlert = function () {
 	});
 };
 
-this.bubble = 'Ping';
+this.bubble = { text: 'Ping' };
 
 this.updateBubbleText = function () {
-	_this.bubble = 'Pong!';
+	_this.bubble = { text: 'Pong!' };
 };
 
 this.editorSettings = {
@@ -50,7 +50,7 @@ this.changeCardNumber = function () {
 };
 
 this.date = {
-	date: moment('14-01-1982', 'DD-MM-YYYY')
+	date: moment()
 };
 
 this.changeDate = function () {
@@ -122,9 +122,11 @@ this.toggleModalDismissable = function () {
 	_this.modal.dismissable = !_this.modal.dismissable;
 };
 
-this.phonesim = 'http://riotgear.js.org/';
+this.phonesim = {
+	url: 'http://riotgear.js.org/'
+};
 this.changePhoneSimURL = function () {
-	_this.phonesim = 'http://riotjs.com';
+	_this.phonesim.url = 'http://riotjs.com';
 };
 
 this.placeholdit = {};

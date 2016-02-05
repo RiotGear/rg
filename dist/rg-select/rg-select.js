@@ -76,7 +76,6 @@ this.on('mount', function () {
 this.on('update', function () {
 	for (var i = 0; i < opts.select.options.length; i++) {
 		var item = opts.select.options[i];
-		item._id = item._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
 		if (item.selected) {
 			_this.selectfield.value = item.text;
 			break;

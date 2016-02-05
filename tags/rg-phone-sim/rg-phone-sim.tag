@@ -1,7 +1,7 @@
 <rg-phone-sim>
 
 	<div class="emulator">
-		<iframe class="screen" src="{ opts.url }"></iframe>
+		<iframe class="screen" src="{ opts.phonesim.url }"></iframe>
 	</div>
 
 	<style scoped>

@@ -102,7 +102,6 @@
 		this.on('update', () => {
 			for (let i = 0; i < opts.select.options.length; i++) {
 				let item = opts.select.options[i]
-				item._id = item._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36)
 				if (item.selected) {
 					this.selectfield.value = item.text
 					break

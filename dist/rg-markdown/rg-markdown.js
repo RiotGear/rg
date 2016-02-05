@@ -15,9 +15,11 @@ this.on('update', function () {
 			var req = new XMLHttpRequest();
 			req.onload = function (resp) {
 				_this.root.innerHTML = _this.writer.render(_this.reader.parse(req.responseText));
+				_this.trigger('loaded');
 			};
 			req.open('get', opts.markdown.url, true);
 			req.send();
+			_this.trigger('loading');
 		})();
 	}
 });

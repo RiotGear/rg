@@ -5,9 +5,11 @@ var fetch = function fetch(tab) {
 	var req = new XMLHttpRequest();
 	req.onload = function (resp) {
 		_this.root.querySelector('.tabs__tab--active').innerHTML = req.responseText;
+		_this.trigger('loaded', tab);
 	};
 	req.open('get', tab.include, true);
 	req.send();
+	_this.trigger('loading', tab);
 };
 
 this.open = function (e) {
@@ -25,7 +27,9 @@ this.on('update', function () {
 	if (!opts.tabs) opts.tabs = {};
 	if (!Array.isArray(opts.tabs.tabs)) return;
 	opts.tabs.tabs.forEach(function (tab) {
-		if (!tab.disabled && tab.active && tab.include) fetch(tab);
+		if (!tab.disabled && tab.active && tab.include) {
+			fetch(tab);
+		}
 	});
 });
 }, '{ }');
