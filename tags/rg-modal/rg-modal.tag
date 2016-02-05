@@ -26,8 +26,10 @@
 		})
 
 		this.close = () => {
-			if (opts.modal.dismissable) opts.modal.isvisible = false
-			this.trigger('close')
+			if (opts.modal.dismissable) {
+				opts.modal.isvisible = false
+				this.trigger('close')
+			}
 		}
 
 	</script>

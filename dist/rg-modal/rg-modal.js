@@ -6,7 +6,9 @@ this.on('mount', function () {
 });
 
 this.close = function () {
-	if (opts.modal.dismissable) opts.modal.isvisible = false;
-	_this.trigger('close');
+	if (opts.modal.dismissable) {
+		opts.modal.isvisible = false;
+		_this.trigger('close');
+	}
 };
 }, '{ }');
