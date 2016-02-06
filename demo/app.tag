@@ -20,6 +20,16 @@
 	</div>
 	<button class="button" onclick="{ changeCode }">Change code</button>
 
+	<h2>Chart</h2>
+	<div class="demo">
+		<rg-chart chart="{ linechart }"></rg-chart>
+		<rg-chart chart="{ barchart }"></rg-chart>
+		<rg-chart chart="{ radarchart }"></rg-chart>
+		<rg-chart chart="{ polarchart }"></rg-chart>
+		<rg-chart chart="{ piechart }"></rg-chart>
+		<rg-chart chart="{ doughnutchart }"></rg-chart>
+	</div>
+
 	<h2>Credit Card</h2>
 
 	<div class="demo">
@@ -172,11 +182,163 @@
 		/*
 		 * BUBBLE
 		 */
-		this.bubble = { text: 'Ping' }
+		this.bubble = {
+			text: 'Ping'
+		}
 
 		this.updateBubbleText = () => {
-			this.bubble = { text: 'Pong!' }
+			this.bubble = {
+				text: 'Pong!'
+			}
 		}
+
+		/*
+		 * CHART
+		 */
+		this.linechart = {
+			type: 'line',
+			data: {
+				labels: ["January", "February", "March", "April", "May", "June", "July"],
+				datasets: [{
+					label: "My First dataset",
+					fillColor: "rgba(220,220,220,0.2)",
+					strokeColor: "rgba(220,220,220,1)",
+					pointColor: "rgba(220,220,220,1)",
+					pointStrokeColor: "#fff",
+					pointHighlightFill: "#fff",
+					pointHighlightStroke: "rgba(220,220,220,1)",
+					data: [65, 59, 80, 81, 56, 55, 40]
+				}, {
+					label: "My Second dataset",
+					fillColor: "rgba(151,187,205,0.2)",
+					strokeColor: "rgba(151,187,205,1)",
+					pointColor: "rgba(151,187,205,1)",
+					pointStrokeColor: "#fff",
+					pointHighlightFill: "#fff",
+					pointHighlightStroke: "rgba(151,187,205,1)",
+					data: [28, 48, 40, 19, 86, 27, 90]
+				}]
+			}
+		}
+
+		this.barchart = {
+			type: 'bar',
+			data: {
+				labels: ["January", "February", "March", "April", "May", "June", "July"],
+				datasets: [{
+					label: "My First dataset",
+					fillColor: "rgba(220,220,220,0.5)",
+					strokeColor: "rgba(220,220,220,0.8)",
+					highlightFill: "rgba(220,220,220,0.75)",
+					highlightStroke: "rgba(220,220,220,1)",
+					data: [65, 59, 80, 81, 56, 55, 40]
+				}, {
+					label: "My Second dataset",
+					fillColor: "rgba(151,187,205,0.5)",
+					strokeColor: "rgba(151,187,205,0.8)",
+					highlightFill: "rgba(151,187,205,0.75)",
+					highlightStroke: "rgba(151,187,205,1)",
+					data: [28, 48, 40, 19, 86, 27, 90]
+				}]
+			}
+		}
+
+		this.radarchart = {
+			type: 'radar',
+			data: {
+				labels: ["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Cycling", "Running"],
+				datasets: [{
+					label: "My First dataset",
+					fillColor: "rgba(220,220,220,0.2)",
+					strokeColor: "rgba(220,220,220,1)",
+					pointColor: "rgba(220,220,220,1)",
+					pointStrokeColor: "#fff",
+					pointHighlightFill: "#fff",
+					pointHighlightStroke: "rgba(220,220,220,1)",
+					data: [65, 59, 90, 81, 56, 55, 40]
+				}, {
+					label: "My Second dataset",
+					fillColor: "rgba(151,187,205,0.2)",
+					strokeColor: "rgba(151,187,205,1)",
+					pointColor: "rgba(151,187,205,1)",
+					pointStrokeColor: "#fff",
+					pointHighlightFill: "#fff",
+					pointHighlightStroke: "rgba(151,187,205,1)",
+					data: [28, 48, 40, 19, 96, 27, 100]
+				}]
+			}
+		}
+
+		this.polarchart = {
+			type: 'polar',
+			data: [{
+				value: 300,
+				color: "#F7464A",
+				highlight: "#FF5A5E",
+				label: "Red"
+			}, {
+				value: 50,
+				color: "#46BFBD",
+				highlight: "#5AD3D1",
+				label: "Green"
+			}, {
+				value: 100,
+				color: "#FDB45C",
+				highlight: "#FFC870",
+				label: "Yellow"
+			}, {
+				value: 40,
+				color: "#949FB1",
+				highlight: "#A8B3C5",
+				label: "Grey"
+			}, {
+				value: 120,
+				color: "#4D5360",
+				highlight: "#616774",
+				label: "Dark Grey"
+			}]
+		}
+
+		this.piechart = {
+			type: 'pie',
+			data: [{
+				value: 300,
+				color: "#F7464A",
+				highlight: "#FF5A5E",
+				label: "Red"
+			}, {
+				value: 50,
+				color: "#46BFBD",
+				highlight: "#5AD3D1",
+				label: "Green"
+			}, {
+				value: 100,
+				color: "#FDB45C",
+				highlight: "#FFC870",
+				label: "Yellow"
+			}]
+		}
+
+		this.doughnutchart = {
+			type: 'doughnut',
+			data: [{
+				value: 300,
+				color: "#F7464A",
+				highlight: "#FF5A5E",
+				label: "Red"
+			}, {
+				value: 50,
+				color: "#46BFBD",
+				highlight: "#5AD3D1",
+				label: "Green"
+			}, {
+				value: 100,
+				color: "#FDB45C",
+				highlight: "#FFC870",
+				label: "Yellow"
+			}]
+		}
+
 
 		/*
 		 * CODE
@@ -249,16 +411,16 @@
 		/*
 		 * MAP
 		 */
-		 this.tags['rg-map'].on('loaded', map => {
-			 var marker = new google.maps.Marker({
-				 position: {
-					 lat: 53.806,
-					 lng: -1.535
-				 },
-				 map: map,
-				 title: 'Hello RiotGear!'
-			 })
-		 })
+		this.tags['rg-map'].on('loaded', map => {
+			var marker = new google.maps.Marker({
+				position: {
+					lat: 53.806,
+					lng: -1.535
+				},
+				map: map,
+				title: 'Hello RiotGear!'
+			})
+		})
 
 		/*
 		 * MARKDOWN
