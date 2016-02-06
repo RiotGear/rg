@@ -62,7 +62,7 @@
 	<h2>Map</h2>
 
 	<div class="demo">
-		<rg-map map="{ map }"></rg-map>
+		<rg-map></rg-map>
 	</div>
 
 	<h2>Markdown</h2>
@@ -245,6 +245,20 @@
 			url: 'inc2.html',
 			unsafe: true
 		}
+
+		/*
+		 * MAP
+		 */
+		 this.tags['rg-map'].on('loaded', map => {
+			 var marker = new google.maps.Marker({
+				 position: {
+					 lat: 53.806,
+					 lng: -1.535
+				 },
+				 map: map,
+				 title: 'Hello RiotGear!'
+			 })
+		 })
 
 		/*
 		 * MARKDOWN

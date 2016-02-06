@@ -21,7 +21,8 @@
 
 			/* istanbul ignore next */
 			rg.gmap.on('initialize', () => {
-				new google.maps.Map(this.root.querySelector('.rg-map'), opts.map)
+				opts.map.mapObj = new google.maps.Map(this.root.querySelector('.rg-map'), opts.map)
+				this.trigger('loaded', opts.map.mapObj)
 			})
 
 			if (!document.getElementById('gmap_script')) {

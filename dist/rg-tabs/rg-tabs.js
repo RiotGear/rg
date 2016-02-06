@@ -4,7 +4,7 @@ var _this = this;
 var fetch = function fetch(tab) {
 	var req = new XMLHttpRequest();
 	req.onload = function (resp) {
-		_this.root.querySelector('.tabs__tab--active').innerHTML = req.responseText;
+		if (_this && _this.root && req) _this.root.querySelector('.tabs__tab--active').innerHTML = req.responseText;
 		_this.trigger('loaded', tab);
 	};
 	req.open('get', tab.include, true);
