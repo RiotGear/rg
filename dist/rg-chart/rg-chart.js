@@ -1,24 +1,20 @@
-riot.tag2('rg-chart', '<canvas width="{opts.chart.width}" height="{opts.chart.height}"></canvas>', '', '', function(opts) {
+riot.tag2('rg-chart', '<canvas></canvas>', 'rg-chart,[riot-tag="rg-chart"] { display: inline-block; width: 100%; }', '', function(opts) {
 var _this = this;
 
-this.on('update', function () {
-  if (!opts.chart) return;
-  if (!opts.chart.height) opts.chart.height = 400;
-  if (!opts.chart.width) opts.chart.width = 400;
-});
+Chart.defaults.global.responsive = true;
 
 this.on('mount', function () {
-  if (!opts.chart) {
-    opts.chart = {
-      type: 'bar',
-      data: {},
-      options: {},
-      width: 400,
-      height: 400
-    };
-  }
-  if (!opts.chart.height) opts.chart.height = 400;
-  if (!opts.chart.width) opts.chart.width = 400;
+  drawChart();
+});
+
+this.on('loaded', function (chart) {
+  _this.on('unmount', function () {
+    chart.destroy();
+  });
+});
+
+var drawChart = function drawChart() {
+  if (!opts.chart) opts.chart = {};
 
   var ctx = _this.root.querySelector('canvas').getContext('2d');
   var chart = new Chart(ctx);
@@ -43,5 +39,5 @@ this.on('mount', function () {
       break;
   }
   _this.trigger('loaded', chart);
+};
 });
-}, '{ }');

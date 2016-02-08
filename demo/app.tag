@@ -22,12 +22,12 @@
 
 	<h2>Chart</h2>
 	<div class="demo">
-		<rg-chart chart="{ linechart }"></rg-chart>
-		<rg-chart chart="{ barchart }"></rg-chart>
-		<rg-chart chart="{ radarchart }"></rg-chart>
-		<rg-chart chart="{ polarchart }"></rg-chart>
-		<rg-chart chart="{ piechart }"></rg-chart>
-		<rg-chart chart="{ doughnutchart }"></rg-chart>
+		<rg-chart class="chart-container" chart="{ linechart }"></rg-chart>
+		<rg-chart class="chart-container" chart="{ barchart }"></rg-chart>
+		<rg-chart class="chart-container" chart="{ radarchart }"></rg-chart>
+		<rg-chart class="chart-container" chart="{ polarchart }"></rg-chart>
+		<rg-chart class="chart-container" chart="{ piechart }"></rg-chart>
+		<rg-chart class="chart-container" chart="{ doughnutchart }"></rg-chart>
 	</div>
 
 	<h2>Credit Card</h2>

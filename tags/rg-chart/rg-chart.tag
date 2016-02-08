@@ -1,26 +1,22 @@
 <rg-chart>
 
-  <canvas width="{ opts.chart.width }" height="{ opts.chart.height }"></canvas>
+  <canvas></canvas>
 
   <script>
-    this.on('update', () => {
-      if (!opts.chart) return
-      if (!opts.chart.height) opts.chart.height = 400
-      if (!opts.chart.width) opts.chart.width = 400
-    })
+    Chart.defaults.global.responsive = true
 
     this.on('mount', () => {
-      if (!opts.chart) {
-        opts.chart = {
-          type: 'bar',
-          data: {},
-          options: {},
-          width: 400,
-          height: 400
-        }
-      }
-      if (!opts.chart.height) opts.chart.height = 400
-      if (!opts.chart.width) opts.chart.width = 400
+      drawChart()
+    })
+
+    this.on('loaded', chart => {
+      this.on('unmount', () => {
+        chart.destroy()
+      })
+    })
+
+    const drawChart = () => {
+      if (!opts.chart) opts.chart = {}
 
       let ctx = this.root.querySelector('canvas').getContext('2d')
       let chart = new Chart(ctx)
@@ -45,8 +41,16 @@
           break;
       }
       this.trigger('loaded', chart)
-    })
+    }
 
   </script>
+
+  <style scoped>
+    :scope {
+      display: inline-block;
+      width: 100%;
+    }
+
+  </style>
 
 </rg-chart>
