@@ -19,7 +19,8 @@
 		const fetch = (tab) => {
 			const req = new XMLHttpRequest()
 			req.onload = resp => {
-				this.root.querySelector('.tabs__tab--active').innerHTML = req.responseText
+				const activeTab = this.root.querySelector('.tabs__tab--active')
+				if (activeTab) activeTab.innerHTML = req.responseText
 				this.trigger('loaded', tab)
 			}
 			req.open('get', tab.include, true)

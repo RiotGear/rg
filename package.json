@@ -1,6 +1,6 @@
 {
   "name": "riotgear",
-  "version": "3.0.1",
+  "version": "3.2.0",
   "description": "The open source component library for RiotJS",
   "main": "dist/rg.min.js",
   "files": [
@@ -10,7 +10,7 @@
     "preriot": "rm -rf dist",
     "riot": "riot tags dist --type es6",
     "postriot": "riot demo --type es6",
-    "uglify": "uglifyjs --preamble '/*!v3.0.0*/' --compress --mangle --screw-ie8 --comment false --output dist/rg.min.js dist/**/*",
+    "uglify": "uglifyjs --compress --mangle --screw-ie8 --comment false --output dist/rg.min.js dist/**/*",
     "test": "karma start",
     "dev": "npm run riot && npm run uglify",
     "build": "npm run dev && npm run test"

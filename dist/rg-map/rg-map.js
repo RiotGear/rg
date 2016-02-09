@@ -18,7 +18,8 @@ this.on('mount', function () {
 	};
 
 	rg.gmap.on('initialize', function () {
-		new google.maps.Map(_this.root.querySelector('.rg-map'), opts.map);
+		opts.map.mapObj = new google.maps.Map(_this.root.querySelector('.rg-map'), opts.map);
+		_this.trigger('loaded', opts.map.mapObj);
 	});
 
 	if (!document.getElementById('gmap_script')) {
