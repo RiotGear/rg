@@ -4,13 +4,13 @@
 		<input type="text" class="field" onclick="{ open }" value="{ opts.date.date.format(format) }" readonly />
 
 		<div class="calendar calendar--high" if="{ opts.date.isvisible }">
-			<button class="calendar__control" onclick="{ prevYear }">‹</button>
+			<button class="calendar__control" disabled="{ opts.date.min && opts.date.min.isSame(opts.date.date, 'year') }" onclick="{ prevYear }">‹</button>
 			<div class="calendar__header">{ opts.date.date.format(yearFormat) }</div>
-			<button class="calendar__control" onclick="{ nextYear }">›</button>
+			<button class="calendar__control" disabled="{ opts.date.max && opts.date.max.isSame(opts.date.date, 'year') }" onclick="{ nextYear }">›</button>
 
-			<button class="calendar__control" onclick="{ prevMonth }">‹</button>
+			<button class="calendar__control" disabled="{ opts.date.min && opts.date.min.isSame(opts.date.date, 'month') }" onclick="{ prevMonth }">‹</button>
 			<div class="calendar__header">{ opts.date.date.format(monthFormat) }</div>
-			<button class="calendar__control" onclick="{ nextMonth }">›</button>
+			<button class="calendar__control" disabled="{ opts.date.max && opts.date.max.isSame(opts.date.date, 'month') }" onclick="{ nextMonth }">›</button>
 
 			<div class="calendar__day">Mo</div>
 			<div class="calendar__day">Tu</div>
@@ -20,11 +20,11 @@
 			<div class="calendar__day">Sa</div>
 			<div class="calendar__day">Su</div>
 
-			<button class="calendar__date { 'calendar__date--selected': day.selected, 'calendar__date--today': day.today }" each="{ day in startBuffer }" onclick="{ select }">{ day.date.format(dayFormat) }</button>
-			<button class="calendar__date calendar__date--in-month { 'calendar__date--selected': day.selected, 'calendar__date--today': day.today }" each="{ day in days }" onclick="{ select }">{ day.date.format(dayFormat) }</button>
-			<button class="calendar__date { 'calendar__date--selected': day.selected, 'calendar__date--today': day.today }" each="{ day in endBuffer }" onclick="{ select }">{ day.date.format(dayFormat) }</button>
+			<button class="calendar__date { 'calendar__date--selected': day.selected, 'calendar__date--today': day.today }" disabled="{ day.disabled }" each="{ day in startBuffer }" onclick="{ select }">{ day.date.format(dayFormat) }</button>
+			<button class="calendar__date calendar__date--in-month { 'calendar__date--selected': day.selected, 'calendar__date--today': day.today }" disabled="{ day.disabled }" each="{ day in days }" onclick="{ select }">{ day.date.format(dayFormat) }</button>
+			<button class="calendar__date { 'calendar__date--selected': day.selected, 'calendar__date--today': day.today }" disabled="{ day.disabled }" each="{ day in endBuffer }" onclick="{ select }">{ day.date.format(dayFormat) }</button>
 
-			<button class="button button--block button--primary" onclick="{ setToday }">Today</button>
+			<button class="button button--block button--primary" disabled="{ opts.date.min && opts.date.min.isAfter(moment(), 'day') || opts.date.max && opts.date.max.isBefore(moment(), 'day') }" onclick="{ setToday }">Today</button>
 		</div>
 	</div>
 
@@ -46,7 +46,11 @@
 			return {
 				date: dateObj,
 				selected: opts.date.date.isSame(dayDate, 'day'),
-				today: moment().isSame(dayDate, 'day')
+				today: moment().isSame(dayDate, 'day'),
+				disabled: (
+					opts.date.min && opts.date.min.isAfter(dayDate) ||
+					opts.date.max && opts.date.max.isBefore(dayDate)
+				)
 			}
 		}
 
@@ -84,6 +88,22 @@
 			if (!opts.date) opts.date = { date: moment() }
 			if (!opts.date.date) opts.date.date = moment()
 			opts.date.date = toMoment(opts.date.date)
+
+			if (opts.date.min) {
+				opts.date.min = toMoment(opts.date.min)
+
+				if (opts.date.min.isAfter(moment(), 'day')) {
+					opts.date.date = moment(opts.date.min)
+				}
+			}
+
+			if (opts.date.max) {
+				opts.date.max = toMoment(opts.date.max)
+
+				if (opts.date.max.isBefore(moment(), 'day')) {
+					opts.date.date = moment(opts.date.max)
+				}
+			}
 
 			this.on('update', () => {
 				buildCalendar()
