@@ -198,11 +198,13 @@ this.changeCardNumber = function () {
 };
 
 this.date = {
-	date: moment()
+	date: moment(),
+	min: moment().startOf('year'),
+	max: moment().endOf('year')
 };
 
 this.changeDate = function () {
-	_this.date.date = moment();
+	_this.date.date = '2015-01-01';
 };
 
 this.drawer = {

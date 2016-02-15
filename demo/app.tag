@@ -368,11 +368,13 @@
 		 * DATE
 		 */
 		this.date = {
-			date: moment()
+			date: moment(),
+			min: moment().startOf('year'),
+			max: moment().endOf('year')
 		}
 
 		this.changeDate = () => {
-			this.date.date = moment()
+			this.date.date = '2015-01-01'
 		}
 
 		/*
@@ -461,6 +463,7 @@
 		this.toggleModalDismissable = () => {
 			this.modal.dismissable = !this.modal.dismissable
 		}
+
 
 		/*
 		 * PHONE SIM
