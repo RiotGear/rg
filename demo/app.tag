@@ -93,6 +93,11 @@
 	<button class="button" onclick="{ toggleModalType }">Toggle type</button>
 	<button class="button" onclick="{ toggleModalDismissable }">Toggle dismissable</button>
 
+	<h2>Pagination</h2>
+	<div class="demo">
+		<rg-pagination></rg-pagination>
+	</div>
+
 	<h2>Phone Sim</h2>
 
 	<div class="demo">
@@ -464,6 +469,14 @@
 			this.modal.dismissable = !this.modal.dismissable
 		}
 
+		/*
+		 * PAGINATION
+		 */
+		this.pagination = {
+			pages: 100,
+			page: 3,
+			action: page => console.log(page)
+		}
 
 		/*
 		 * PHONE SIM
