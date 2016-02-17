@@ -93,6 +93,11 @@
 	<button class="button" onclick="{ toggleModalType }">Toggle type</button>
 	<button class="button" onclick="{ toggleModalDismissable }">Toggle dismissable</button>
 
+	<h2>Pagination</h2>
+	<div class="demo">
+		<rg-pagination></rg-pagination>
+	</div>
+
 	<h2>Phone Sim</h2>
 
 	<div class="demo">
@@ -368,11 +373,13 @@
 		 * DATE
 		 */
 		this.date = {
-			date: moment()
+			date: moment(),
+			min: moment().startOf('year'),
+			max: moment().endOf('year')
 		}
 
 		this.changeDate = () => {
-			this.date.date = moment()
+			this.date.date = '2015-01-01'
 		}
 
 		/*
@@ -460,6 +467,15 @@
 
 		this.toggleModalDismissable = () => {
 			this.modal.dismissable = !this.modal.dismissable
+		}
+
+		/*
+		 * PAGINATION
+		 */
+		this.pagination = {
+			pages: 100,
+			page: 3,
+			action: page => console.log(page)
 		}
 
 		/*
