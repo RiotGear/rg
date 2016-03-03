@@ -81,7 +81,7 @@ this.on('update', function () {
 			break;
 		}
 	}
-	_this.positionMenu();
+	positionDropdown();
 });
 
 this.on('unmount', function () {
@@ -98,7 +98,7 @@ function getWindowDimensions() {
 	return { width: x, height: y };
 }
 
-this.positionMenu = function () {
+var positionDropdown = function positionDropdown() {
 	var w = getWindowDimensions();
 	var m = _this.root.querySelector('.menu');
 	if (!m) return;

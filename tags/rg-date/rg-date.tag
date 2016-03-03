@@ -108,6 +108,7 @@
 			this.on('update', () => {
 				opts.date.date = toMoment(opts.date.date)
 				buildCalendar()
+				positionDropdown()
 			})
 			document.addEventListener('click', handleClickOutside)
 			this.update()
@@ -154,6 +155,42 @@
 		this.nextMonth = () => {
 			opts.date.date = opts.date.date.add(1, 'month')
 		}
+
+		function getWindowDimensions() {
+			var w = window,
+			d = document,
+			e = d.documentElement,
+			g = d.getElementsByTagName('body')[0],
+			x = w.innerWidth || e.clientWidth || g.clientWidth,
+			y = w.innerHeight || e.clientHeight || g.clientHeight;
+			return { width: x, height: y }
+		}
+
+		const positionDropdown = () => {
+			const w = getWindowDimensions()
+			const m = this.root.querySelector('.calendar')
+			if (!m) return
+			if (!opts.date.isvisible) {
+				// Reset position
+				m.style.marginTop = ''
+				m.style.marginLeft = ''
+				return
+			}
+			const pos = m.getBoundingClientRect()
+			if (w.width < pos.left + pos.width) {
+				// menu is off the right hand of the page
+				m.style.marginLeft = (w.width - (pos.left + pos.width) - 20) + 'px'
+			}
+			if (pos.left < 0) {
+				// menu is off the right hand of the page
+				m.style.marginLeft = '20px'
+			}
+			if (w.height < pos.top + pos.height) {
+				// Popup is off the bottom of the page
+				m.style.marginTop = (w.height - (pos.top + pos.height) - 20) + 'px'
+			}
+		}
+
 
 	</script>
 

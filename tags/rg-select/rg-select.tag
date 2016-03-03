@@ -107,7 +107,7 @@
 					break
 				}
 			}
-			this.positionMenu()
+			positionDropdown()
 		})
 
 		this.on('unmount', () => {
@@ -124,7 +124,7 @@
 			return { width: x, height: y }
 		}
 
-		this.positionMenu = () => {
+		const positionDropdown = () => {
 			const w = getWindowDimensions()
 			const m = this.root.querySelector('.menu')
 			if (!m) return

@@ -131,7 +131,7 @@
 				tag._id = tag._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36)
 			})
 
-			this.positionMenu()
+			positionDropdown()
 		})
 
 		this.on('unmount', () => {
@@ -148,7 +148,7 @@
 			return { width: x, height: y }
 		}
 
-		this.positionMenu = () => {
+		const positionDropdown = () => {
 			const w = getWindowDimensions()
 			const m = this.root.querySelector('.menu')
 			if (!m) return

@@ -96,7 +96,7 @@ this.on('update', function () {
 		tag._id = tag._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36);
 	});
 
-	_this.positionMenu();
+	positionDropdown();
 });
 
 this.on('unmount', function () {
@@ -113,7 +113,7 @@ function getWindowDimensions() {
 	return { width: x, height: y };
 }
 
-this.positionMenu = function () {
+var positionDropdown = function positionDropdown() {
 	var w = getWindowDimensions();
 	var m = _this.root.querySelector('.menu');
 	if (!m) return;
