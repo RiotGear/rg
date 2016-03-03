@@ -77,6 +77,7 @@ this.on('mount', function () {
 	_this.on('update', function () {
 		opts.date.date = toMoment(opts.date.date);
 		buildCalendar();
+		positionDropdown();
 	});
 	document.addEventListener('click', handleClickOutside);
 	_this.update();
@@ -122,5 +123,36 @@ this.prevMonth = function () {
 
 this.nextMonth = function () {
 	opts.date.date = opts.date.date.add(1, 'month');
+};
+
+function getWindowDimensions() {
+	var w = window,
+	    d = document,
+	    e = d.documentElement,
+	    g = d.getElementsByTagName('body')[0],
+	    x = w.innerWidth || e.clientWidth || g.clientWidth,
+	    y = w.innerHeight || e.clientHeight || g.clientHeight;
+	return { width: x, height: y };
+}
+
+var positionDropdown = function positionDropdown() {
+	var w = getWindowDimensions();
+	var m = _this.root.querySelector('.calendar');
+	if (!m) return;
+	if (!opts.date.isvisible) {
+		m.style.marginTop = '';
+		m.style.marginLeft = '';
+		return;
+	}
+	var pos = m.getBoundingClientRect();
+	if (w.width < pos.left + pos.width) {
+		m.style.marginLeft = w.width - (pos.left + pos.width) - 20 + 'px';
+	}
+	if (pos.left < 0) {
+		m.style.marginLeft = '20px';
+	}
+	if (w.height < pos.top + pos.height) {
+		m.style.marginTop = w.height - (pos.top + pos.height) - 20 + 'px';
+	}
 };
 }, '{ }');
