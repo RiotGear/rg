@@ -1,4 +1,4 @@
-riot.tag2('rg-code', '<div class="editor"></div>', 'rg-code .editor,[riot-tag="rg-code"] .editor { position: absolute; top: 0; right: 0; bottom: 0; left: 0; }', '', function(opts) {
+riot.tag2('rg-code', '<div class="editor"></div>', 'rg-code .editor,[riot-tag="rg-code"] .editor,[data-is="rg-code"] .editor{ position: absolute; top: 0; right: 0; bottom: 0; left: 0; }', '', function(opts) {
 var _this = this;
 
 if (!opts.editor) opts.editor = { code: '' };

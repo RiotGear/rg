@@ -33,4 +33,4 @@ this.on('update', function () {
 		}
 	});
 });
-}, '{ }');
+});

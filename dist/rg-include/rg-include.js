@@ -16,4 +16,4 @@ var fetch = function fetch() {
 this.on('mount', function () {
 	fetch();
 });
-}, '{ }');
+});

@@ -9,9 +9,9 @@
       drawChart()
     })
 
-    this.on('loaded', chart => {
+    this.on('loaded', c => {
       this.on('unmount', () => {
-        chart.destroy()
+        c.destroy()
       })
     })
 
@@ -20,27 +20,28 @@
 
       let ctx = this.root.querySelector('canvas').getContext('2d')
       let chart = new Chart(ctx)
+      let c = null
       switch (opts.chart.type) {
         case 'line':
-          chart.Line(opts.chart.data, opts.chart.options)
+          c = chart.Line(opts.chart.data, opts.chart.options)
           break;
         case 'radar':
-          chart.Radar(opts.chart.data, opts.chart.options)
+          c = chart.Radar(opts.chart.data, opts.chart.options)
           break;
         case 'polar':
-          chart.PolarArea(opts.chart.data, opts.chart.options)
+          c = chart.PolarArea(opts.chart.data, opts.chart.options)
           break;
         case 'pie':
-          chart.Pie(opts.chart.data, opts.chart.options)
+          c = chart.Pie(opts.chart.data, opts.chart.options)
           break;
         case 'doughnut':
-          chart.Doughnut(opts.chart.data, opts.chart.options)
+          c = chart.Doughnut(opts.chart.data, opts.chart.options)
           break;
         default:
-          chart.Bar(opts.chart.data, opts.chart.options)
+          c = chart.Bar(opts.chart.data, opts.chart.options)
           break;
       }
-      this.trigger('loaded', chart)
+      this.trigger('loaded', c)
     }
 
   </script>

@@ -17,4 +17,4 @@ this.select = function (e) {
 	e.item.active = true;
 	_this.trigger('select', e.item);
 };
-}, '{ }');
+});

@@ -1,4 +1,4 @@
-riot.tag2('rg-select', '<input type="text" name="selectfield" class="field" value="{fieldText}" placeholder="{opts.select.placeholder}" onkeydown="{handleKeys}" onclick="{toggle}" readonly> <ul class="menu menu--high" if="{opts.select.isvisible}"> <li each="{opts.select.options}" onclick="{parent.select}" class="menu__item {\'menu__item--active\': selected, \'menu__item--disabled\': disabled, \'menu__item--hover\': active}"> {text} </li> </ul>', 'rg-select .menu,[riot-tag="rg-select"] .menu { position: absolute; }', '', function(opts) {
+riot.tag2('rg-select', '<input type="text" name="selectfield" class="field" value="{fieldText}" placeholder="{opts.select.placeholder}" onkeydown="{handleKeys}" onclick="{toggle}" readonly> <ul class="menu menu--high" if="{opts.select.isvisible}"> <li each="{opts.select.options}" onclick="{parent.select}" class="menu__item {\'menu__item--active\': selected, \'menu__item--disabled\': disabled, \'menu__item--hover\': active}"> {text} </li> </ul>', 'rg-select .menu,[riot-tag="rg-select"] .menu,[data-is="rg-select"] .menu{ position: absolute; }', '', function(opts) {
 var _this = this;
 
 if (!opts.select) opts.select = { options: [] };
@@ -118,4 +118,4 @@ var positionDropdown = function positionDropdown() {
 		m.style.marginTop = w.height - (pos.top + pos.height) - 20 + 'px';
 	}
 };
-}, '{ }');
+});

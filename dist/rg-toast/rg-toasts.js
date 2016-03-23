@@ -34,4 +34,4 @@ this.on('update', function () {
 		return toast.isvisible;
 	}).length > 0;
 });
-}, '{ }');
+});
