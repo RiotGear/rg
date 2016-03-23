@@ -12,4 +12,4 @@ this.on('update', function () {
 	if (opts.unsplash.image) _this.options += 'image=' + opts.unsplash.image + '&';
 	if (typeof opts.unsplash.gravity !== 'undefined') _this.options += 'gravity=' + opts.unsplash.gravity;
 });
-}, '{ }');
+});

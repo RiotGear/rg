@@ -128,7 +128,7 @@
 	<h2>Tags</h2>
 
 	<div class="demo">
-		<rg-tags tags="{ tags }"></rg-tags>
+		<rg-tags tags="{ rgTags }"></rg-tags>
 	</div>
 
 	<h2>Toast</h2>
@@ -552,7 +552,7 @@
 		/*
 		 * TAGS
 		 */
-		this.tags = {
+		this.rgTags = {
 			placeholder: 'Choose a country',
 			options: [{
 				text: 'England'

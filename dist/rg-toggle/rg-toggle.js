@@ -11,4 +11,4 @@ this.toggle = function () {
 	opts.toggle.checked = !opts.toggle.checked;
 	_this.trigger('toggle', opts.toggle.checked);
 };
-}, '{ }');
+});

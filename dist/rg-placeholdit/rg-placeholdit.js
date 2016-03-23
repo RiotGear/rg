@@ -9,4 +9,4 @@ this.on('update', function () {
 	opts.placeholdit.textsize = opts.placeholdit.textsize || 30;
 	opts.placeholdit.format = opts.placeholdit.format || 'png';
 });
-}, '{ }');
+});

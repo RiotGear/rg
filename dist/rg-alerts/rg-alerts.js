@@ -31,4 +31,4 @@ this.select = function (e) {
 	if (alert.onclick) alert.onclick(alert);
 	_this.trigger('select', alert);
 };
-}, '{ }');
+});

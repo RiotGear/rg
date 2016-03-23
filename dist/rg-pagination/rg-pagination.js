@@ -27,4 +27,4 @@ this.last = function () {
   opts.pagination.page = opts.pagination.pages;
   _this.trigger('page', opts.pagination.page);
 };
-}, '{ }');
+});

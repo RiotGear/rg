@@ -1,4 +1,4 @@
-riot.tag2('rg-tags', '<div class="tags"> <span class="tags__container"> <button each="{opts.tags.tags}" onclick="{removeTag}" type="button" class="button button--primary tag"> {text} <span class="tag__close">×</span> </button> </span> <div class="tags__field-container"> <input type="text" name="selectfield" class="field" placeholder="{opts.tags.placeholder}" onkeydown="{handleKeys}" onclick="{toggle}" readonly> <ul class="menu menu--high" if="{opts.tags.isvisible}"> <li each="{opts.tags.options}" onclick="{parent.select}" class="menu__item {\'menu__item--active\': selected, \'menu__item--disabled\': disabled, \'menu__item--hover\': active}"> {text} </li> </ul> </div> </div>', 'rg-tags .menu,[riot-tag="rg-tags"] .menu { position: absolute; }', '', function(opts) {
+riot.tag2('rg-tags', '<div class="tags"> <span class="tags__container"> <button each="{opts.tags.tags}" onclick="{removeTag}" type="button" class="button button--primary tag"> {text} <span class="tag__close">×</span> </button> </span> <div class="tags__field-container"> <input type="text" name="selectfield" class="field" placeholder="{opts.tags.placeholder}" onkeydown="{handleKeys}" onclick="{toggle}" readonly> <ul class="menu menu--high" if="{opts.tags.isvisible}"> <li each="{opts.tags.options}" onclick="{parent.select}" class="menu__item {\'menu__item--active\': selected, \'menu__item--disabled\': disabled, \'menu__item--hover\': active}"> {text} </li> </ul> </div> </div>', 'rg-tags .menu,[riot-tag="rg-tags"] .menu,[data-is="rg-tags"] .menu{ position: absolute; }', '', function(opts) {
 var _this = this;
 
 if (!opts.tags) opts.tags = { options: [], tags: [] };
@@ -133,4 +133,4 @@ var positionDropdown = function positionDropdown() {
 		m.style.marginTop = w.height - (pos.top + pos.height) - 20 + 'px';
 	}
 };
-}, '{ }');
+});
