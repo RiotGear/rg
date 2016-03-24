@@ -9,7 +9,7 @@
 	<h2>Bubble</h2>
 
 	<div class="demo">
-		<rg-bubble text="{ bubble }">Hover over me</rg-bubble>
+		<rg-bubble bubble="{ bubble }">Hover over me</rg-bubble>
 		<button class="button" onclick="{ updateBubbleText }">Change bubble</button>
 	</div>
 
