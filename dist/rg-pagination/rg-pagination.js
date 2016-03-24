@@ -8,6 +8,13 @@ this.on('update', function () {
   };
 });
 
+this.on('page', function () {
+  var btns = _this.root.querySelectorAll('button');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].blur();
+  }
+});
+
 this.forward = function () {
   opts.pagination.page++;
   _this.trigger('page', opts.pagination.page);
