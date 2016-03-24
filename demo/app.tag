@@ -95,7 +95,7 @@
 
 	<h2>Pagination</h2>
 	<div class="demo">
-		<rg-pagination></rg-pagination>
+		<rg-pagination pagination="{ pagination }"></rg-pagination>
 	</div>
 
 	<h2>Phone Sim</h2>

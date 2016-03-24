@@ -26,6 +26,13 @@
       }
     })
 
+    this.on('page', () => {
+      const btns = this.root.querySelectorAll('button')
+      for (let i = 0; i < btns.length; i++) {
+        btns[i].blur()
+      }
+    })
+
     this.forward = () => {
       opts.pagination.page++
       this.trigger('page', opts.pagination.page)
