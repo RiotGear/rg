@@ -118,6 +118,12 @@
 		<rg-select select="{ select }"></rg-select>
 	</div>
 
+	<h2>Select -w/ filter</h2>
+
+	<div class="demo">
+		<rg-select select="{ selectWithFilter }"></rg-select>
+	</div>
+
 	<h2>Tabs</h2>
 
 	<div class="demo">
@@ -507,6 +513,28 @@
 		 */
 		this.select = {
 			placeholder: 'Please select a card',
+			options: [{
+				id: 0,
+				text: 'Visa'
+			}, {
+				id: 1,
+				text: 'MasterCard',
+				selected: true
+			}, {
+				id: 2,
+				text: 'American Express'
+			}, {
+				id: 3,
+				text: 'Discover'
+			}]
+		}
+
+		/*
+		 * SELECT WITH FILTER
+		 */
+		this.selectWithFilter = {
+			placeholder: 'Please select a card',
+			filter: 'text',
 			options: [{
 				id: 0,
 				text: 'Visa'

@@ -3,14 +3,14 @@
 	<input type="text"
 				 name="selectfield"
 				 class="field"
-				 value="{ fieldText }"
 				 placeholder="{ opts.select.placeholder }"
-				 onkeydown="{ handleKeys }"
-				 onclick="{ toggle }"
-				 readonly>
+				 onkeydown="{ navigate }"
+				 oninput="{ filterOptions }"
+				 onfocus="{ open }"
+				 readonly="{ !opts.select.filter }">
 
 	<ul class="menu menu--high" if="{ opts.select.isvisible }">
-		<li each="{ opts.select.options }"
+		<li each="{ options }" no-reorder
 		     onclick="{ parent.select }"
 				 class="menu__item { 'menu__item--active': selected, 'menu__item--disabled': disabled, 'menu__item--hover': active }">
 			{ text }
@@ -26,80 +26,7 @@
 			this.update()
 		}
 
-		this.handleKeys = e => {
-			if ([13, 38, 40].indexOf(e.keyCode) > -1 && !opts.select.isvisible) {
-				e.preventDefault()
-				this.open()
-				return true
-			}
-			if (!opts.select.isvisible) this.open()
-			var length = opts.select.options.length
-			if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
-				e.preventDefault()
-					// Get the currently selected item
-				var activeIndex = null
-				for (let i = 0; i < length; i++) {
-					let item = opts.select.options[i]
-					if (item.active) {
-						activeIndex = i
-						break
-					}
-				}
-
-				// We're leaving this item
-				if (activeIndex != null) opts.select.options[activeIndex].active = false
-
-				if (e.keyCode == 38) {
-					// Move the active state to the next item lower down the index
-					if (activeIndex == null || activeIndex == 0)
-						opts.select.options[length - 1].active = true
-					else
-						opts.select.options[activeIndex - 1].active = true
-				} else if (e.keyCode == 40) {
-					// Move the active state to the next item higher up the index
-					if (activeIndex == null || activeIndex == length - 1)
-						opts.select.options[0].active = true
-					else
-						opts.select.options[activeIndex + 1].active = true
-				} else if (e.keyCode == 13 && activeIndex != null) {
-					this.select({
-						item: opts.select.options[activeIndex]
-					})
-				}
-			}
-			return true
-		};
-
-		this.open = () => {
-			opts.select.isvisible = true
-			this.trigger('open')
-		}
-
-		this.close = () => {
-			if (opts.select.isvisible) {
-				opts.select.isvisible = false
-				this.trigger('close')
-			}
-		}
-
-		this.toggle = () => {
-			if (opts.select.isvisible) this.close()
-			else this.open()
-		}
-
-		this.select = e => {
-			opts.select.options.forEach(i => i.selected = false)
-			e.item.selected = true
-			opts.select.isvisible = false
-			this.trigger('select', e.item)
-		}
-
-		this.on('mount', () => {
-			document.addEventListener('click', handleClickOutside)
-			this.update()
-		})
-
-		this.on('update', () => {
+		const applyFieldText = () => {
 			for (let i = 0; i < opts.select.options.length; i++) {
 				let item = opts.select.options[i]
 				if (item.selected) {
@@ -107,20 +34,25 @@
 					break
 				}
 			}
-			positionDropdown()
-		})
+		}
 
-		this.on('unmount', () => {
-			document.removeEventListener('click', handleClickOutside)
-		})
+		this.filterOptions = () => {
+			this.options = opts.select.options
+			if (opts.select.filter)
+				this.options = this.options.filter(option => {
+						const attr = option[opts.select.filter]
+						return attr && attr.toLowerCase().indexOf(this.selectfield.value.toLowerCase()) > -1
+				})
+			this.trigger('filter', this.selectfield.value)
+		}
 
 		function getWindowDimensions() {
 			var w = window,
-			d = document,
-			e = d.documentElement,
-			g = d.getElementsByTagName('body')[0],
-			x = w.innerWidth || e.clientWidth || g.clientWidth,
-			y = w.innerHeight || e.clientHeight || g.clientHeight;
+				d = document,
+				e = d.documentElement,
+				g = d.getElementsByTagName('body')[0],
+				x = w.innerWidth || e.clientWidth || g.clientWidth,
+				y = w.innerHeight || e.clientHeight || g.clientHeight
 			return { width: x, height: y }
 		}
 
@@ -148,6 +80,86 @@
 				m.style.marginTop = (w.height - (pos.top + pos.height) - 20) + 'px'
 			}
 		}
+
+		this.navigate = e => {
+			if ([13, 38, 40].indexOf(e.keyCode) > -1 && !opts.select.isvisible) {
+				e.preventDefault()
+				this.open()
+				return true
+			}
+			var length = this.options.length
+			if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
+				e.preventDefault()
+					// Get the currently selected item
+				var activeIndex = null
+				for (let i = 0; i < length; i++) {
+					let item = this.options[i]
+					if (item.active) {
+						activeIndex = i
+						break
+					}
+				}
+
+				// We're leaving this item
+				if (activeIndex != null) this.options[activeIndex].active = false
+
+				if (e.keyCode == 38) {
+					// Move the active state to the next item lower down the index
+					if (activeIndex == null || activeIndex == 0)
+						this.options[length - 1].active = true
+					else
+						this.options[activeIndex - 1].active = true
+				} else if (e.keyCode == 40) {
+					// Move the active state to the next item higher up the index
+					if (activeIndex == null || activeIndex == length - 1)
+						this.options[0].active = true
+					else
+						this.options[activeIndex + 1].active = true
+				} else if (e.keyCode == 13 && activeIndex != null) {
+					this.select({
+						item: this.options[activeIndex]
+					})
+				}
+			}
+			return true
+		}
+
+		this.open = () => {
+			opts.select.isvisible = true
+			this.trigger('open')
+		}
+
+		this.close = () => {
+			if (opts.select.isvisible) {
+				opts.select.isvisible = false
+				this.trigger('close')
+			}
+		}
+
+		this.select = e => {
+			opts.select.options.forEach(i => i.selected = false)
+			e.item.selected = true
+			applyFieldText()
+			this.filterOptions()
+			opts.select.isvisible = false
+			this.trigger('select', e.item)
+		}
+
+		this.on('mount', () => {
+			applyFieldText()
+			this.filterOptions()
+			document.addEventListener('click', handleClickOutside)
+			this.update()
+		})
+
+		this.on('update', () => {
+			if (!opts.select.filter) applyFieldText()
+			positionDropdown()
+		})
+
+		this.on('unmount', () => {
+			document.removeEventListener('click', handleClickOutside)
+		})
 
 	</script>
 

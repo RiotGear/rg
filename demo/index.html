@@ -2,66 +2,66 @@
 <html>
 
 <head lang="en">
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/blazecss/latest/blaze.min.css">
-  <title>RiotGear Demo</title>
-  <style>
-    body {
-      padding: 0 100px
-    }
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/blazecss/latest/blaze.min.css">
+	<title>RiotGear Demo</title>
+	<style>
+		body {
+			padding: 0 100px
+		}
 
-    h2 {
-      padding-top: 40px;
-    }
+		h2 {
+			padding-top: 40px;
+		}
 
-    .demo {
-      position: relative;
-      min-height: 200px;
-    }
+		.demo {
+			position: relative;
+			min-height: 200px;
+		}
 
-    .no-overflow {
-      overflow: hidden;
-    }
+		.no-overflow {
+			overflow: hidden;
+		}
 
-    .chart-container {
-      width: 400px;
-    }
+		.chart-container {
+			width: 400px;
+		}
 
-    button {
-      border: 0;
-      border: 1px solid #ccc;
-      background: #eee;
-      padding: 5px;
-      outline: none;
-    }
+		button {
+			border: 0;
+			border: 1px solid #ccc;
+			background: #eee;
+			padding: 5px;
+			outline: none;
+		}
 
-    rg-map {
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 200px;
-    }
-  </style>
+		rg-map {
+			position: absolute;
+			left: 0;
+			right: 0;
+			height: 200px;
+		}
+	</style>
 </head>
 
 <body>
 
-  <app></app>
+<app></app>
 
-  <script src="../node_modules/moment/min/moment.min.js"></script>
-  <script src="../node_modules/commonmark/dist/commonmark.min.js"></script>
-  <script src="../node_modules/chart.js/Chart.min.js"></script>
-  <script src="../node_modules/ace-builds/src-min-noconflict/ace.js"></script>
-  <script src="../node_modules/riot/riot.min.js"></script>
-  <script src="../dist/rg.js"></script>
-  <script src="app.js"></script>
+<script src="../node_modules/moment/min/moment.min.js"></script>
+<script src="../node_modules/commonmark/dist/commonmark.min.js"></script>
+<script src="../node_modules/chart.js/Chart.min.js"></script>
+<script src="../node_modules/ace-builds/src-min-noconflict/ace.js"></script>
+<script src="../node_modules/riot/riot.min.js"></script>
+<script src="../dist/rg.js"></script>
+<script src="app.js"></script>
 
-  <script>
-    var tags = riot.mount('app');
-  </script>
+<script>
+	riot.mount('app');
+</script>
 
 </body>
 
