@@ -582,16 +582,22 @@
 		 */
 		this.rgTags = {
 			placeholder: 'Choose a country',
+			filter: 'text',
 			options: [{
+				id: 0,
 				text: 'England'
 			}, {
+				id: 0,
 				text: 'Scotland'
 			}, {
+				id: 0,
 				text: 'Ireland'
 			}, {
+				id: 0,
 				text: 'Wales'
 			}],
 			tags: [{
+				id: 0,
 				text: 'Russia'
 			}]
 		}

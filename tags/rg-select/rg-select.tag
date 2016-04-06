@@ -1,6 +1,6 @@
 <rg-select>
 
-	<input type="text"
+	<input type="{ opts.select.filter ? 'search' : 'text' }"
 				 name="selectfield"
 				 class="field"
 				 placeholder="{ opts.select.placeholder }"
