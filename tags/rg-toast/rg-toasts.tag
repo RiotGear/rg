@@ -1,7 +1,7 @@
 <rg-toasts>
 
-	<div if="{ opts.toasts.isvisible }" class="toasts { 'toasts--' + opts.toasts.position }">
-		<div each="{ opts.toasts.toasts }" class="toast { 'toast--' + type }" if="{ isvisible }" onclick="{ parent.toastClicked }">
+	<div if="{ opts.toasts.isvisible }" class="c-toasts { 'c-toasts--' + opts.toasts.position }">
+		<div each="{ opts.toasts.toasts }" class="c-toast { 'c-toast--' + type }" if="{ isvisible }" onclick="{ parent.toastClicked }">
 			{ text }
 		</div>
 	</div>
