@@ -1,26 +1,26 @@
 <rg-tags>
 
-	<div class="tags">
-	  <span class="tags__container">
-	    <button each="{ opts.tags.tags }" onclick="{ removeTag }" type="button" class="button button--primary tag">
+	<div class="c-tags">
+	  <span class="c-tags__container">
+	    <button each="{ opts.tags.tags }" onclick="{ removeTag }" type="button" class="c-button c-button--primary c-tag">
 				{ text }
-	      <span class="tag__close">×</span>
+	      <span class="c-tag__close">×</span>
 	    </button>
 	  </span>
-	  <div class="tags__field-container">
+	  <div class="c-tags__field-container">
 			<input type="{ opts.tags.filter ? 'search' : 'text' }"
 						 name="selectfield"
-						 class="field"
+						 class="c-field"
 						 placeholder="{ opts.tags.placeholder }"
 						 onkeydown="{ navigate }"
 						 oninput="{ filterOptions }"
 						 onfocus="{ open }"
 						 readonly="{ !opts.tags.filter }">
 
-			<ul class="menu menu--high" if="{ opts.tags.isvisible }">
+			<ul class="c-menu c-menu--high" if="{ opts.tags.isvisible }">
 				<li each="{ options }" no-reorder
 						onclick="{ parent.select }"
-						class="menu__item { 'menu__item--active': selected, 'menu__item--disabled': disabled, 'menu__item--hover': active }">
+						class="c-menu__item { 'c-menu__item--active': selected, 'c-menu__item--disabled': disabled, 'c-menu__item--hover': active }">
 					{ text }
 				</li>
 			</ul>
@@ -68,7 +68,7 @@
 
 		const positionDropdown = () => {
 			const w = getWindowDimensions()
-			const m = this.root.querySelector('.menu')
+			const m = this.root.querySelector('.c-menu')
 			if (!m) return
 			if (!opts.tags.isvisible) {
 				// Reset position
@@ -173,7 +173,7 @@
 			document.addEventListener('click', handleClickOutside)
 			this.update()
 		})
-		
+
 		this.on('update', () => {
 			opts.tags.options.forEach(item => {
 				item._id = item._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36)

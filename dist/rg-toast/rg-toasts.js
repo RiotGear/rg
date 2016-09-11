@@ -1,4 +1,4 @@
-riot.tag2('rg-toasts', '<div if="{opts.toasts.isvisible}" class="toasts {\'toasts--\' + opts.toasts.position}"> <div each="{opts.toasts.toasts}" class="toast {\'toast--\' + type}" if="{isvisible}" onclick="{parent.toastClicked}"> {text} </div> </div>', '', '', function(opts) {
+riot.tag2('rg-toasts', '<div if="{opts.toasts.isvisible}" class="c-toasts {\'c-toasts--\' + opts.toasts.position}"> <div each="{opts.toasts.toasts}" class="c-toast {\'c-toast--\' + type}" if="{isvisible}" onclick="{parent.toastClicked}"> {text} </div> </div>', '', '', function(opts) {
 var _this = this;
 
 this.toastClicked = function (e) {

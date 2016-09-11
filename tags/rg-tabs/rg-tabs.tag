@@ -1,11 +1,11 @@
 <rg-tabs>
-	<div class="tabs { 'tabs--' + opts.tabs.type }">
-		<div class="tabs__headings">
-			<div each="{ opts.tabs.tabs }" class="tab-heading { 'tab-heading--active': active, 'tab-heading--disabled': disabled }" onclick="{ parent.open }">
+	<div class="c-tabs { 'c-tabs--' + opts.tabs.type }">
+		<div class="c-tabs__headings">
+			<div each="{ opts.tabs.tabs }" class="c-tab-heading { 'c-tab-heading--active': active, 'c-tab-heading--disabled': disabled }" onclick="{ parent.open }">
 				{ heading }
 			</div>
 		</div>
-		<div each="{ opts.tabs.tabs }" class="tabs__tab { 'tabs__tab--active': active }">
+		<div each="{ opts.tabs.tabs }" class="c-tabs__tab { 'c-tabs__tab--active': active }">
 			<div if="{ text }">
 				{ text }
 			</div>
@@ -19,7 +19,7 @@
 		const fetch = (tab) => {
 			const req = new XMLHttpRequest()
 			req.onload = resp => {
-				const activeTab = this.root.querySelector('.tabs__tab--active')
+				const activeTab = this.root.querySelector('.c-tabs__tab--active')
 				if (activeTab) activeTab.innerHTML = req.responseText
 				this.trigger('loaded', tab)
 			}

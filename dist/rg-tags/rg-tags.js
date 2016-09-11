@@ -1,4 +1,4 @@
-riot.tag2('rg-tags', '<div class="tags"> <span class="tags__container"> <button each="{opts.tags.tags}" onclick="{removeTag}" type="button" class="button button--primary tag"> {text} <span class="tag__close">×</span> </button> </span> <div class="tags__field-container"> <input type="{opts.tags.filter ? \'search\' : \'text\'}" name="selectfield" class="field" placeholder="{opts.tags.placeholder}" onkeydown="{navigate}" oninput="{filterOptions}" onfocus="{open}" __readonly="{!opts.tags.filter}"> <ul class="menu menu--high" if="{opts.tags.isvisible}"> <li each="{options}" no-reorder onclick="{parent.select}" class="menu__item {\'menu__item--active\': selected, \'menu__item--disabled\': disabled, \'menu__item--hover\': active}"> {text} </li> </ul> </div> </div>', 'rg-tags .menu,[riot-tag="rg-tags"] .menu,[data-is="rg-tags"] .menu{ position: absolute; }', '', function(opts) {
+riot.tag2('rg-tags', '<div class="c-tags"> <span class="c-tags__container"> <button each="{opts.tags.tags}" onclick="{removeTag}" type="button" class="c-button c-button--primary c-tag"> {text} <span class="c-tag__close">×</span> </button> </span> <div class="c-tags__field-container"> <input type="{opts.tags.filter ? \'search\' : \'text\'}" name="selectfield" class="c-field" placeholder="{opts.tags.placeholder}" onkeydown="{navigate}" oninput="{filterOptions}" onfocus="{open}" __readonly="{!opts.tags.filter}"> <ul class="c-menu c-menu--high" if="{opts.tags.isvisible}"> <li each="{options}" no-reorder onclick="{parent.select}" class="c-menu__item {\'c-menu__item--active\': selected, \'c-menu__item--disabled\': disabled, \'c-menu__item--hover\': active}"> {text} </li> </ul> </div> </div>', 'rg-tags .menu,[riot-tag="rg-tags"] .menu,[data-is="rg-tags"] .menu{ position: absolute; }', '', function(opts) {
 var _this = this;
 
 if (!opts.tags) opts.tags = { options: [], tags: [] };
@@ -39,7 +39,7 @@ function getWindowDimensions() {
 
 var positionDropdown = function positionDropdown() {
 	var w = getWindowDimensions();
-	var m = _this.root.querySelector('.menu');
+	var m = _this.root.querySelector('.c-menu');
 	if (!m) return;
 	if (!opts.tags.isvisible) {
 		m.style.marginTop = '';

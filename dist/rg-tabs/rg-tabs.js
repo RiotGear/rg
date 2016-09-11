@@ -1,10 +1,10 @@
-riot.tag2('rg-tabs', '<div class="tabs {\'tabs--\' + opts.tabs.type}"> <div class="tabs__headings"> <div each="{opts.tabs.tabs}" class="tab-heading {\'tab-heading--active\': active, \'tab-heading--disabled\': disabled}" onclick="{parent.open}"> {heading} </div> </div> <div each="{opts.tabs.tabs}" class="tabs__tab {\'tabs__tab--active\': active}"> <div if="{text}"> {text} </div> <div if="{include}"> {include.responseText} </div> </div> </div>', '', '', function(opts) {
+riot.tag2('rg-tabs', '<div class="c-tabs {\'c-tabs--\' + opts.tabs.type}"> <div class="c-tabs__headings"> <div each="{opts.tabs.tabs}" class="c-tab-heading {\'c-tab-heading--active\': active, \'c-tab-heading--disabled\': disabled}" onclick="{parent.open}"> {heading} </div> </div> <div each="{opts.tabs.tabs}" class="c-tabs__tab {\'c-tabs__tab--active\': active}"> <div if="{text}"> {text} </div> <div if="{include}"> {include.responseText} </div> </div> </div>', '', '', function(opts) {
 var _this = this;
 
 var fetch = function fetch(tab) {
 	var req = new XMLHttpRequest();
 	req.onload = function (resp) {
-		var activeTab = _this.root.querySelector('.tabs__tab--active');
+		var activeTab = _this.root.querySelector('.c-tabs__tab--active');
 		if (activeTab) activeTab.innerHTML = req.responseText;
 		_this.trigger('loaded', tab);
 	};
