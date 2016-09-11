@@ -44,56 +44,56 @@ describe('rg-tags', function () {
 	})
 
 	it('has no items visible on load', function () {
-		$('rg-tags .menu__item').length.should.equal(0)
+		$('rg-tags .c-menu__item').length.should.equal(0)
 	})
 
 	it('clicking on field opens/closes dropdown and calls onopen/onclose', function () {
-		$('rg-tags .menu').length.should.equal(0)
-		$('rg-tags .field').focus()
-		$('rg-tags .menu').length.should.equal(1)
+		$('rg-tags .c-menu').length.should.equal(0)
+		$('rg-tags .c-field').focus()
+		$('rg-tags .c-menu').length.should.equal(1)
 		spyOnOpen.should.have.been.calledOnce
 		$('rg-tags').parent().click()
-		$('rg-tags .menu').length.should.equal(0)
+		$('rg-tags .c-menu').length.should.equal(0)
 		spyOnClose.should.have.been.calledOnce
 	})
 
 	it('pressing key down will highlight item', function () {
-		$('rg-tags .field').focus()
+		$('rg-tags .c-field').focus()
 		var e = jQuery.Event('keydown')
 		e.keyCode = 38
-		$('rg-tags .field').trigger(e)
-		$('rg-tags .menu__item.menu__item--hover').text().should.contain('Discover')
+		$('rg-tags .c-field').trigger(e)
+		$('rg-tags .c-menu__item.c-menu__item--hover').text().should.contain('Discover')
 	})
 
 	it('selecting an item calls onselect and resets the menu', function () {
-		$('rg-tags .field').focus()
-		$('rg-tags .menu__item:nth-child(3)').click()
-		$('rg-tags .field').focus()
-		$('rg-tags .menu__item:nth-child(3)').is('.menu__item--active').should.be.false
+		$('rg-tags .c-field').focus()
+		$('rg-tags .c-menu__item:nth-child(3)').click()
+		$('rg-tags .c-field').focus()
+		$('rg-tags .c-menu__item:nth-child(3)').is('.c-menu__item--active').should.be.false
 		spyOnSelect.should.have.been.calledOnce
 	})
 
 	it('opens the dropdown on enter', function () {
 		var e = jQuery.Event('keydown')
 		e.keyCode = 13
-		$('rg-tags .field').trigger(e)
-		$('rg-tags .menu').length.should.equal(1)
+		$('rg-tags .c-field').trigger(e)
+		$('rg-tags .c-menu').length.should.equal(1)
 		spyOnOpen.should.have.been.calledOnce
 	})
 
 	it('opens the dropdown on arrow up', function () {
 		var e = jQuery.Event('keydown')
 		e.keyCode = 40
-		$('rg-tags .field').trigger(e)
-		$('rg-tags .menu').length.should.equal(1)
+		$('rg-tags .c-field').trigger(e)
+		$('rg-tags .c-menu').length.should.equal(1)
 		spyOnOpen.should.have.been.calledOnce
 	})
 
 	it('opens the dropdown on arrow down', function () {
 		var e = jQuery.Event('keydown')
 		e.keyCode = 38
-		$('rg-tags .field').trigger(e)
-		$('rg-tags .menu').length.should.equal(1)
+		$('rg-tags .c-field').trigger(e)
+		$('rg-tags .c-menu').length.should.equal(1)
 		spyOnOpen.should.have.been.calledOnce
 	})
 })

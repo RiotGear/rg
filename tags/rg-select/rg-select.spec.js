@@ -44,60 +44,60 @@ describe('rg-select', function () {
 	})
 
 	it('text input is readonly', function () {
-		should.exist($('rg-select .field').attr('readonly'))
+		should.exist($('rg-select .c-field').attr('readonly'))
 	})
 
 	it('has no items visible on load', function () {
-		$('rg-select .menu__item').length.should.equal(0)
+		$('rg-select .c-menu__item').length.should.equal(0)
 	})
 
 	it('focusing/blurring field opens/closes dropdown and triggers open/close event', function () {
-		$('rg-select .menu').length.should.equal(0)
-		$('rg-select .field').focus()
-		$('rg-select .menu').length.should.equal(1)
+		$('rg-select .c-menu').length.should.equal(0)
+		$('rg-select .c-field').focus()
+		$('rg-select .c-menu').length.should.equal(1)
 		spyOnOpen.should.have.been.calledOnce
 		$('rg-select').parent().click()
-		$('rg-select .menu').length.should.equal(0)
+		$('rg-select .c-menu').length.should.equal(0)
 		spyOnClose.should.have.been.calledOnce
 	})
 
 	it('pressing key down will highlight item', function () {
-		$('rg-select .field').focus()
+		$('rg-select .c-field').focus()
 		var e = jQuery.Event('keydown')
 		e.keyCode = 38
-		$('rg-select .field').trigger(e)
-		$('rg-select .menu__item.menu__item--hover').text().should.contain('Discover')
+		$('rg-select .c-field').trigger(e)
+		$('rg-select .c-menu__item.c-menu__item--hover').text().should.contain('Discover')
 	})
 
 	it('selecting an item sets it to selected and calls onselect', function () {
-		$('rg-select .field').focus()
-		$('rg-select .menu__item:nth-child(3)').click()
-		$('rg-select .field').focus()
-		$('rg-select .menu__item:nth-child(3)').is('.menu__item--active').should.be.true
+		$('rg-select .c-field').focus()
+		$('rg-select .c-menu__item:nth-child(3)').click()
+		$('rg-select .c-field').focus()
+		$('rg-select .c-menu__item:nth-child(3)').is('.c-menu__item--active').should.be.true
 		spyOnSelect.should.have.been.calledOnce
 	})
 
 	it('opens the dropdown on enter', function () {
 		var e = jQuery.Event('keydown')
 		e.keyCode = 13
-		$('rg-select .field').trigger(e)
-		$('rg-select .menu').length.should.equal(1)
+		$('rg-select .c-field').trigger(e)
+		$('rg-select .c-menu').length.should.equal(1)
 		spyOnOpen.should.have.been.calledOnce
 	})
 
 	it('opens the dropdown on arrow up', function () {
 		var e = jQuery.Event('keydown')
 		e.keyCode = 40
-		$('rg-select .field').trigger(e)
-		$('rg-select .menu').length.should.equal(1)
+		$('rg-select .c-field').trigger(e)
+		$('rg-select .c-menu').length.should.equal(1)
 		spyOnOpen.should.have.been.calledOnce
 	})
 
 	it('opens the dropdown on arrow down', function () {
 		var e = jQuery.Event('keydown')
 		e.keyCode = 38
-		$('rg-select .field').trigger(e)
-		$('rg-select .menu').length.should.equal(1)
+		$('rg-select .c-field').trigger(e)
+		$('rg-select .c-menu').length.should.equal(1)
 		spyOnOpen.should.have.been.calledOnce
 	})
 })
