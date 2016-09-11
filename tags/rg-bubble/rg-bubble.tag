@@ -1,7 +1,7 @@
 <rg-bubble>
 
 	<div class="context">
-		<div class="bubble bubble--top" if="{ isvisible }">
+		<div class="c-bubble c-bubble--top" if="{ isvisible }">
 			{ opts.bubble.text }
 		</div>
 		<div class="content" onmouseover="{ showBubble }" onmouseout="{ hideBubble }" onclick="{ toggleBubble }">
@@ -34,7 +34,7 @@
 			position: relative;
 		}
 
-		.bubble {
+		.c-bubble {
 			position: absolute;
 			top: -70px;
 			left: 50%;

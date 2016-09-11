@@ -1,6 +1,6 @@
 <rg-credit-card-number>
 
-		<input type="text" name="cardnumber" class="field card-no { icon } { 'field--success': opts.card.valid }" oninput="{ validate }" placeholder="{ opts.card.placeholder }">
+		<input type="text" name="cardnumber" class="c-field card-no { icon } { 'c-field--success': opts.card.valid }" oninput="{ validate }" placeholder="{ opts.card.placeholder }">
 
 	<script>
 		if (!opts.card) opts.card = { cardnumber: '' }

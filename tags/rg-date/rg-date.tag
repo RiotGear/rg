@@ -1,30 +1,30 @@
 <rg-date>
 
 	<div class="container">
-		<input type="text" class="field" onclick="{ open }" value="{ opts.date.date.format(format) }" readonly />
+		<input type="text" class="c-field" onclick="{ open }" value="{ opts.date.date.format(format) }" readonly />
 
-		<div class="calendar calendar--high" if="{ opts.date.isvisible }">
-			<button class="calendar__control" disabled="{ opts.date.min.isSame(opts.date.date, 'year') }" onclick="{ prevYear }">‹</button>
-			<div class="calendar__header">{ opts.date.date.format(yearFormat) }</div>
-			<button class="calendar__control" disabled="{ opts.date.max.isSame(opts.date.date, 'year') }" onclick="{ nextYear }">›</button>
+		<div class="c-calendar c-calendar--high" if="{ opts.date.isvisible }">
+			<button class="c-calendar__control" disabled="{ opts.date.min.isSame(opts.date.date, 'year') }" onclick="{ prevYear }">‹</button>
+			<div class="c-calendar__header">{ opts.date.date.format(yearFormat) }</div>
+			<button class="c-calendar__control" disabled="{ opts.date.max.isSame(opts.date.date, 'year') }" onclick="{ nextYear }">›</button>
 
-			<button class="calendar__control" disabled="{ opts.date.min.isSame(opts.date.date, 'month') }" onclick="{ prevMonth }">‹</button>
-			<div class="calendar__header">{ opts.date.date.format(monthFormat) }</div>
-			<button class="calendar__control" disabled="{ opts.date.max.isSame(opts.date.date, 'month') }" onclick="{ nextMonth }">›</button>
+			<button class="c-calendar__control" disabled="{ opts.date.min.isSame(opts.date.date, 'month') }" onclick="{ prevMonth }">‹</button>
+			<div class="c-calendar__header">{ opts.date.date.format(monthFormat) }</div>
+			<button class="c-calendar__control" disabled="{ opts.date.max.isSame(opts.date.date, 'month') }" onclick="{ nextMonth }">›</button>
 
-			<div class="calendar__day">Mo</div>
-			<div class="calendar__day">Tu</div>
-			<div class="calendar__day">We</div>
-			<div class="calendar__day">Th</div>
-			<div class="calendar__day">Fr</div>
-			<div class="calendar__day">Sa</div>
-			<div class="calendar__day">Su</div>
+			<div class="c-calendar__day">Mo</div>
+			<div class="c-calendar__day">Tu</div>
+			<div class="c-calendar__day">We</div>
+			<div class="c-calendar__day">Th</div>
+			<div class="c-calendar__day">Fr</div>
+			<div class="c-calendar__day">Sa</div>
+			<div class="c-calendar__day">Su</div>
 
-			<button class="calendar__date { 'calendar__date--selected': day.selected, 'calendar__date--today': day.today }" disabled="{ day.disabled }" each="{ day in startBuffer }" onclick="{ select }">{ day.date.format(dayFormat) }</button>
-			<button class="calendar__date calendar__date--in-month { 'calendar__date--selected': day.selected, 'calendar__date--today': day.today }" disabled="{ day.disabled }" each="{ day in days }" onclick="{ select }">{ day.date.format(dayFormat) }</button>
-			<button class="calendar__date { 'calendar__date--selected': day.selected, 'calendar__date--today': day.today }" disabled="{ day.disabled }" each="{ day in endBuffer }" onclick="{ select }">{ day.date.format(dayFormat) }</button>
+			<button class="c-calendar__date { 'c-calendar__date--selected': day.selected, 'c-calendar__date--today': day.today }" disabled="{ day.disabled }" each="{ day in startBuffer }" onclick="{ select }">{ day.date.format(dayFormat) }</button>
+			<button class="c-calendar__date c-calendar__date--in-month { 'c-calendar__date--selected': day.selected, 'c-calendar__date--today': day.today }" disabled="{ day.disabled }" each="{ day in days }" onclick="{ select }">{ day.date.format(dayFormat) }</button>
+			<button class="c-calendar__date { 'c-calendar__date--selected': day.selected, 'c-calendar__date--today': day.today }" disabled="{ day.disabled }" each="{ day in endBuffer }" onclick="{ select }">{ day.date.format(dayFormat) }</button>
 
-			<button class="button button--block button--primary" disabled="{ opts.date.min.isAfter(moment(), 'day') || opts.date.max.isBefore(moment(), 'day') }" onclick="{ setToday }">Today</button>
+			<button class="c-button c-button--block button--primary" disabled="{ opts.date.min.isAfter(moment(), 'day') || opts.date.max.isBefore(moment(), 'day') }" onclick="{ setToday }">Today</button>
 		</div>
 	</div>
 
@@ -168,7 +168,7 @@
 
 		const positionDropdown = () => {
 			const w = getWindowDimensions()
-			const m = this.root.querySelector('.calendar')
+			const m = this.root.querySelector('.c-calendar')
 			if (!m) return
 			if (!opts.date.isvisible) {
 				// Reset position
@@ -201,7 +201,7 @@
 			cursor: pointer;
 		}
 
-		.calendar {
+		.c-calendar {
 			position: absolute;
 			min-width: 300px;
 			margin-top: .5em;

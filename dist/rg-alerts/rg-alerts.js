@@ -1,4 +1,4 @@
-riot.tag2('rg-alerts', '<div class="alerts"> <div each="{opts.alerts}" class="alerts__alert {\'alerts__alert--\' + type}" if="{isvisible}" onclick="{select}"> <button class="button button--close" if="{dismissable != false}" onclick="{parent.dismiss}"> &times; </button> {text} </div> </div>', '', '', function(opts) {
+riot.tag2('rg-alerts', '<div class="alerts"> <div each="{opts.alerts}" class="c-alerts__alert {\'c-alerts__alert--\' + type}" if="{isvisible}" onclick="{select}"> <button class="c-button c-button--close" if="{dismissable != false}" onclick="{parent.dismiss}"> &times; </button> {text} </div> </div>', '', '', function(opts) {
 var _this = this;
 
 this.on('update', function () {
