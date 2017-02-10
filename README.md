@@ -1,5 +1,5 @@
-## Would you like to own this Open Source Project?
-If so please get in touch via Github issues. I can transfer the ownership of this **organisation**, the associated npm packages and it's twitter account (https://twitter.com/riotcomponents) to anyone who can take it further than my time permits
+## Forked RiotGear
+The orginal RG implementation is based on Blaze CSS 1.x. Many users in the community are using Blaze CSS 2.x, which breaks RG.
 
 # <a href="http://riotgear.js.org">RiotGear</a>
 
