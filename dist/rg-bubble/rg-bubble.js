@@ -13,4 +13,4 @@ riot.tag2("rg-bubble", '<div class="context"> <div class="c-bubble c-bubble--top
     this.toggleBubble = function() {
         _this.isvisible = !_this.isvisible
     }
-});
+}); 
