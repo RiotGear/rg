@@ -1,34 +1,34 @@
-riot.tag2('rg-alerts', '<div class="c-alert"> <div each="{opts.alerts}" class="c-alert__alert {\'c-alert__alert--\' + type}" if="{isvisible}" onclick="{select}"> <button class="button button--close" if="{dismissable != false}" onclick="{parent.dismiss}"> &times; </button> {text} </div> </div>', '', '', function(opts) {
-var _this = this;
+riot.tag("rg-alert", '<div class="c-alert if={opts.type} {\'c-alert--\' + opts.type}"><button class="c-button c-button--close" hide={opts.dismissable==false} onclick="{dismiss}">&times;</button>{opts.text}</div>', "", "", function(opts) {
+    var _this = this;
 
-this.on('update', function () {
-	if (!opts.alerts) return;
-	opts.alerts.forEach(function (alert) {
-		if (typeof alert.isvisible === 'undefined') alert.isvisible = true;
-		if (alert.timeout) {
-			alert.startTimer = function () {
-				alert.timer = setTimeout(function () {
-					_this.dismiss({
-						item: alert
-					});
-				}, alert.timeout);
-			};
-			alert.startTimer();
-		}
-	});
+    if (typeof opts.dismissable == "string") {
+        opts.dismissable = Boolean(opts.dismissable);
+    }
+
+    if (typeof this.opts.dismissable != "boolean") {
+        this.opts.dismissable = true;
+    }
+
+    if (typeof opts.timeout == "string")
+        opts.timeout = Number(opts.timeout);
+
+    if (typeof opts.timeout == "number" && opts.timeout > 0) {
+        this.startTimer = function() {
+            this.timer = setTimeout(function() {
+                _this.dismiss();
+            }, opts.timeout)
+        };
+        this.startTimer()
+    }
+
+
+    this.dismiss = function(e) {
+        if (this.opts.timeout)
+            clearTimeout(this.startTimer);
+
+        this.unmount();
+    } // onSelect
 });
 
-this.dismiss = function (e) {
-	var alert = e.item;
-	alert.isvisible = false;
-	clearTimeout(alert.timer);
-	_this.trigger('dismiss', alert);
-	_this.update();
-};
-
-this.select = function (e) {
-	var alert = e.item;
-	if (alert.onclick) alert.onclick(alert);
-	_this.trigger('select', alert);
-};
-});
+// Multiple Alets
+riot.tag("rg-alerts", '<div each="{opts.alerts}"><rg-alert text="{text}" type="{type}" dismissable={dismissable} timeout={timeout}></rg-alert> </div>', "", "", function() {});
