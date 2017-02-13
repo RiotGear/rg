@@ -1,20 +1,18 @@
-riot.tag2('rg-drawer', '<div class="overlay" if="{opts.drawer.isvisible}" onclick="{close}"></div> <div class="drawer {\'drawer--\' + opts.drawer.position || \'drawer--bottom\'} {\'drawer--visible\': opts.drawer.isvisible}"> <h4 class="heading heading--xsmall">{opts.drawer.header}</h4> <ul class="menu"> <li class="menu__item {\'menu__item--active\': active}" each="{opts.drawer.items}" onclick="{parent.select}"> {text} </li> </ul> <div class="drawer__body"> <yield></yield> </div> </div>', '', '', function(opts) {
-var _this = this;
+riot.tag("rg-drawer", '<div class="c-overlay c-overlay--dismissable" onclick="{close}"></div> <div class="o-drawer u-highest {\'o-drawer--\' + opts.position || \'c-drawer--top\'} {\'o-drawer--visible\': opts.isvisible}">  <div class="c-card"> <header class="c-card__header"><h2 class="c-heading c-heading--xsmall">{opts.header}<div class="c-heading__sub">{opts.subheading}</div></h2></header> <ul class="c-card--menu"> <li class="c-card__item {\'c-card__item--active\': active}" each="{opts.items}" onclick="{parent.select}"> {text} </li> </ul> <div class="c-card__body"> <yield></yield> </div></div><div class="c-card__footer"><div class="c-input-group"> <button class="c-button c-button--block" each="{opts.footer.items}" onclick="{parent.select}"> {text} </button> </div></div></div>', "", "", function(opts) {
+    var _this = this;
 
-this.on('mount', function () {
-	if (!opts.drawer) opts.drawer = {};
+    this.close = function() {
+       this.unmount() ;
+    };
+
+    this.select = function(e) {
+        opts.items.forEach(function(item) {
+            return item.active = false
+        });
+        e.item.active = true;
+        _this.trigger("select", e.item)
+    }
 });
 
-this.close = function () {
-	opts.drawer.isvisible = false;
-	_this.trigger('close');
-};
 
-this.select = function (e) {
-	opts.drawer.items.forEach(function (item) {
-		return item.active = false;
-	});
-	e.item.active = true;
-	_this.trigger('select', e.item);
-};
-});
+
