@@ -1,14 +1,48 @@
-riot.tag2('rg-modal', '<div class="overlay {overlay--dismissable: opts.modal.dismissable}" if="{opts.modal.isvisible}" onclick="{close}"></div> <div class="modal {modal--ghost: opts.modal.ghost}" if="{opts.modal.isvisible}"> <header class="modal__header"> <button if="{opts.modal.dismissable}" type="button" class="button button--close" onclick="{close}"> &times; </button> <h3 class="heading heading--small">{opts.modal.heading}</h3> </header> <div class="modal__body"> <yield></yield> </div> <footer class="modal__footer {\'modal__footer--block\': !opts.modal.ghost}"> <button each="{opts.modal.buttons}" type="button" class="button {\'button--\' + type}" onclick="{action}" riot-style="{style}"> {text} </button> </footer> </div>', 'rg-modal .modal--ghost .modal__footer .button,[riot-tag="rg-modal"] .modal--ghost .modal__footer .button,[data-is="rg-modal"] .modal--ghost .modal__footer .button{ margin: 0 .5em 0 0; }', '', function(opts) {
-var _this = this;
+riot.tag("rg-modal",
+          '<div class="c-overlay {c-overlay--dismissable: opts.modal.dismissable}"  if="{opts.modal.isvisible}" onclick="{close}">' +
+          '<div class="c-overlay">' +
+          '<div class="o-modal {o-modal--ghost: opts.modal.ghost} {o-modal--full: opts.modal.full}" if="{opts.modal.isvisible}">' +
+          '<div class="c-card">' +
+          '<header class="c-card__header">' +
+          '<button if="{opts.modal.dismissable}" type="button" class="c-button c-button--close" onclick="{close}">&times;</button>' +
+          '<h2 class="c-heading">{opts.modal.heading}</h2>' +
+          '</header>' +
+          '<div class="c-card__body o-panel">' +
+          '<yield></yield>' +
+          '</div>' +
+          '<footer class="c-card__footer" {\'c-card__footer--block\': !opts.modal.ghost}">' +
+          '<div class="c-input-group">'+
+          '<button each="{opts.modal.buttons}" type="button" class="c-button {c-button--block: blockbuttons} {\'c-button--\' + type}" onclick="{action}" riot-style="{style}"> {text} </button>'+
+          '</div>'+
+          '</footer>' +
+          '</div>' +
+          '</div>',
+         'rg-modal .o-modal--ghost .o-modal__footer .c-button,[riot-tag="rg-modal"] .o-modal--ghost .c-card__footer .c-button,[data-is="rg-modal"] .o-modal--ghost .c-card__footer .c-button{ margin: 0 .5em 0 0; }', "", function(opts) {
 
-this.on('mount', function () {
-	if (!opts.modal) opts.modal = {};
-});
+    var _this = this;
 
-this.close = function () {
-	if (opts.modal.dismissable) {
-		opts.modal.isvisible = false;
-		_this.trigger('close');
-	}
-};
+    this.on("before-mount", function() {
+
+        if (!opts.modal)
+          opts.modal = {
+                  isvisible: true,
+                  dismissable: true,
+                  full: false,
+                  ghost: false,
+                  heading: 'Note',
+                  buttons: [{
+                      text: 'Close',
+                      type: 'brand',
+                      action: function() { this.close() }
+                    }],
+                    blockbuttons: true
+                  }
+    });
+
+    this.close = function() {
+        if (opts.modal.dismissable) {
+            opts.modal.isvisible = false;
+            _this.trigger("close") ;
+        }
+    }
 });
