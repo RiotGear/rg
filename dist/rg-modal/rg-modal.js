@@ -25,11 +25,17 @@ riot.tag("rg-modal",
 
         if (!opts.modal)
           opts.modal = {
+                  /*
+                  isvisible: ((typeof opts.visible == "undefined") ? Boolean(opts.visible) : true),
+                  dismissable: ((typeof opts.dismissable == "undefined") ? Boolean(opts.dismissable) : true),
+                  full: ((typeof opts.fullscreen == "undefined") ? Boolean(opts.fullscreen) : false),
+                  ghost: ((typeof opts.ghost == "undefined") ? Boolean(opts.ghost) : false),
+                  */
                   isvisible: true,
                   dismissable: true,
                   full: false,
                   ghost: false,
-                  heading: 'Note',
+                  heading: (opts.heading ? opts.heading : 'Note'),
                   buttons: [{
                       text: 'Close',
                       type: 'brand',
