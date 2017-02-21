@@ -1,3 +1,29 @@
+
+var rg_date_cdn_momentjs = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js" ;
+var rg_credit_card_payment_fonts = "https://cdnjs.cloudflare.com/ajax/libs/paymentfont/1.1.2/css/paymentfont.min.css" ;
+var rg_markdown_cdn_markdown = "https://cdnjs.cloudflare.com/ajax/libs/markdown-it/8.3.0/markdown-it.min.js" ;
+
+// Tools used in the library generally.
+// https://zeit.co/blog/async-and-await
+function sleep(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+
+function loadJS(file, callback) {
+    // DOM: Create the script element
+    var script = document.createElement("script");
+    // set the type attribute
+    script.type = "application/javascript";
+    // make the script element load file
+    script.src = file;
+    script.onload = callback;
+    script.onreadystatechange = callback;
+    // finally insert the element to the body element in order to load the script
+    document.head.appendChild(script);
+}
+
+
 // Single Alert
 riot.tag("rg-alert",
     '<div class="c-alert if={opts.type} {\'c-alert--\' + opts.type}"><button ref="closeButton" class="c-button c-button--close"' +
@@ -184,7 +210,6 @@ riot.tag2("rg-code",
     });
 
 
-// PaymontFont icons https://cdnjs.cloudflare.com/ajax/libs/paymentfont/1.1.2/css/paymentfont.min.css
 riot.tag("rg-credit-card-number",
     '<input type="text" ref="cardinput" class="c-field card-no {icon} {\'c-field--success\': opts.valid}" ' +
     'oninput="{validate}" placeholder="{opts.placeholder}">',
@@ -404,6 +429,7 @@ riot.tag("rg-date",
     ' rg-date .c-calendar,[riot-tag="rg-date"] .c-calendar,[data-is="rg-date"] .c-calendar{ position: absolute; min-width: 300px; margin-top: .5em; left: 0; }', "",
     function(opts) {
         var _this = this;
+        var callbackUsed = false ;
 
         var toMoment = function toMoment(d) {
             if (!moment.isMoment(d)) d = moment(d);
@@ -426,14 +452,16 @@ riot.tag("rg-date",
             }
         };
 
+
         var buildCalendar = function buildCalendar() {
-            _this.format = "LL";
+            _this.format = "ddd D MMM YYYY";
             _this.yearFormat = "YYYY";
             _this.monthFormat = "MMMM";
-            _this.dayFormat = "DD";
+            _this.dayFormat = "D";
             _this.days = [];
             _this.startBuffer = [];
             _this.endBuffer = [];
+
             var begin = moment(opts.date.date).startOf("month");
             var daysInMonth = moment(opts.date.date).daysInMonth();
             var end = moment(opts.date.date).endOf("month");
@@ -451,10 +479,16 @@ riot.tag("rg-date",
             }
         };
 
-        this.on("mount", function() {
+        // Called when script fully loaded...
+        var callback = function callback() {
+
             if (!opts.date) opts.date = {
-                date: moment()
-            };
+                date: moment(),
+                min: moment().subtract(1, "year"),
+                max: moment().add(10, "year")
+            }
+
+
             if (!opts.date.date) opts.date.date = moment();
             opts.date.date = toMoment(opts.date.date);
             if (opts.date.min) {
@@ -463,53 +497,135 @@ riot.tag("rg-date",
                     opts.date.date = moment(opts.date.min)
                 }
             }
+
             if (opts.date.max) {
                 opts.date.max = toMoment(opts.date.max);
                 if (opts.date.max.isBefore(moment(), "day")) {
                     opts.date.date = moment(opts.date.max)
                 }
             }
-            _this.on("update", function() {
+
+        };
+
+
+        this.on("before-mount", function() {
+            try {
+                if (! opts.date)
+                   opts.date = {
+                               date: moment(),
+                               min: moment().subtract(1, "year"),
+                               max: moment().add(10, "year")
+                               }
+
+
                 opts.date.date = toMoment(opts.date.date);
-                buildCalendar();
-                positionDropdown()
-            });
-            document.addEventListener("click", handleClickOutside);
-            _this.update()
+
+                if (opts.date.min) {
+                    opts.date.min = toMoment(opts.date.min);
+
+                   if (opts.date.min.isAfter(moment(), "day")) {
+                      opts.date.date = moment(opts.date.min)
+                      }
+                }
+
+                if (opts.date.max) {
+                    opts.date.max = toMoment(opts.date.max);
+
+                    if (opts.date.max.isBefore(moment(), "day")) {
+                        opts.date.date = moment(opts.date.max)
+                    }
+                }
+
+            } catch (ex) {
+                callbackUsed = true ;
+                loadJS(rg_date_cdn_momentjs, callback);
+            }
+
+        if (callback) {
+          if (!opts.date) opts.date = {
+              date: new Date(),
+              min: new Date(),
+              max: new Date()
+          }
+
+        }
+        else {
+          if (!opts.date) opts.date = {
+              date: moment(),
+              min: moment().subtract(1, "year"),
+              max: moment().add(10, "year")
+          }
+
+        }
+
         });
+
+
+
+        this.on("mount", function() {
+
+        });
+
+
+        _this.on("update", function() {
+            opts.date.date = toMoment(opts.date.date);
+            buildCalendar();
+            positionDropdown()
+        });
+
+
         this.on("unmount", function() {
             document.removeEventListener("click", handleClickOutside)
         });
+
+
+
         this.open = function() {
             opts.date.isvisible = true;
             _this.trigger("open")
         };
+
+
+
         this.close = function() {
             if (opts.date.isvisible) {
                 opts.date.isvisible = false;
                 _this.trigger("close")
             }
         };
+
+
         this.select = function(e) {
             opts.date.date = e.item.day.date;
             _this.trigger("select", opts.date.date)
         };
+
+
         this.setToday = function() {
             opts.date.date = moment();
             _this.trigger("select", opts.date.date)
         };
+
+
         this.prevYear = function() {
             opts.date.date = opts.date.date.subtract(1, "year")
         };
+
+
         this.nextYear = function() {
             opts.date.date = opts.date.date.add(1, "year")
         };
+
+
         this.prevMonth = function() {
             opts.date.date = opts.date.date.subtract(1, "month")
         };
+
+
         this.nextMonth = function() {
             opts.date.date = opts.date.date.add(1, "month")
         };
+
 
         function getWindowDimensions() {
             var w = window,
@@ -523,6 +639,8 @@ riot.tag("rg-date",
                 height: y
             }
         }
+
+
         var positionDropdown = function positionDropdown() {
             var w = getWindowDimensions();
             var m = _this.root.querySelector(".c-calendar");
@@ -532,6 +650,7 @@ riot.tag("rg-date",
                 m.style.marginLeft = "";
                 return
             }
+
             var pos = m.getBoundingClientRect();
             if (w.width < pos.left + pos.width) {
                 m.style.marginLeft = w.width - (pos.left + pos.width) - 20 + "px"
@@ -543,34 +662,97 @@ riot.tag("rg-date",
                 m.style.marginTop = w.height - (pos.top + pos.height) - 20 + "px"
             }
         }
+
+        document.addEventListener("click", handleClickOutside);
+
     });
 
 
-//TODO Need to fix the use of unmount. Rfer to original code.
+
+
+/*
+Adds functionality for footers etc.
+
+Example usage:
+
+... HTML:
+      <rg-drawer subheading="Something or other" position="bottom">
+        The <b>contents</b> of my own special drawer.
+      </rg-drawer>
+
+     <br / />
+     Some random text.
+    </div>
+
+--- SCRIPT:
+        var tags = riot.mount('rg-drawer', {
+          drawer: {
+            header: "My Drawer Title",
+            subheading: "Hello there!",
+            items : [
+                 {text: "items 1"},
+                 {text: "Items 2"}
+               ],
+            footer:{
+                 items : [
+                      {text: "Press 1"},
+                      {text: "Press 2"}
+                    ]
+                 }
+           }
+        });
+*/
 riot.tag("rg-drawer",
-    '<div class="c-overlay c-overlay--dismissable" onclick="{close}"></div>' +
-    ' <div class="o-drawer u-highest {\'o-drawer--\' + opts.position || \'c-drawer--top\'} {\'o-drawer--visible\': opts.isvisible}">' +
+    '<div class="c-overlay c-overlay--dismissable" if="{opts.drawer.isvisible}" onclick="{close}"></div>' +
+    ' <div class="o-drawer u-highest {\'o-drawer--\' + opts.drawer.position || \'c-drawer--top\'} {\'o-drawer--visible\': opts.drawer.isvisible}">' +
     ' <div class="c-card">' +
     ' <header class="c-card__header">' +
-    '<h2 class="c-heading c-heading--xsmall">{opts.header}' +
-    '<div class="c-heading__sub">{opts.subheading}</div>' +
+    '<h2 class="c-heading c-heading--xsmall">{opts.drawer.header}' +
+    '<div class="c-heading__sub">{opts.drawer.subheading}</div>' +
     '</h2>' +
     '</header>' +
-    ' <ul class="c-card--menu"> <li class="c-card__item {\'c-card__item--active\': active}" each="{opts.items}" onclick="{parent.select}"> {text} </li> </ul>' +
+    ' <ul class="c-card--menu"> <li class="c-card__item {\'c-card__item--active\': active}" each="{opts.drawer.items}" onclick="{parent.select}"> {text} </li> </ul>' +
     ' <div class="c-card__body"> <yield></yield> </div>' +
     '</div>' +
     '<div class="c-card__footer">' +
-    '<div class="c-input-group"> <button class="c-button c-button--block" each="{opts.footer.items}" onclick="{parent.select}"> {text} </button>' +
+    '<div class="c-input-group"> <button class="c-button c-button--block" each="{opts.drawer.footer.items}" onclick="{parent.select}"> {text} </button>' +
     ' </div></div></div>', "", "",
     function(opts) {
         var _this = this;
 
+        this.on("before-mount", function() {
+          if (!opts.drawer) {
+              opts.drawer = {
+              header: "Notice",
+              subheading: undefined,
+              position: "top",
+              isvisible: true,
+              footer: []
+            }
+          }
+            if (!opts.drawer.footer) {
+                footer: []
+            }
+
+            if (opts.header)
+               opts.drawer.header = opts.header ;
+
+            if (opts.subheading)
+               opts.drawer.subheading = opts.subheading ;
+
+            if (opts.position)
+               opts.drawer.position = opts.position ;
+        })
+
+
+
         this.close = function() {
-            this.unmount();
+            opts.drawer.isvisible = false;
+            _this.trigger('close');
         };
 
         this.select = function(e) {
-            opts.items.forEach(function(item) {
+            opts.drawer.items.forEach(function(item) {
                 return item.active = false
             });
             e.item.active = true;
@@ -709,6 +891,41 @@ riot.tag("rg-map", '<div ref="{opts.id}" class="rg-map" style="width: 100%; min-
 
 riot.tag("rg-markdown", "", "", "", function(opts) {
     var _this = this;
+    var md ;
+
+
+    var callback = function callback () {
+      if (markdownit) {
+
+//          _this.reader = new commonmark.parse;
+//          _this.writer = new commonmark.renderer
+      }
+
+      if (!opts.markdown) opts.markdown = {};
+      if (opts.markdown.content) {
+         md = markdownit({
+            html: true,
+            linkify: true,
+            typographer: true
+          });
+
+  //        _this.root.innerHTML = _this.writer.render(_this.reader.parse(opts.markdown.content))
+          _this.root.innerHTML = md.render(opts.markdown.content)
+      } else if (opts.markdown.url) {
+          (function() {
+              var req = new XMLHttpRequest;
+              req.onload = function(resp) {
+//                  _this.root.innerHTML = _this.writer.render(_this.reader.parse(req.responseText));
+                  _this.root.innerHTML = md.render(req.responseText);
+                  _this.trigger("loaded")
+              };
+              req.open("get", opts.markdown.url, true);
+              req.send();
+              _this.trigger("loading")
+          })()
+      }
+    }
+
 
     this.on("before-mount", function() {
 
@@ -730,26 +947,11 @@ riot.tag("rg-markdown", "", "", "", function(opts) {
 
 
     this.on("mount", function() {
-        if (commonmark) {
-            this.reader = new commonmark.Parser;
-            this.writer = new commonmark.HtmlRenderer
-        }
 
-        if (!opts.markdown) opts.markdown = {};
-        if (opts.markdown.content) {
-            _this.root.innerHTML = _this.writer.render(_this.reader.parse(opts.markdown.content))
-        } else if (opts.markdown.url) {
-            (function() {
-                var req = new XMLHttpRequest;
-                req.onload = function(resp) {
-                    _this.root.innerHTML = _this.writer.render(_this.reader.parse(req.responseText));
-                    _this.trigger("loaded")
-                };
-                req.open("get", opts.markdown.url, true);
-                req.send();
-                _this.trigger("loading")
-            })()
-        }
+      if (typeof markdownit === "undefined")
+         loadJS(rg_markdown_cdn_markdown, callback);
+      else
+         callback() ;
     });
 
 });
