@@ -28,11 +28,23 @@ riot.tag("rg-pagination",
             page: 1
             }
          }
+
+    if (opts.page && opts.pages) {
+
+       opts.page = Number(opts.page) ;
+       opts.pages = Number(opts.pages) ;
+
+       if (opts.page > opts.pages)
+          opts.page = opts.pages;
+
+        }
+
     if (opts.page)
        opts.pagination.page = Number(opts.page) ;
 
     if (opts.pages)
        opts.pagination.pages = Number(opts.pages) ;
+
 
     }) ;
 
