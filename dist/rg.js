@@ -1028,33 +1028,78 @@ riot.tag("rg-modal",
     });
 
 
-
-riot.tag2("rg-pagination", '<div class="pagination"> <div class="pagination__controls pagination__controls--backward"> <button class="pagination__control" __disabled="{opts.pagination.page <= 1}" onclick="{first}">«</button> <button class="pagination__control" __disabled="{opts.pagination.page <= 1}" onclick="{back}">‹</button> </div> <div class="pagination__controls"> <span class="pagination__ellipsis" if="{opts.pagination.page > 2}">&hellip;</span> <button class="pagination__page" onclick="{back}" if="{opts.pagination.page > 1}">{opts.pagination.page - 1}</button> <button class="pagination__page pagination__page--current">{opts.pagination.page}</button> <button class="pagination__page" onclick="{forward}" if="{opts.pagination.page < opts.pagination.pages}">{opts.pagination.page + 1}</button> <span class="pagination__ellipsis" if="{opts.pagination.page < opts.pagination.pages - 1}">&hellip;</span> </div> <div class="pagination__controls pagination__controls--forward"> <button class="pagination__control" __disabled="{opts.pagination.page >= opts.pagination.pages}" onclick="{forward}">›</button> <button class="pagination__control" __disabled="{opts.pagination.page >= opts.pagination.pages}" onclick="{last}">»</button> </div> </div>', "", "", function(opts) {
+riot.tag("rg-pagination",
+'<div class="c-pagination">'+
+'     <div class="c-pagination__controls c-pagination__controls--backward">'+
+'       <button class="c-pagination__control" disabled="{opts.pagination.page <= 1}" onclick="{first}">«</button>'+
+'       <button class="c-pagination__control" disabled="{opts.pagination.page <= 1}" onclick="{back}">‹</button>'+
+'     </div>'+
+'     <div class="c-pagination__controls">'+
+'       <span class="c-pagination__ellipsis" if="{opts.pagination.page > 2}">&hellip;</span>'+
+'         <button class="c-pagination__page" onclick="{back}" if="{opts.pagination.page > 1}">{opts.pagination.page - 1}</button>'+
+'         <button class="c-pagination__page c-pagination__page--current">{opts.pagination.page}</button>'+
+'         <button class="c-pagination__page" onclick="{forward}" if="{opts.pagination.page < opts.pagination.pages}">{opts.pagination.page + 1}</button>'+
+'         <span class="c-pagination__ellipsis" if="{opts.pagination.page < opts.pagination.pages - 1}">&hellip;'+
+'        </span>'+
+'       </div>'+
+'     <div class="c-pagination__controls pagination__controls--forward">'+
+'       <button class="c-pagination__control" disabled="{opts.pagination.page >= opts.pagination.pages}" onclick="{forward}">›</button>'+
+'       <button class="c-pagination__control" disabled="{opts.pagination.page >= opts.pagination.pages}" onclick="{last}">»</button>'+
+'     </div>'+
+'</div>'
+ , "", "",
+ function(opts) {
     var _this = this;
-    this.on("update", function() {
-        if (!opts.pagination) opts.pagination = {
-            pages: 1,
+
+    this.on("before-mount", function(){
+      if (!opts.pagination){
+          pagination = {
+            pages: 10,
             page: 1
+            }
+         }
+
+    if (opts.page && opts.pages) {
+
+       opts.page = Number(opts.page) ;
+       opts.pages = Number(opts.pages) ;
+
+       if (opts.page > opts.pages)
+          opts.page = opts.pages;
+
         }
-    });
+
+    if (opts.page)
+       opts.pagination.page = Number(opts.page) ;
+
+    if (opts.pages)
+       opts.pagination.pages = Number(opts.pages) ;
+
+
+    }) ;
+
     this.on("page", function() {
         var btns = _this.root.querySelectorAll("button");
         for (var i = 0; i < btns.length; i++) {
             btns[i].blur()
         }
     });
+
     this.forward = function() {
         opts.pagination.page++;
         _this.trigger("page", opts.pagination.page)
     };
+
     this.back = function() {
         opts.pagination.page--;
         _this.trigger("page", opts.pagination.page)
     };
+
     this.first = function() {
         opts.pagination.page = 1;
         _this.trigger("page", opts.pagination.page)
     };
+
     this.last = function() {
         opts.pagination.page = opts.pagination.pages;
         _this.trigger("page", opts.pagination.page)
@@ -1063,9 +1108,68 @@ riot.tag2("rg-pagination", '<div class="pagination"> <div class="pagination__con
 
 
 
-riot.tag2("rg-phone-sim", '<div class="emulator"> <iframe class="screen" riot-src="{opts.phonesim.url}"></iframe> </div>', 'rg-phone-sim .emulator,[riot-tag="rg-phone-sim"] .emulator,[data-is="rg-phone-sim"] .emulator{ position: relative; width: 365px; height: 792px; background-image: url(\'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAW0AAAMYCAMAAAA3r0ZLAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAwBQTFRFMDk6+vr6KTM0lJucMz4/PklKJS8wLTg5Qk1OxsjILzo7gomJ2NvbdH5/ho2O9fb2KzY3ztHRPEdIOkVGZWxtjJSVOEJDkpeYWGRluL2+KTQ1vcHBoaWlPUZHcnp6nKKjOkRF1NfXqa2tp62tZnBxanV2VmFiZ29wVl1eaXJzbXR04uTktbq7QElK1tnZipKTi5CRTlZXpKioo6mqXmlqUVlaOEFCSVFSUFxdISssT1tcTlpbJC4vIiwtTVlaJjAxIy0uTFhZS1dYJzEyKDIzSlZXPUhJOURFO0ZHSVVWKzU2P0pLKjQ1OENEND0+QEtMLDY3SFRVN0JDQ05PLTc4ND9ANUBBQUxNNkFCR1NUMTo7RE9QLjg5N0BBR1JTRlJTLzk6RVFSMjs8RVBRRlFSNj9AMzw9SFNUMj0+IissMTs8MDo7SVRVRFBRMDs8MTw9IiwsMz0+Mjw9SlVWQ09QLjk6NT4/S1ZXND4/JC4uQU1OIy0tQk5PTFdYTVhZQExNTllaJS8vJzIyP0tMLzg5LDc4KDMzNT9AKjU1N0FCNkBBJjAwIywtMDs7Mj09NkFBJjExLjk5LDc3N0JCNUBAKjU2MTw8LDU2Ljc4OUNEKDEyQU1NPEhIPEhJO0dHOkZGND8/Qk5ORFBQQ09PLTY3OUREPkpKPkpLPUlJT1pbP0tLJTAwPUlKJzAxKjM07u/vKTIzsbW2YGprtLm50tXWPkhJo6endn+A3d/f6uvreoOEg4yN2tvc/Pz8n6am8/T0VFtcm6CgJS4v4OLi5ufnYGdncnt8dHp7gYaHJC0uu8DAjJGRQkxNxMfHKzQ1YGtsS1NUaXN0bnh5yMzMyszMy83Oy8/PdoCAKDIy7O3tT1dYuLu70NTUbXd46Onq6erreoCA2dzc8PHx8vPz5OXlnaSkn6Wmqq6ucHZ2t7y8o6eoeoSEkJaWm5+gW2ZnZG5vqa+wOEFB09bWtru7qrCwcXd4t7u83eDgzM7O7/DwNT4+7e7uwMPDwcPEeH5/////70wnUQAAAQB0Uk5T////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AFP3ByUAAA+NSURBVHja7N13nBTlGcDxEQI5AmJQBAkcnqhEDIhoWMt5iogmQbOaYNrqYrJh16gplmTVkILJpYCmF+DSE1JIcjRR7L333ntPYjQxvTl55tnr7N7t7uw+vDP3+/0x3G3hs5+vr++8M7s7eH75Xb5x+rOjN017aeq+tO++U1+atmn0s9M3Xl6BoFfm466ZOPROhIt259CJ19RS++7LdgW133a97O7aaI/a+VE0y+jRnUeF1p6wqfvvaz6+YVjT0jMyJ3rkeSdmzljaNKzh+OZuoE0TQmmvv67zLzrwmMY8wkXLNx5zYCfTdeur1p6wdeegblgKar8tbegc4lv/rirtjTMLT99/UVMKzgFLNS3avwA2c2Pl2n8tPHV1QxLJMks2rC6g/alC7ScvKozrhhyIFZRrKIzvi56sRHt94b/RIsZ1xeN7UYFuffna4/UJB68Er4rGHax648vUfmqkPnxBBrmqyixQv5FPlaP9Dz2eWdIEW9U1LdFjnQsG1n5ETz4dyowdavY+VE9XPTKQ9phddPfICjvk6lt3lruM6V97j132l26BK3S3BJAv79Gf9jN3BY85HKsadHhAedebSmtf+ofgEcOQqknDAsyLLi2pPTq4/0icatSRAefoUto7Bvc2oFSzGgLQHYtr3xTct5DVSA1XJgsD0puKaa99s9wzlwPImh5WzhXTl/5TRHt7uaN5GUI1bVmzqL64ufZfgkF/GD417rCA9e99tf8VzCPHoVPzjhPXaVv10d5bblzCyZE6nDIJ5pKde2u/Egz487Cp1zHlHr20h8otp50ETT2WgaeL7dCe2vcF/uOQqUsrA9z7emgHQ3thdEZLLpeL0kHYwq7BrdqjAv2ofEAnlU0EZaPjvTTgHdWlvXeEhnYu0VkuUoN7707tbW6X35oiciyc6C4yZxmaxPf2bTq0z5VfTo/IC8/20M5GZnAHy5JzO7Tvj85bCKlEzyIzdQdvLNxf0L4wmMQjMgnmemlHZubOBcQXqvb0CO0jk720o3OmIdhPTlft4FTrth5ju55tK8bbq/YG+emUiLzqTC/t6Lz1cYoYbwi0r47QisTz0j2w0xE6ngxWJVeLdrD+WxCZVx3J9ba0QNeAnj9T/twuOi87GcF9pLSdKM8U7Q2rV6+O0jcQMoXJJB2t96tzorzB99Y2NzfPjdQL9zLJZDJynw2YK85rvZ1ku9Cjuq+4xXknb4Js+XxU/WsQ5wnec7LlDcn6d544P+ddLFu+zlT/Vorzxd5k2fIJqfq3TJwney/Lls+RGBwniPPL3g6y5aOWBstWcd7BmypbLjhS/1LiPNWTTTMWBik02mijTWijTWijjTbFVTuZTqSTRW8OUzqJdpGyxT89mU2ELYv25kO4+LvnyUT4kmj3LV38YzjpGmin3dReIm2pF9BlU+LmMDmnrdBbUntQje0trj2o5m2FPlBiTWKQQm9R7cG03nZAexCFNtpoE9poE9poo01oo01oo01oo4021VT7MxIUBik02mijTeG1D5agMEih0UYbbUIbbUIbbbQJbbQJbbQJbbTRplppf1qCwiCFRhtttCm89lwJCoMUGm200Sa00Sa00Uab0Eab0Eab0EY73tqnS1AYpNBoo402hdc+VILCIIVGG220CW20CW200Sa00Sa00aYC9GkSFAYpNNpoo01oR0v7bRIUBik02mijTWijTWijjTahjTah7bL2hyUoDFJotNFGm9BGm0ppv0OCwiCFRhtttAlttAlttNEmtOOhfbwEhUEKjTbaaBPaaBPaLmi/T4LCIIVGG220CW20CW200ab6aS+UoDBIodFGG21CG21C2wXt4yQoDFJotNFGm9BGm9BGe7BpL5KgMEih0UYbbUIbbULbBe0PSFAYpNBoo402oY02oY32YNP+oASFQQqNNtpoE9poE9poDzbtj0hQGKTQaKONNqGNNpXS/qkEhUEKfYwEhUEKjTbaaBPaaBPaaA827Y9LUBik0GijjTahHS3tn0lQGKTQCyQoDFJotNFGm9BGm9BGG22qn/anJCgMUmi00Uabwmv/RILCIIVukKAwSKHRRhttQhttQhtttKl+2p+UoDBIodFGG20Kr/09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\'); background-repeat: no-repeat; background-position: center; background-size: cover; } rg-phone-sim .screen,[riot-tag="rg-phone-sim"] .screen,[data-is="rg-phone-sim"] .screen{ position: absolute; top: 105px; left: 22px; background-color: white; width: 320px; height: 568px; border: 0; }', "", function(opts) {});
-riot.tag2("rg-placeholdit", '<img riot-src="https://placeholdit.imgix.net/~text?bg={opts.placeholdit.background}&txtclr={opts.placeholdit.color}&txt={opts.placeholdit.text}&txtsize={opts.placeholdit.textsize}&w={opts.placeholdit.width}&h={opts.placeholdit.height}&fm={opts.placeholdit.format}">', "", "", function(opts) {
-    this.on("update", function() {
+riot.tag("rg-phone-sim", '<div class="emulator"> <iframe class="screen" riot-src="{opts.phonesim.url}"><yield /></iframe> </div>',
+ 'rg-phone-sim .emulator,[riot-tag="rg-phone-sim"] .emulator,[data-is="rg-phone-sim"] .emulator{ position: relative; width: 365px; height: 792px; background-image:'+
+ 'url(\'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAW0AAAMYCAMAAAA3r0ZLAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAwBQTFRFMDk6+vr6KTM0lJucMz4/PklKJS8wLTg5Qk1O'+
+ 'xsjILzo7gomJ2NvbdH5/ho2O9fb2KzY3ztHRPEdIOkVGZWxtjJSVOEJDkpeYWGRluL2+KTQ1vcHBoaWlPUZHcnp6nKKjOkRF1NfXqa2tp62tZnBxanV2VmFiZ29wVl1eaXJzbXR04uTktbq7QElK1tnZipKTi5CRTlZXpKioo'+
+ '6mqXmlqUVlaOEFCSVFSUFxdISssT1tcTlpbJC4vIiwtTVlaJjAxIy0uTFhZS1dYJzEyKDIzSlZXPUhJOURFO0ZHSVVWKzU2P0pLKjQ1OENEND0+QEtMLDY3SFRVN0JDQ05PLTc4ND9ANUBBQUxNNkFCR1NUMTo7RE9QLjg5'+
+ 'N0BBR1JTRlJTLzk6RVFSMjs8RVBRRlFSNj9AMzw9SFNUMj0+IissMTs8MDo7SVRVRFBRMDs8MTw9IiwsMz0+Mjw9SlVWQ09QLjk6NT4/S1ZXND4/JC4uQU1OIy0tQk5PTFdYTVhZQExNTllaJS8vJzIyP0tMLzg5LDc4KDMzNT'+
+ '9AKjU1N0FCNkBBJjAwIywtMDs7Mj09NkFBJjExLjk5LDc3N0JCNUBAKjU2MTw8LDU2Ljc4OUNEKDEyQU1NPEhIPEhJO0dHOkZGND8/Qk5ORFBQQ09PLTY3OUREPkpKPkpLPUlJT1pbP0tLJTAwPUlKJzAxKjM07u/vKTIzsbW2YGprtLm'+
+ '50tXWPkhJo6endn+A3d/f6uvreoOEg4yN2tvc/Pz8n6am8/T0VFtcm6CgJS4v4OLi5ufnYGdncnt8dHp7gYaHJC0uu8DAjJGRQkxNxMfHKzQ1YGtsS1NUaXN0bnh5yMzMyszMy83Oy8/PdoCAKDIy7O3tT1dYuLu70NTUbXd46Onq6erreoC'+
+ 'A2dzc8PHx8vPz5OXlnaSkn6Wmqq6ucHZ2t7y8o6eoeoSEkJaWm5+gW2ZnZG5vqa+wOEFB09bWtru7qrCwcXd4t7u83eDgzM7O7/DwNT4+7e7uwMPDwcPEeH5/////70wnUQAAAQB0Uk5T'+
+ '//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////'+
+ '//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////'+
+ 'AFP3ByUAAA+NSURBVHja7N13nBTlGcDxEQI5AmJQBAkcnqhEDIhoWMt5iogmQbOaYNrqYrJh16gplmTVkILJpYCmF+DSE1JIcjRR7L333ntPYjQxvTl55tnr7N7t7uw+vDP3+/0x3G3hs5+vr++8M7s7eH75Xb5x+rOjN017aeq+tO++U'+
+ '1+atmn0s9M3Xl6BoFfm466ZOPROhIt259CJ19RS++7LdgW133a97O7aaI/a+VE0y+jRnUeF1p6wqfvvaz6+YVjT0jMyJ3rkeSdmzljaNKzh+OZuoE0TQmmvv67zLzrwmMY8wkXLNx5zYCfTdeur1p6wdeegblgKar8tbegc4lv/rirtjTMLT99'+
+ '/UVMKzgFLNS3avwA2c2Pl2n8tPHV1QxLJMks2rC6g/alC7ScvKozrhhyIFZRrKIzvi56sRHt94b/RIsZ1xeN7UYFuffna4/UJB68Er4rGHax648vUfmqkPnxBBrmqyixQv5FPlaP9Dz2eWdIEW9U1LdFjnQsG1n5ETz4dyowdavY+VE9XPTKQ9phddP'+
+ 'fICjvk6lt3lruM6V97j132l26BK3S3BJAv79Gf9jN3BY85HKsadHhAedebSmtf+ofgEcOQqknDAsyLLi2pPTq4/0icatSRAefoUto7Bvc2oFSzGgLQHYtr3xTct5DVSA1XJgsD0puKaa99s9wzlwPImh5WzhXTl/5TRHt7uaN5GUI1bVmzqL64ufZfgkF/GD'+
+ '417rCA9e99tf8VzCPHoVPzjhPXaVv10d5bblzCyZE6nDIJ5pKde2u/Egz487Cp1zHlHr20h8otp50ETT2WgaeL7dCe2vcF/uOQqUsrA9z7emgHQ3thdEZLLpeL0kHYwq7BrdqjAv2ofEAnlU0EZaPjvTTgHdWlvXeEhnYu0VkuUoN7707tbW6X35oiciyc6C4y'+
+ 'ZxmaxPf2bTq0z5VfTo/IC8/20M5GZnAHy5JzO7Tvj85bCKlEzyIzdQdvLNxf0L4wmMQjMgnmemlHZubOBcQXqvb0CO0jk720o3OmIdhPTlft4FTrth5ju55tK8bbq/YG+emUiLzqTC/t6Lz1cYoYbwi0r47QisTz0j2w0xE6ngxWJVeLdrD+WxCZVx3J9ba0QNeAnj'+
+ '9T/twuOi87GcF9pLSdKM8U7Q2rV6+O0jcQMoXJJB2t96tzorzB99Y2NzfPjdQL9zLJZDJynw2YK85rvZ1ku9Cjuq+4xXknb4Js+XxU/WsQ5wnec7LlDcn6d544P+ddLFu+zlT/Vorzxd5k2fIJqfq3TJwney/Lls+RGBwniPPL3g6y5aOWBstWcd7BmypbLjhS/1Li'+
+ 'PNWTTTMWBik02mijTWijTWijjTbFVTuZTqSTRW8OUzqJdpGyxT89mU2ELYv25kO4+LvnyUT4kmj3LV38YzjpGmin3dReIm2pF9BlU+LmMDmnrdBbUntQje0trj2o5m2FPlBiTWKQQm9R7cG03nZAexCFNtpoE9poE9poo01oo01oo01oo4021VT7MxIUBik02mijTeG1D'+
+ '5agMEih0UYbbUIbbUIbbbQJbbQJbbQJbbTRplppf1qCwiCFRhtttCm89lwJCoMUGm200Sa00Sa00Uab0Eab0Eab0EY73tqnS1AYpNBoo402hdc+VILCIIVGG220CW20CW200Sa00Sa00aYC9GkSFAYpNNpoo01oR0v7bRIUBik02mijTWijTWijjTahjTah7bL2hyUoDFJot'+
+ 'NFGm9BGm0ppv0OCwiCFRhtttAlttAlttNEmtOOhfbwEhUEKjTbaaBPaaBPaLmi/T4LCIIVGG220CW20CW200ab6aS+UoDBIodFGG21CG21C2wXt4yQoDFJotNFGm9BGm9BGe7BpL5KgMEih0UYbbUIbbULbBe0PSFAYpNBoo402oY02oY32YNP+oASFQQqNNtpoE9poE9poDzbtj'+
+ '0hQGKTQaKONNqGNNpXS/qkEhUEKfYwEhUEKjTbaaBPaaBPaaA827Y9LUBik0GijjTahHS3tn0lQGKTQCyQoDFJotNFGm9BGm9BGG22qn/anJCgMUmi00Uabwmv/RILCIIVukKAwSKHRRhttQhttQhtttKl+2p+UoDBIodFGG20Kr/09CQqDFPo9EhQGKTTaaKNNaKNNaKONNtVP+7'+
+ 'MSFAYpNNpoo03htY+UoDBIodFGG21CG21CG220Ce14aH9egsIghUYb7bhq/1qCwiCFPlyCwiCFRhtttAlttAlttNEmtNGmSrV/KUFhkEL/QoLCIIUeJkFhkEKjjTbahDbahDbaaBPaaFOl2r+VoDBIoX8lQWGQQh8mQWGQQqONNtqENtqENtpoE9poE9oua/9AgsIghf6+BIVBCr2tBIV'+
+ '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\');'+
+ ' background-repeat: no-repeat; background-position: center; background-size: cover; } rg-phone-sim .screen,[riot-tag="rg-phone-sim"] .screen,[data-is="rg-phone-sim"] .screen{ position: absolute; top: 105px; left: 22px; background-color: white; width: 320px; height: 568px; border: 0; }', "",
+   function(opts) {
+     this.on("before-mount", function (){
+
+       if (!opts.phonesim)
+          opts.phonesim = {url: undefined}
+
+       if (opts.url)
+             opts.phonesim.url = opts.url ;
+
+     }) ;
+
+   });
+
+
+
+
+riot.tag("rg-placeholdit",
+          '<img riot-src="https://placeholdit.imgix.net/~text?bg={opts.placeholdit.background}'+
+          '&txtclr={opts.placeholdit.color}&txt={opts.placeholdit.text}'+
+          '&txtsize={opts.placeholdit.textsize}&w={opts.placeholdit.width}'+
+          '&h={opts.placeholdit.height}&fm={opts.placeholdit.format}">', "", "",
+          function(opts) {
+
+    this.on("before-mount", function() {
         if (!opts.placeholdit) opts.placeholdit = {};
         opts.placeholdit.width = opts.placeholdit.width || 450;
         opts.placeholdit.height = opts.placeholdit.height || 250;
@@ -1074,6 +1178,28 @@ riot.tag2("rg-placeholdit", '<img riot-src="https://placeholdit.imgix.net/~text?
         opts.placeholdit.text = opts.placeholdit.text || opts.placeholdit.width + " x " + opts.placeholdit.height;
         opts.placeholdit.textsize = opts.placeholdit.textsize || 30;
         opts.placeholdit.format = opts.placeholdit.format || "png"
+
+        if (opts.width)
+           opts.placeholdit.width = Number(opts.width) ;
+
+        if (opts.height)
+          opts.placeholdit.height = Number(opts.height) ;
+
+        if (opts.background)
+           opts.placeholdit.background = opts.background ;
+
+        if (opts.color)
+           opts.placeholdit.color = opts.color ;
+
+        if (opts.text)
+          opts.placeholdit.text = opts.text ;
+
+        if (opts.textsize)
+           opts.placeholdit.textsize = Number(opts.textsize) ;
+
+        if (opts.format)
+           opts.placeholdit.text = opts.format ;
+
     })
 });
 
@@ -1087,31 +1213,46 @@ riot.tag2("rg-raw", "<span></span>", "", "", function(opts) {
 
 
 
-riot.tag2("rg-select", '<input type="{opts.select.filter ? \'search\' : \'text\'}" name="selectfield" class="field" placeholder="{opts.select.placeholder}" onkeydown="{navigate}" oninput="{filterOptions}" onfocus="{open}" __readonly="{!opts.select.filter}"> <ul class="menu menu--high" if="{opts.select.isvisible}"> <li each="{options}" no-reorder onclick="{parent.select}" class="menu__item {\'menu__item--active\': selected, \'menu__item--disabled\': disabled, \'menu__item--hover\': active}"> {text} </li> </ul>', 'rg-select .menu,[riot-tag="rg-select"] .menu,[data-is="rg-select"] .menu{ position: absolute; }', "", function(opts) {
+riot.tag("rg-select", '<input type="{opts.select.filter ? \'search\' : \'text\'}"'+
+                 ' ref="selectfield" class="c-field" placeholder="{opts.select.placeholder}"'+
+                 ' onkeydown="{navigate}" oninput="{filterOptions}" onfocus="{open}" __readonly="{!opts.select.filter}">'+
+   ' <ul class="c-card c-card--menu u-high" if="{opts.select.isvisible}">'+
+     ' <li each="{options}" no-reorder onclick="{parent.select}" class="c-card__item {\'c-card__item--active\': selected,'+
+      ' \'c-card__item--disabled\': disabled, \'c-card--menu__item--hover\': active}"> {text}'+
+      ' </li>'+
+    ' </ul>',
+    'rg-select .c-card--menu,[riot-tag="rg-select"] .c-card--menu,[data-is="rg-select"] .c-card--menu{ position: relative; }', "",
+function(opts) {
     var _this = this;
+
     if (!opts.select) opts.select = {
         options: []
     };
+
     var handleClickOutside = function handleClickOutside(e) {
         if (!_this.root.contains(e.target)) _this.close();
         _this.update()
     };
+
+
     var applyFieldText = function applyFieldText() {
         for (var i = 0; i < opts.select.options.length; i++) {
             var item = opts.select.options[i];
             if (item.selected) {
-                _this.selectfield.value = item.text;
+                _this.refs.selectfield.value = item.text;
                 break
             }
         }
     };
+
+
     this.filterOptions = function() {
         _this.options = opts.select.options;
         if (opts.select.filter) _this.options = _this.options.filter(function(option) {
             var attr = option[opts.select.filter];
-            return attr && attr.toLowerCase().indexOf(_this.selectfield.value.toLowerCase()) > -1
+            return attr && attr.toLowerCase().indexOf(_this.refs.selectfield.value.toLowerCase()) > -1
         });
-        _this.trigger("filter", _this.selectfield.value)
+        _this.trigger("filter", _this.refs.selectfield.value)
     };
 
     function getWindowDimensions() {
@@ -1125,20 +1266,24 @@ riot.tag2("rg-select", '<input type="{opts.select.filter ? \'search\' : \'text\'
             width: x,
             height: y
         }
-    }
+    } ;
+
     var positionDropdown = function positionDropdown() {
         var w = getWindowDimensions();
-        var m = _this.root.querySelector(".menu");
+        var m = _this.root.querySelector(".c-card--menu");
         if (!m) return;
         if (!opts.select.isvisible) {
             m.style.marginTop = "";
             m.style.marginLeft = "";
             return
-        }
+        } ;
+
         var pos = m.getBoundingClientRect();
+
         if (w.width < pos.left + pos.width) {
             m.style.marginLeft = w.width - (pos.left + pos.width) - 20 + "px"
         }
+
         if (pos.left < 0) {
             m.style.marginLeft = "20px"
         }
@@ -1146,13 +1291,17 @@ riot.tag2("rg-select", '<input type="{opts.select.filter ? \'search\' : \'text\'
             m.style.marginTop = w.height - (pos.top + pos.height) - 20 + "px"
         }
     };
+
+
     this.navigate = function(e) {
         if ([13, 38, 40].indexOf(e.keyCode) > -1 && !opts.select.isvisible) {
             e.preventDefault();
             _this.open();
             return true
         }
+
         var length = _this.options.length;
+
         if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
             e.preventDefault();
             var activeIndex = null;
@@ -1178,16 +1327,21 @@ riot.tag2("rg-select", '<input type="{opts.select.filter ? \'search\' : \'text\'
         }
         return true
     };
+
+
     this.open = function() {
         opts.select.isvisible = true;
         _this.trigger("open")
     };
+
+
     this.close = function() {
         if (opts.select.isvisible) {
             opts.select.isvisible = false;
             _this.trigger("close")
         }
     };
+
     this.select = function(e) {
         opts.select.options.forEach(function(i) {
             return i.selected = false
@@ -1198,16 +1352,34 @@ riot.tag2("rg-select", '<input type="{opts.select.filter ? \'search\' : \'text\'
         opts.select.isvisible = false;
         _this.trigger("select", e.item)
     };
+
+
+    this.on("before-mount", function() {
+         if (opts.filter)
+            if (typeof opts.filter === "boolean" || typeof opts.filter === "string")
+               if (opts.filter === "true" || Boolean(opts.filter) === true)
+               if (opts.filter==="true")
+                  opts.select.filter = "text" ;
+               else
+                  opts.select.filter = undefined ;
+
+         if (opts.placeholder)
+            opts.select.placeholder = opts.placeholder ;
+    });
+
+
     this.on("mount", function() {
         applyFieldText();
         _this.filterOptions();
         document.addEventListener("click", handleClickOutside);
         _this.update()
     });
+
     this.on("update", function() {
         if (!opts.select.filter) applyFieldText();
         positionDropdown()
     });
+
     this.on("unmount", function() {
         document.removeEventListener("click", handleClickOutside)
     })
@@ -1215,12 +1387,25 @@ riot.tag2("rg-select", '<input type="{opts.select.filter ? \'search\' : \'text\'
 
 
 
-riot.tag2("rg-tabs", '<div class="tabs {\'tabs--\' + opts.tabs.type}"> <div class="tabs__headings"> <div each="{opts.tabs.tabs}" class="tab-heading {\'tab-heading--active\': active, \'tab-heading--disabled\': disabled}" onclick="{parent.open}"> {heading} </div> </div> <div each="{opts.tabs.tabs}" class="tabs__tab {\'tabs__tab--active\': active}"> <div if="{text}"> {text} </div> <div if="{include}"> {include.responseText} </div> </div> </div>', "", "", function(opts) {
+riot.tag("rg-tabs",
+    '<div class="c-tabs {\'c-tabs--\' + opts.tabs.type}">'+
+    '   <div class="c-tabs__headings"> '+
+    '     <div each="{opts.tabs.tabs}" class="c-tab-heading {\'c-tab-heading--active\': active, \'c-tab-heading--disabled\': disabled}"'+
+                   ' onclick="{parent.open}"> {heading}'+
+    '     </div>'+
+    '   </div>'+
+    '   <div each="{opts.tabs.tabs}" class="c-tabs__tab {\'c-tabs__tab--active\': active}">'+
+    '     <div if="{text}"> {text} </div> <div if="{include}"> {include.responseText}'+
+    '     </div>'+
+    '   </div>'+
+    '</div>', "", "",
+    function(opts) {
     var _this = this;
+
     var fetch = function fetch(tab) {
         var req = new XMLHttpRequest;
         req.onload = function(resp) {
-            var activeTab = _this.root.querySelector(".tabs__tab--active");
+            var activeTab = _this.root.querySelector(".c-tabs__tab--active");
             if (activeTab) activeTab.innerHTML = req.responseText;
             _this.trigger("loaded", tab)
         };
@@ -1228,6 +1413,8 @@ riot.tag2("rg-tabs", '<div class="tabs {\'tabs--\' + opts.tabs.type}"> <div clas
         req.send();
         _this.trigger("loading", tab)
     };
+
+
     this.open = function(e) {
         var tab = e.item;
         if (!tab.disabled && !tab.active) {
@@ -1238,6 +1425,17 @@ riot.tag2("rg-tabs", '<div class="tabs {\'tabs--\' + opts.tabs.type}"> <div clas
             tab.active = true
         }
     };
+
+    this.on("before-mount", function(){
+      if (!opts.tabs)
+         opts.tabs = {type: 'default', tabs: []} ;
+
+    if (opts.type)
+       opts.tabs.type = opts.type ;
+
+    });
+
+
     this.on("update", function() {
         if (!opts.tabs) opts.tabs = {};
         if (!Array.isArray(opts.tabs.tabs)) return;
@@ -1251,33 +1449,91 @@ riot.tag2("rg-tabs", '<div class="tabs {\'tabs--\' + opts.tabs.type}"> <div clas
 
 
 
-riot.tag2("rg-tags", '<div class="tags"> <span class="tags__container"> <button each="{opts.tags.tags}" onclick="{removeTag}" type="button" class="button button--primary tag"> {text} <span class="tag__close">×</span> </button> </span> <div class="tags__field-container"> <input type="{opts.tags.filter ? \'search\' : \'text\'}" name="selectfield" class="field" placeholder="{opts.tags.placeholder}" onkeydown="{navigate}" oninput="{filterOptions}" onfocus="{open}" __readonly="{!opts.tags.filter}"> <ul class="menu menu--high" if="{opts.tags.isvisible}"> <li each="{options}" no-reorder onclick="{parent.select}" class="menu__item {\'menu__item--active\': selected, \'menu__item--disabled\': disabled, \'menu__item--hover\': active}"> {text} </li> </ul> </div> </div>', 'rg-tags .menu,[riot-tag="rg-tags"] .menu,[data-is="rg-tags"] .menu{ position: absolute; }', "", function(opts) {
+riot.tag("rg-tags",
+     '<div class="c-tags">'+
+     '  <span class="c-tags__container">'+
+     '    <button each="{opts.tags.tags}" onclick="{removeTag}" type="c-button" class="c-button c-button--{type} c-tag"> {text} '+
+     '      <span class="c-tag__close">×</span>'+
+     '   </button>'+
+     '  </span>'+
+     '  <div class="c-tags__field-container">'+
+     '     <input type="{opts.tags.filter ? \'search\' : \'text\'}" ref="selectfield" class="c-field" '+
+     '                placeholder="{opts.tags.placeholder}" onkeydown="{navigate}" oninput="{filterOptions}" onfocus="{open}"'+
+     '                __readonly="{!opts.tags.filter}">'+
+     '                 <ul class="c-card c-card--menu u-higher" if="{opts.tags.isvisible}">'+
+     '                    <li each="{options}" no-reorder onclick="{parent.select}" class="c-card__item '+
+     '                          {\'c-card__item--active\': selected, \'c-card__item--disabled\': disabled, \'c-menu__item--hover\': active}"> {text}'+
+     '                    </li>'+
+     '                 </ul>'+
+     '  </div>'+
+     '</div>',
+     'rg-tags .c-card--menu,[riot-tag="rg-tags"] .c-card--menu,[data-is="rg-tags"] .c-card--menu{ position: relative; }', "",
+    function(opts) {
     var _this = this;
+
     if (!opts.tags) opts.tags = {
         options: [],
         tags: []
-    };
+        }
+    else {
+          if (!opts.tags.type)
+            opts.tags.type = "default" ;
+          } // else..if
+
     if (!opts.tags.options) opts.tags.options = [];
     if (!opts.tags.tags) opts.tags.tags = [];
+
+    if (opts.type)
+       opts.tags.type = opts.type ;
+
+    if (opts.placeholder)
+       opts.tags.placeholder = opts.placeholder ;
+
+    if (opts.filter)
+       if (typeof opts.filter === "boolean" || typeof opts.filter === "string")
+          if (opts.filter === "true" || Boolean(opts.filter) === true)
+             if (opts.filter==="true")
+                opts.tags.filter = "text" ;
+             else
+                opts.tags.filter = undefined ;
+
+
+    var defType = opts.tags.type ;
+
+    for (i = 0 ; i < opts.tags.options.length ; i++) {
+        if (!opts.tags.options[i].type)
+           opts.tags.options[i].type = defType;
+    }  // for
+
+    for (i = 0 ; i < opts.tags.tags.length ; i++) {
+        if (!opts.tags.tags[i].type)
+           opts.tags.tags[i].type = defType;
+    }  // for
+
+
     var handleClickOutside = function handleClickOutside(e) {
         if (!_this.root.contains(e.target)) _this.close();
         _this.update()
     };
+
+
     var applyFieldText = function applyFieldText() {
-        _this.selectfield.value = "";
+        _this.refs.selectfield.value = "";
         for (var i = 0; i < opts.tags.options.length; i++) {
             var item = opts.tags.options[i];
             item.selected = false
         }
     };
+
     this.filterOptions = function() {
         _this.options = opts.tags.options;
         if (opts.tags.filter) _this.options = _this.options.filter(function(option) {
             var attr = option[opts.tags.filter];
-            return attr && attr.toLowerCase().indexOf(_this.selectfield.value.toLowerCase()) > -1
+            return attr && attr.toLowerCase().indexOf(_this.refs.selectfield.value.toLowerCase()) > -1
         });
-        _this.trigger("filter", _this.selectfield.value)
+        _this.trigger("filter", _this.refs.selectfield.value)
     };
+
 
     function getWindowDimensions() {
         var w = window,
@@ -1291,9 +1547,10 @@ riot.tag2("rg-tags", '<div class="tags"> <span class="tags__container"> <button 
             height: y
         }
     }
+
     var positionDropdown = function positionDropdown() {
         var w = getWindowDimensions();
-        var m = _this.root.querySelector(".menu");
+        var m = _this.root.querySelector(".c-card--menu");
         if (!m) return;
         if (!opts.tags.isvisible) {
             m.style.marginTop = "";
@@ -1311,13 +1568,16 @@ riot.tag2("rg-tags", '<div class="tags"> <span class="tags__container"> <button 
             m.style.marginTop = w.height - (pos.top + pos.height) - 20 + "px"
         }
     };
+
     this.navigate = function(e) {
         if ([13, 38, 40].indexOf(e.keyCode) > -1 && !opts.tags.isvisible) {
             e.preventDefault();
             _this.open();
             return true
         }
+
         var length = _this.options.length;
+
         if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
             e.preventDefault();
             var activeIndex = null;
@@ -1328,7 +1588,9 @@ riot.tag2("rg-tags", '<div class="tags"> <span class="tags__container"> <button 
                     break
                 }
             }
+
             if (activeIndex != null) _this.options[activeIndex].active = false;
+
             if (e.keyCode == 38) {
                 if (activeIndex == null || activeIndex == 0) _this.options[length - 1].active = true;
                 else _this.options[activeIndex - 1].active = true
@@ -1343,16 +1605,22 @@ riot.tag2("rg-tags", '<div class="tags"> <span class="tags__container"> <button 
         }
         return true
     };
+
+
     this.open = function() {
         opts.tags.isvisible = true;
         _this.trigger("open")
     };
+
+
     this.close = function() {
         if (opts.tags.isvisible) {
             opts.tags.isvisible = false;
             _this.trigger("close")
         }
     };
+
+
     this.select = function(e) {
         opts.tags.options.forEach(function(i) {
             return i.selected = false
@@ -1363,22 +1631,30 @@ riot.tag2("rg-tags", '<div class="tags"> <span class="tags__container"> <button 
         _this.filterOptions();
         _this.trigger("select", e.item)
     };
+
+
     this.addTag = function(item) {
         if (opts.tags.tags.indexOf(item) == -1) {
             opts.tags.tags.push(item)
         }
     };
+
+
     this.removeTag = function(e) {
         opts.tags.tags = opts.tags.tags.filter(function(tag) {
             if (tag._id != e.item._id) return tag
         })
     };
+
+
     this.on("mount", function() {
         applyFieldText();
         _this.filterOptions();
         document.addEventListener("click", handleClickOutside);
         _this.update()
     });
+
+
     this.on("update", function() {
         opts.tags.options.forEach(function(item) {
             item._id = item._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36)
@@ -1389,6 +1665,8 @@ riot.tag2("rg-tags", '<div class="tags"> <span class="tags__container"> <button 
         if (!opts.tags.filter) applyFieldText();
         positionDropdown()
     });
+
+
     this.on("unmount", function() {
         document.removeEventListener("click", handleClickOutside)
     })
@@ -1396,21 +1674,31 @@ riot.tag2("rg-tags", '<div class="tags"> <span class="tags__container"> <button 
 
 
 
-riot.tag2("rg-toasts", '<div if="{opts.toasts.isvisible}" class="toasts {\'toasts--\' + opts.toasts.position}"> <div each="{opts.toasts.toasts}" class="toast {\'toast--\' + type}" if="{isvisible}" onclick="{parent.toastClicked}"> {text} </div> </div>', "", "", function(opts) {
+riot.tag("rg-toasts",
+     '<div if="{opts.toasts.isvisible}" class="c-alerts {\'c-alerts--\' + opts.toasts.position}">'+
+     '   <div each="{opts.toasts.toasts}" class="c-alert {\'c-alert--\' + type}" if="{isvisible}" onclick="{parent.toastClicked}"> {text} </div>'+
+     ' </div>', "", "",
+    function(opts) {
     var _this = this;
+
     this.toastClicked = function(e) {
         var toast = e.item;
         window.clearTimeout(toast.timer);
         toast.isvisible = false;
         _this.trigger("select", toast)
     };
+
     var _uid = 1;
+
     var uid = function uid() {
         return _uid++
     };
-    this.on("update", function() {
+
+    this.on("mount", function() {
         if (!opts.toasts || !Array.isArray(opts.toasts.toasts)) return;
+
         opts.toasts.position = opts.toasts.position || "bottomright";
+
         opts.toasts.toasts.forEach(function(toast) {
             if (typeof toast.isvisible == "undefined") toast.isvisible = true;
             toast.id = toast.id || uid();
@@ -1425,6 +1713,7 @@ riot.tag2("rg-toasts", '<div if="{opts.toasts.isvisible}" class="toasts {\'toast
                 toast.startTimer()
             }
         });
+
         opts.toasts.isvisible = opts.toasts.toasts.filter(function(toast) {
             return toast.isvisible
         }).length > 0
