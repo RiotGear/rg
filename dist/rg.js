@@ -3,13 +3,6 @@ var rg_date_cdn_momentjs = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.1
 var rg_credit_card_payment_fonts = "https://cdnjs.cloudflare.com/ajax/libs/paymentfont/1.1.2/css/paymentfont.min.css" ;
 var rg_markdown_cdn_markdown = "https://cdnjs.cloudflare.com/ajax/libs/markdown-it/8.3.0/markdown-it.min.js" ;
 
-// Tools used in the library generally.
-// https://zeit.co/blog/async-and-await
-function sleep(time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-}
-
-
 function loadJS(file, callback) {
     // DOM: Create the script element
     var script = document.createElement("script");
@@ -1721,13 +1714,47 @@ riot.tag("rg-toasts",
 });
 
 
-riot.tag2("rg-toggle", '<div class="toggle {\'toggle--\' + opts.toggle.type}"> <label class="toggle__wrapper"> <input type="checkbox" __checked="{opts.toggle.checked}" onclick="{toggle}"> <div class="toggle__track"> <div class="toggle__handle"></div> </div> </label> </div>', "", "", function(opts) {
+riot.tag("rg-toggle",
+   '<div class="c-toggle {\'c-toggle--\' + opts.toggle.type}">'+
+   '   <label class="c-toggle__wrapper">'+
+   '        <input type="checkbox" checked="{opts.toggle.checked}" onclick="{toggle}">'+
+   '        <div class="c-toggle__track">'+
+   '          <div class="c-toggle__handle"></div>'+
+   '        </div>'+
+   '   </label>'+
+   '   {opts.toggle.text}'+
+   '</div>', ".c-toggle{padding-top: 0.5vh;}", "",
+   function(opts) {
     var _this = this;
+
+    if (!opts.toggle) {
+        opts.toggle = {
+          type: "default"
+        }
+    }
+
+    if (opts.text)
+       opts.toggle.text = opts.text ;
+
+    if (opts.type)
+       opts.toggle.type = opts.type ;
+
+       if (opts.checked)
+          if (typeof opts.checked === "string")
+             if (opts.checked.toLowerCase() === "true" || opts.checked.toLowerCase() === "false")
+                if (opts.checked.toLowerCase() ==="true")
+                   opts.toggle.checked = true ;
+                else
+                   opts.toggle.checked = false ;
+
+
+
     this.on("mount", function() {
         if (!opts.toggle) opts.toggle = {
             checked: false
         }
     });
+
     this.toggle = function() {
         opts.toggle.checked = !opts.toggle.checked;
         _this.trigger("toggle", opts.toggle.checked)
