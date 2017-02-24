@@ -17,6 +17,23 @@ function loadJS(file, callback) {
 }
 
 
+function toBoolean (bool) {
+  if (bool) {
+     if (typeof bool === "string") {
+        if (bool.toLowerCase() === "true" || bool.toLowerCase() === "false")
+           if (bool.toLowerCase() ==="true")
+              return true ;
+           else
+              return false ;
+        }
+     else if (typeof bool == "boolean")
+        return bool ;
+     }
+  else
+    return undefined ;
+
+}
+
 // Single Alert
 riot.tag("rg-alert",
     '<div class="c-alert if={opts.type} {\'c-alert--\' + opts.type}"><button ref="closeButton" class="c-button c-button--close"' +
@@ -1205,7 +1222,40 @@ riot.tag2("rg-raw", "<span></span>", "", "", function(opts) {
 });
 
 
+/*
+Note! Depends on rg-utils.js
 
+HTML:
+<rg-select></rg-select>
+<rg-select filter="true"></rg-select>
+<rg-select filter=true></rg-select>
+
+Script:
+var tags = riot.mount('rg-select', {
+  select: {
+    placeholder: 'Please select a card',
+    filter: 'text', // <-- this enables filtering on the 'text' property
+    options: [{
+      id: 0,
+      text: 'Visa'
+    }, {
+      id: 1,
+      text: 'MasterCard'
+      //selected: true
+    }, {
+      id: 2,
+      text: 'American Express'
+    }, {
+      id: 3,
+      text: 'Discover'
+    }]
+  }
+})
+
+tags[0].on('open', function () {console.log("open") })
+       .on('close', function () { console.log("close") })
+       .on('select', function (item) { console.log("item=", item) })
+*/
 riot.tag("rg-select", '<input type="{opts.select.filter ? \'search\' : \'text\'}"'+
                  ' ref="selectfield" class="c-field" placeholder="{opts.select.placeholder}"'+
                  ' onkeydown="{navigate}" oninput="{filterOptions}" onfocus="{open}" __readonly="{!opts.select.filter}">'+
@@ -1348,13 +1398,14 @@ function(opts) {
 
 
     this.on("before-mount", function() {
-         if (opts.filter)
-            if (typeof opts.filter === "boolean" || typeof opts.filter === "string")
-               if (opts.filter === "true" || Boolean(opts.filter) === true)
-               if (opts.filter==="true")
-                  opts.select.filter = "text" ;
-               else
-                  opts.select.filter = undefined ;
+         if (opts.filter) {
+             filter = toBoolean (opts.filter) ;
+
+             if (filter)
+                opts.select.filter = "text";
+             else
+               opts.select.filter = undefined ;
+         }
 
          if (opts.placeholder)
             opts.select.placeholder = opts.placeholder ;
@@ -1441,7 +1492,43 @@ riot.tag("rg-tabs",
 });
 
 
+/*
+Note! Depends on rg-utils.js
 
+HTML:
+<rg-tags></rg-tags>
+<rg-tags type="error"></rg-tags>
+<rg-tags type="error" filter=true></rg-tags>
+<rg-tags type="error" placeholder="Nyah! Nyah! Na Na Na!"></rg-tags>
+
+Script:
+    var tags = riot.mount('rg-tags', {
+      tags: {
+        type: "brand",
+        placeholder: 'Choose a country',
+        filter: 'text', // <-- this enables filtering on the 'text' property
+        options: [{
+          text: 'England',
+          type: 'info'
+        }, {
+          text: 'Scotland',
+        }, {
+          text: 'Ireland',
+          type: 'warning'
+        }, {
+          text: 'Wales',
+          type: 'success'
+        }],
+        tags: [{
+          text: 'United States',
+        }]
+      }
+    })
+
+    tags[0].on('open', function () { console.log("open") })
+           .on('close', function () { console.log("close") })
+           .on('select', function (item) { console.log("select", item) })
+*/
 riot.tag("rg-tags",
      '<div class="c-tags">'+
      '  <span class="c-tags__container">'+
@@ -1482,14 +1569,14 @@ riot.tag("rg-tags",
     if (opts.placeholder)
        opts.tags.placeholder = opts.placeholder ;
 
-    if (opts.filter)
-       if (typeof opts.filter === "boolean" || typeof opts.filter === "string")
-          if (opts.filter === "true" || Boolean(opts.filter) === true)
-             if (opts.filter==="true")
-                opts.tags.filter = "text" ;
-             else
-                opts.tags.filter = undefined ;
+    if (opts.filter) {
+        filter = toBoolean (opts.filter) ;
 
+        if (filter)
+           opts.tags.filter = "text";
+        else
+          opts.tags.filter = undefined ;
+    }
 
     var defType = opts.tags.type ;
 
@@ -1713,7 +1800,26 @@ riot.tag("rg-toasts",
     })
 });
 
+/*
+Note! Depends on rg-utils.js
 
+HTML:
+<rg-toggle></rg-toggle>
+<rg-toggle text="Average White Band"></rg-toggle>
+<rg-toggle  type="info" checked=true></rg-toggle>
+<rg-toggle text="Average White Band" type="success" checked=false></rg-toggle>
+
+Script:
+    var tags = riot.mount('rg-toggle', {
+      toggle: {
+        text: 'My Thang',
+        type: 'success',
+        checked: false
+      }
+    })
+
+    tags[0].on('toggle', function (checked) { console.log("state", checked) })
+*/
 riot.tag("rg-toggle",
    '<div class="c-toggle {\'c-toggle--\' + opts.toggle.type}">'+
    '   <label class="c-toggle__wrapper">'+
@@ -1740,12 +1846,7 @@ riot.tag("rg-toggle",
        opts.toggle.type = opts.type ;
 
        if (opts.checked)
-          if (typeof opts.checked === "string")
-             if (opts.checked.toLowerCase() === "true" || opts.checked.toLowerCase() === "false")
-                if (opts.checked.toLowerCase() ==="true")
-                   opts.toggle.checked = true ;
-                else
-                   opts.toggle.checked = false ;
+          opts.toggle.checked = toBoolean(opts.checked) ;
 
 
 
@@ -1762,10 +1863,16 @@ riot.tag("rg-toggle",
 });
 
 
-riot.tag2("rg-unsplash", '<img riot-src="https://unsplash.it/{opts.unsplash.greyscale}{opts.unsplash.width}/{opts.unsplash.height}/?{options}">', "", "", function(opts) {
+riot.tag2("rg-unsplash",
+     '<img riot-src="https://unsplash.it/{opts.unsplash.greyscale}'+
+     '{opts.unsplash.width}/{opts.unsplash.height}/?{options}">', "", "",
+    function(opts) {
     var _this = this;
-    this.on("update", function() {
+
+
+    this.on("before-mount", function() {
         _this.options = "";
+
         if (!opts.unsplash) opts.unsplash = {};
         opts.unsplash.width = opts.unsplash.width || 450;
         opts.unsplash.height = opts.unsplash.height || 250;
@@ -1774,5 +1881,15 @@ riot.tag2("rg-unsplash", '<img riot-src="https://unsplash.it/{opts.unsplash.grey
         if (opts.unsplash.blur) _this.options += "blur&";
         if (opts.unsplash.image) _this.options += "image=" + opts.unsplash.image + "&";
         if (typeof opts.unsplash.gravity !== "undefined") _this.options += "gravity=" + opts.unsplash.gravity
+
+        if (opts.width)
+           opts.unsplash.width = Number(opts.width) ;
+
+        if (opts.height)
+           opts.unsplash.height = Number(opts.height) ;
+
+        if (opts.image)
+           opts.unsplash.image = "image=" + Number(opts.image) + "&" ;
+
     })
 });
