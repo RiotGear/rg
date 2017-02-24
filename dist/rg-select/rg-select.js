@@ -30,7 +30,6 @@ function(opts) {
         }
     };
 
-
     this.filterOptions = function() {
         _this.options = opts.select.options;
         if (opts.select.filter) _this.options = _this.options.filter(function(option) {
