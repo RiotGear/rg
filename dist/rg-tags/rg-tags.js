@@ -38,14 +38,14 @@ riot.tag("rg-tags",
     if (opts.placeholder)
        opts.tags.placeholder = opts.placeholder ;
 
-    if (opts.filter)
-       if (typeof opts.filter === "boolean" || typeof opts.filter === "string")
-          if (opts.filter === "true" || Boolean(opts.filter) === true)
-             if (opts.filter==="true")
-                opts.tags.filter = "text" ;
-             else
-                opts.tags.filter = undefined ;
+    if (opts.filter) {
+        filter = toBoolean (opts.filter) ;
 
+        if (filter)
+           opts.tags.filter = "text";
+        else
+          opts.tags.filter = undefined ;
+    }
 
     var defType = opts.tags.type ;
 
@@ -154,69 +154,3 @@ riot.tag("rg-tags",
         }
         return true
     };
-
-
-    this.open = function() {
-        opts.tags.isvisible = true;
-        _this.trigger("open")
-    };
-
-
-    this.close = function() {
-        if (opts.tags.isvisible) {
-            opts.tags.isvisible = false;
-            _this.trigger("close")
-        }
-    };
-
-
-    this.select = function(e) {
-        opts.tags.options.forEach(function(i) {
-            return i.selected = false
-        });
-        e.item.selected = true;
-        _this.addTag(e.item);
-        applyFieldText();
-        _this.filterOptions();
-        _this.trigger("select", e.item)
-    };
-
-
-    this.addTag = function(item) {
-        if (opts.tags.tags.indexOf(item) == -1) {
-            opts.tags.tags.push(item)
-        }
-    };
-
-
-    this.removeTag = function(e) {
-        opts.tags.tags = opts.tags.tags.filter(function(tag) {
-            if (tag._id != e.item._id) return tag
-        })
-    };
-
-
-    this.on("mount", function() {
-        applyFieldText();
-        _this.filterOptions();
-        document.addEventListener("click", handleClickOutside);
-        _this.update()
-    });
-
-
-    this.on("update", function() {
-        opts.tags.options.forEach(function(item) {
-            item._id = item._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36)
-        });
-        opts.tags.tags.forEach(function(tag) {
-            tag._id = tag._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36)
-        });
-        if (!opts.tags.filter) applyFieldText();
-        positionDropdown()
-    });
-
-
-    this.on("unmount", function() {
-        document.removeEventListener("click", handleClickOutside)
-    })
-});
