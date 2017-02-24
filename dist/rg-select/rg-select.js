@@ -76,3 +76,39 @@ function(opts) {
             m.style.marginTop = w.height - (pos.top + pos.height) - 20 + "px"
         }
     };
+
+
+    this.navigate = function(e) {
+        if ([13, 38, 40].indexOf(e.keyCode) > -1 && !opts.select.isvisible) {
+            e.preventDefault();
+            _this.open();
+            return true
+        }
+
+        var length = _this.options.length;
+
+        if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
+            e.preventDefault();
+            var activeIndex = null;
+            for (var i = 0; i < length; i++) {
+                var item = _this.options[i];
+                if (item.active) {
+                    activeIndex = i;
+                    break
+                }
+            }
+            if (activeIndex != null) _this.options[activeIndex].active = false;
+            if (e.keyCode == 38) {
+                if (activeIndex == null || activeIndex == 0) _this.options[length - 1].active = true;
+                else _this.options[activeIndex - 1].active = true
+            } else if (e.keyCode == 40) {
+                if (activeIndex == null || activeIndex == length - 1) _this.options[0].active = true;
+                else _this.options[activeIndex + 1].active = true;
+            } else if (e.keyCode == 13 && activeIndex != null) {
+                _this.select({
+                    item: _this.options[activeIndex]
+                })
+            }
+        }
+        return true
+    };
