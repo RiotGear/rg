@@ -1,8 +1,3 @@
-## Would you like to own this Open Source Project?
-If so please get in touch via Github issues. I can transfer the ownership of this **organisation**, the associated npm packages and it's twitter account (https://twitter.com/riotcomponents) to anyone who can take it further than my time permits
-
-# <a href="http://riotgear.js.org">RiotGear</a>
-
 The open source component library for <a href="http://riotjs.com">Riot</a>.
 
 **http://riotgear.js.org**
