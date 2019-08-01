@@ -31,7 +31,7 @@ module.exports = function (config) {
 				type: 'text-summary'
 			}],
 		},
-		browsers: ['PhantomJS'],
+		browsers: ['ChromeHeadless'],
 		singleRun: true
 	})
 }

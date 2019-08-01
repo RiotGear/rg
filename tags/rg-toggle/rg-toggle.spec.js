@@ -32,7 +32,7 @@ describe('rg-toggle', function() {
   })
 
   it('calls ontoggle when toggled', function() {
-    $('rg-toggle input[type=checkbox]').click()
+    tag.root.querySelector('input').click()
     spy.should.have.been.called
   })
 })

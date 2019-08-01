@@ -58,7 +58,7 @@ describe('rg-select', function () {
 
 	it('adding text to box filters the options list', function () {
 		$('rg-select .menu').length.should.equal(0)
-		$('rg-select .field').focus()
+		tag.root.querySelector('.field').focus()
 		$('rg-select .menu').length.should.equal(1)
 		$('rg-select .menu__item').length.should.equal(4)
 		spyOnOpen.should.have.been.calledOnce

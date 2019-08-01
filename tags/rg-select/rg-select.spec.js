@@ -53,7 +53,7 @@ describe('rg-select', function () {
 
 	it('focusing/blurring field opens/closes dropdown and triggers open/close event', function () {
 		$('rg-select .menu').length.should.equal(0)
-		$('rg-select .field').focus()
+		tag.root.querySelector('.field').focus()
 		$('rg-select .menu').length.should.equal(1)
 		spyOnOpen.should.have.been.calledOnce
 		$('rg-select').parent().click()
