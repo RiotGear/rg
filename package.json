@@ -14,7 +14,8 @@
     "uglify": "uglifyjs --compress --mangle --screw-ie8 --comment false --output dist/rg.min.js dist/**/*",
     "test": "karma start",
     "dev": "npm run riot && npm run minify && npm run uglify",
-    "build": "npm run dev && npm run test"
+    "build": "npm run dev && npm run test",
+    "serve": "http-server"
   },
   "repository": {
     "type": "git",
@@ -44,6 +45,7 @@
     "chai": "3.5.0",
     "chart.js": "1.0.2",
     "commonmark": "0.24.0",
+    "http-server": "^0.11.1",
     "jquery": "^3.3.1",
     "karma": "0.13.22",
     "karma-babel-preprocessor": "5.2.2",
