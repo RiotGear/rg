@@ -297,7 +297,7 @@ this.phonesim = {
 	url: 'http://riotgear.js.org/'
 };
 this.changePhoneSimURL = function () {
-	_this.phonesim.url = 'http://riotjs.com';
+	_this.phonesim.url = 'http://riot.js.org';
 };
 
 this.placeholdit = {};

@@ -508,7 +508,7 @@
 			url: 'http://riotgear.js.org/'
 		}
 		this.changePhoneSimURL = () => {
-			this.phonesim.url = 'http://riotjs.com'
+			this.phonesim.url = 'http://riot.js.org'
 		}
 
 		/*

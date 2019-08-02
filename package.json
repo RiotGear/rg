@@ -39,14 +39,14 @@
   },
   "homepage": "https://riotgear.js.org/",
   "devDependencies": {
-    "ace-builds": "^1.2.2",
     "babel": "5.8.38",
     "babel-core": "5.8.38",
-    "chai": "3.5.0",
+    "ace-builds": "^1.2.2",
+    "chai": "^4.2.0",
     "chart.js": "1.0.2",
     "commonmark": "0.24.0",
     "http-server": "^0.11.1",
-    "jquery": "^3.3.1",
+    "jquery": "^3.4.1",
     "karma": "0.13.22",
     "karma-babel-preprocessor": "5.2.2",
     "karma-chrome-launcher": "^3.0.0",
@@ -55,13 +55,13 @@
     "karma-mocha-reporter": "2.0.0",
     "karma-riot": "1.0.1",
     "karma-sinon-chai": "1.2.0",
-    "mocha": "2.4.5",
-    "moment": "2.12.0",
-    "normalize.css": "4.0.0",
-    "puppeteer": "^0.13.0",
+    "mocha": "^6.2.0",
+    "moment": "^2.24.0",
+    "normalize.css": "^8.0.1",
+    "puppeteer": "^1.19.0",
     "riot": "2.3.18",
     "sinon": "1.17.3",
     "sinon-chai": "2.8.0",
-    "uglify-js": "2.6.2"
+    "uglify-es": "^3.3.9"
   }
 }

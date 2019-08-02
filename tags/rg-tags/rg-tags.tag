@@ -39,7 +39,10 @@
 		}
 
 		const applyFieldText = () => {
-			this.selectfield.value = ''
+			const input = this.root.querySelector("input")
+			if (input) {
+				input.value = ''
+			}
 			for (let i = 0; i < opts.tags.options.length; i++) {
 				let item = opts.tags.options[i]
 				item.selected = false
@@ -51,9 +54,9 @@
 			if (opts.tags.filter)
 				this.options = this.options.filter(option => {
 						const attr = option[opts.tags.filter]
-						return attr && attr.toLowerCase().indexOf(this.selectfield.value.toLowerCase()) > -1
+						return attr && attr.toLowerCase().indexOf(this.root.querySelector("input").value.toLowerCase()) > -1
 					})
-			this.trigger('filter', this.selectfield.value)
+			this.trigger('filter', this.root.querySelector("input").value)
 		}
 
 		function getWindowDimensions() {
@@ -173,7 +176,7 @@
 			document.addEventListener('click', handleClickOutside)
 			this.update()
 		})
-		
+
 		this.on('update', () => {
 			opts.tags.options.forEach(item => {
 				item._id = item._id || (Math.floor(Math.random() * 60466175) + 1679615).toString(36)

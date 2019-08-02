@@ -34,4 +34,7 @@ this.on('update', function () {
 		return toast.isvisible;
 	}).length > 0;
 });
+this.on('mount', function () {
+	return _this.update();
+});
 });

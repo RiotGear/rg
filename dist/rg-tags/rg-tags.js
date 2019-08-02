@@ -11,7 +11,10 @@ var handleClickOutside = function handleClickOutside(e) {
 };
 
 var applyFieldText = function applyFieldText() {
-	_this.selectfield.value = '';
+	var input = _this.root.querySelector("input");
+	if (input) {
+		input.value = '';
+	}
 	for (var i = 0; i < opts.tags.options.length; i++) {
 		var item = opts.tags.options[i];
 		item.selected = false;
@@ -22,9 +25,9 @@ this.filterOptions = function () {
 	_this.options = opts.tags.options;
 	if (opts.tags.filter) _this.options = _this.options.filter(function (option) {
 		var attr = option[opts.tags.filter];
-		return attr && attr.toLowerCase().indexOf(_this.selectfield.value.toLowerCase()) > -1;
+		return attr && attr.toLowerCase().indexOf(_this.root.querySelector("input").value.toLowerCase()) > -1;
 	});
-	_this.trigger('filter', _this.selectfield.value);
+	_this.trigger('filter', _this.root.querySelector("input").value);
 };
 
 function getWindowDimensions() {
@@ -59,13 +62,13 @@ var positionDropdown = function positionDropdown() {
 };
 
 this.navigate = function (e) {
-	if ([13, 38, 40].indexOf(e.keyCode) > -1 && !opts.tags.isvisible) {
+	if ([13, 38, 40].includes(e.keyCode) && !opts.tags.isvisible) {
 		e.preventDefault();
 		_this.open();
 		return true;
 	}
 	var length = _this.options.length;
-	if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
+	if (length > 0 && [13, 38, 40].includes(e.keyCode)) {
 		e.preventDefault();
 
 		var activeIndex = null;

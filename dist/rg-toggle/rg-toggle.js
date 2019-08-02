@@ -5,6 +5,7 @@ this.on('mount', function () {
 	if (!opts.toggle) opts.toggle = {
 		checked: false
 	};
+	_this.update();
 });
 
 this.toggle = function () {
