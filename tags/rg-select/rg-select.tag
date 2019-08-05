@@ -60,6 +60,7 @@
 			const value = e.item.text
 			getInput().value = e.item.text
 			this.trigger('select', e.item.text)
+			opts.onselect && opts.onselect(e.item, this)
 			opts.select.options.forEach(o => o.selected = false)
 			e.item.selected = true
 			this.close()
