@@ -3,6 +3,8 @@
 	<img src="https://unsplash.it/{ opts.unsplash.greyscale }{ opts.unsplash.width }/{ opts.unsplash.height }/?{ options }">
 
 	<script>
+		this.on("mount", () => this.update())
+
 		this.on('update', () => {
 			this.options = ''
 			if (!opts.unsplash) opts.unsplash = {}
@@ -14,7 +16,6 @@
 			if (opts.unsplash.image) this.options += 'image=' + opts.unsplash.image + '&'
 			if (typeof opts.unsplash.gravity !== 'undefined') this.options += 'gravity=' + opts.unsplash.gravity
 		})
-
 	</script>
 
 </rg-unsplash>

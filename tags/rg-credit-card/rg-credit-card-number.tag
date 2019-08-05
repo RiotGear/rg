@@ -1,22 +1,26 @@
 <rg-credit-card-number>
 
-		<input type="text" name="cardnumber" class="field card-no { icon } { 'field--success': opts.card.valid }" oninput="{ validate }" placeholder="{ opts.card.placeholder }">
+		<input type="text" name="cardnumber" class="field card-no { icon } { 'field--success': opts.card.valid }" oninput="{ oninput }" placeholder="{ opts.card.placeholder }">
 
 	<script>
-		if (!opts.card) opts.card = { cardnumber: '' }
-
-		this.on('update', () => {
-			if (this.cardnumber.value != opts.card.cardnumber)
-				this.cardnumber.value = opts.card.cardnumber
-			this.validate()
+		this.on("mount",() => {
+			this.input = this.root.querySelector("input")
+			this.input.value = opts.card.cardnumber
+			this.update()
 		})
 
-		this.validate = () => {
-			opts.card.cardnumber = this.cardnumber.value
+		this.oninput = (e) =>{
+			opts.card.cardnumber = e.target.value
+		}
+
+		if (!opts.card) opts.card = { cardnumber: '' }
+
+		this.on("update", () => {
+			opts.card.cardnumber = this.input.value
 			const res = validateCreditCard(opts.card.cardnumber)
 			opts.card.valid = res.valid
 			this.icon = opts.card.valid ? res.card_type.name : ''
-		}
+		})
 
 		function validateCreditCard(input) {
 			var __indexOf = [].indexOf || function (item) {

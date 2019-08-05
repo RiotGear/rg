@@ -5,6 +5,7 @@ import './demo.tag'
 import "../tags/rg-alerts/rg-alerts"
 import "../tags/rg-bubble/rg-bubble"
 import "../tags/rg-chart/rg-chart"
+import "../tags/rg-code/rg-code"
 import "../tags/rg-credit-card/rg-credit-card-number"
 import "../tags/rg-date/rg-date"
 import "../tags/rg-drawer/rg-drawer"

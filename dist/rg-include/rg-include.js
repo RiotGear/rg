@@ -1,19 +1,19 @@
 riot.tag2('rg-include', '<div> {responseText} </div>', '', '', function(opts) {
-var _this = this;
+const fetch = () => {
+  const req = new XMLHttpRequest();
 
-var fetch = function fetch() {
-	var req = new XMLHttpRequest();
-	req.onload = function (resp) {
-		if (opts.include.unsafe) _this.root.innerHTML = req.responseText;else _this.responseText = req.responseText;
-		_this.update();
-		_this.trigger('loaded');
-	};
-	req.open('get', opts.include.url, true);
-	req.send();
-	_this.trigger('loading');
+  req.onload = resp => {
+    if (opts.include.unsafe) this.root.innerHTML = req.responseText;else this.responseText = req.responseText;
+    this.update();
+    this.trigger('loaded');
+  };
+
+  req.open('get', opts.include.url, true);
+  req.send();
+  this.trigger('loading');
 };
 
-this.on('mount', function () {
-	fetch();
+this.on('mount', () => {
+  fetch();
 });
 });

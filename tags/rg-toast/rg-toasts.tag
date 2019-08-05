@@ -7,6 +7,8 @@
 	</div>
 
 	<script>
+		this.on("mount", () => this.update())
+
 		this.toastClicked = e => {
 			let toast = e.item
 			window.clearTimeout(toast.timer)

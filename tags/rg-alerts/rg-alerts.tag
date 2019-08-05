@@ -10,6 +10,7 @@
 	</div>
 
 	<script>
+		this.on("mount", () => this.update())
 		this.on('update', () => {
 			if (!opts.alerts) return
 			opts.alerts.forEach(alert => {

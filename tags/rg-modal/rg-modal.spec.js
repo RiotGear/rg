@@ -57,13 +57,13 @@ describe('rg-modal', function() {
   })
 
   it('calls the action on button click', function() {
-    spyOnClick.reset()
+    spyOnClick.resetHistory()
     $('rg-modal .modal__footer button:nth-child(1)').click()
     spyOnClick.should.have.been.calledOnce
   })
 
   it('click the close button calls the onclose callback', function() {
-    spyOnClose.reset()
+    spyOnClose.resetHistory()
     modal.dismissable = true
     riot.update()
     $('rg-modal .button--close').click()

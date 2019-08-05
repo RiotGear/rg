@@ -16,15 +16,15 @@
 			editor.setReadOnly(opts.editor.readonly)
 		}
 
+		this.on('update', () => {
+			setupEditor()
+			if (opts.editor.code != editor.getValue())
+				editor.setValue(opts.editor.code, 1)
+		})
+
 		this.on('mount', () => {
 			editor = ace.edit(this.root.querySelector('.editor'))
 			editor.$blockScrolling = Infinity
-
-			this.on('update', () => {
-				setupEditor()
-				if (opts.editor.code != editor.getValue())
-					editor.setValue(opts.editor.code, 1)
-			})
 			if (opts.url) {
 				const req = new XMLHttpRequest()
 				req.onload = resp => {

@@ -1,6 +1,7 @@
 <rg-markdown>
 
 	<script>
+		this.on("mount", () => this.update())
 		if (commonmark) {
 			this.reader = new commonmark.Parser()
 			this.writer = new commonmark.HtmlRenderer()

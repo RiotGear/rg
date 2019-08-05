@@ -1,36 +1,37 @@
 riot.tag2('rg-tabs', '<div class="tabs {\'tabs--\' + opts.tabs.type}"> <div class="tabs__headings"> <div each="{opts.tabs.tabs}" class="tab-heading {\'tab-heading--active\': active, \'tab-heading--disabled\': disabled}" onclick="{parent.open}"> {heading} </div> </div> <div each="{opts.tabs.tabs}" class="tabs__tab {\'tabs__tab--active\': active}"> <div if="{text}"> {text} </div> <div if="{include}"> {include.responseText} </div> </div> </div>', '', '', function(opts) {
-var _this = this;
+const fetch = tab => {
+  const req = new XMLHttpRequest();
 
-var fetch = function fetch(tab) {
-	var req = new XMLHttpRequest();
-	req.onload = function (resp) {
-		var activeTab = _this.root.querySelector('.tabs__tab--active');
-		if (activeTab) activeTab.innerHTML = req.responseText;
-		_this.trigger('loaded', tab);
-	};
-	req.open('get', tab.include, true);
-	req.send();
-	_this.trigger('loading', tab);
+  req.onload = resp => {
+    const activeTab = this.root.querySelector('.tabs__tab--active');
+    if (activeTab) activeTab.innerHTML = req.responseText;
+    this.trigger('loaded', tab);
+  };
+
+  req.open('get', tab.include, true);
+  req.send();
+  this.trigger('loading', tab);
 };
 
-this.open = function (e) {
-	var tab = e.item;
-	if (!tab.disabled && !tab.active) {
-		opts.tabs.tabs.forEach(function (tab) {
-			tab.active = false;
-		});
-		_this.trigger('open', tab);
-		tab.active = true;
-	}
+this.open = e => {
+  let tab = e.item;
+
+  if (!tab.disabled && !tab.active) {
+    opts.tabs.tabs.forEach(tab => {
+      tab.active = false;
+    });
+    this.trigger('open', tab);
+    tab.active = true;
+  }
 };
 
-this.on('update', function () {
-	if (!opts.tabs) opts.tabs = {};
-	if (!Array.isArray(opts.tabs.tabs)) return;
-	opts.tabs.tabs.forEach(function (tab) {
-		if (!tab.disabled && tab.active && tab.include) {
-			fetch(tab);
-		}
-	});
+this.on('update', () => {
+  if (!opts.tabs) opts.tabs = {};
+  if (!Array.isArray(opts.tabs.tabs)) return;
+  opts.tabs.tabs.forEach(tab => {
+    if (!tab.disabled && tab.active && tab.include) {
+      fetch(tab);
+    }
+  });
 });
 });
