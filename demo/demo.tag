@@ -1,4 +1,4 @@
-<app>
+<rg-demo>
 	<h2>Alert</h2>
 
 	<div class="demo">
@@ -441,6 +441,7 @@
 		/*
 		 * MAP
 		 */
+this.on("mount", () => {
 		this.tags['rg-map'].on('loaded', map => {
 			var marker = new google.maps.Marker({
 				position: {
@@ -451,6 +452,7 @@
 				title: 'Hello RiotGear!'
 			})
 		})
+})
 
 		/*
 		 * MARKDOWN
@@ -666,4 +668,4 @@
 		}
 
 	</script>
-</app>
+</rg-demo>

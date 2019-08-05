@@ -29,13 +29,12 @@ describe('rg-select', function () {
 		tag.on('open', spyOnOpen)
 			.on('close', spyOnClose)
 			.on('select', spyOnSelect)
-
 	})
 
 	afterEach(function () {
-		spyOnOpen.reset()
-		spyOnClose.reset()
-		spyOnSelect.reset()
+		spyOnOpen.resetHistory()
+		spyOnClose.resetHistory()
+		spyOnSelect.resetHistory()
 		tag.unmount()
 	})
 
@@ -62,41 +61,41 @@ describe('rg-select', function () {
 	})
 
 	it('pressing key down will highlight item', function () {
-		$('rg-select .field').focus()
-		var e = jQuery.Event('keydown')
-		e.keyCode = 38
-		$('rg-select .field').trigger(e)
+		const field = tag.root.querySelector(".field")
+		field.focus()
+		tag.keydown({ keyCode: 38, preventDefault: () => {} })
+		tag.update()
 		$('rg-select .menu__item.menu__item--hover').text().should.contain('Discover')
 	})
 
 	it('selecting an item sets it to selected and calls onselect', function () {
-		$('rg-select .field').focus()
-		$('rg-select .menu__item:nth-child(3)').click()
-		$('rg-select .field').focus()
+		const field = tag.root.querySelector(".field")
+		field.focus()
+		$('rg-select .menu__item:nth-child(3)')[0].click()
+		field.value.should.equal('American Express')
+		field.blur()
+		field.focus()
 		$('rg-select .menu__item:nth-child(3)').is('.menu__item--active').should.be.true
 		spyOnSelect.should.have.been.calledOnce
 	})
 
 	it('opens the dropdown on enter', function () {
-		var e = jQuery.Event('keydown')
-		e.keyCode = 13
-		$('rg-select .field').trigger(e)
+		tag.keydown({ keyCode: 13, preventDefault: () => {} })
+		tag.update()
 		$('rg-select .menu').length.should.equal(1)
 		spyOnOpen.should.have.been.calledOnce
 	})
 
 	it('opens the dropdown on arrow up', function () {
-		var e = jQuery.Event('keydown')
-		e.keyCode = 40
-		$('rg-select .field').trigger(e)
+		tag.keydown({ keyCode: 38, preventDefault: () => {} })
+		tag.update()
 		$('rg-select .menu').length.should.equal(1)
 		spyOnOpen.should.have.been.calledOnce
 	})
 
 	it('opens the dropdown on arrow down', function () {
-		var e = jQuery.Event('keydown')
-		e.keyCode = 38
-		$('rg-select .field').trigger(e)
+		tag.keydown({ keyCode: 40, preventDefault: () => {} })
+		tag.update()
 		$('rg-select .menu').length.should.equal(1)
 		spyOnOpen.should.have.been.calledOnce
 	})
