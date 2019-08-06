@@ -55,6 +55,7 @@
     "karma-riot": "^2.0.0",
     "karma-sinon-chai": "^2.0.2",
     "mocha": "^6.2.0",
+    "mocha-snapshot": "^1.0.0",
     "moment": "^2.24.0",
     "normalize.css": "^8.0.1",
     "parcel": "^1.12.3",

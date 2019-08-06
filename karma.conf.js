@@ -9,6 +9,8 @@ module.exports = function (config) {
 			'node_modules/ace-builds/src-min-noconflict/ace.js',
 			'node_modules/jquery/dist/jquery.min.js',
 			'dependencies/js/iframify.js',
+			'css.js',
+			'demo/_charts.js',
 			'tags/**/*',
 			{ pattern: 'demo/inc.html', watched: false, included: false, served: true, nocache: false }
 		],
