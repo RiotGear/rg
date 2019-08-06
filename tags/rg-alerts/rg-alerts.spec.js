@@ -1,13 +1,15 @@
 describe('rg-alerts', function () {
-	let tag, oncloseSpy
+	let tag, oncloseSpy, onclickSpy
 	const seconds = 500
 
 	beforeEach(function () {
 		oncloseSpy = sinon.spy()
+		onclickSpy = sinon.spy()
 		$('body').append('<rg-alerts></rg-alerts>')
 		let alerts = [{
 				type: 'error',
 				content: 'Error! Something bad happened.',
+				onclick: onclickSpy,
 				dismissable: true
 			}, {
 				type: 'secondary',
@@ -62,6 +64,7 @@ describe('rg-alerts', function () {
 	it('calls the onclose function when dismissed', function () {
 		$('rg-alerts .alerts__alert:nth-child(1)').find('.button--close').click()
 		oncloseSpy.should.have.been.called
+		onclickSpy.should.have.been.called
 	})
 
 	it('disappears after timer runs down', function (done) {
