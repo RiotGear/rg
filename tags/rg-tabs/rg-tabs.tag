@@ -6,9 +6,9 @@
 			</div>
 		</div>
 		<div each="{ opts.tabs.tabs }" class="tabs__tab { 'tabs__tab--active': active }">
-			<div if="{ text }">
+			{ tab.text }
+			<rg-raw if="{ tab.raw }" content="{ tab.raw }" />
 				{ text }
-			</div>
 			<div if="{ include }">
 				{ include.responseText }
 			</div>
@@ -16,11 +16,16 @@
 	</div>
 
 	<script>
+		if (!opts.tabs) opts.tabs = {}
+
+		this.on('mount', () => this.update())
 		const fetch = (tab) => {
+			if (tab.raw) { return }
 			const req = new XMLHttpRequest()
 			req.onload = resp => {
-				const activeTab = this.root.querySelector('.tabs__tab--active')
-				if (activeTab) activeTab.innerHTML = req.responseText
+				tab.raw = req.responseText
+				tab.text = undefined
+				this.update()
 				this.trigger('loaded', tab)
 			}
 			req.open('get', tab.include, true)
@@ -40,7 +45,6 @@
 		}
 
 		this.on('update', () => {
-			if (!opts.tabs) opts.tabs = {}
 			if (!Array.isArray(opts.tabs.tabs)) return
 			opts.tabs.tabs.forEach(tab => {
 				if (!tab.disabled && tab.active && tab.include) {
