@@ -40,7 +40,7 @@ describe('rg-date', function () {
 
   it('detect triggers', function() {
     tag = newTag('rg-date', { date: { date: '1999-06-20'}})
-    const validate = triggerSpy(tag, ['open','close','select'])
+    const validate = mySpy(tag, ['open','close','select'])
     tag.root.querySelector('input').click()
     validate({ open: 1})
     tag.root.querySelector(".calendar__date:nth-child(30)").click()
@@ -90,18 +90,3 @@ describe('rg-date', function () {
     tag.unmount()
   })
 })
-
-const triggerSpy = (tag, events) => {
-  let last = {}
-  const spies = {}
-  events.forEach( e => {
-    spies[e] = sinon.spy()
-    tag.on(e, spies[e])
-  })
-  return (values) => {
-    Object.assign(last,values)
-    events.forEach(e => {
-      spies[e].callCount.should.equal(last[e] || 0)
-    })
-  }
-}

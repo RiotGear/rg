@@ -59,3 +59,23 @@ const mockAjax = () => {
 const unmockAjax = () => {
   window.XMLHttpRequest = OGXMLHttpRequest
 }
+
+const mySpy = (tag, events) => {
+  let last = {}
+  const spies = {}
+  events.forEach( e => {
+    spies[e] = sinon.spy()
+    tag.on(e, spies[e])
+  })
+  const validate = (values) => {
+    Object.assign(last,values)
+    events.forEach(e => {
+      spies[e].callCount.should.equal(last[e] || 0)
+    })
+  }
+  validate.reset = () => {
+    last = {}
+    events.forEach(e => spies[e].resetHistory())
+  }
+  return validate
+}
