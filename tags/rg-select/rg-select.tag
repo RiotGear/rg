@@ -34,7 +34,7 @@
 		})
 
 		this.keydown = e => {
-			const was_open = this.visible
+			const was_open = this.isvisible
 			this.open()
 			if (e.keyCode === 38) { // ArrowUp
 				this.navigate(-1)
@@ -49,7 +49,7 @@
 				}
 				const item = getActiveItem() || this.options[0]
 				item && this.select({ item })
-				is_open && this.close()
+				this.close()
 				e.preventDefault()
 			} else {
 				this._navigate(0)

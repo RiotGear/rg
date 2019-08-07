@@ -23,15 +23,16 @@
 		})
 
 		this.on('mount', () => {
+			opts.editor.code = opts.editor.code || ""
 			editor = ace.edit(this.root.querySelector('.editor'))
 			editor.$blockScrolling = Infinity
-			if (opts.url) {
+			if (opts.editor.url) {
 				const req = new XMLHttpRequest()
 				req.onload = resp => {
 					opts.editor.code = resp
 					this.update()
 				}
-				req.open('get', opts.url, true)
+				req.open('get', opts.editor.url, true)
 				req.send()
 			}
 			editor.setValue(opts.editor.code, 1)

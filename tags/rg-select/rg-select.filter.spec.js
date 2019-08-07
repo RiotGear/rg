@@ -64,6 +64,7 @@ describe('rg-select', function () {
 		$('rg-select .menu__item').length.should.equal(4)
 		spyOnOpen.should.have.been.calledOnce
 		field.value = 'm'
+    tag.keydown({ keyCode: 77, preventDefault: () => {} })
 		tag.update()
 		spyOnFilter.should.have.been.calledOnce
 		$('rg-select .menu__item').length.should.equal(2)

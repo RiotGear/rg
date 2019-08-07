@@ -8,9 +8,11 @@ module.exports = function (config) {
 			'node_modules/chart.js/Chart.min.js',
 			'node_modules/ace-builds/src-min-noconflict/ace.js',
 			'node_modules/jquery/dist/jquery.min.js',
+			'node_modules/credit-card-type/dist/js/app.built.min.js',
 			'dependencies/js/iframify.js',
 			'css.js',
 			'demo/_charts.js',
+			'test-helpers.js',
 			'tags/**/*',
 			{ pattern: 'demo/inc.html', watched: false, included: false, served: true, nocache: false }
 		],

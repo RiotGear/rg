@@ -1,9 +1,3 @@
-const newTag = (tagName, opts) => {
-  const element = document.createElement(tagName)
-  document.body.appendChild(element)
-  return window.riot.mount(element, opts)[0]
-}
-
 describe('rg-date', function () {
   let tag
 
