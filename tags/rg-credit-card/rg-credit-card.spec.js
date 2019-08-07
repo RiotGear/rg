@@ -63,6 +63,15 @@ describe('rg-credit-card-number', function () {
 			textbox.hasClass('field--success').should.be.true
 		})
 	})
+
+	it('has no icon for invalid number', function () {
+		const textbox = $('rg-credit-card-number .card-no')
+textbox.hasClass('visa').should.be.true
+		textbox.val('moekoaersntoeanrstoen')
+    tag.update()
+    textbox.trigger("input")
+    textbox.hasClass('visa').should.be.true
+  })
 })
 
 describe('rg-credit-card-number no opts', function () {
