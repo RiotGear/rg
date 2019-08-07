@@ -97,7 +97,7 @@
 		})
 
 		const getValue = () => getInput().value
-		const getInput = () => this.root.querySelector('input') || {}
+		const getInput = () => this.root.querySelector('input')
 		const getActiveItem = () => {
 			return this.options.find(o => o.active)
 		}

@@ -24,7 +24,7 @@
 
 		this.on('mount', () => {
 			opts.editor.code = opts.editor.code || ""
-			editor = ace.edit(this.root.querySelector('.editor'))
+			this.editor = editor = ace.edit(this.root.querySelector('.editor'))
 			editor.$blockScrolling = Infinity
 			if (opts.editor.url) {
 				const req = new XMLHttpRequest()
@@ -36,6 +36,7 @@
 				req.send()
 			}
 			editor.setValue(opts.editor.code, 1)
+			/* istanbul ignore next */
 			editor.getSession().on('change', e => {
 				opts.editor.code = editor.getValue()
 				this.trigger('onchange', editor.getValue())

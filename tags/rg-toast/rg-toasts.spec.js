@@ -11,7 +11,6 @@ describe('rg-toast', function () {
 				timeout: 500
 			}, {
 				text: 'Auto disappear call onclose',
-				timeout: 1000
 			}, {
 				text: 'Sticky toast',
 				sticky: true
@@ -82,6 +81,14 @@ describe('rg-toast no position', function () {
 	it('position is defaulted', function () {
 		$('rg-toasts .toasts--bottomright').length.should.equal(1)
 	})
+
+	it('loses toast after timeout', function (done) {
+		tag.root.querySelectorAll('.toast').length.should.equal(1)
+		setTimeout( () => {
+			tag.root.querySelectorAll('.toast').length.should.equal(0)
+			done()
+		},600)
+	})
 })
 
 describe('rg-toast no events', function () {
@@ -118,4 +125,11 @@ describe('rg-toast no events', function () {
 		onClickSpy.should.not.have.been.called
 		onCloseSpy.should.not.have.been.called
 	})
+
+  it('is fine with no opts', function() {
+    const tag1 = newTag('rg-toasts')
+    const tag2 = newTag('rg-toasts', {toasts: {toasts: "Bees!"}})
+    tag1.unmount()
+    tag2.unmount()
+  })
 })

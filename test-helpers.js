@@ -27,7 +27,12 @@ const deepClone = obj => {
 const newTag = (tagName, opts) => {
   const element = document.createElement(tagName)
   document.body.appendChild(element)
-  return window.riot.mount(element, deepClone(opts))[0]
+  const tag = window.riot.mount(element, deepClone(opts))[0]
+
+  // in anticipation of riot 4
+  tag.$ = q => tag.root.querySelector(q)
+  tag.$$ = q => tag.root.querySelectorAll(q)
+  return tag
 }
 
 const OGXMLHttpRequest = XMLHttpRequest

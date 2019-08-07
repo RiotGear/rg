@@ -59,6 +59,12 @@ describe('rg-select', function () {
 		tag.root.querySelector('.field').focus()
 		$('rg-select .menu').length.should.equal(1)
 		spyOnOpen.should.have.been.calledOnce
+
+		// clicking field doesn't close it
+		tag.root.querySelector('.field').click()
+		$('rg-select .menu').length.should.equal(1)
+
+		// clicking outside rg-select does
 		$('rg-select').parent().click()
 		$('rg-select .menu').length.should.equal(0)
 		spyOnClose.should.have.been.calledOnce
@@ -106,5 +112,9 @@ describe('rg-select', function () {
 		tag.update()
 		$('rg-select .menu').length.should.equal(1)
 		spyOnOpen.should.have.been.calledOnce
+	})
+
+	it('does not break on bad navigate', function() {
+		tag._navigate(99999)
 	})
 })
