@@ -15,7 +15,7 @@
     "test": "karma start",
     "dev": "npm run riot && npm run minify && npm run uglify",
     "build": "npm run dev && npm run test",
-    "demo": "yarn parcel serve demo/index.html --out-dir _dist"
+    "demo": "mkdir -p _dist; cp -r demo/static/* _dist; yarn parcel serve demo/index.html --out-dir _dist"
   },
   "repository": {
     "type": "git",
