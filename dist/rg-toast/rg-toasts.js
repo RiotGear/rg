@@ -1,4 +1,6 @@
 riot.tag2('rg-toasts', '<div if="{opts.toasts.isvisible}" class="toasts {\'toasts--\' + opts.toasts.position}"> <div each="{opts.toasts.toasts}" class="toast {\'toast--\' + type}" if="{isvisible}" onclick="{parent.toastClicked}"> {text} </div> </div>', '', '', function(opts) {
+this.on("mount", () => this.update());
+
 this.toastClicked = e => {
   let toast = e.item;
   window.clearTimeout(toast.timer);
@@ -31,5 +33,4 @@ this.on('update', () => {
   });
   opts.toasts.isvisible = opts.toasts.toasts.filter(toast => toast.isvisible).length > 0;
 });
-this.on("mount", () => this.update());
 });

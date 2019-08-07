@@ -13,15 +13,16 @@ const setupEditor = () => {
   editor.setReadOnly(opts.editor.readonly);
 };
 
+this.on('update', () => {
+  setupEditor();
+  if (opts.editor.code != editor.getValue()) editor.setValue(opts.editor.code, 1);
+});
 this.on('mount', () => {
+  opts.editor.code = opts.editor.code || "";
   editor = ace.edit(this.root.querySelector('.editor'));
   editor.$blockScrolling = Infinity;
-  this.on('update', () => {
-    setupEditor();
-    if (opts.editor.code != editor.getValue()) editor.setValue(opts.editor.code, 1);
-  });
 
-  if (opts.url) {
+  if (opts.editor.url) {
     const req = new XMLHttpRequest();
 
     req.onload = resp => {
@@ -29,7 +30,7 @@ this.on('mount', () => {
       this.update();
     };
 
-    req.open('get', opts.url, true);
+    req.open('get', opts.editor.url, true);
     req.send();
   }
 

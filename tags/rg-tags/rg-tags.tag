@@ -13,14 +13,10 @@
 	<script>
 		this.on('mount', () => this.update())
 
-		/* istanbul ignore next */
 		if (!opts.tags) opts.tags = { options: [], tags: [] }
-		if (!opts.tags.options) opts.tags.options = []
+		if (!opts.tags.options) opts.tags.options = [] // options for rg-select
 		if (!opts.tags.tags) opts.tags.tags = []
-    this.select_opts = {
-      filter: true,
-    }
-    Object.assign(this.select_opts, opts.tags)
+		this.select_opts = Object.assign({ filter: true }, opts.tags)
 
 		this.select = (item, tag) => {
 			this.addTag(item)

@@ -1,4 +1,5 @@
-riot.tag2('rg-credit-card-number', '<input type="text" name="cardnumber" class="field card-no {icon} {\'field--success\': opts.card.valid}" oninput="{oninput}" placeholder="{opts.card.placeholder}">', 'rg-credit-card-number .card-no,[data-is="rg-credit-card-number"] .card-no{ padding-right: 60px; background-repeat: no-repeat; background-position: right center; background-size: 60px; } rg-credit-card-number .amex,[data-is="rg-credit-card-number"] .amex{ background-image: url(img/amex.png); } rg-credit-card-number .diners_club,[data-is="rg-credit-card-number"] .diners_club{ background-image: url(img/diners_club.png); } rg-credit-card-number .discover,[data-is="rg-credit-card-number"] .discover{ background-image: url(img/discover.png); } rg-credit-card-number .jcb,[data-is="rg-credit-card-number"] .jcb{ background-image: url(img/jcb.png); } rg-credit-card-number .mastercard,[data-is="rg-credit-card-number"] .mastercard{ background-image: url(img/mastercard.png); } rg-credit-card-number .visa,[data-is="rg-credit-card-number"] .visa{ background-image: url(img/visa.png); }', '', function(opts) {
+riot.tag2('rg-credit-card-number', '<input type="text" name="cardnumber" class="card-no {icon} {className}" oninput="{oninput}" placeholder="{opts.card.placeholder}">', 'rg-credit-card-number .card-no,[data-is="rg-credit-card-number"] .card-no{ padding-right: 60px; background-repeat: no-repeat; background-position: right center; background-size: 60px; } rg-credit-card-number .amex,[data-is="rg-credit-card-number"] .amex{ background-image: url(img/amex.png); } rg-credit-card-number .diners_club,[data-is="rg-credit-card-number"] .diners_club{ background-image: url(img/diners_club.png); } rg-credit-card-number .discover,[data-is="rg-credit-card-number"] .discover{ background-image: url(img/discover.png); } rg-credit-card-number .jcb,[data-is="rg-credit-card-number"] .jcb{ background-image: url(img/jcb.png); } rg-credit-card-number .mastercard,[data-is="rg-credit-card-number"] .mastercard{ background-image: url(img/mastercard.png); } rg-credit-card-number .visa,[data-is="rg-credit-card-number"] .visa{ background-image: url(img/visa.png); }', '', function(opts) {
+this.mixin(CSSMixin);
 this.on("mount", () => {
   this.input = this.root.querySelector("input");
   this.input.value = opts.card.cardnumber;
@@ -17,6 +18,7 @@ this.on("update", () => {
   const res = validateCreditCard(opts.card.cardnumber);
   opts.card.valid = res.valid;
   this.icon = opts.card.valid ? res.card_type.name : '';
+  this.className = this.css.field[res.valid ? 'success' : 'default'];
 });
 
 function validateCreditCard(input) {
