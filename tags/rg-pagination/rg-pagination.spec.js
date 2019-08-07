@@ -18,6 +18,9 @@ describe('rg-pagination', function() {
 
   it('is mounted', function() {
     tag.isMounted.should.be.true
+    const tag2 = newTag('rg-pagination')
+    tag2.isMounted.should.be.true
+    tag2.update()
   })
 
   it('pages properly', function() {

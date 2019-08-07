@@ -17,9 +17,7 @@
 	</div>
 
 	<script>
-		this.on('mount', () => {
-			if (!opts.drawer) opts.drawer = {}
-		})
+		if (!opts.drawer) opts.drawer = {}
 
 		this.close = () => {
 			opts.drawer.isvisible = false

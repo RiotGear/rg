@@ -19,6 +19,9 @@ describe('rg-toggle', function() {
 
   it('is mounted', function() {
     tag.isMounted.should.be.true
+    const tag2 = newTag("rg-toggle")
+    tag2.isMounted.should.be.true
+    tag2.unmount()
   })
 
   it('has an unchecked checkbox', function() {
