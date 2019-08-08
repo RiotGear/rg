@@ -35,7 +35,6 @@ describe('rg-code', function() {
     tag = newTag('rg-code', {
       editor: getOpts({ url: 'yay.html' })
     })
-    tag.on('update',()=> {console.log('doot')})
     tag.isMounted.should.be.true
     setTimeout(() => {
       // gotta kick this into another thread to catch the faked ajax
