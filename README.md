@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/chriscauley/rg.svg?style=svg)](https://circleci.com/gh/chriscauley/rg)
+
 The open source component library for <a href="http://riotjs.com">Riot</a>.
 
 **http://riotgear.js.org**
