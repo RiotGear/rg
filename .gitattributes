@@ -1,4 +1,4 @@
 dist/* binary
 dist/**/* binary
 yarn.lock binary
-demo/app.js binary
+demo/demo.js binary
