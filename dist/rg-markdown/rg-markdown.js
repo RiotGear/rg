@@ -1,11 +1,7 @@
 riot.tag2('rg-markdown', '', '', '', function(opts) {
 this.on("mount", () => this.update());
-
-if (commonmark) {
-  this.reader = new commonmark.Parser();
-  this.writer = new commonmark.HtmlRenderer();
-}
-
+this.reader = new commonmark.Parser();
+this.writer = new commonmark.HtmlRenderer();
 this.on('update', () => {
   if (!opts.markdown) opts.markdown = {};
 

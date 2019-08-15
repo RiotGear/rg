@@ -1,13 +1,18 @@
-riot.tag2('rg-tabs', '<div class="{css.tab_outer}"> <div class="{css.tab_nav.outer}"> <div each="{tab in opts.tabs.tabs}" class="{css.tab_nav.match(tab)}" onclick="{parent.open}"> {tab.heading} </div> </div> <div each="{tab in opts.tabs.tabs}" class="{css.tab_content.match(tab)}"> {tab.text || tab.include && tab.include.responseText} </div> </div>', '', '', function(opts) {
-this.mixin(CSSMixin);
+riot.tag2('rg-tabs', '<div class="tabs {\'tabs--\' + opts.tabs.type}"> <div class="tabs__headings"> <div each="{opts.tabs.tabs}" class="tab-heading {\'tab-heading--active\': active, \'tab-heading--disabled\': disabled}" onclick="{parent.open}"> {heading} </div> </div> <div each="{opts.tabs.tabs}" class="tabs__tab {\'tabs__tab--active\': active}"> {text} <rg-raw if="{raw}" content="{raw}"></rg-raw> <div if="{include}"> {include.responseText} </div> </div> </div>', '', '', function(opts) {
+if (!opts.tabs) opts.tabs = {};
 this.on('mount', () => this.update());
 
 const fetch = tab => {
+  if (tab.raw) {
+    return;
+  }
+
   const req = new XMLHttpRequest();
 
   req.onload = resp => {
-    const activeTab = this.root.querySelector('.tabs__tab--active');
-    if (activeTab) activeTab.innerHTML = req.responseText;
+    tab.raw = req.responseText;
+    tab.text = undefined;
+    this.update();
     this.trigger('loaded', tab);
   };
 
@@ -17,17 +22,18 @@ const fetch = tab => {
 };
 
 this.open = e => {
-  let tab = e.item.tab;
+  let tab = e.item;
 
   if (!tab.disabled && !tab.active) {
-    opts.tabs.tabs.forEach(tab => tab.active = false);
+    opts.tabs.tabs.forEach(tab => {
+      tab.active = false;
+    });
     this.trigger('open', tab);
     tab.active = true;
   }
 };
 
 this.on('update', () => {
-  if (!opts.tabs) opts.tabs = {};
   if (!Array.isArray(opts.tabs.tabs)) return;
   opts.tabs.tabs.forEach(tab => {
     if (!tab.disabled && tab.active && tab.include) {

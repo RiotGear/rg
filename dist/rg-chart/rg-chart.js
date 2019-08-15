@@ -10,7 +10,7 @@ this.on('loaded', c => {
 });
 
 const drawChart = () => {
-  if (!opts.chart) opts.chart = {};
+  if (!opts.chart) return;
   let ctx = this.root.querySelector('canvas').getContext('2d');
   let chart = new Chart(ctx);
   let c = null;

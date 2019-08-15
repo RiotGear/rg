@@ -1,4 +1,6 @@
 riot.tag2('rg-toasts', '<div if="{opts.toasts.isvisible}" class="toasts {\'toasts--\' + opts.toasts.position}"> <div each="{opts.toasts.toasts}" class="toast {\'toast--\' + type}" if="{isvisible}" onclick="{parent.toastClicked}"> {text} </div> </div>', '', '', function(opts) {
+opts.toasts = opts.toasts || {};
+if (!Array.isArray(opts.toasts.toasts)) opts.toasts.toasts = [];
 this.on("mount", () => this.update());
 
 this.toastClicked = e => {
@@ -13,7 +15,6 @@ let _uid = 1;
 const uid = () => _uid++;
 
 this.on('update', () => {
-  if (!opts.toasts || !Array.isArray(opts.toasts.toasts)) return;
   opts.toasts.position = opts.toasts.position || 'bottomright';
   opts.toasts.toasts.forEach(toast => {
     if (typeof toast.isvisible == 'undefined') toast.isvisible = true;

@@ -8,7 +8,6 @@
 		<div each="{ opts.tabs.tabs }" class="tabs__tab { 'tabs__tab--active': active }">
 			{ text }
 			<rg-raw if="{ raw }" content="{ raw }" />
-				{ text }
 			<div if="{ include }">
 				{ include.responseText }
 			</div>

@@ -1,18 +1,15 @@
-riot.tag2('rg-tags', '<div class="tags"> <span class="tags__container"> <button each="{opts.tags.tags}" onclick="{removeTag}" type="button" class="{css.badge.primary}"> {text} <span class="tag__close">×</span> </button> </span> <rg-select select="{select_opts}" onselect="{select}"></rg-select> </div>', 'rg-tags .menu,[data-is="rg-tags"] .menu{ position: absolute; }', 'class="{opts.className}"', function(opts) {
-this.mixin(CSSMixin);
+riot.tag2('rg-tags', '<div class="tags"> <span class="tags__container"> <button each="{opts.tags.tags}" onclick="{removeTag}" type="button" class="button button--primary tag"> {text} <span class="tag__close">×</span> </button> </span> <rg-select select="{select_opts}" onselect="{select}"></rg-select> </div>', 'rg-tags .menu,[data-is="rg-tags"] .menu{ position: absolute; }', '', function(opts) {
 this.on('mount', () => this.update());
-/* istanbul ignore next */
-
 if (!opts.tags) opts.tags = {
   options: [],
   tags: []
 };
-if (!opts.tags.options) opts.tags.options = [];
+if (!opts.tags.options) opts.tags.options = []; // options for rg-select
+
 if (!opts.tags.tags) opts.tags.tags = [];
-this.select_opts = {
+this.select_opts = Object.assign({
   filter: true
-};
-Object.assign(this.select_opts, opts.tags);
+}, opts.tags);
 
 this.select = (item, tag) => {
   this.addTag(item);
