@@ -70,6 +70,11 @@ this.on('mount', () => {
   this.update();
 });
 this.on('update', () => {
+  /* istanbul ignore next */
+  if (!this.isMounted) {
+    return;
+  } // riot2 compatibility
+
   opts.date.date = toMoment(opts.date.date);
   buildCalendar();
   this.value = opts.date.date.format(this.format);

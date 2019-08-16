@@ -80,6 +80,11 @@ this._navigate = index => {
 };
 
 this.on('update', () => {
+  /* istanbul ignore next */
+  if (!this.isMounted) {
+    return;
+  } // riot2 compatibility
+
   const value = getValue();
   this.options = opts.select.options;
 

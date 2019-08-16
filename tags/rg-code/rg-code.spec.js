@@ -53,7 +53,7 @@ describe('rg-code no opts', function() {
     tag = riot.mount('rg-code')[0]
   })
 
-  after(function() {
+  afterEach(function() {
     tag.unmount()
   })
 

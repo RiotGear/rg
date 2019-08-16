@@ -17,6 +17,8 @@
 		}
 
 		this.on('update', () => {
+			/* istanbul ignore next */
+			if (!this.isMounted) { return } // riot2 compatibility
 			setupEditor()
 			if (opts.editor.code != editor.getValue())
 				editor.setValue(opts.editor.code, 1)
@@ -41,7 +43,6 @@
 				opts.editor.code = editor.getValue()
 				this.trigger('onchange', editor.getValue())
 			})
-			setupEditor()
 			this.update()
 		})
 

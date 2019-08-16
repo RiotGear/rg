@@ -15,6 +15,8 @@
 		if (!opts.card) opts.card = { cardnumber: '' }
 
 		this.on("update", () => {
+			/* istanbul ignore next */
+			if (!this.isMounted) { return } // riot2 compatibility
 			opts.card.cardnumber = this.input.value
 			const res = validateCreditCard(opts.card.cardnumber)
 			opts.card.valid = res.valid

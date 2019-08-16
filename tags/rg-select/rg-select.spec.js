@@ -18,13 +18,13 @@ describe('rg-select', function () {
 				id: 2,
 				text: 'American Express'
 			}, {
-        id: 4,
-        text: 'Disabled Card',
-        disabled: true,
+				id: 4,
+				text: 'Disabled Card',
+				disabled: true,
 			}, {
 				id: 3,
 				text: 'Discover',
-      }]
+			}]
 		}
 		$('body').append('<rg-select></rg-select>')
 		tag = riot.mount('rg-select', {
@@ -95,9 +95,9 @@ describe('rg-select', function () {
 		$('rg-select .menu').length.should.equal(1)
 		spyOnOpen.should.have.been.calledOnce
 		tag.keydown({ keyCode: 13, preventDefault: () => {} })
-    tag.update()
+		tag.update()
 		$('rg-select .menu').length.should.equal(0)
-    tag.root.querySelector('input').value.should.equal("Visa")
+		tag.root.querySelector('input').value.should.equal("Visa")
 	})
 
 	it('opens the dropdown on arrow up', function () {

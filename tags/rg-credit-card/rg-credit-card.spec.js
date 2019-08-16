@@ -19,7 +19,7 @@ describe('rg-credit-card-number', function () {
 		})[0]
 	})
 
-	after(function () {
+	afterEach(function () {
 		tag.unmount()
 	})
 
@@ -66,24 +66,23 @@ describe('rg-credit-card-number', function () {
 
 	it('has no icon for invalid number', function () {
 		const textbox = $('rg-credit-card-number .card-no')
-textbox.hasClass('visa').should.be.true
+		textbox.hasClass('visa').should.be.true
 		textbox.val('moekoaersntoeanrstoen')
-    tag.update()
-    textbox.trigger("input")
-    textbox.hasClass('visa').should.be.true
-  })
+		tag.update()
+		textbox.trigger("input")
+		textbox.hasClass('visa').should.be.false
+	})
 })
 
 describe('rg-credit-card-number no opts', function () {
 	let tag
 
 	beforeEach(function () {
-
 		$('body').append('<rg-credit-card-number></rg-credit-card-number>')
 		tag = riot.mount('rg-credit-card-number')[0]
 	})
 
-	after(function () {
+	afterEach(function () {
 		tag.unmount()
 	})
 
