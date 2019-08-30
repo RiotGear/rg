@@ -1,133 +1,117 @@
-riot.tag2('rg-select', '<input type="{opts.select.filter ? \'search\' : \'text\'}" name="selectfield" class="field" placeholder="{opts.select.placeholder}" onkeydown="{navigate}" oninput="{filterOptions}" onfocus="{open}" __readonly="{!opts.select.filter}"> <ul class="menu menu--high" if="{opts.select.isvisible}"> <li each="{options}" no-reorder onclick="{parent.select}" class="menu__item {\'menu__item--active\': selected, \'menu__item--disabled\': disabled, \'menu__item--hover\': active}"> {text} </li> </ul>', 'rg-select .menu,[riot-tag="rg-select"] .menu,[data-is="rg-select"] .menu{ position: absolute; }', '', function(opts) {
-var _this = this;
-
-if (!opts.select) opts.select = { options: [] };
-
-var handleClickOutside = function handleClickOutside(e) {
-	if (!_this.root.contains(e.target)) _this.close();
-	_this.update();
+riot.tag2('rg-select', '<input type="{opts.select.filter ? \'search\' : \'text\'}" name="selectfield" class="field" placeholder="{opts.select.placeholder}" onkeydown="{keydown}" onfocus="{open}" readonly="{!opts.select.filter}"> <ul class="menu menu--high" if="{isvisible}"> <li each="{options}" onclick="{parent.select}" class="menu__item {\'menu__item--active\': selected, \'menu__item--disabled\': disabled, \'menu__item--hover\': active}"> {text} </li> </ul>', 'rg-select .menu,[data-is="rg-select"] .menu{ position: absolute; }', '', function(opts) {
+/* istanbul ignore next */
+if (!opts.select) opts.select = {
+  options: []
 };
 
-var applyFieldText = function applyFieldText() {
-	for (var i = 0; i < opts.select.options.length; i++) {
-		var item = opts.select.options[i];
-		if (item.selected) {
-			_this.selectfield.value = item.text;
-			break;
-		}
-	}
+const handleClickOutside = e => {
+  if (!this.root.contains(e.target)) this.close();
+  this.update();
 };
 
-this.filterOptions = function () {
-	_this.options = opts.select.options;
-	if (opts.select.filter) _this.options = _this.options.filter(function (option) {
-		var attr = option[opts.select.filter];
-		return attr && attr.toLowerCase().indexOf(_this.selectfield.value.toLowerCase()) > -1;
-	});
-	_this.trigger('filter', _this.selectfield.value);
-};
-
-function getWindowDimensions() {
-	var w = window,
-	    d = document,
-	    e = d.documentElement,
-	    g = d.getElementsByTagName('body')[0],
-	    x = w.innerWidth || e.clientWidth || g.clientWidth,
-	    y = w.innerHeight || e.clientHeight || g.clientHeight;
-	return { width: x, height: y };
-}
-
-var positionDropdown = function positionDropdown() {
-	var w = getWindowDimensions();
-	var m = _this.root.querySelector('.menu');
-	if (!m) return;
-	if (!opts.select.isvisible) {
-		m.style.marginTop = '';
-		m.style.marginLeft = '';
-		return;
-	}
-	var pos = m.getBoundingClientRect();
-	if (w.width < pos.left + pos.width) {
-		m.style.marginLeft = w.width - (pos.left + pos.width) - 20 + 'px';
-	}
-	if (pos.left < 0) {
-		m.style.marginLeft = '20px';
-	}
-	if (w.height < pos.top + pos.height) {
-		m.style.marginTop = w.height - (pos.top + pos.height) - 20 + 'px';
-	}
-};
-
-this.navigate = function (e) {
-	if ([13, 38, 40].indexOf(e.keyCode) > -1 && !opts.select.isvisible) {
-		e.preventDefault();
-		_this.open();
-		return true;
-	}
-	var length = _this.options.length;
-	if (length > 0 && [13, 38, 40].indexOf(e.keyCode) > -1) {
-		e.preventDefault();
-
-		var activeIndex = null;
-		for (var i = 0; i < length; i++) {
-			var item = _this.options[i];
-			if (item.active) {
-				activeIndex = i;
-				break;
-			}
-		}
-
-		if (activeIndex != null) _this.options[activeIndex].active = false;
-
-		if (e.keyCode == 38) {
-			if (activeIndex == null || activeIndex == 0) _this.options[length - 1].active = true;else _this.options[activeIndex - 1].active = true;
-		} else if (e.keyCode == 40) {
-			if (activeIndex == null || activeIndex == length - 1) _this.options[0].active = true;else _this.options[activeIndex + 1].active = true;
-		} else if (e.keyCode == 13 && activeIndex != null) {
-			_this.select({
-				item: _this.options[activeIndex]
-			});
-		}
-	}
-	return true;
-};
-
-this.open = function () {
-	opts.select.isvisible = true;
-	_this.trigger('open');
-};
-
-this.close = function () {
-	if (opts.select.isvisible) {
-		opts.select.isvisible = false;
-		_this.trigger('close');
-	}
-};
-
-this.select = function (e) {
-	opts.select.options.forEach(function (i) {
-		return i.selected = false;
-	});
-	e.item.selected = true;
-	applyFieldText();
-	_this.filterOptions();
-	opts.select.isvisible = false;
-	_this.trigger('select', e.item);
-};
-
-this.on('mount', function () {
-	applyFieldText();
-	_this.filterOptions();
-	document.addEventListener('click', handleClickOutside);
-	_this.update();
+this.on('mount', () => {
+  document.addEventListener('click', handleClickOutside);
+  this.update();
+});
+this.on('unmount', () => {
+  document.removeEventListener('click', handleClickOutside);
 });
 
-this.on('update', function () {
-	if (!opts.select.filter) applyFieldText();
-	positionDropdown();
+this.keydown = e => {
+  const was_open = this.isvisible;
+  this.open();
+
+  if (e.keyCode === 38) {
+    // ArrowUp
+    this.navigate(-1);
+    e.preventDefault();
+  } else if (e.keyCode === 40) {
+    // ArrowDown
+    this.navigate(1);
+    e.preventDefault();
+  } else if (e.keyCode === 13) {
+    // enter
+    if (!was_open) {
+      // if enter is pressed and wasn't opened, just open (above) and leave
+      return;
+    }
+
+    const item = getActiveItem() || this.options[0];
+    item && this.select({
+      item
+    });
+    this.close();
+    e.preventDefault();
+  } else {
+    this._navigate(0);
+  }
+};
+
+this.select = e => {
+  const value = e.item.text;
+  getInput().value = e.item.text;
+  this.trigger('select', e.item.text);
+  opts.onselect && opts.onselect(e.item, this);
+  opts.select.options.forEach(o => o.selected = false);
+  e.item.selected = true;
+  this.close();
+};
+
+this.navigate = dir => {
+  const {
+    options
+  } = this;
+  let new_index = (options.findIndex(o => o.active) + dir) % options.length; // javascript doesn't mod properly :(
+
+  if (new_index < 0) {
+    new_index = options.length - 1;
+  }
+
+  this._navigate(new_index);
+};
+
+this._navigate = index => {
+  opts.select.options.forEach(o => o.active = false);
+  const item = this.options[index || 0];
+
+  if (item) {
+    item.active = true;
+  }
+};
+
+this.on('update', () => {
+  /* istanbul ignore next */
+  if (!this.isMounted) {
+    return;
+  } // riot2 compatibility
+
+  const value = getValue();
+  this.options = opts.select.options;
+
+  if (opts.select.filter) {
+    if (value) {
+      const r = new RegExp(value, 'i');
+      this.options = this.options.filter(o => o.text.match(r));
+      this.trigger('filter');
+    }
+  }
 });
 
-this.on('unmount', function () {
-	document.removeEventListener('click', handleClickOutside);
-});
+const getValue = () => getInput().value;
+
+const getInput = () => this.root.querySelector('input');
+
+const getActiveItem = () => {
+  return this.options.find(o => o.active);
+};
+
+this.open = e => {
+  this.isvisible = true;
+  this.trigger('open');
+};
+
+this.close = e => {
+  this.isvisible = false;
+  this.trigger('close');
+};
 });

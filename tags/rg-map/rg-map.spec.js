@@ -9,6 +9,9 @@ describe('rg-map', function () {
 		$('body').append('<rg-map></rg-map>')
 		tag = riot.mount('rg-map')[0]
 		tag.isMounted.should.be.true
+		const tag2 = newTag('rg-map', { map: {}})
+		tag2.isMounted.should.be.true
+		tag2.unmount()
 	})
 
 	it('doesnt add map script tag twice', function () {

@@ -18,11 +18,13 @@ describe('rg-modal', function() {
 
   beforeEach(function() {
     $('body').append('<rg-modal>This is the <strong>body</strong></rg-modal>')
-    tag = riot.mount('rg-modal', { modal })[0]
+    tag = riot.mount('rg-modal', { modal: deepClone(modal) })[0]
     tag.on('close', spyOnClose)
   })
 
   afterEach(function() {
+    spyOnClick.resetHistory()
+    spyOnClose.resetHistory()
     tag.unmount()
   })
 
@@ -57,17 +59,26 @@ describe('rg-modal', function() {
   })
 
   it('calls the action on button click', function() {
-    spyOnClick.reset()
     $('rg-modal .modal__footer button:nth-child(1)').click()
     spyOnClick.should.have.been.calledOnce
   })
 
   it('click the close button calls the onclose callback', function() {
-    spyOnClose.reset()
-    modal.dismissable = true
-    riot.update()
-    $('rg-modal .button--close').click()
-    $('rg-modal .modal').length.should.equal(0)
+    const _modal = deepClone(modal)
+    _modal.dismissable = true
+    tag = newTag("rg-modal",{ modal: _modal })
+    tag.on('close', spyOnClose)
+    tag.$('.button--close').click()
+    tag.$$('.modal').length.should.equal(0)
     spyOnClose.should.have.been.calledOnce
+  })
+
+  it('is indismissible when indisimissible', function() {
+    tag.close()
+    spyOnClose.callCount.should.equal(0)
+  })
+
+  it('works with no opts', function() {
+    newTag("rg-modal")
   })
 })

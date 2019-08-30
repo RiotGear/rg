@@ -10,11 +10,8 @@
 	</div>
 
 	<script>
-		this.on('mount', () => {
-			if (!opts.toggle) opts.toggle = {
-				checked: false
-			}
-		})
+		opts.toggle = opts.toggle || {}
+
 
 		this.toggle = () => {
 			opts.toggle.checked = !opts.toggle.checked

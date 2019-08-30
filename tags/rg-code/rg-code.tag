@@ -16,30 +16,33 @@
 			editor.setReadOnly(opts.editor.readonly)
 		}
 
-		this.on('mount', () => {
-			editor = ace.edit(this.root.querySelector('.editor'))
-			editor.$blockScrolling = Infinity
+		this.on('update', () => {
+			/* istanbul ignore next */
+			if (!this.isMounted) { return } // riot2 compatibility
+			setupEditor()
+			if (opts.editor.code != editor.getValue())
+				editor.setValue(opts.editor.code, 1)
+		})
 
-			this.on('update', () => {
-				setupEditor()
-				if (opts.editor.code != editor.getValue())
-					editor.setValue(opts.editor.code, 1)
-			})
-			if (opts.url) {
+		this.on('mount', () => {
+			opts.editor.code = opts.editor.code || ""
+			this.editor = editor = ace.edit(this.root.querySelector('.editor'))
+			editor.$blockScrolling = Infinity
+			if (opts.editor.url) {
 				const req = new XMLHttpRequest()
 				req.onload = resp => {
 					opts.editor.code = resp
 					this.update()
 				}
-				req.open('get', opts.url, true)
+				req.open('get', opts.editor.url, true)
 				req.send()
 			}
 			editor.setValue(opts.editor.code, 1)
+			/* istanbul ignore next */
 			editor.getSession().on('change', e => {
 				opts.editor.code = editor.getValue()
 				this.trigger('onchange', editor.getValue())
 			})
-			setupEditor()
 			this.update()
 		})
 

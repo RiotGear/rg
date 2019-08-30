@@ -3,11 +3,11 @@
 
 describe('rg-credit-card-number', function () {
 	let tag, cardNoVisa, cardNoMaestro, placeholder, card
+	cardNoVisa = '4000 0000 0000 0002'
+	cardNoMaestro = '5018 0000 0009'
+	placeholder = '0123 4567 8910 1112'
 
 	beforeEach(function () {
-		cardNoVisa = '4000 0000 0000 0002'
-		cardNoMaestro = '5018 0000 0009'
-		placeholder = '0123 4567 8910 1112'
 		card = {
 			placeholder: placeholder,
 			cardnumber: cardNoVisa
@@ -19,7 +19,7 @@ describe('rg-credit-card-number', function () {
 		})[0]
 	})
 
-	after(function () {
+	afterEach(function () {
 		tag.unmount()
 	})
 
@@ -49,9 +49,11 @@ describe('rg-credit-card-number', function () {
 	describe('sets validation css classes', function () {
 		it('for the icon', function () {
 			const textbox = $('rg-credit-card-number .card-no')
-			textbox.val(cardNoMaestro).trigger('input')
+			textbox.val(cardNoMaestro)
+			tag.update()
 			textbox.hasClass('maestro').should.be.true
-			textbox.val(cardNoVisa).trigger('input')
+			textbox.val(cardNoVisa)
+			tag.update()
 			textbox.hasClass('visa').should.be.true
 		})
 
@@ -61,18 +63,26 @@ describe('rg-credit-card-number', function () {
 			textbox.hasClass('field--success').should.be.true
 		})
 	})
+
+	it('has no icon for invalid number', function () {
+		const textbox = $('rg-credit-card-number .card-no')
+		textbox.hasClass('visa').should.be.true
+		textbox.val('moekoaersntoeanrstoen')
+		tag.update()
+		textbox.trigger("input")
+		textbox.hasClass('visa').should.be.false
+	})
 })
 
 describe('rg-credit-card-number no opts', function () {
 	let tag
 
 	beforeEach(function () {
-
 		$('body').append('<rg-credit-card-number></rg-credit-card-number>')
 		tag = riot.mount('rg-credit-card-number')[0]
 	})
 
-	after(function () {
+	afterEach(function () {
 		tag.unmount()
 	})
 

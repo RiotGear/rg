@@ -27,7 +27,7 @@ describe('rg-bubble', function() {
     })
 
     it('on mouse over', function() {
-      $('rg-bubble .content').trigger('mouseover')
+      $('rg-bubble .content')[0].dispatchEvent(new Event("mouseover"))
       $('rg-bubble .bubble').length.should.equal(1)
       $('rg-bubble .bubble').html().should.contain(text)
     })
@@ -45,7 +45,7 @@ describe('rg-bubble', function() {
 
     describe('after 1 second', function() {
       it('on mouse out', function(done) {
-        $('rg-bubble .content').trigger('mouseout')
+        $('rg-bubble .content')[0].dispatchEvent(new Event("mouseout"))
         setTimeout(function() {
           $('rg-bubble .bubble').length.should.equal(0)
           done()

@@ -1,6 +1,6 @@
 <rg-phone-sim>
 
-	<div class="emulator">
+	<div class="emulator" if={opts.phonesim && opts.phonesim.url}>
 		<iframe class="screen" src="{ opts.phonesim.url }"></iframe>
 	</div>
 

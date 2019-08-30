@@ -18,7 +18,24 @@ describe('rg-pagination', function() {
 
   it('is mounted', function() {
     tag.isMounted.should.be.true
+    const tag2 = newTag('rg-pagination')
+    tag2.isMounted.should.be.true
+    tag2.update()
   })
 
-  // Todo more tests
+  it('pages properly', function() {
+    const assertCurrent = i => {
+      tag.root.querySelector('.pagination__page--current').innerText.should.equal(i)
+    }
+    const getNavButtons = () => tag.root.querySelectorAll(".pagination__control")
+    assertCurrent('3')
+    getNavButtons()[1].click() // back one
+    assertCurrent('2')
+    getNavButtons()[2].click() // forward one
+    assertCurrent('3')
+    getNavButtons()[0].click() // start
+    assertCurrent('1')
+    getNavButtons()[3].click() // end
+    assertCurrent('100')
+  })
 })

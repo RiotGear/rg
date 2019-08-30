@@ -1,15 +1,17 @@
-riot.tag2('rg-unsplash', '<img riot-src="https://unsplash.it/{opts.unsplash.greyscale}{opts.unsplash.width}/{opts.unsplash.height}/?{options}">', '', '', function(opts) {
-var _this = this;
-
-this.on('update', function () {
-	_this.options = '';
-	if (!opts.unsplash) opts.unsplash = {};
-	opts.unsplash.width = opts.unsplash.width || 450;
-	opts.unsplash.height = opts.unsplash.height || 250;
-	if (opts.unsplash.greyscale) opts.unsplash.greyscale = 'g/';
-	if (opts.unsplash.random) _this.options += 'random&';
-	if (opts.unsplash.blur) _this.options += 'blur&';
-	if (opts.unsplash.image) _this.options += 'image=' + opts.unsplash.image + '&';
-	if (typeof opts.unsplash.gravity !== 'undefined') _this.options += 'gravity=' + opts.unsplash.gravity;
+riot.tag2('rg-unsplash', '<img if="{path}" riot-src="https://unsplash.it/{path}/?{options}">', '', '', function(opts) {
+this.on("mount", () => this.update());
+this.on('update', () => {
+  if (!opts.unsplash) opts.unsplash = {};
+  const {
+    greyscale,
+    width,
+    height
+  } = opts.unsplash;
+  this.path = `${greyscale ? 'g/' : ''}${width || 450}/${height || 250}`;
+  this.options = '';
+  if (opts.unsplash.random) this.options += 'random&';
+  if (opts.unsplash.blur) this.options += 'blur&';
+  if (opts.unsplash.image) this.options += 'image=' + opts.unsplash.image + '&';
+  if (typeof opts.unsplash.gravity !== 'undefined') this.options += 'gravity=' + opts.unsplash.gravity;
 });
 });

@@ -1,31 +1,30 @@
 <rg-credit-card-number>
 
-		<input type="text" name="cardnumber" class="field card-no { icon } { 'field--success': opts.card.valid }" oninput="{ validate }" placeholder="{ opts.card.placeholder }">
+		<input type="text" name="cardnumber" class="field card-no { icon } { 'field--success': opts.card.valid }" oninput="{ oninput }" placeholder="{ opts.card.placeholder }">
 
 	<script>
-		if (!opts.card) opts.card = { cardnumber: '' }
-
-		this.on('update', () => {
-			if (this.cardnumber.value != opts.card.cardnumber)
-				this.cardnumber.value = opts.card.cardnumber
-			this.validate()
+		this.on("mount",() => {
+			this.input = this.root.querySelector("input")
+			this.input.value = opts.card.cardnumber
+			this.update()
 		})
 
-		this.validate = () => {
-			opts.card.cardnumber = this.cardnumber.value
+		// this just triggers update
+		this.oninput = () => {}
+
+		if (!opts.card) opts.card = { cardnumber: '' }
+
+		this.on("update", () => {
+			/* istanbul ignore next */
+			if (!this.isMounted) { return } // riot2 compatibility
+			opts.card.cardnumber = this.input.value
 			const res = validateCreditCard(opts.card.cardnumber)
 			opts.card.valid = res.valid
 			this.icon = opts.card.valid ? res.card_type.name : ''
-		}
+		})
 
 		function validateCreditCard(input) {
-			var __indexOf = [].indexOf || function (item) {
-					for (var i = 0, l = this.length; i < l; i++) {
-						if (i in this && this[i] === item) return i;
-					}
-					return -1;
-				};
-			var card, card_type, card_types, get_card_type, is_valid_length, is_valid_luhn, normalize, validate, validate_number, _i, _len, _ref;
+			var card, card_type, card_types, get_card_type, is_valid_length, is_valid_luhn, normalize, validate, validate_number, _i, _len;
 			card_types = [
 				{
 					name: 'amex',
@@ -77,56 +76,13 @@
 				}
 			];
 
-			var options = {};
-
-			if (options.accept == null) {
-				options.accept = (function () {
-					var _i, _len, _results;
-					_results = [];
-					for (_i = 0, _len = card_types.length; _i < _len; _i++) {
-						card = card_types[_i];
-						_results.push(card.name);
-					}
-					return _results;
-				})();
-			}
-			_ref = options.accept;
-			for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-				card_type = _ref[_i];
-				if (__indexOf.call((function () {
-						var _j, _len1, _results;
-						_results = [];
-						for (_j = 0, _len1 = card_types.length; _j < _len1; _j++) {
-							card = card_types[_j];
-							_results.push(card.name);
-						}
-						return _results;
-					})(), card_type) < 0) {
-					throw "Credit card type '" + card_type + "' is not supported";
-				}
-			}
+			var options = {
+        accept: card_types.map(c => c.name)
+      };
 
 			get_card_type = function (number) {
-				var _j, _len1, _ref1;
-				_ref1 = (function () {
-					var _k, _len1, _ref1, _results;
-					_results = [];
-					for (_k = 0, _len1 = card_types.length; _k < _len1; _k++) {
-						card = card_types[_k];
-						if (_ref1 = card.name, __indexOf.call(options.accept, _ref1) >= 0) {
-							_results.push(card);
-						}
-					}
-					return _results;
-				})();
-				for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-					card_type = _ref1[_j];
-					if (number.match(card_type.pattern)) {
-						return card_type;
-					}
-				}
-				return null;
-			};
+        return card_types.find(c => number.match(c.pattern)) || null
+      }
 
 			is_valid_luhn = function (number) {
 				var digit, n, sum, _j, _len1, _ref1;
@@ -150,8 +106,7 @@
 			};
 
 			is_valid_length = function (number, card_type) {
-				var _ref1;
-				return _ref1 = number.length, __indexOf.call(card_type.valid_length, _ref1) >= 0;
+        return card_type.valid_length.indexOf(number.length) !== -1
 			};
 
 			validate_number = (function (_this) {

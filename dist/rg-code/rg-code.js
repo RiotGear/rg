@@ -1,42 +1,51 @@
-riot.tag2('rg-code', '<div class="editor"></div>', 'rg-code .editor,[riot-tag="rg-code"] .editor,[data-is="rg-code"] .editor{ position: absolute; top: 0; right: 0; bottom: 0; left: 0; }', '', function(opts) {
-var _this = this;
+riot.tag2('rg-code', '<div class="editor"></div>', 'rg-code .editor,[data-is="rg-code"] .editor{ position: absolute; top: 0; right: 0; bottom: 0; left: 0; }', '', function(opts) {
+if (!opts.editor) opts.editor = {
+  code: ''
+};
+let editor;
 
-if (!opts.editor) opts.editor = { code: '' };
-
-var editor = undefined;
-
-var setupEditor = function setupEditor() {
-	editor.setTheme('ace/theme/' + (opts.editor.theme || 'monokai'));
-	editor.getSession().setMode('ace/mode/' + (opts.editor.mode || 'html'));
-	editor.getSession().setTabSize(opts.editor.tabsize || 2);
-	editor.getSession().setUseSoftTabs(opts.editor.softtabs);
-	editor.getSession().setUseWrapMode(opts.editor.wordwrap);
-	editor.setReadOnly(opts.editor.readonly);
+const setupEditor = () => {
+  editor.setTheme(`ace/theme/${opts.editor.theme || 'monokai'}`);
+  editor.getSession().setMode(`ace/mode/${opts.editor.mode || 'html'}`);
+  editor.getSession().setTabSize(opts.editor.tabsize || 2);
+  editor.getSession().setUseSoftTabs(opts.editor.softtabs);
+  editor.getSession().setUseWrapMode(opts.editor.wordwrap);
+  editor.setReadOnly(opts.editor.readonly);
 };
 
-this.on('mount', function () {
-	editor = ace.edit(_this.root.querySelector('.editor'));
-	editor.$blockScrolling = Infinity;
+this.on('update', () => {
+  /* istanbul ignore next */
+  if (!this.isMounted) {
+    return;
+  } // riot2 compatibility
 
-	_this.on('update', function () {
-		setupEditor();
-		if (opts.editor.code != editor.getValue()) editor.setValue(opts.editor.code, 1);
-	});
-	if (opts.url) {
-		var req = new XMLHttpRequest();
-		req.onload = function (resp) {
-			opts.editor.code = resp;
-			_this.update();
-		};
-		req.open('get', opts.url, true);
-		req.send();
-	}
-	editor.setValue(opts.editor.code, 1);
-	editor.getSession().on('change', function (e) {
-		opts.editor.code = editor.getValue();
-		_this.trigger('onchange', editor.getValue());
-	});
-	setupEditor();
-	_this.update();
+  setupEditor();
+  if (opts.editor.code != editor.getValue()) editor.setValue(opts.editor.code, 1);
+});
+this.on('mount', () => {
+  opts.editor.code = opts.editor.code || "";
+  this.editor = editor = ace.edit(this.root.querySelector('.editor'));
+  editor.$blockScrolling = Infinity;
+
+  if (opts.editor.url) {
+    const req = new XMLHttpRequest();
+
+    req.onload = resp => {
+      opts.editor.code = resp;
+      this.update();
+    };
+
+    req.open('get', opts.editor.url, true);
+    req.send();
+  }
+
+  editor.setValue(opts.editor.code, 1);
+  /* istanbul ignore next */
+
+  editor.getSession().on('change', e => {
+    opts.editor.code = editor.getValue();
+    this.trigger('onchange', editor.getValue());
+  });
+  this.update();
 });
 });

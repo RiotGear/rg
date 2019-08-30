@@ -19,12 +19,10 @@
   </div>
 
   <script>
-    this.on('update', () => {
-      if (!opts.pagination) opts.pagination = {
-        pages: 1,
-        page: 1
-      }
-    })
+    if (!opts.pagination) opts.pagination = {
+      pages: 1,
+      page: 1
+    }
 
     this.on('page', () => {
       const btns = this.root.querySelectorAll('button')

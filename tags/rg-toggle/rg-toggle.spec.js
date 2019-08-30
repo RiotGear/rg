@@ -19,6 +19,9 @@ describe('rg-toggle', function() {
 
   it('is mounted', function() {
     tag.isMounted.should.be.true
+    const tag2 = newTag("rg-toggle")
+    tag2.isMounted.should.be.true
+    tag2.unmount()
   })
 
   it('has an unchecked checkbox', function() {
@@ -32,7 +35,7 @@ describe('rg-toggle', function() {
   })
 
   it('calls ontoggle when toggled', function() {
-    $('rg-toggle input[type=checkbox]').click()
+    tag.root.querySelector('input').click()
     spy.should.have.been.called
   })
 })

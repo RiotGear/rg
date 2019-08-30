@@ -1,10 +1,8 @@
 describe('rg-code', function() {
   let tag, spy, editor
 
-  beforeEach(function() {
-    spy = sinon.spy()
-    editor = {
-      code: '<h2>Hello world!</h2>',
+  const getOpts = extra => {
+    const _default = {
       theme: 'monokai',
       mode: 'javascript',
       tabsize: '2',
@@ -13,19 +11,37 @@ describe('rg-code', function() {
       readonly: 'true',
       onchange: spy
     }
-    $('body').append('<rg-code></rg-code>')
-    tag = riot.mount('rg-code', {
-      editor
-    })[0]
+    return Object.assign(_default, extra)
+  }
+
+  beforeEach(function() {
+    spy = sinon.spy()
   })
 
   afterEach(function() {
     tag.unmount()
   })
 
-  it('is mounted', function() {
+  it('allows code for opts', function() {
+    tag = newTag('rg-code', {
+      editor: getOpts({ code: '<h2>Hello world!</h2>' })
+    })
     tag.isMounted.should.be.true
     spy.should.not.have.been.called
+  })
+
+  it('allows url for opts', function(done) {
+    mockAjax()
+    tag = newTag('rg-code', {
+      editor: getOpts({ url: 'yay.html' })
+    })
+    tag.isMounted.should.be.true
+    setTimeout(() => {
+      // gotta kick this into another thread to catch the faked ajax
+      tag.root.innerText.should.equal('1\nYay!')
+      unmockAjax()
+      done()
+    },0)
   })
 })
 
@@ -33,12 +49,11 @@ describe('rg-code no opts', function() {
   let tag
 
   beforeEach(function() {
-
     $('body').append('<rg-code></rg-code>')
     tag = riot.mount('rg-code')[0]
   })
 
-  after(function() {
+  afterEach(function() {
     tag.unmount()
   })
 

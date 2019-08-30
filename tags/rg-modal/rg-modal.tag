@@ -21,9 +21,7 @@
 	</div>
 
 	<script>
-		this.on('mount', () => {
-			if (!opts.modal) opts.modal = {}
-		})
+		if (!opts.modal) opts.modal = {}
 
 		this.close = () => {
 			if (opts.modal.dismissable) {

@@ -18,8 +18,12 @@ describe('rg-select', function () {
 				id: 2,
 				text: 'American Express'
 			}, {
+				id: 4,
+				text: 'Disabled Card',
+				disabled: true,
+			}, {
 				id: 3,
-				text: 'Discover'
+				text: 'Discover',
 			}]
 		}
 		$('body').append('<rg-select></rg-select>')
@@ -29,13 +33,12 @@ describe('rg-select', function () {
 		tag.on('open', spyOnOpen)
 			.on('close', spyOnClose)
 			.on('select', spyOnSelect)
-
 	})
 
 	afterEach(function () {
-		spyOnOpen.reset()
-		spyOnClose.reset()
-		spyOnSelect.reset()
+		spyOnOpen.resetHistory()
+		spyOnClose.resetHistory()
+		spyOnSelect.resetHistory()
 		tag.unmount()
 	})
 
@@ -53,51 +56,65 @@ describe('rg-select', function () {
 
 	it('focusing/blurring field opens/closes dropdown and triggers open/close event', function () {
 		$('rg-select .menu').length.should.equal(0)
-		$('rg-select .field').focus()
+		tag.root.querySelector('.field').focus()
 		$('rg-select .menu').length.should.equal(1)
 		spyOnOpen.should.have.been.calledOnce
+
+		// clicking field doesn't close it
+		tag.root.querySelector('.field').click()
+		$('rg-select .menu').length.should.equal(1)
+
+		// clicking outside rg-select does
 		$('rg-select').parent().click()
 		$('rg-select .menu').length.should.equal(0)
 		spyOnClose.should.have.been.calledOnce
 	})
 
 	it('pressing key down will highlight item', function () {
-		$('rg-select .field').focus()
-		var e = jQuery.Event('keydown')
-		e.keyCode = 38
-		$('rg-select .field').trigger(e)
+		const field = tag.root.querySelector(".field")
+		field.focus()
+		tag.keydown({ keyCode: 38, preventDefault: () => {} })
+		tag.update()
 		$('rg-select .menu__item.menu__item--hover').text().should.contain('Discover')
 	})
 
 	it('selecting an item sets it to selected and calls onselect', function () {
-		$('rg-select .field').focus()
-		$('rg-select .menu__item:nth-child(3)').click()
-		$('rg-select .field').focus()
+		const field = tag.root.querySelector(".field")
+		field.focus()
+		$('rg-select .menu__item:nth-child(3)')[0].click()
+		field.value.should.equal('American Express')
+		field.blur()
+		field.focus()
 		$('rg-select .menu__item:nth-child(3)').is('.menu__item--active').should.be.true
 		spyOnSelect.should.have.been.calledOnce
 	})
 
 	it('opens the dropdown on enter', function () {
-		var e = jQuery.Event('keydown')
-		e.keyCode = 13
-		$('rg-select .field').trigger(e)
+		tag.keydown({ keyCode: 13, preventDefault: () => {} })
+		tag.update()
 		$('rg-select .menu').length.should.equal(1)
 		spyOnOpen.should.have.been.calledOnce
+		tag.keydown({ keyCode: 13, preventDefault: () => {} })
+		tag.update()
+		$('rg-select .menu').length.should.equal(0)
+		tag.root.querySelector('input').value.should.equal("Visa")
 	})
 
 	it('opens the dropdown on arrow up', function () {
-		var e = jQuery.Event('keydown')
-		e.keyCode = 40
-		$('rg-select .field').trigger(e)
+		tag.keydown({ keyCode: 38, preventDefault: () => {} })
+		tag.update()
 		$('rg-select .menu').length.should.equal(1)
 		spyOnOpen.should.have.been.calledOnce
 	})
 
 	it('opens the dropdown on arrow down', function () {
-		var e = jQuery.Event('keydown')
-		e.keyCode = 38
-		$('rg-select .field').trigger(e)
+		tag.keydown({ keyCode: 40, preventDefault: () => {} })
+		tag.update()
 		$('rg-select .menu').length.should.equal(1)
 		spyOnOpen.should.have.been.calledOnce
+	})
+
+	it('does not break on bad navigate', function() {
+		tag._navigate(99999)
 	})
 })

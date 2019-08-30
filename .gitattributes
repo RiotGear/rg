@@ -1,0 +1,4 @@
+dist/* binary
+dist/**/* binary
+yarn.lock binary
+demo/demo.js binary

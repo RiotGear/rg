@@ -31,13 +31,12 @@ describe('rg-select', function () {
 			.on('close', spyOnClose)
 			.on('select', spyOnSelect)
 			.on('filter', spyOnFilter)
-
 	})
 
 	afterEach(function () {
-		spyOnOpen.reset()
-		spyOnClose.reset()
-		spyOnSelect.reset()
+		spyOnOpen.resetHistory()
+		spyOnClose.resetHistory()
+		spyOnSelect.resetHistory()
 
 		tag.unmount()
 	})
@@ -46,7 +45,7 @@ describe('rg-select', function () {
 		tag.isMounted.should.be.true
 	})
 
-	it('text input is editable', function () {
+	it ('text input is editable', function () {
 		should.not.exist($('rg-select .field').attr('readonly'))
 	})
 
@@ -56,13 +55,17 @@ describe('rg-select', function () {
 		$('rg-select .menu').length.should.equal(1)
 	})
 
+	// skipping because jquery is no triggegin "input" events
 	it('adding text to box filters the options list', function () {
+		const field = tag.root.querySelector('.field')
 		$('rg-select .menu').length.should.equal(0)
-		$('rg-select .field').focus()
+		field.focus()
 		$('rg-select .menu').length.should.equal(1)
 		$('rg-select .menu__item').length.should.equal(4)
 		spyOnOpen.should.have.been.calledOnce
-		$('rg-select .field').val('m').trigger('input')
+		field.value = 'm'
+    tag.keydown({ keyCode: 77, preventDefault: () => {} })
+		tag.update()
 		spyOnFilter.should.have.been.calledOnce
 		$('rg-select .menu__item').length.should.equal(2)
 	})

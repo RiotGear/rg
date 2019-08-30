@@ -1,0 +1,56 @@
+.app-container {
+  padding: 0 100px
+}
+
+h2 {
+  padding-top: 40px;
+}
+
+.demo {
+  position: relative;
+  min-height: 200px;
+}
+
+.no-overflow {
+  overflow: hidden;
+}
+
+.chart-container {
+  width: 400px;
+}
+
+button {
+  border: 0;
+  border: 1px solid #ccc;
+  background: #eee;
+  padding: 5px;
+  outline: none;
+}
+
+rg-map {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 200px;
+}
+
+.iframify {
+  width: 400px;
+}
+
+.component {
+  background-color: #efefef;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  padding: 10px;
+}
+
+.component-child {
+  color: deeppink;
+}
+
+@media (max-width: 400px) {
+  .component {
+    border-color: deeppink;
+  }
+}
