@@ -34,23 +34,23 @@ describe('rg-toast', function () {
 	})
 
 	it('position can be set', function () {
-		$('rg-toasts .toasts--bottomleft').length.should.equal(1)
+		$('rg-toasts .c-toasts--bottomleft').length.should.equal(1)
 	})
 
 	it('has correct number of toasts', function () {
-		$('rg-toasts .toast').length.should.equal(3)
-		$('rg-toasts .toast').text().should.contain('Auto disappear')
-		$('rg-toasts .toast').text().should.contain('Auto disappear call onclose')
-		$('rg-toasts .toast').text().should.contain('Sticky toast')
+		$('rg-toasts .c-toast').length.should.equal(3)
+		$('rg-toasts .c-toast').text().should.contain('Auto disappear')
+		$('rg-toasts .c-toast').text().should.contain('Auto disappear call onclose')
+		$('rg-toasts .c-toast').text().should.contain('Sticky toast')
 	})
 
 	it('disappears on click', function () {
-		$('rg-toasts .toast:first-child').click()
-		$('rg-toasts .toast').length.should.equal(2)
+		$('rg-toasts .c-toast:first-child').click()
+		$('rg-toasts .c-toast').length.should.equal(2)
 	})
 
 	it('called onclick on click', function () {
-		$('rg-toasts .toast:nth-child(3)').click()
+		$('rg-toasts .c-toast:nth-child(3)').click()
 		onClickSpy.should.have.been.called
 	})
 })
@@ -80,7 +80,7 @@ describe('rg-toast no position', function () {
 	})
 
 	it('position is defaulted', function () {
-		$('rg-toasts .toasts--bottomright').length.should.equal(1)
+		$('rg-toasts .c-toasts--bottomright').length.should.equal(1)
 	})
 })
 
@@ -114,7 +114,7 @@ describe('rg-toast no events', function () {
 	})
 
 	it('onclick and onclose not called on click', function () {
-		$('rg-toasts .toast:nth-child(3)').click()
+		$('rg-toasts .c-toast:nth-child(3)').click()
 		onClickSpy.should.not.have.been.called
 		onCloseSpy.should.not.have.been.called
 	})

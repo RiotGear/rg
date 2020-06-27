@@ -1,4 +1,4 @@
-riot.tag2('rg-select', '<input type="{opts.select.filter ? \'search\' : \'text\'}" name="selectfield" class="field" placeholder="{opts.select.placeholder}" onkeydown="{navigate}" oninput="{filterOptions}" onfocus="{open}" __readonly="{!opts.select.filter}"> <ul class="menu menu--high" if="{opts.select.isvisible}"> <li each="{options}" no-reorder onclick="{parent.select}" class="menu__item {\'menu__item--active\': selected, \'menu__item--disabled\': disabled, \'menu__item--hover\': active}"> {text} </li> </ul>', 'rg-select .menu,[riot-tag="rg-select"] .menu,[data-is="rg-select"] .menu{ position: absolute; }', '', function(opts) {
+riot.tag2('rg-select', '<input type="{opts.select.filter ? \'search\' : \'text\'}" name="selectfield" class="c-field" placeholder="{opts.select.placeholder}" onkeydown="{navigate}" oninput="{filterOptions}" onfocus="{open}" __readonly="{!opts.select.filter}"> <ul class="c-menu c-menu--high" if="{opts.select.isvisible}"> <li each="{options}" no-reorder onclick="{parent.select}" class="c-menu__item {\'c-menu__item--active\': selected, \'c-menu__item--disabled\': disabled, \'c-menu__item--hover\': active}"> {text} </li> </ul>', 'rg-select .menu,[riot-tag="rg-select"] .menu,[data-is="rg-select"] .menu{ position: absolute; }', '', function(opts) {
 var _this = this;
 
 if (!opts.select) opts.select = { options: [] };
@@ -39,7 +39,7 @@ function getWindowDimensions() {
 
 var positionDropdown = function positionDropdown() {
 	var w = getWindowDimensions();
-	var m = _this.root.querySelector('.menu');
+	var m = _this.root.querySelector('.c-menu');
 	if (!m) return;
 	if (!opts.select.isvisible) {
 		m.style.marginTop = '';

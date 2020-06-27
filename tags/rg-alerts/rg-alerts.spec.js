@@ -39,34 +39,34 @@ describe('rg-alerts', function () {
 	})
 
 	it('displays correct number of alerts', function () {
-		$('rg-alerts .alerts__alert').length.should.equal(4)
+		$('rg-alerts .c-alerts__alert').length.should.equal(4)
 	})
 
 	it('displays correct type of alerts', function () {
-		$('rg-alerts .alerts__alert:nth-child(1)').is('.alerts__alert--error').should.be.true
-		$('rg-alerts .alerts__alert:nth-child(2)').is('.alerts__alert--secondary').should.be.true
-		$('rg-alerts .alerts__alert:nth-child(3)').is('.alerts__alert--primary').should.be.true
-		$('rg-alerts .alerts__alert:nth-child(4)').is('.alerts__alert--success').should.be.true
+		$('rg-alerts .c-alerts__alert:nth-child(1)').is('.c-alerts__alert--error').should.be.true
+		$('rg-alerts .c-alerts__alert:nth-child(2)').is('.c-alerts__alert--secondary').should.be.true
+		$('rg-alerts .c-alerts__alert:nth-child(3)').is('.c-alerts__alert--primary').should.be.true
+		$('rg-alerts .c-alerts__alert:nth-child(4)').is('.c-alerts__alert--success').should.be.true
 	})
 
 	it('can not be dismissed if set', function () {
-		$('rg-alerts .alerts__alert:nth-child(2)').find('.button--close').length.should.equal(0)
+		$('rg-alerts .c-alerts__alert:nth-child(2)').find('.c-button--close').length.should.equal(0)
 	})
 
 	it('can be dismissed', function () {
-		$('rg-alerts .alerts__alert:nth-child(3)').find('.button--close').click()
-		$('rg-alerts .alerts__alert').length.should.equal(3)
+		$('rg-alerts .c-alerts__alert:nth-child(3)').find('.c-button--close').click()
+		$('rg-alerts .c-alerts__alert').length.should.equal(3)
 		oncloseSpy.should.have.been.called
 	})
 
 	it('calls the onclose function when dismissed', function () {
-		$('rg-alerts .alerts__alert:nth-child(1)').find('.button--close').click()
+		$('rg-alerts .c-alerts__alert:nth-child(1)').find('.c-button--close').click()
 		oncloseSpy.should.have.been.called
 	})
 
 	it('disappears after timer runs down', function (done) {
 		setTimeout(function () {
-			$('rg-alerts .alerts__alert').length.should.equal(2)
+			$('rg-alerts .c-alerts__alert').length.should.equal(2)
 			done()
 		}, seconds)
 	})

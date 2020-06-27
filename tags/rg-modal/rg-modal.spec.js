@@ -31,34 +31,34 @@ describe('rg-modal', function() {
   })
 
   it('has correct heading', function() {
-    $('rg-modal .heading').text().should.equal(modal.heading)
+    $('rg-modal .c-heading').text().should.equal(modal.heading)
   })
 
   it('has the correct body', function() {
-    $('rg-modal .modal__body').html().should.contain('This is the <strong>body</strong>')
+    $('rg-modal .c-modal__body').html().should.contain('This is the <strong>body</strong>')
   })
 
   it('can be a ghost modal', function() {
-    $('rg-modal .modal').is('.modal--ghost').should.be.true
+    $('rg-modal .c-modal').is('.c-modal--ghost').should.be.true
   })
 
   it('close button can be turned off', function() {
-    $('rg-modal .button--close').length.should.equal(0)
+    $('rg-modal .c-button--close').length.should.equal(0)
   })
 
   it('has a footer with two buttons', function() {
-    $('rg-modal .modal__footer button').length.should.equal(2)
-    $('rg-modal .modal__footer button:nth-child(1)').text().should.contain(modal.buttons[0].text)
-    $('rg-modal .modal__footer button:nth-child(2)').text().should.contain(modal.buttons[1].text)
+    $('rg-modal .c-modal__footer button').length.should.equal(2)
+    $('rg-modal .c-modal__footer button:nth-child(1)').text().should.contain(modal.buttons[0].text)
+    $('rg-modal .c-modal__footer button:nth-child(2)').text().should.contain(modal.buttons[1].text)
   })
 
   it('buttons can be styled', function() {
-    $('rg-modal .modal__footer button:nth-child(2)').css('color').should.equal('rgb(100, 149, 237)')
+    $('rg-modal .c-modal__footer button:nth-child(2)').css('color').should.equal('rgb(100, 149, 237)')
   })
 
   it('calls the action on button click', function() {
     spyOnClick.reset()
-    $('rg-modal .modal__footer button:nth-child(1)').click()
+    $('rg-modal .c-modal__footer button:nth-child(1)').click()
     spyOnClick.should.have.been.calledOnce
   })
 
@@ -66,8 +66,8 @@ describe('rg-modal', function() {
     spyOnClose.reset()
     modal.dismissable = true
     riot.update()
-    $('rg-modal .button--close').click()
-    $('rg-modal .modal').length.should.equal(0)
+    $('rg-modal .c-button--close').click()
+    $('rg-modal .c-modal').length.should.equal(0)
     spyOnClose.should.have.been.calledOnce
   })
 })

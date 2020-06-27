@@ -22,14 +22,14 @@ describe('rg-bubble', function() {
   describe('displays tooltip with correct text', function() {
     it('on click', function() {
       $('rg-bubble .content').trigger('click')
-      $('rg-bubble .bubble').length.should.equal(1)
-      $('rg-bubble .bubble').html().should.contain(text)
+      $('rg-bubble .c-bubble').length.should.equal(1)
+      $('rg-bubble .c-bubble').html().should.contain(text)
     })
 
     it('on mouse over', function() {
       $('rg-bubble .content').trigger('mouseover')
-      $('rg-bubble .bubble').length.should.equal(1)
-      $('rg-bubble .bubble').html().should.contain(text)
+      $('rg-bubble .c-bubble').length.should.equal(1)
+      $('rg-bubble .c-bubble').html().should.contain(text)
     })
   })
 
@@ -40,14 +40,14 @@ describe('rg-bubble', function() {
 
     it('on click', function() {
       $('rg-bubble .content').trigger('click')
-      $('rg-bubble .bubble').length.should.equal(0)
+      $('rg-bubble .c-bubble').length.should.equal(0)
     })
 
     describe('after 1 second', function() {
       it('on mouse out', function(done) {
         $('rg-bubble .content').trigger('mouseout')
         setTimeout(function() {
-          $('rg-bubble .bubble').length.should.equal(0)
+          $('rg-bubble .c-bubble').length.should.equal(0)
           done()
         }, 1000)
       })

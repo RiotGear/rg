@@ -1,20 +1,20 @@
 <rg-modal>
 
-	<div class="overlay { overlay--dismissable: opts.modal.dismissable }" if="{ opts.modal.isvisible }" onclick="{ close }"></div>
-	<div class="modal { modal--ghost: opts.modal.ghost }" if="{ opts.modal.isvisible }">
-		<header class="modal__header">
-			<button if="{ opts.modal.dismissable }" type="button" class="button button--close" onclick="{ close }">
+	<div class="c-overlay { c-overlay--dismissable: opts.modal.dismissable }" if="{ opts.modal.isvisible }" onclick="{ close }"></div>
+	<div class="c-modal { c-modal--ghost: opts.modal.ghost }" if="{ opts.modal.isvisible }">
+		<header class="c-modal__header">
+			<button if="{ opts.modal.dismissable }" type="button" class="c-button c-button--close" onclick="{ close }">
 				&times;
 			</button>
-			<h3 class="heading heading--small">{ opts.modal.heading }</h3>
+			<h3 class="c-heading c-heading--small">{ opts.modal.heading }</h3>
 		</header>
 
-		<div class="modal__body">
+		<div class="c-modal__body">
 			<yield/>
 		</div>
 
-		<footer class="modal__footer { 'modal__footer--block': !opts.modal.ghost }">
-			<button each="{ opts.modal.buttons }" type="button" class="button { 'button--' + type }" onclick="{ action }" style="{ style }">
+		<footer class="c-modal__footer { 'c-modal__footer--block': !opts.modal.ghost }">
+			<button each="{ opts.modal.buttons }" type="button" class="c-button { 'c-button--' + type }" onclick="{ action }" style="{ style }">
 				{ text }
 			</button>
 		</footer>
@@ -35,7 +35,7 @@
 	</script>
 
 	<style scoped>
-		.modal--ghost .modal__footer .button {
+		.c-modal--ghost .c-modal__footer .c-button {
 			margin: 0 .5em 0 0;
 		}
 

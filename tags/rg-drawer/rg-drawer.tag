@@ -1,17 +1,17 @@
 <rg-drawer>
 
-	<div class="overlay" if="{ opts.drawer.isvisible }" onclick="{ close }"></div>
+	<div class="c-overlay" if="{ opts.drawer.isvisible }" onclick="{ close }"></div>
 
-	<div class="drawer { 'drawer--' + opts.drawer.position || 'drawer--bottom' } { 'drawer--visible': opts.drawer.isvisible }">
-		<h4 class="heading heading--xsmall">{ opts.drawer.header }</h4>
+	<div class="c-drawer { 'c-drawer--' + opts.drawer.position || 'c-drawer--bottom' } { 'c-drawer--visible': opts.drawer.isvisible }">
+		<h4 class="c-heading c-heading--xsmall">{ opts.drawer.header }</h4>
 
-		<ul class="menu">
-			<li class="menu__item { 'menu__item--active': active }" each="{ opts.drawer.items }" onclick="{ parent.select }">
+		<ul class="c-menu">
+			<li class="c-menu__item { 'c-menu__item--active': active }" each="{ opts.drawer.items }" onclick="{ parent.select }">
 				{ text }
 			</li>
 		</ul>
 
-		<div class="drawer__body">
+		<div class="c-drawer__body">
 			<yield/>
 		</div>
 	</div>
