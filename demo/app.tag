@@ -59,6 +59,18 @@
 		<rg-ga property="UA-36978977-5"></rg-ga>
 	</div>
 
+	<h2>iFramify</h2>
+	<div class="demo">
+		<div class="component">
+			<p>This is a <span class="component-child">component</span>. Under 400px, the border of this component will go pink.</p>
+		</div>
+		<rg-iframify iframify="{ iframify }">
+			<div class="component">
+				<p>This is a <span class="component-child">component</span>. Under 400px, the border of this component will go pink.</p>
+			</div>
+		</rg-iframify>
+	</div>
+
 	<h2>Include</h2>
 
 	<div class="demo">
@@ -407,6 +419,11 @@
 		}
 
 		/*
+		 * IFRAMIFY
+		 */
+		this.iframify = {}
+
+		/*
 		 * INCLUDE
 		 */
 		this.include = {
@@ -582,16 +599,22 @@
 		 */
 		this.rgTags = {
 			placeholder: 'Choose a country',
+			filter: 'text',
 			options: [{
+				id: 0,
 				text: 'England'
 			}, {
+				id: 0,
 				text: 'Scotland'
 			}, {
+				id: 0,
 				text: 'Ireland'
 			}, {
+				id: 0,
 				text: 'Wales'
 			}],
 			tags: [{
+				id: 0,
 				text: 'Russia'
 			}]
 		}

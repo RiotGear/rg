@@ -1,6 +1,6 @@
 {
   "name": "riotgear",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "description": "The open source component library for RiotJS",
   "main": "dist/rg.min.js",
   "files": [
@@ -57,7 +57,7 @@
     "moment": "2.12.0",
     "normalize.css": "4.0.0",
     "phantomjs-prebuilt": "2.1.6",
-    "riot": "2.3.17",
+    "riot": "2.3.18",
     "sinon": "1.17.3",
     "sinon-chai": "2.8.0",
     "uglify-js": "2.6.2"

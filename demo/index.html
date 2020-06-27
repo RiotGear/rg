@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/blazecss/latest/blaze.min.css">
 	<title>RiotGear Demo</title>
 	<style>
-		body {
+		.app-container {
 			padding: 0 100px
 		}
 
@@ -44,17 +44,41 @@
 			right: 0;
 			height: 200px;
 		}
+
+		.iframify {
+			width: 400px;
+		}
+
+		.component {
+			background-color: #efefef;
+			border: 1px solid rgba(0, 0, 0, 0.1);
+			margin: 10px;
+			padding: 10px;
+		}
+
+		.component-child {
+			color: deeppink;
+		}
+
+		@media (max-width: 400px) {
+			.component {
+				border-color: deeppink;
+			}
+		}
 	</style>
 </head>
 
 <body>
 
-<app></app>
+<div class="app-container">
+	<app></app>
+</div>
 
 <script src="../node_modules/moment/min/moment.min.js"></script>
 <script src="../node_modules/commonmark/dist/commonmark.min.js"></script>
 <script src="../node_modules/chart.js/Chart.min.js"></script>
 <script src="../node_modules/ace-builds/src-min-noconflict/ace.js"></script>
+<script src="../dependencies/js/iframify.js"></script>
 <script src="../node_modules/riot/riot.min.js"></script>
 <script src="../dist/rg.js"></script>
 <script src="app.js"></script>
